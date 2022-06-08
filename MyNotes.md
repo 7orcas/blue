@@ -24,3 +24,16 @@ Maven
 
 Created settings.xml in /home/jarvisting/.m2/settings.xml
 Changed local repo to /media/jarvisting/Jarvis/repository
+
+
+React
+-----
+
+Prereq
+- nodejs installed
+- React Developer Tools for browser
+- VSCode as the editor
+  - Add extension ES7 React/Redux/React-Native/JS snippets
+Used npm to install React (created tutorial via npx create-react-app react-task-tracker - took 2 goes as it timed out)
+
+
