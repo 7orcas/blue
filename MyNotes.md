@@ -26,14 +26,38 @@ Created settings.xml in /home/jarvisting/.m2/settings.xml
 Changed local repo to /media/jarvisting/Jarvis/repository
 
 
+WebClient
+---------
+Install
+- nodejs
+- React Developer Tools for browser
+- Extension ES7 React/Redux/React-Native/JS snippets
+- Extension pack for Java
+
+VisualCodeStudio
+----------------
+Install VSCode as the editor
+
+ESLint
+------
+XXX sudo npm i -g eslint   formatting code
+sudo npm install -D eslint-config-airbnb-typescript
+eslint --init
+  - check syntax, find problems and enforce code style
+  - Use AirBnB style (removed this option for now)
+Make sure ESLlint extension VSCode is installed
+  
+Typescript
+----------
+sudo npm i -g typescript
+in project folder: tsc --init (create config file)
+- Extension ESLint
+- Use tuts/ts/tsconfig.json as configuration file
+
+
 React
 -----
 
-Prereq
-- nodejs installed
-- React Developer Tools for browser
-- VSCode as the editor
-  - Add extension ES7 React/Redux/React-Native/JS snippets
 Used npm to install React (created tutorial via npx create-react-app react-task-tracker - took 2 goes as it timed out)
 Run dev server: [Cmd+~] npm start
 React icons: npm i react-icons
@@ -67,6 +91,16 @@ XXX "homepage": "/blue",
 
 
 *** styled-components for css stuff
+
+React + TypeScript
+------------------
+npx create-react-app [project name] --template typescript
+Install in Visual Studio Code: Typescript React code snippets
+
+Java App
+========
+Create JaxrsActivator.java  http://www.mastertheboss.com/jboss-frameworks/resteasy/resteasy-tutorial/
+Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-control-allow-origin-to-wildfly-8-1-0-configuration
 
 
 
