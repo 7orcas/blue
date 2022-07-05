@@ -202,26 +202,13 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- Added for CORS DELETE 
+        <!-- JSONObject - used in rest -->
 		<dependency>
-		    <groupId>org.jboss.resteasy</groupId>
-		    <artifactId>resteasy-jaxrs</artifactId>
-		    <version>3.15.3.Final</version>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20220320</version>
 		</dependency>
-		        -->
-        
-<!--  dependency>
-    <groupId>org.wildfly</groupId>
-    <artifactId>wildfly-embedded</artifactId>
-    <version>8.1.0.CR1</version>
-    <exclusions>
-        <exclusion>
-            <groupId>sun.jdk</groupId>
-            <artifactId>jconsole</artifactId>
-        </exclusion>
-    </exclusions>
-    <scope>test</scope>
-</dependency -->
+		        
         
     </dependencies>
 
