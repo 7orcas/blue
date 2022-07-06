@@ -1,4 +1,4 @@
-package com.sevenorcas.blue;
+package com.sevenorcas.blue.system.java.provider;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 /**
  * Passing Json to Rest and receiving it through JSONObject
- * In JAX-RS, you will have to create a JSON MessageBodyReader that will readFrom InputStream and return a JSONObject.
+ * In JAX-RS, you need a JSON MessageBodyReader that will readFrom InputStream and return a JSONObject.
  * 
  * https://stackoverflow.com/questions/33362957/passing-json-to-rest-and-receiving-it-through-jsonobject
  * 

@@ -9,8 +9,15 @@ import javax.ws.rs.ext.Provider;
 
 /**
  * Filter to allow Cross Domain (CORS) access
+ * 
+ * Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to indicate 
+ * any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
+ * 
  * All responses will get CORS authorization
+ * 
  * May want to disable this in production server?  
+ * 
+ * Note this file needs to be in app root.
  * 
  * https://stackoverflow.com/questions/23450494/how-to-enable-cross-domain-requests-on-jax-rs-web-services
  * http://www.mastertheboss.com/web/jboss-web-server/how-to-configure-cors-on-wildfly/

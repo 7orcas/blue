@@ -1,3 +1,17 @@
+Maven
+=====
+
+Created settings.xml in /home/jarvisting/.m2/settings.xml
+Changed local repo to /media/jarvisting/Jarvis/repository
+
+Added auto-deploy-exploded="false"  to <deployment-scanner path="deployments"...   to prevent war being unpacked
+
+
+JBoss
+=====
+Create JaxrsActivator.java  http://www.mastertheboss.com/jboss-frameworks/resteasy/resteasy-tutorial/
+Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-control-allow-origin-to-wildfly-8-1-0-configuration
+export JBOSS_HOME=/opt/wildfly/  or whatever
 
 
 Arquillian
@@ -19,11 +33,8 @@ to run as managed (ie a container is created at test time).
 Can't get remote to work atm.
 
 
-Maven
------
-
-Created settings.xml in /home/jarvisting/.m2/settings.xml
-Changed local repo to /media/jarvisting/Jarvis/repository
+Web Client
+=========
 
 
 WebClient
@@ -40,11 +51,15 @@ Install VSCode as the editor
 
 ESLint
 ------
-XXX sudo npm i -g eslint   formatting code
-sudo npm install -D eslint-config-airbnb-typescript
-eslint --init
-  - check syntax, find problems and enforce code style
-  - Use AirBnB style (removed this option for now)
+DON'T INSTALL - Needs more work to remove errors that don't exist
+Use https://andrebnassis.medium.com/setting-eslint-on-a-react-typescript-project-2021-1190a43ffba
+Remove eslintConfig in package.json
+npm install eslint --save-dev
+npx eslint --init
+.. use Airbnb
+npm install eslint-import-resolver-typescript --save-dev
+
+
 Make sure ESLlint extension VSCode is installed
   
 Typescript
@@ -89,7 +104,6 @@ mvn install
 cp to deployments directory
 XXX "homepage": "/blue",
 
-
 *** styled-components for css stuff
 
 React + TypeScript
@@ -97,10 +111,14 @@ React + TypeScript
 npx create-react-app [project name] --template typescript
 Install in Visual Studio Code: Typescript React code snippets
 
-Java App
-========
-Create JaxrsActivator.java  http://www.mastertheboss.com/jboss-frameworks/resteasy/resteasy-tutorial/
-Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-control-allow-origin-to-wildfly-8-1-0-configuration
+War File Packaging
+------------------
+Copy pom.xml to root  reconfigure as required
+Copy web.xml to war/  reconfigure as required
+mvn install
+Copy war file to wildfly deployment 
 
-
+npm start
+---------
+To choose another port change package.json: "start": "PORT=3001 react-scripts start",
 

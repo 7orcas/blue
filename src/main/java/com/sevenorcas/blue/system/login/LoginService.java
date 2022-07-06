@@ -8,12 +8,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.json.JSONObject;
 
+import com.sevenorcas.blue.system.AppProperties;
+
+
 /**
+ * @ToDo
  * 
  * [Licence]
  * @author John Stewart
@@ -25,6 +27,8 @@ import org.json.JSONObject;
 @Produces({"application/json"})
 @Consumes({"application/json"})
 public class LoginService {
+	
+	private AppProperties appProperties = AppProperties.getInstance();
 
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
@@ -32,7 +36,9 @@ public class LoginService {
 	@POST
 	@Path("")
 	public String login(JSONObject userDetails) {
-    	return "POST Hello , and hello God and all!: " + userDetails.getString("u");
+    	//return (new JSONObject ("{\"WebClientMainUrl\":\"" + appProperties.get("WebClientMainUrl") + "\"}")).toString();
+		//return "{\"WebClientMainUrl\":\"" + appProperties.get("WebClientMainUrl") + "\"}";
+		return appProperties.get("WebClientMainUrl");
     }
 
 	@GET
