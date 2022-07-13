@@ -70,4 +70,15 @@ public class AppProperties {
 		return properties.getProperty(key);
 	}
 	
+
+	/**
+	 * Return a boolean value listed in the application properties file
+	 * @param key
+	 * @return
+	 */
+	public boolean is (String key) {
+		String p = properties.getProperty(key);
+		return p != null && p.toLowerCase().equals("true");
+	}
+
 }

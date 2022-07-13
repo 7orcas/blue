@@ -15,4 +15,14 @@ import javax.ws.rs.core.Application;
  */
 
 @ApplicationPath("/api")
-public class JaxrsActivator extends Application {}
+public class JaxrsActivator extends Application {
+	
+//	@Override Doens't work???
+//    public Set<Class<?>> getClasses() {
+//        final Set<Class<?>> resources = new HashSet<Class<?>>();
+//
+//        resources.add(CORSFilter.class);
+//
+//        return resources;
+//    }
+}

@@ -10,9 +10,14 @@ Added auto-deploy-exploded="false"  to <deployment-scanner path="deployments"...
 JBoss
 =====
 Create JaxrsActivator.java  http://www.mastertheboss.com/jboss-frameworks/resteasy/resteasy-tutorial/
-Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-control-allow-origin-to-wildfly-8-1-0-configuration
 export JBOSS_HOME=/opt/wildfly/  or whatever
 
+
+CORS
+----
+Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-control-allow-origin-to-wildfly-8-1-0-configuration
+Set Access-Control-Allow-Origin to React Dev server, ie http://localhost:3001  (can't use wildcards)
+axios.get('some api url', {withCredentials: true});
 
 Arquillian
 ----------
@@ -72,8 +77,11 @@ in project folder: tsc --init (create config file)
 
 React
 -----
-
 Used npm to install React (created tutorial via npx create-react-app react-task-tracker - took 2 goes as it timed out)
+run npm i react-router-dom -S
+
+
+
 Run dev server: [Cmd+~] npm start
 React icons: npm i react-icons
 Check out the context api for accessing state
@@ -90,9 +98,9 @@ run npm i react-router-dom  to install router
 Tutorial 01
 run npx json-server -p 3500 -w data/db.json (npx won't install as a dependency for the project - this is better, p=port w=watch)
 localStorage.getItem('shoppingList')) - local storage on the browser could be useful
-run npm i react-router-dom -S
+
 run npm i data-fns   installs date functions
-npm i axios    better then fetch
+npm i axios    better then fetch  (use with axios.get('some api url', {withCredentials: true}); for CORS)
 npm i easy-peasy     a lightweight utility over Redux
 
 
@@ -122,3 +130,6 @@ npm start
 ---------
 To choose another port change package.json: "start": "PORT=3001 react-scripts start",
 
+Cookies
+-------
+XXX npm install react-cookie

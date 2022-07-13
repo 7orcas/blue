@@ -102,6 +102,7 @@
 		<wildfly.version>26.1.0.Final</wildfly.version>
 		<wildfly-maven-plugin.version>3.0.0.Final</wildfly-maven-plugin.version>
 		<version.org.jboss.arquillian>1.1.5.Final</version.org.jboss.arquillian>
+		<infinispan.version>13.0.10.Final</infinispan.version>
 		
     </properties>
 
@@ -130,6 +131,7 @@
                 <version>${jakartaee-api.version}</version>
                 <scope>provided</scope>
             </dependency>
+            
             
  <!-- Arquillian BOM (Bill Of Materials). -->
  <!--dependency>
@@ -209,6 +211,23 @@
 		    <version>20220320</version>
 		</dependency>
 		        
+        <!-- Cache - Added 12.7.22  -->
+		<dependency>
+		    <groupId>org.infinispan</groupId>
+		    <artifactId>infinispan-core</artifactId>
+		    <version>${infinispan.version}</version>
+		</dependency>
+
+		<!-- DELETE 
+		<dependency>
+		    <groupId>org.infinispan</groupId>
+		    <artifactId>infinispan-commons</artifactId>
+		    <version>13.0.10.Final</version>
+		    <scope>test</scope>
+		</dependency>
+ 		-->
+		
+        
         
     </dependencies>
 
@@ -223,8 +242,9 @@
                     <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
 
-					<!-- Added path to server -->
+					<!-- Added path to server 
 					<outputDirectory>${wildfly-deployment-path}</outputDirectory>
+                    -->
                     
                 </configuration>
             </plugin>
@@ -234,6 +254,14 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
 				
+				<executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
 				<!--  configuration> doesn't work
 					<outputDirectory>${wildfly-deployment-path}</outputDirectory> 
 				</configuration -->

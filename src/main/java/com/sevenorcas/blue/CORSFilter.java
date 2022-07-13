@@ -7,6 +7,8 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
+import com.sevenorcas.blue.system.AppProperties;
+
 /**
  * Filter to allow Cross Domain (CORS) access
  * 
@@ -26,19 +28,35 @@ import javax.ws.rs.ext.Provider;
  * @author John Stewart
  */
 
-
+//@PreMatching indicates (with request filter) that such filter should be applied globally on all resources in the application before the actual resource matching occurs
 @Provider
 public class CORSFilter implements ContainerResponseFilter {
 
-   @Override
-   public void filter(final ContainerRequestContext req,
+	private AppProperties appProperties = AppProperties.getInstance();
+	
+	@Override
+	public void filter(final ContainerRequestContext req,
                       final ContainerResponseContext res) throws IOException {
-      res.getHeaders().add("Access-Control-Allow-Origin", "*");
-      res.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
-      res.getHeaders().add("Access-Control-Allow-Credentials", "true");
-      res.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-      res.getHeaders().add("Access-Control-Max-Age", "1209600");
+	   
+		if (!appProperties.is("AllowCORSWhiteList")) {
+			return;
+		}
+	   
+		String [] whiteList = {"http://localhost:3000", "http://localhost:3001"}; 
+	   
+		for (String domain: whiteList) {
+			if (domain.equals(req.getHeaders().get("Origin").get(0))) {
+				res.getHeaders().add("Access-Control-Allow-Origin", domain);
+				res.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
+				res.getHeaders().add("Access-Control-Allow-Credentials", "true");
+				res.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+				res.getHeaders().add("Access-Control-Max-Age", "1209600");
+				return;
+			}
+		}
+      
    }
-
+   
+   
 }
 

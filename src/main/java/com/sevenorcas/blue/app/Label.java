@@ -11,6 +11,8 @@ import javax.persistence.Table;
 @Table(name="testtable")
 public class Label implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "ID")
 	private Integer ID;
