@@ -15,19 +15,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.AppProperties;
-import com.sevenorcas.blue.system.cache.Manager;
 import com.sevenorcas.blue.system.org.BaseOrg;
 
-
-
-
 /**
- * @ToDo
+ * Part 1 of the login process 
+ * If successful the client is sent the mainURL
+ * The session id is used by the client to return to part 2, ie a valid key will create a new session (this step is for CORS) 
  * 
  * [Licence]
  * @author John Stewart
  */
-
 
 @Stateless
 @Path("/login")
@@ -41,30 +38,23 @@ public class LoginRest {
 	protected EntityManager em;
 	
 	@EJB
-	private Manager m;
+	private LoginCache cache;
 	
 	@POST
 	@Path("web")
 	public LoginJson login(@Context HttpServletRequest httpRequest, LogonJsonReq req) {
-    	//return (new JSONObject ("{\"WebClientMainUrl\":\"" + appProperties.get("WebClientMainUrl") + "\"}")).toString();
-		//return "{\"WebClientMainUrl\":\"" + appProperties.get("WebClientMainUrl") + "\"}";
 		
-		// create session if does not already exist
 		HttpSession s = httpRequest.getSession(true);
 		BaseOrg org = new BaseOrg();
 		Random rand = new Random();
 		org.setOrg(rand.nextInt(5000));
 		s.setAttribute("blur.org", org);
-System.out.println(">>>LoginService.login User=" + req.u + ", pw=" + req.p + ", Session org=" + org.getOrg());		
-		
+				
 		LoginJson j = new LoginJson();
 		j.WebClientMainUrl = appProperties.get("WebClientMainUrl");
 		j.SessionID = s.getId();
 		
-//		Manager m = new Manager();
-		m.setKey("login");
-		m.setValue(s.getId());
-		m.save();
+		cache.put(s.getId(), "t");
 		
 		return j;
     }

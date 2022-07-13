@@ -15,8 +15,7 @@ import javax.ws.rs.core.Context;
 
 import org.json.JSONObject;
 
-import com.sevenorcas.blue.system.cache.Item;
-import com.sevenorcas.blue.system.cache.Manager;
+import com.sevenorcas.blue.system.login.LoginCache;
 import com.sevenorcas.blue.system.rest.BaseRest;
 
 /**
@@ -35,19 +34,11 @@ public class HomeRest extends BaseRest {
 	protected EntityManager em;
 
 	@EJB
-	private Manager m;
+	private LoginCache m;
 	
 	@GET
 	@Path("lang")
     public String languagePack(@Context HttpServletRequest httpRequest) {
-System.out.println("HomeRest.languagePack() called");
-
-//		Manager m = new Manager();
-		List l = m.getCacheList();
-		for (int i=0; i<l.size(); i++) {
-			Item item = (Item)l.get(i);
-			System.out.println("HomeRest cache k=" + item.getKey() + "  v=" + item.getValue());
-		}
 
 		JSONObject j = new JSONObject("{key: 'x', value: 'lang pack'}");
     	return j.toString();

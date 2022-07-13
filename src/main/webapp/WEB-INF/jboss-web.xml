@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jboss-web>
-	<resource-ref>
-	    <res-ref-name>infinispan/DataCache</res-ref-name>  
-	    <lookup-name>java:jboss/infinispan/container/DataCache</lookup-name>
-	</resource-ref>
-</jboss-web>
-

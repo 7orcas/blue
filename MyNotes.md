@@ -19,6 +19,12 @@ Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-con
 Set Access-Control-Allow-Origin to React Dev server, ie http://localhost:3001  (can't use wildcards)
 axios.get('some api url', {withCredentials: true});
 
+Caching
+-------
+Using Infinispan
+Cache classes are defined in the module
+See https://infinispan.org/docs/stable/titles/developing/developing.html
+
 Arquillian
 ----------
 
