@@ -1,21 +1,17 @@
-package com.sevenorcas.blue.app.home;
+package com.sevenorcas.blue.system.lang;
 
-import java.util.List;
-
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
-import org.json.JSONObject;
-
-import com.sevenorcas.blue.system.login.LoginCache;
 import com.sevenorcas.blue.system.rest.BaseRest;
 
 /**
@@ -25,23 +21,30 @@ import com.sevenorcas.blue.system.rest.BaseRest;
  */
 
 @Stateless
-@Path("/home")
+@Path("/lang")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class HomeRest extends BaseRest {
+public class LangRest extends BaseRest {
 
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
 
-	@EJB
-	private LoginCache m;
 	
 	@GET
-	@Path("lang")
-    public String languagePack(@Context HttpServletRequest httpRequest) {
-
-		JSONObject j = new JSONObject("{key: 'x', value: 'lang pack'}");
-    	return j.toString();
+	@Path("value")
+    public LangJsonRes langValue(@Context HttpServletRequest httpRequest, 
+    		@QueryParam("key") String key) {
+		
+		LangJsonRes r = new LangJsonRes();
+		r.id = 1001L;
+		r.key = key;
+		r.lang = "en";
+		r.value = "value xyz";
+		r.group = "";
+		r.org = "";		
+		
+System.out.println("langValue key=" + key);
+    	return r;
     }
 	
 }

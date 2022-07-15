@@ -1,6 +1,6 @@
 package com.sevenorcas.blue.system.login;
 
-public class LogonJsonReq {
+public class LoginJsonReq {
 	public String u;
 	public String p;
 }

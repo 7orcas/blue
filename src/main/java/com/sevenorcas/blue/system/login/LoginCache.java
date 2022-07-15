@@ -27,7 +27,7 @@ import org.infinispan.manager.EmbeddedCacheManager;
 public class LoginCache {
 
 	private EmbeddedCacheManager cacheManager;
-	private Cache<String, String> cache;
+	private Cache<String, Integer> cache;
 	
 	public LoginCache() {}
 	
@@ -41,8 +41,8 @@ public class LoginCache {
 		}
 	}
 
-	public void put(String key, String value) {
-		cache.put(key, value);
+	public void put(String key, Integer org) {
+		cache.put(key, org);
 	}
 
 	public List<String> getCacheList() {
@@ -61,8 +61,10 @@ public class LoginCache {
 		cache.clear();
 	}
 	
-	public String getValue(String key) {
-		return cache.get(key);
+	public Integer getOrgAndRemove(String key) {
+		Integer org = cache.get(key);
+		cache.remove(key);
+		return org;
 	}
 }
 

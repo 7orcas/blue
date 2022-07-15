@@ -2,9 +2,9 @@ package com.sevenorcas.blue.system.rest;
 
 import javax.interceptor.Interceptors;
 
-import com.sevenorcas.blue.system.java.interceptor.RestInterceptor;
+import com.sevenorcas.blue.system.java.interceptor.RestAuthorisation;
 
-@Interceptors(RestInterceptor.class)
+@Interceptors(RestAuthorisation.class)
 public class BaseRest {
 
 }

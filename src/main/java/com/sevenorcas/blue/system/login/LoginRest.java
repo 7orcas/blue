@@ -42,20 +42,28 @@ public class LoginRest {
 	
 	@POST
 	@Path("web")
-	public LoginJson login(@Context HttpServletRequest httpRequest, LogonJsonReq req) {
+	public LoginJsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
 		
 		HttpSession s = httpRequest.getSession(true);
 		BaseOrg org = new BaseOrg();
 		Random rand = new Random();
 		org.setOrg(rand.nextInt(5000));
-		s.setAttribute("blur.org", org);
+		s.setAttribute("blue.org", org);
 				
-		LoginJson j = new LoginJson();
-		j.WebClientMainUrl = appProperties.get("WebClientMainUrl");
+		LoginJsonRes j = new LoginJsonRes();
 		j.SessionID = s.getId();
+		j.WebLoginInitUrl = appProperties.get("WebLoginInitUrl");
 		
-		cache.put(s.getId(), "t");
+		if (appProperties.is("DevelopmentMode")) {
+			j.WebClientMainUrl = appProperties.get("WebClientMainUrl-CORS");	
+		}
+		else {
+			j.WebClientMainUrl = appProperties.get("WebClientMainUrl");
+		}
+				
+		cache.put(s.getId(), org.getOrg());
 		
+System.out.println("login1 Session id=" + s.getId() + ", org=" + org.getOrg());		
 		return j;
     }
 

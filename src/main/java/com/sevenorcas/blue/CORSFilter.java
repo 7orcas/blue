@@ -33,17 +33,16 @@ import com.sevenorcas.blue.system.AppProperties;
 public class CORSFilter implements ContainerResponseFilter {
 
 	private AppProperties appProperties = AppProperties.getInstance();
+	private String [] whiteList = appProperties.getArray("CORSWhiteList"); 
 	
 	@Override
 	public void filter(final ContainerRequestContext req,
                       final ContainerResponseContext res) throws IOException {
 	   
-		if (!appProperties.is("AllowCORSWhiteList")) {
+		if (!appProperties.is("AllowCORSWhiteList") || req.getHeaders().get("Origin") == null) {
 			return;
 		}
-	   
-		String [] whiteList = {"http://localhost:3000", "http://localhost:3001"}; 
-	   
+		
 		for (String domain: whiteList) {
 			if (domain.equals(req.getHeaders().get("Origin").get(0))) {
 				res.getHeaders().add("Access-Control-Allow-Origin", domain);
@@ -51,6 +50,8 @@ public class CORSFilter implements ContainerResponseFilter {
 				res.getHeaders().add("Access-Control-Allow-Credentials", "true");
 				res.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 				res.getHeaders().add("Access-Control-Max-Age", "1209600");
+//res.getHeaders().add("Set-Cookie","SameSite=None");
+//res.getHeaders().add("Set-Cookie","Secure");
 				return;
 			}
 		}

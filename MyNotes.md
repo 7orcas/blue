@@ -15,9 +15,13 @@ export JBOSS_HOME=/opt/wildfly/  or whatever
 
 CORS
 ----
+Development ONLY
 Create CORSFilter.java   https://stackoverflow.com/questions/31902612/access-control-allow-origin-to-wildfly-8-1-0-configuration
 Set Access-Control-Allow-Origin to React Dev server, ie http://localhost:3001  (can't use wildcards)
 axios.get('some api url', {withCredentials: true});
+Good read: https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
+
+
 
 Caching
 -------

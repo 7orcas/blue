@@ -70,6 +70,20 @@ public class AppProperties {
 		return properties.getProperty(key);
 	}
 	
+	/**
+	 * Return a value listed in the application properties file as a string array
+	 * It must be delimited by a comma
+	 * @param key
+	 * @return
+	 */
+	public String [] getArray (String key) {
+		String x = properties.getProperty(key);
+		if (x == null) {
+			return null;
+		}
+		return x.split(",");
+	}
+	
 
 	/**
 	 * Return a boolean value listed in the application properties file
