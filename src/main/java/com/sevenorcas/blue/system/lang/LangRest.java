@@ -4,7 +4,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
+import com.sevenorcas.blue.system.java.CallObject;
 import com.sevenorcas.blue.system.rest.BaseRest;
 
 /**
@@ -32,7 +32,8 @@ public class LangRest extends BaseRest {
 	
 	@GET
 	@Path("value")
-    public LangJsonRes langValue(@Context HttpServletRequest httpRequest, 
+    public LangJsonRes langValue(
+    		@Context HttpServletRequest httpRequest, 
     		@QueryParam("key") String key) {
 		
 		LangJsonRes r = new LangJsonRes();

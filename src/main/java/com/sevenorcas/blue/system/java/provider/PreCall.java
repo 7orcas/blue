@@ -28,11 +28,11 @@ public class PreCall implements ContainerRequestFilter, ContainerResponseFilter 
 	
 	@Override
 	public void filter(final ContainerRequestContext req) throws IOException {
-
+//System.out.println("PreCall filter");
 		HttpSession ses = httpRequest.getSession(false);
 		if (ses != null){
-			BaseOrg org = (BaseOrg)ses.getAttribute("blue.org");
-System.out.println("PreCall filter Org is " + (org==null?"null":"" + org.getOrg()));
+			Integer orgNr = (Integer)ses.getAttribute("org_nr");
+System.out.println("PreCall org_nr is " + (orgNr==null?"null":"" + orgNr.toString()) + ", session id=" + ses.getId());
 		} 
 
 		

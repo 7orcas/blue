@@ -24,7 +24,6 @@ import com.sevenorcas.blue.system.rest.BaseRest;
 
 @Stateless
 @Path("/login2")
-
 @Produces({"application/json"})
 @Consumes({"application/json"})
 public class Login2Rest extends BaseRest {
@@ -48,21 +47,23 @@ public class Login2Rest extends BaseRest {
 		HttpSession ses = httpRequest.getSession(false);
 		
 		if (ses == null && sid != null) {
-			Integer org = cache.getOrgAndRemove(sid);
-			if (org != null) {
+			Integer orgNr = cache.getOrgAndRemove(sid);
+			if (orgNr != null) {
 				ses = httpRequest.getSession(true);
-				ses.setAttribute("blue.org", org);
-System.out.println("New Session in login2Web created, org=" + org  + ", sessionid=" + ses.getId());
+				ses.setAttribute("org_nr", orgNr);
+System.out.println("login2Web org_nr=" + orgNr  + ", NEW session_id=" + ses.getId());
 			}
 		}
 		
 		if (ses != null) {
 			Login2JsonRes r = new Login2JsonRes();
-			r.org = (Integer)ses.getAttribute("blue.org");
+			r.org = (Integer)ses.getAttribute("org_nr");
 			r.lang = "en";
 			r.ugroup ="admin";
+System.out.println("login2Web org_nr=" + r.org + ", Session id=" + ses.getId());
 			return r;
 		}
+
 System.out.println("login2Web -> no valid session");
     	return null;
     }

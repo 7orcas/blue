@@ -22,6 +22,8 @@ import com.sevenorcas.blue.system.org.BaseOrg;
  * If successful the client is sent the mainURL
  * The session id is used by the client to return to part 2, ie a valid key will create a new session (this step is for CORS) 
  * 
+ * Note this bean doesn't implement the BaseRest so the RestAuthorisation Interceptor is not called
+ * 
  * [Licence]
  * @author John Stewart
  */
@@ -48,7 +50,7 @@ public class LoginRest {
 		BaseOrg org = new BaseOrg();
 		Random rand = new Random();
 		org.setOrg(rand.nextInt(5000));
-		s.setAttribute("blue.org", org);
+		s.setAttribute("org_nr", org.getOrg());
 				
 		LoginJsonRes j = new LoginJsonRes();
 		j.SessionID = s.getId();
@@ -63,7 +65,7 @@ public class LoginRest {
 				
 		cache.put(s.getId(), org.getOrg());
 		
-System.out.println("login1 Session id=" + s.getId() + ", org=" + org.getOrg());		
+System.out.println("login 1 org_nr=" + org.getOrg() + ", Session id=" + s.getId());		
 		return j;
     }
 

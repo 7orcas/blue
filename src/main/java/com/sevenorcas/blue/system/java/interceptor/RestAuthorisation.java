@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.java.interceptor;
 
+import java.util.Map;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +14,6 @@ import com.sevenorcas.blue.system.org.BaseOrg;
  * [Licence]
  * @author John Stewart
  */
-//@Provider
 //@Interceptor
 public class RestAuthorisation {
 
@@ -20,6 +21,8 @@ public class RestAuthorisation {
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
+//System.out.println("RestAuthorisation called");
+		
 		boolean proceed = false;
 		try {
 
@@ -36,8 +39,8 @@ public class RestAuthorisation {
 
 					if (ses != null){
 						proceed = ses != null;
-BaseOrg org = (BaseOrg)ses.getAttribute("blue.org");
-System.out.println("RestAuthorisation Org is " + (org==null?"null":"" + org.getOrg()));
+Integer orgNr = (Integer)ses.getAttribute("org_nr");
+System.out.println("RestAuthorisation Org is " + (orgNr==null?"null":"" + orgNr.toString()) + ", session id=" + ses.getId());
 					} 
 				}
 			}
@@ -60,8 +63,16 @@ System.out.println("RestAuthorisation.invocation() Exception:" + e.getMessage())
 	 * @return
 	 */
 	private HttpServletRequest getHttpServletRequest(InvocationContext ctx) {
-	    for (Object parameter : ctx.getParameters()) {
-	        if (parameter instanceof HttpServletRequest) {
+	    
+		Map<String,Object> map = ctx.getContextData();
+		for(String k : map.keySet()) {
+//System.out.println("RestAuthorisation map " + k + " = " + map.get(k).toString());
+		}
+		
+		for (Object parameter : ctx.getParameters()) {
+//System.out.println("RestAuthorisation parm " + parameter.getClass().getName() + " = " + parameter.toString());
+	    	
+	    	if (parameter instanceof HttpServletRequest) {
 	            return (HttpServletRequest) parameter;
 	        }
 	    }
