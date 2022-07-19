@@ -7,15 +7,16 @@ import javax.interceptor.InvocationContext;
 import com.sevenorcas.blue.system.org.BaseOrg;
 
 /**
+ * Inject CallObject into the target method
  *  
  * [Licence]
  * @author John Stewart
  */
 //@Interceptor
-public class RestAuthorisation {
+public class CallObjectInterceptor {
 
 	
-	public RestAuthorisation() {}
+	public CallObjectInterceptor() {}
 	
 	@Inject
 	private RequestUser requestUser;
