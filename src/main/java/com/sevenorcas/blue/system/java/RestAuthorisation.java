@@ -1,11 +1,9 @@
-package com.sevenorcas.blue.system.java.interceptor;
+package com.sevenorcas.blue.system.java;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
-import com.sevenorcas.blue.system.java.CallObject;
-import com.sevenorcas.blue.system.java.RequestUser;
 import com.sevenorcas.blue.system.org.BaseOrg;
 
 /**
