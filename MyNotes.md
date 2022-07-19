@@ -21,6 +21,7 @@ Set Access-Control-Allow-Origin to React Dev server, ie http://localhost:3001  (
 axios.get('some api url', {withCredentials: true});
 Good read: https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
 
+XX DEL undertow-handlers.conf: path(/blue)->samesite-cookie(mode=None, enable-client-checker=false)
 
 
 Caching

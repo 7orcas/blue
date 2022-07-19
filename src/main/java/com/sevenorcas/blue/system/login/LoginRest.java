@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -47,7 +48,7 @@ public class LoginRest {
 	public LoginJsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
 		
 		HttpSession s = httpRequest.getSession(true);
-		BaseOrg org = new BaseOrg();
+		BaseOrg org = new BaseOrg("");
 		Random rand = new Random();
 		org.setOrg(rand.nextInt(5000));
 		s.setAttribute("org_nr", org.getOrg());
@@ -69,5 +70,13 @@ System.out.println("login 1 org_nr=" + org.getOrg() + ", Session id=" + s.getId(
 		return j;
     }
 
+	@GET
+	@Path("ping")
+	public String login() {
+		
+System.out.println("login ping");		
+		return "ok";
+    }
+	
 	
 }

@@ -1,12 +1,11 @@
 package com.sevenorcas.blue.system.java.interceptor;
 
-import java.util.Map;
-
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import com.sevenorcas.blue.system.java.CallObject;
+import com.sevenorcas.blue.system.java.RequestUser;
 import com.sevenorcas.blue.system.org.BaseOrg;
 
 /**
@@ -17,12 +16,18 @@ import com.sevenorcas.blue.system.org.BaseOrg;
 //@Interceptor
 public class RestAuthorisation {
 
+	
 	public RestAuthorisation() {}
+	
+	@Inject
+	private RequestUser requestUser;
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
-//System.out.println("RestAuthorisation called");
 		
+System.out.println("RestAuthorisation called");
+
+
 		boolean proceed = false;
 		try {
 
@@ -30,20 +35,24 @@ public class RestAuthorisation {
 			if (ctx.getMethod() != null && ctx.getMethod().getName().equals("login2Web")) { 
 				proceed = true;
 			} 
-			else {
+			
+			
+			//Inject Call Object
+			else if (requestUser.getOrgNr() != null) {
+				CallObject callObj = new CallObject("");
+				proceed = true;
+				BaseOrg o = new BaseOrg("");
+				o.setOrg(requestUser.getOrgNr());
+				callObj.setOrg(o);
 				
-				HttpServletRequest req = getHttpServletRequest(ctx);
-				
-				if (req != null) {
-					HttpSession ses = req.getSession(false);
-
-					if (ses != null){
-						proceed = ses != null;
-Integer orgNr = (Integer)ses.getAttribute("org_nr");
-System.out.println("RestAuthorisation Org is " + (orgNr==null?"null":"" + orgNr.toString()) + ", session id=" + ses.getId());
-					} 
+				for (int i=0;i<ctx.getMethod().getParameterTypes().length;i++) {
+					if (ctx.getMethod().getParameterTypes()[i].getTypeName().equals(CallObject.class.getTypeName())) {
+						ctx.getParameters()[i] = callObj;
+						break;
+					}
 				}
 			}
+			
 			
 			if (proceed) {
 				return ctx.proceed();
@@ -56,28 +65,5 @@ System.out.println("RestAuthorisation.invocation() Exception:" + e.getMessage())
 			return null;
 		}
     }
-	
-	/**
-	 * Find the http request object 
-	 * @param ctx
-	 * @return
-	 */
-	private HttpServletRequest getHttpServletRequest(InvocationContext ctx) {
-	    
-		Map<String,Object> map = ctx.getContextData();
-		for(String k : map.keySet()) {
-//System.out.println("RestAuthorisation map " + k + " = " + map.get(k).toString());
-		}
 		
-		for (Object parameter : ctx.getParameters()) {
-//System.out.println("RestAuthorisation parm " + parameter.getClass().getName() + " = " + parameter.toString());
-	    	
-	    	if (parameter instanceof HttpServletRequest) {
-	            return (HttpServletRequest) parameter;
-	        }
-	    }
-	    return null;
-	}
-	
-	
 }
