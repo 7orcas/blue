@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.AppProperties;
-import com.sevenorcas.blue.system.org.BaseOrg;
+import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
  * Part 1 of the login process 

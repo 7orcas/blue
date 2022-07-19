@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.org;
+package com.sevenorcas.blue.system.base;
 
 public class BaseOrg {
 

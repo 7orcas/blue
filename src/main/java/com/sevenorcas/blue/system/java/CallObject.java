@@ -2,7 +2,7 @@ package com.sevenorcas.blue.system.java;
 
 import java.util.Hashtable;
 
-import com.sevenorcas.blue.system.org.BaseOrg;
+import com.sevenorcas.blue.system.base.BaseOrg;
 
 public class CallObject {
 

@@ -1,10 +1,9 @@
 package com.sevenorcas.blue.system.lang;
 
-public class LangJsonRes {
-	public Long id;
-	public String key;
+import com.sevenorcas.blue.system.base.BaseJsonRes;
+
+public class LangJsonRes extends BaseJsonRes{
 	public String lang;
-	public String value;
+	public String label;
 	public String group;
-	public String org;
 }

@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
-import com.sevenorcas.blue.system.org.BaseOrg;
+import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
  * Inject CallObject into the target method
