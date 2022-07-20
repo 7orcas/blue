@@ -13,8 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
+import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.login.LoginCache;
-import com.sevenorcas.blue.system.rest.BaseRest;
 
 /**
  * 

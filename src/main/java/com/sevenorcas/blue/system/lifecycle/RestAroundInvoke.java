@@ -1,9 +1,10 @@
-package com.sevenorcas.blue.system.java;
+package com.sevenorcas.blue.system.lifecycle;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
@@ -13,10 +14,10 @@ import com.sevenorcas.blue.system.base.BaseOrg;
  * @author John Stewart
  */
 //@Interceptor
-public class CallObjectInterceptor {
+public class RestAroundInvoke {
 
 	
-	public CallObjectInterceptor() {}
+	public RestAroundInvoke() {}
 	
 	@Inject
 	private RequestUser requestUser;
@@ -24,16 +25,21 @@ public class CallObjectInterceptor {
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
 		
-System.out.println("RestAuthorisation called");
+System.out.println("RestAroundInvoke called on " + ctx.getMethod().getName());
 
 
 		boolean proceed = false;
 		try {
 
 			//Initialising a login may not have a session (due to CORS) 
-			if (ctx.getMethod() != null && ctx.getMethod().getName().equals("login2Web")) { 
+//			if (ctx.getMethod() != null && ctx.getMethod().getName().equals("login2Web")) { 
+//				proceed = true;
+//			} 
+
+			SkipAuthorisation anno = ctx.getMethod().getAnnotation(SkipAuthorisation.class);
+			if (anno != null) {
 				proceed = true;
-			} 
+			}
 			
 			
 			//Inject Call Object
@@ -57,10 +63,10 @@ System.out.println("RestAuthorisation called");
 				return ctx.proceed();
 			}
 			
-System.out.println("RestAuthorisation returning null");			
+System.out.println("RestAroundInvoke returning null");			
 			return null;
 		} catch (Exception e) {
-System.out.println("RestAuthorisation.invocation() Exception:" + e.getMessage());
+System.out.println("RestAroundInvoke.invocation() Exception:" + e.getMessage());
 			return null;
 		}
     }

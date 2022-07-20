@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.java;
+package com.sevenorcas.blue.system.lifecycle;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,6 +67,7 @@ System.out.println("Serlvet Filter called");
 			chain.doFilter(request, response);
 		}
 		else if (response instanceof HttpServletResponse) {
+System.out.println("Serlvet Filter SC_UNAUTHORIZED");
 			((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 		

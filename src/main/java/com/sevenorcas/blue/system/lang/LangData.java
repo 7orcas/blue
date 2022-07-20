@@ -4,14 +4,23 @@ public class LangData {
 
 	private Long _id;
 	private Integer _org;
-    private String _code;
-    private String lang;
+    private String key;
+    private String label;
 	private Long _id_lang_key;
 
 	public LangData () {
 		
 	}
 
+	public LangJsonRes toJSon() {
+		LangJsonRes j = new LangJsonRes();
+		j._id = _id;
+		j.label = label;
+		j._code = key;
+		j._id_lang_key = _id_lang_key;
+		return j;
+	}
+	
 	public Long getId() {
 		return _id;
 	}
@@ -28,19 +37,19 @@ public class LangData {
 		return this;
 	}
 
-	public String getCode() {
-		return _code;
+	public String getKey() {
+		return key;
 	}
-	public LangData setCode(String _code) {
-		this._code = _code;
+	public LangData setKey(String key) {
+		this.key = key;
 		return this;
 	}
 
-	public String getLang() {
-		return lang;
+	public String getLabel() {
+		return label;
 	}
-	public LangData setLang(String lang) {
-		this.lang = lang;
+	public LangData setLabel(String label) {
+		this.label = label;
 		return this;
 	}
 

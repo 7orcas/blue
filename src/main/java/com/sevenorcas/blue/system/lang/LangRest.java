@@ -1,20 +1,19 @@
 package com.sevenorcas.blue.system.lang;
 
+import java.util.List;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 
-import com.sevenorcas.blue.system.base.BaseOrg;
-import com.sevenorcas.blue.system.java.CallObject;
-import com.sevenorcas.blue.system.rest.BaseRest;
+import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
+import com.sevenorcas.blue.system.base.BaseRest;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 /**
  * 
@@ -28,32 +27,35 @@ import com.sevenorcas.blue.system.rest.BaseRest;
 @Consumes({"application/json"})
 public class LangRest extends BaseRest {
 
-	@PersistenceContext(unitName="blue")
-	protected EntityManager em;
-
-	@GET
-	@Path("value")
-    public LangJsonRes langValue(
-    		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("key") String key,
-    		@QueryParam ("id") Long id) {
-		
-		LangJsonRes r = new LangJsonRes();
-		
-    	return r;
-    }
+	@EJB
+	private LangSrv service;
 	
 	@GET
 	@Path("pack")
-    public LangJsonRes langPackage(
+    public List<LangJsonRes> langPackage(
     		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("key") String key,
-    		@QueryParam ("id") Long id) {
+    		@QueryParam ("pack") String pack) throws Exception {
 		
-		LangJsonRes r = new LangJsonRes();
-			
+		return service.langPackageJson(callObj, pack, callObj.getLang());
+    }
+	
+	/**
+	 * This end-point is excluded from servlet filter check
+	 * 
+	 * @param callObj
+	 * @param lang
+	 * @return
+	 * @throws Exception
+	 */
+	@SkipAuthorisation
+	@GET
+	@Path("login-pack")
+    public List<LangJsonRes> langPackageLogin(
+    		@QueryParam ("co") CallObject callObj,
+    		@QueryParam ("pack") String pack,
+    		@QueryParam ("lang") String lang) throws Exception {
 		
-    	return r;
+		return service.langPackageJson(callObj, "login", lang);
     }
 
 	

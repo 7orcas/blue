@@ -3,20 +3,37 @@ package com.sevenorcas.blue.system.lang;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.QueryParam;
 
-import com.sevenorcas.blue.system.java.CallObject;
+import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 @Stateless
-public class LangSrv {
+public class LangSrv extends BaseSrv {
 
-	public List<LangData> langPackage(
-    		@QueryParam ("co") CallObject callObj) {
+	@EJB
+	private LangDao dao;
+	
+	public List<LangJsonRes> langPackageJson(
+    		CallObject callObj,
+    		String pack,
+    		String lang) throws Exception{
 		
-		List<LangData> r = new ArrayList<>();
+		pack = pack==null? "" : pack;
+		if (lang == null) {
+			throw new RedException ("Call must include valid lang");
+		}
 		
-    	return r;
+		
+		List<LangData> x = dao.langPackage(callObj, pack, lang);
+		List<LangJsonRes> y = new ArrayList<LangJsonRes>();
+		for (LangData d : x) {
+			y.add(d.toJSon());
+		}
+		
+		return y;
     }
 	
 }

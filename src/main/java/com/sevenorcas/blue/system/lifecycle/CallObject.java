@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.java;
+package com.sevenorcas.blue.system.lifecycle;
 
 import java.util.Hashtable;
 
@@ -7,9 +7,13 @@ import com.sevenorcas.blue.system.base.BaseOrg;
 public class CallObject {
 
 	private BaseOrg org;
+	private String lang;
+	
+	
 	Hashtable<String, Object> objects = new Hashtable<>();
 	
 	public CallObject (String encoding) {
+		lang = "en";
 		//do some decoding....
 	}
 	
@@ -28,4 +32,14 @@ public class CallObject {
 	public Object get (String key) {
 		return objects.get(key);
 	}
+
+
+	public String getLang() {
+		return lang;
+	}
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+	
+	
 }

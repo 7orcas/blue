@@ -39,7 +39,8 @@ ALTER TABLE cntrl.zzz OWNER to postgres;
  
 CREATE TABLE cntrl.lang_key
 (
- 	CONSTRAINT lang_key_primary PRIMARY KEY (_id)
+ 	pack varchar,
+	CONSTRAINT lang_key_primary PRIMARY KEY (_id)
 ) INHERITS (public.base);
 ALTER TABLE cntrl.lang_key OWNER to postgres;
 

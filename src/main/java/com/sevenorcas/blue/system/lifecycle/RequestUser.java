@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.java;
+package com.sevenorcas.blue.system.lifecycle;
 
 import javax.enterprise.context.RequestScoped;
 

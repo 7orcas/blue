@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.java.provider;
+package com.sevenorcas.blue.system.lifecycle.provider;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

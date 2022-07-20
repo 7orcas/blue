@@ -9,7 +9,7 @@
     <!-- I changed this file completely -->
         
     <persistence-unit name="blue" >
-        <jta-data-source>java:jboss/datasources/testDS</jta-data-source>
+        <jta-data-source>java:jboss/datasources/blueDS</jta-data-source>
     </persistence-unit>
     
 </persistence>

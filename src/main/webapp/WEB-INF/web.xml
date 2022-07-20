@@ -7,10 +7,10 @@
 
 	<filter>
 	    <filter-name>SessionFilter</filter-name>
-	    <filter-class>com.sevenorcas.blue.system.java.SessionAuthenticationFilter</filter-class>
+	    <filter-class>com.sevenorcas.blue.system.lifecycle.SessionAuthenticationFilter</filter-class>
 	    <init-param>
 		    <param-name>excludedUrls</param-name>
-		    <param-value>/login/web,/login2/init-web</param-value>
+		    <param-value>/login/web,/login2/init-web,/lang/login-pack</param-value>
 		</init-param>
 	</filter>
 	
