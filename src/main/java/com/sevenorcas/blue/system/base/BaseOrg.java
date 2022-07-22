@@ -1,5 +1,12 @@
 package com.sevenorcas.blue.system.base;
 
+/**
+* TODO Module Description
+* 
+* [Licence]
+* @author John Stewart
+*/
+
 public class BaseOrg {
 
 	private Integer org;

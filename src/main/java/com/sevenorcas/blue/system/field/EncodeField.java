@@ -9,6 +9,7 @@ package com.sevenorcas.blue.system.field;
  * There is no Unit Test for this class as it is covered in the Encode Unit Test. 
  * 
  * [Licence]
+ * @author John Stewart
  */
 
 

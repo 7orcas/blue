@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
+
 /**
  * Calls need to have a valid http session, otherwise they are not allowed into the system.
  * Exceptions are defined in web.xml in 'excludedUrls' parameters.

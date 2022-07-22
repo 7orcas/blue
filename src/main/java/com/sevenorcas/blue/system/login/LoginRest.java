@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.AppProperties;
+import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
@@ -66,10 +67,18 @@ public class LoginRest {
 				
 		cache.put(s.getId(), org.getOrg());
 		
-System.out.println("login 1 org_nr=" + org.getOrg() + ", Session id=" + s.getId());		
+System.out.println("login 1 org_nr=" + org.getOrg() +
+		", userid=" + req.u +
+		", pw=" + req.p + 
+		", Session id=" + s.getId());		
 		return j;
     }
 
+	/**
+	 * TODO delete
+	 * @return
+	 */
+	@SkipAuthorisation
 	@GET
 	@Path("ping")
 	public String login() {

@@ -17,13 +17,15 @@ CREATE TABLE base
     _code varchar,
     _created timestamp without time zone,
     _encoded varchar,
-    _encoded_flag integer
+    _encoded_flag integer,
+    _active boolean default true
 );
 ALTER TABLE base OWNER to postgres;
 CREATE INDEX "base_primary" ON base USING btree (_id) TABLESPACE pg_default;    
 
 CREATE TABLE cntrl.org
 (
+	dvalue boolean default false, 	
     CONSTRAINT org_primary PRIMARY KEY (_id)
 ) INHERITS (public.base);
 ALTER TABLE cntrl.org OWNER to postgres;

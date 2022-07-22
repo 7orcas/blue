@@ -10,7 +10,7 @@
 	    <filter-class>com.sevenorcas.blue.system.lifecycle.SessionAuthenticationFilter</filter-class>
 	    <init-param>
 		    <param-name>excludedUrls</param-name>
-		    <param-value>/login/web,/login2/init-web,/lang/login-pack</param-value>
+		    <param-value>/login/web,/login2/init-web,/lang/login-pack,org/org-list</param-value>
 		</init-param>
 	</filter>
 	

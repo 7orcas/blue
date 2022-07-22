@@ -2,6 +2,13 @@ package com.sevenorcas.blue.system.exception;
 
 import java.util.ArrayList;
 
+/**
+* TODO Module Description
+* 
+* [Licence]
+* @author John Stewart
+*/
+
 abstract public class BaseException extends Exception{
 
 	private static final long serialVersionUID = 1L;

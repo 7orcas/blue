@@ -18,6 +18,7 @@ package com.sevenorcas.blue.system.field;
  *   
  * 
  * [Licence]
+ * @author John Stewart
  */
 
 import java.util.Enumeration;

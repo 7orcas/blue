@@ -2,6 +2,15 @@ package com.sevenorcas.blue.system.lang;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
 
+/**
+* Created July '22
+* 
+* TODO Module Description
+* 
+* [Licence]
+* @author John Stewart
+*/
+
 public class LangLabelEnt extends BaseEnt {
 
 	private Long _id_lang_key;

@@ -144,3 +144,11 @@ To choose another port change package.json: "start": "PORT=3001 react-scripts st
 Cookies
 -------
 XXX npm install react-cookie
+
+Components
+----------
+Select : 
+npm i react-select
+npm i bootstrap
+
+

@@ -10,6 +10,15 @@ import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 
+/**
+* Created July '22
+* 
+* TODO Module Description
+* 
+* [Licence]
+* @author John Stewart
+*/
+
 @Stateless
 public class LangSrv extends BaseSrv {
 
@@ -27,9 +36,9 @@ public class LangSrv extends BaseSrv {
 		}
 		
 		
-		List<LangData> x = dao.langPackage(callObj, pack, lang);
+		List<LangDto> x = dao.langPackage(callObj, null, pack, lang);
 		List<LangJsonRes> y = new ArrayList<LangJsonRes>();
-		for (LangData d : x) {
+		for (LangDto d : x) {
 			y.add(d.toJSon());
 		}
 		

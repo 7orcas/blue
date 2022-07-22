@@ -8,6 +8,7 @@ package com.sevenorcas.blue.system.field;
  * Use the isSameButNotNull method to return is false is both are null.
  * 
  * [Licence]
+ * @author John Stewart
  */
 
 public class Compare {

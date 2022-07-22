@@ -2,6 +2,15 @@ package com.sevenorcas.blue.system.base;
 
 import java.sql.Date;
 
+/**
+* Create July 2022
+* 
+* Base Entity Object for actual entities to extend
+* 
+* [Licence]
+* @author John Stewart
+*/
+
 public class BaseEnt {
 	private Long _id;
 	private Integer _org;

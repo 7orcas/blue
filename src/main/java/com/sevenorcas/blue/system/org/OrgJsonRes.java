@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.lang;
+package com.sevenorcas.blue.system.org;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
@@ -11,8 +11,6 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class LangJsonRes extends BaseJsonRes{
-	public String l;
-	public String p;
-	public Long _id_key;
+public class OrgJsonRes extends BaseJsonRes{
+	public Boolean d;
 }
