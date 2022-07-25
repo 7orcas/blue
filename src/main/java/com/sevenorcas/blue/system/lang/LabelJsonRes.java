@@ -11,7 +11,7 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class LangJsonRes extends BaseJsonRes{
+public class LabelJsonRes extends BaseJsonRes{
 	public String l;
 	public String p;
 	public Long _id_key;

@@ -1,7 +1,5 @@
 package com.sevenorcas.blue.system.login;
 
-import java.util.Random;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -50,19 +48,20 @@ public class LoginRest {
 		
 		HttpSession s = httpRequest.getSession(true);
 		BaseOrg org = new BaseOrg("");
-		Random rand = new Random();
-		org.setOrg(rand.nextInt(5000));
+		org.setOrg(req.o);
 		s.setAttribute("org_nr", org.getOrg());
 				
 		LoginJsonRes j = new LoginJsonRes();
-		j.SessionID = s.getId();
-		j.WebLoginInitUrl = appProperties.get("WebLoginInitUrl");
+		j.b = appProperties.get("BaseUrl") + "org" + org.getOrg() + "/";
+		j.s = s.getId();
+		j.o = org.getOrg();
+		j.i = appProperties.get("WebLoginInitUrl");
 		
 		if (appProperties.is("DevelopmentMode")) {
-			j.WebClientMainUrl = appProperties.get("WebClientMainUrl-CORS");	
+			j.m = appProperties.get("WebClientMainUrl-CORS");	
 		}
 		else {
-			j.WebClientMainUrl = appProperties.get("WebClientMainUrl");
+			j.m = appProperties.get("WebClientMainUrl");
 		}
 				
 		cache.put(s.getId(), org.getOrg());

@@ -7,14 +7,13 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 
 /**
  * Calls need to have a valid http session, otherwise they are not allowed into the system.
@@ -47,6 +46,9 @@ System.out.println("Serlvet Filter called");
 			HttpServletRequest req = (HttpServletRequest)request;
 			
 			String url = req.getRequestURL().toString();
+			
+			
+//			RequestDispatcher rd = request.getRequestDispatcher(url);
 			
 			//Check if url is excluded from check
 			for (String u : excludedUrls) {

@@ -17,8 +17,8 @@ public class LangDto extends BaseDto<LangDto> {
 	private Long _id_lang_key;
 
 	
-	public LangJsonRes toJSon() {
-		LangJsonRes j = new LangJsonRes();
+	public LabelJsonRes toJSon() {
+		LabelJsonRes j = new LabelJsonRes();
 		super.toJSon(j);
 		j.l = label;
 		j._id_key = _id_lang_key;

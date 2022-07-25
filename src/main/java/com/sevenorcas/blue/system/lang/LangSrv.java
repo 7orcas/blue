@@ -25,7 +25,7 @@ public class LangSrv extends BaseSrv {
 	@EJB
 	private LangDao dao;
 	
-	public List<LangJsonRes> langPackageJson(
+	public List<LabelJsonRes> langPackageJson(
     		CallObject callObj,
     		String pack,
     		String lang) throws Exception{
@@ -37,7 +37,7 @@ public class LangSrv extends BaseSrv {
 		
 		
 		List<LangDto> x = dao.langPackage(callObj, null, pack, lang);
-		List<LangJsonRes> y = new ArrayList<LangJsonRes>();
+		List<LabelJsonRes> y = new ArrayList<LabelJsonRes>();
 		for (LangDto d : x) {
 			y.add(d.toJSon());
 		}

@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
+import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.login.LoginCache;
 
@@ -39,6 +40,7 @@ public class Login2Rest extends BaseRest {
 	 * @param httpRequest
 	 * @return
 	 */
+	@SkipAuthorisation
 	@GET
 	@Path("init-web")
     public Login2JsonRes login2Web(@Context HttpServletRequest httpRequest,
