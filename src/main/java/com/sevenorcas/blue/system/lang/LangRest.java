@@ -1,5 +1,6 @@
 package com.sevenorcas.blue.system.lang;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -34,13 +35,41 @@ public class LangRest extends BaseRest {
 	
 	@GET
 	@Path("pack")
-    public List<LangJsonRes> langPackage(
+    public List<LabelJsonRes> langPackage(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("pack") String pack) throws Exception {
 		
 		return service.langPackageJson(callObj, pack, callObj.getLang());
     }
 	
+	/**
+	 * This end-point is excluded from servlet filter check
+	 * Return supported languages
+	 * 
+	 * @param callObj
+	 * @param lang
+	 * @return
+	 * @throws Exception
+	 */
+	@SkipAuthorisation
+	@GET
+	@Path("login-lang")
+    public List<LangJsonRes> langLogin(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		
+		List<LangJsonRes> l = new ArrayList<>();
+		LangJsonRes r = new LangJsonRes();
+		r._c = "en";
+		r.l = "English";
+		r.d = true;
+		l.add(r);
+		r = new LangJsonRes();
+		r._c = "de";
+		r.l = "Deutsch";
+		l.add(r);
+		return l;
+    }
+
 	/**
 	 * This end-point is excluded from servlet filter check
 	 * 
@@ -52,22 +81,22 @@ public class LangRest extends BaseRest {
 	@SkipAuthorisation
 	@GET
 	@Path("login-pack")
-    public List<LangJsonRes> langPackageLogin(
+    public List<LabelJsonRes> langPackageLogin(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("pack") String pack,
     		@QueryParam ("lang") String lang) throws Exception {
 		
 		return service.langPackageJson(callObj, "login", lang);
     }
-
+	
 	
 	@POST
 	@Path("update")
-    public LangJsonRes langUpdate(
+    public LabelJsonRes langUpdate(
     		@QueryParam ("co") CallObject callObj, 
     		LangJsonReq key) {
 		
-		LangJsonRes r = new LangJsonRes();
+		LabelJsonRes r = new LabelJsonRes();
 				
 		
     	return r;

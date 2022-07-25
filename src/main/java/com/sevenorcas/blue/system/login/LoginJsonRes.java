@@ -5,5 +5,4 @@ public class LoginJsonRes {
 	public String s;
 	public String m;
 	public String i;
-	public Integer o;
 }

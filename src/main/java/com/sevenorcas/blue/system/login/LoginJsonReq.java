@@ -4,4 +4,5 @@ public class LoginJsonReq {
 	public String u;
 	public String p;
 	public Integer o;
+	public String l;
 }

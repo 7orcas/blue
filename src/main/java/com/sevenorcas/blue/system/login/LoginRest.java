@@ -19,8 +19,8 @@ import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
  * Part 1 of the login process 
- * If successful the client is sent the mainURL
- * The session id is used by the client to return to part 2, ie a valid key will create a new session (this step is for CORS) 
+ * If successful the client is sent the baseURL
+ * The session id is used by the client to return to part 2, ie a valid key will create a new session 
  * 
  * Note this bean doesn't implement the BaseRest so the RestAuthorisation Interceptor is not called
  * 
@@ -47,14 +47,15 @@ public class LoginRest {
 	public LoginJsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
 		
 		HttpSession s = httpRequest.getSession(true);
-		BaseOrg org = new BaseOrg("");
-		org.setOrg(req.o);
-		s.setAttribute("org_nr", org.getOrg());
-				
+		
+		//Test login attempt and if successful create a session object
+		Session u = new Session()
+				.setOrgNr(req.o)
+				.setLang(req.l);
+		
 		LoginJsonRes j = new LoginJsonRes();
-		j.b = appProperties.get("BaseUrl") + "org" + org.getOrg() + "/";
 		j.s = s.getId();
-		j.o = org.getOrg();
+		j.b = appProperties.get("BaseUrl");
 		j.i = appProperties.get("WebLoginInitUrl");
 		
 		if (appProperties.is("DevelopmentMode")) {
@@ -64,9 +65,9 @@ public class LoginRest {
 			j.m = appProperties.get("WebClientMainUrl");
 		}
 				
-		cache.put(s.getId(), org.getOrg());
+		cache.put(s.getId(), u);
 		
-System.out.println("login 1 org_nr=" + org.getOrg() +
+System.out.println("login 1 org_nr=" + u.getOrgNr() +
 		", userid=" + req.u +
 		", pw=" + req.p + 
 		", Session id=" + s.getId());		

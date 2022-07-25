@@ -1,5 +1,8 @@
 package com.sevenorcas.blue.app.login;
 
+import java.util.Hashtable;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,6 +19,7 @@ import javax.ws.rs.core.Context;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.login.LoginCache;
+import com.sevenorcas.blue.system.login.Session;
 
 /**
  * 
@@ -46,28 +50,41 @@ public class Login2Rest extends BaseRest {
     public Login2JsonRes login2Web(@Context HttpServletRequest httpRequest,
     		@QueryParam("SessionID") String sid) {
 
-		HttpSession ses = httpRequest.getSession(false);
-		
-		if (ses == null && sid != null) {
-			Integer orgNr = cache.getOrgAndRemove(sid);
-			if (orgNr != null) {
-				ses = httpRequest.getSession(true);
-				ses.setAttribute("org_nr", orgNr);
-System.out.println("login2Web org_nr=" + orgNr  + ", NEW session_id=" + ses.getId());
-			}
+		//Not a valid attempt
+		if (sid == null) {
+			return null;
 		}
 		
-		if (ses != null) {
-			Login2JsonRes r = new Login2JsonRes();
-			r.org = (Integer)ses.getAttribute("org_nr");
-			r.lang = "en";
-			r.ugroup ="admin";
-System.out.println("login2Web org_nr=" + r.org + ", Session id=" + ses.getId());
-			return r;
+		Session userSes = cache.getSessionAndRemove(sid);
+		
+		HttpSession httpSes = httpRequest.getSession(true);
+		
+		//Get user sessions or create a new list (if new login)
+		Hashtable<Integer, Session> userSessions = (Hashtable<Integer, Session>)httpSes.getAttribute("UserSessions");
+		if (userSessions == null) {
+			userSessions = new Hashtable<>();
+			httpSes.setAttribute("UserSessions", userSessions);
 		}
+		
+		//Store the new user session 
+		Integer nextSes = userSessions.size();
+		userSessions.put(nextSes, userSes.setSessionNr(nextSes));
+		
+		
+System.out.println("login2Web "
+		+ "org_nr=" + userSes.getOrgNr()  
+		+ ", NEW session _nr=" + userSes.getSessionNr()
+		+ ", http session id=" + httpSes.getId()
+		);
+		
+		//Return the base usn number for the client to use in all coms
+		Login2JsonRes r = new Login2JsonRes();
+		r.b = "usn" + userSes.getSessionNr() + "/";
+		r.o = userSes.getOrgNr();
+		r.l = userSes.getLang();
+		r.u ="admin";
+		return r;
 
-System.out.println("login2Web -> no valid session");
-    	return null;
     }
 	
 }

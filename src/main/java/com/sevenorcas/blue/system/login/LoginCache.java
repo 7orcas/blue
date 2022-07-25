@@ -1,9 +1,6 @@
 package com.sevenorcas.blue.system.login;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -27,7 +24,7 @@ import org.infinispan.manager.EmbeddedCacheManager;
 public class LoginCache {
 
 	private EmbeddedCacheManager cacheManager;
-	private Cache<String, Integer> cache;
+	private Cache<String, Session> cache;
 	
 	public LoginCache() {}
 	
@@ -41,16 +38,17 @@ public class LoginCache {
 		}
 	}
 
-	public void put(String key, Integer org) {
-		cache.put(key, org);
+	public void put(String key, Session session) {
+		cache.put(key, session);
 	}
 
-	public List<String> getCacheList() {
-		List<String> list = new ArrayList();
-		cache.entrySet().forEach(entry -> list.add(entry.getKey() + "=" + entry.getValue()));
-		return list;
-
-	}
+//DELETE
+//	public List<String> getCacheList() {
+//		List<String> list = new ArrayList();
+//		cache.entrySet().forEach(entry -> list.add(entry.getKey() + "=" + entry.getValue()));
+//		return list;
+//
+//	}
 
 	public void removeKey(String key) {
 		//Cache<String, Item> cache = cacheManager.getCache();   
@@ -61,10 +59,10 @@ public class LoginCache {
 		cache.clear();
 	}
 	
-	public Integer getOrgAndRemove(String key) {
-		Integer org = cache.get(key);
+	public Session getSessionAndRemove(String key) {
+		Session s = cache.get(key);
 		cache.remove(key);
-		return org;
+		return s;
 	}
 }
 
