@@ -43,12 +43,10 @@ System.out.println("RestAroundInvoke called on " + ctx.getMethod().getName());
 			
 			
 			//Inject Call Object
-			else if (clientCall.getClientSessionNr() != null) {
+			else if (clientCall.getClientSession() != null) {
 				CallObject callObj = new CallObject("");
 				proceed = true;
-				BaseOrg o = new BaseOrg("");
-				o.setOrg(clientCall.getClientSessionNr());
-				callObj.setOrg(o);
+				callObj.setClientSession(clientCall.getClientSession());
 				
 				for (int i=0;i<ctx.getMethod().getParameterTypes().length;i++) {
 					if (ctx.getMethod().getParameterTypes()[i].getTypeName().equals(CallObject.class.getTypeName())) {

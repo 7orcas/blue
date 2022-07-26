@@ -55,15 +55,15 @@ public class Login2Rest extends BaseRest {
 			HttpSession httpSes = httpRequest.getSession(true);
 			
 			//Get user sessions or create a new list (if new login)
-			Hashtable<Integer, ClientSession> userSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute("UserSessions");
-			if (userSessions == null) {
-				userSessions = new Hashtable<>();
-				httpSes.setAttribute("UserSessions", userSessions);
+			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
+			if (clientSessions == null) {
+				clientSessions = new Hashtable<>();
+				httpSes.setAttribute(CLIENT_SESSIONS, clientSessions);
 			}
 			
 			//Store the new user session 
-			Integer nextSes = userSessions.size();
-			userSessions.put(nextSes, clientSes.setSessionNr(nextSes));
+			Integer nextSes = clientSessions.size();
+			clientSessions.put(nextSes, clientSes.setSessionNr(nextSes));
 			
 			
 			//Return the base usn number for the client to use in all coms

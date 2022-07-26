@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.lifecycle;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
 import com.sevenorcas.blue.system.ApplicationI;
+import com.sevenorcas.blue.system.login.ClientSession;
 
 
 @PreMatching //indicates (with request filter) that such filter should be applied globally on all resources in the application before the actual resource matching occurs
@@ -34,7 +36,10 @@ System.out.println("Filter3 ClientCall called " + req.getUriInfo().getPath());
 		HttpSession ses = httpRequest.getSession(false);
 		if (ses != null){
 			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
-			clientCall.setClientSessionNr(nr);
+			
+			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
+			ClientSession cs = clientSessions.get(nr);
+			clientCall.setClientSession(cs);
 			
 System.out.println("Filter3 ClientSessionNr is " + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 		} 

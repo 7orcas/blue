@@ -2,8 +2,10 @@ package com.sevenorcas.blue.system.lifecycle;
 
 import javax.enterprise.context.RequestScoped;
 
+import com.sevenorcas.blue.system.login.ClientSession;
+
 /**
- * Object to pass on the CLIENT_SESSION_NR
+ * Object to pass on the CLIENT_SESSION in a call
  *  
  * [Licence]
  * @author John Stewart
@@ -11,14 +13,14 @@ import javax.enterprise.context.RequestScoped;
 
 @RequestScoped
 public class ClientCall {
-	private Integer clientSessionNr;
+	private ClientSession clientSession;
 
-	public Integer getClientSessionNr() {
-		return clientSessionNr;
+	public ClientSession getClientSession() {
+		return clientSession;
 	}
 
-	public void setClientSessionNr(Integer nr) {
-		this.clientSessionNr = nr;
+	public void setClientSession(ClientSession cs) {
+		this.clientSession = cs;
 	}
 	
 }
