@@ -24,7 +24,7 @@ import org.infinispan.manager.EmbeddedCacheManager;
 public class LoginCache {
 
 	private EmbeddedCacheManager cacheManager;
-	private Cache<String, Session> cache;
+	private Cache<String, ClientSession> cache;
 	
 	public LoginCache() {}
 	
@@ -38,7 +38,7 @@ public class LoginCache {
 		}
 	}
 
-	public void put(String key, Session session) {
+	public void put(String key, ClientSession session) {
 		cache.put(key, session);
 	}
 
@@ -59,8 +59,8 @@ public class LoginCache {
 		cache.clear();
 	}
 	
-	public Session getSessionAndRemove(String key) {
-		Session s = cache.get(key);
+	public ClientSession getSessionAndRemove(String key) {
+		ClientSession s = cache.get(key);
 		cache.remove(key);
 		return s;
 	}

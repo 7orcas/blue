@@ -49,7 +49,7 @@ public class LoginRest {
 		HttpSession s = httpRequest.getSession(true);
 		
 		//Test login attempt and if successful create a session object
-		Session u = new Session()
+		ClientSession u = new ClientSession()
 				.setOrgNr(req.o)
 				.setLang(req.l);
 		

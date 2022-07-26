@@ -13,50 +13,39 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
+import com.sevenorcas.blue.system.ApplicationI;
+
 
 @PreMatching //indicates (with request filter) that such filter should be applied globally on all resources in the application before the actual resource matching occurs
 
 @Provider
-public class PreCallFilter implements ContainerRequestFilter, ContainerResponseFilter {
+public class Filter3ClientCall implements ContainerRequestFilter, ContainerResponseFilter, ApplicationI {
 
 	@Context
 	private HttpServletRequest httpRequest;
 	
 	@Inject
-	private RequestUser requestUser;
+	private ClientCall clientCall;
 	
 	@Override
 	public void filter(final ContainerRequestContext req) throws IOException {
-System.out.println("PreCall filter called");
-
-//		req.get
+System.out.println("Filter3 ClientCall called " + req.getUriInfo().getPath());
 
 		HttpSession ses = httpRequest.getSession(false);
 		if (ses != null){
-			Integer orgNr = (Integer)ses.getAttribute("org_nr");
-			requestUser.setOrgNr(orgNr);
-			req.setProperty("org_nr", orgNr);
-			req.getHeaders().add("org_nrX", "" + orgNr);
-//			req.getRequest().
-			httpRequest.setAttribute("org_nrXX", orgNr);
+			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
+			clientCall.setClientSessionNr(nr);
 			
-System.out.println("PreCall org_nr is " + (orgNr==null?"null":"" + orgNr.toString()) + ", session id=" + ses.getId());
+System.out.println("Filter3 ClientSessionNr is " + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 		} 
 
-		
-		//HttpServletRequest request = (HttpServletRequest) req;
-//		Map<String, Cookie> cookies = req.getCookies();
-//		for (Map.Entry<String,Cookie> entry : cookies.entrySet()) 
-//System.out.println("PreCall filter Key = " + entry.getKey() + ", Value = " + entry.getValue().toString());
 	}
 
 	
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-			throws IOException {
-//System.out.println(">> PostCall filter <<");
-		
+			throws IOException {		
 	}
 	 
 }

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  * [Licence]
  * @author John Stewart
  */
-public class SessionAuthenticationFilter implements Filter{
+public class Filter1SessionAuthentication implements Filter{
 
 	private List <String> excludedUrls;
 
@@ -38,7 +38,7 @@ public class SessionAuthenticationFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-System.out.println("Serlvet Filter called");
+System.out.println("Filter1 called");
 
 		boolean proceed = false;
 
@@ -46,9 +46,7 @@ System.out.println("Serlvet Filter called");
 			HttpServletRequest req = (HttpServletRequest)request;
 			
 			String url = req.getRequestURL().toString();
-			
-			
-//			RequestDispatcher rd = request.getRequestDispatcher(url);
+System.out.println("Filter1 url=" + url);			
 			
 			//Check if url is excluded from check
 			for (String u : excludedUrls) {
@@ -71,7 +69,7 @@ System.out.println("Serlvet Filter called");
 			chain.doFilter(request, response);
 		}
 		else if (response instanceof HttpServletResponse) {
-System.out.println("Serlvet Filter SC_UNAUTHORIZED");
+System.out.println("Filter1 SC_UNAUTHORIZED");
 			((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 		

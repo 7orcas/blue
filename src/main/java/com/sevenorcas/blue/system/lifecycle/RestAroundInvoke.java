@@ -20,7 +20,7 @@ public class RestAroundInvoke {
 	public RestAroundInvoke() {}
 	
 	@Inject
-	private RequestUser requestUser;
+	private ClientCall clientCall;
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
@@ -43,11 +43,11 @@ System.out.println("RestAroundInvoke called on " + ctx.getMethod().getName());
 			
 			
 			//Inject Call Object
-			else if (requestUser.getOrgNr() != null) {
+			else if (clientCall.getClientSessionNr() != null) {
 				CallObject callObj = new CallObject("");
 				proceed = true;
 				BaseOrg o = new BaseOrg("");
-				o.setOrg(requestUser.getOrgNr());
+				o.setOrg(clientCall.getClientSessionNr());
 				callObj.setOrg(o);
 				
 				for (int i=0;i<ctx.getMethod().getParameterTypes().length;i++) {
