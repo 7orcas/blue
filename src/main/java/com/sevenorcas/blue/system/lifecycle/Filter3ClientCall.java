@@ -34,7 +34,7 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 System.out.println("Filter3 ClientCall called " + req.getUriInfo().getPath());
 
 		HttpSession ses = httpRequest.getSession(false);
-		if (ses != null){
+		if (ses != null && httpRequest.getAttribute(CLIENT_SESSION_NR) != null){
 			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
 			
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);

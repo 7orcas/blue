@@ -15,7 +15,6 @@ import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
-import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
  * Part 1 of the login process 
@@ -48,7 +47,9 @@ public class LoginRest {
 		
 		HttpSession s = httpRequest.getSession(true);
 		
+		//TODO
 		//Test login attempt and if successful create a session object
+		
 		ClientSession u = new ClientSession()
 				.setOrgNr(req.o)
 				.setLang(req.l);
@@ -66,11 +67,6 @@ public class LoginRest {
 		}
 				
 		cache.put(s.getId(), u);
-		
-System.out.println("login 1 org_nr=" + u.getOrgNr() +
-		", userid=" + req.u +
-		", pw=" + req.p + 
-		", Session id=" + s.getId());		
 		return j;
     }
 
