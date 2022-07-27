@@ -4,8 +4,9 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
-import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
  * Inject CallObject into the target method
@@ -16,6 +17,7 @@ import com.sevenorcas.blue.system.base.BaseOrg;
 //@Interceptor
 public class RestAroundInvoke {
 
+	private static Logger log = Logger.getLogger(RestAroundInvoke.class.getName());
 	
 	public RestAroundInvoke() {}
 	
@@ -25,19 +27,14 @@ public class RestAroundInvoke {
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
 		
-System.out.println("RestAroundInvoke called on " + ctx.getMethod().getName());
-
+		log.debug("called method=" + ctx.getMethod().getName());
 
 		boolean proceed = false;
 		try {
 
-			//Initialising a login may not have a session (due to CORS) 
-//			if (ctx.getMethod() != null && ctx.getMethod().getName().equals("login2Web")) { 
-//				proceed = true;
-//			} 
-
 			SkipAuthorisation anno = ctx.getMethod().getAnnotation(SkipAuthorisation.class);
 			if (anno != null) {
+				log.debug("SkipAuthorisation annotation");
 				proceed = true;
 			}
 			
@@ -54,6 +51,7 @@ System.out.println("RestAroundInvoke called on " + ctx.getMethod().getName());
 						break;
 					}
 				}
+				log.debug("added CallObject");
 			}
 			
 			
@@ -61,10 +59,10 @@ System.out.println("RestAroundInvoke called on " + ctx.getMethod().getName());
 				return ctx.proceed();
 			}
 			
-System.out.println("RestAroundInvoke returning null");			
+			log.debug("returning null");			
 			return null;
 		} catch (Exception e) {
-System.out.println("RestAroundInvoke.invocation() Exception:" + e.getMessage());
+			log.error("Exception:" + e.getMessage());
 			return null;
 		}
     }

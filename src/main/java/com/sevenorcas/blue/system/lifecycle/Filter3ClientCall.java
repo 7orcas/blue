@@ -14,6 +14,8 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.login.ClientSession;
 
@@ -23,6 +25,8 @@ import com.sevenorcas.blue.system.login.ClientSession;
 @Provider
 public class Filter3ClientCall implements ContainerRequestFilter, ContainerResponseFilter, ApplicationI {
 
+	private static Logger log = Logger.getLogger(Filter3ClientCall.class.getName());
+	
 	@Context
 	private HttpServletRequest httpRequest;
 	
@@ -31,17 +35,18 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 	
 	@Override
 	public void filter(final ContainerRequestContext req) throws IOException {
-System.out.println("Filter3 ClientCall called " + req.getUriInfo().getPath());
+		log.debug("req url=" + req.getUriInfo().getPath());
 
 		HttpSession ses = httpRequest.getSession(false);
 		if (ses != null && httpRequest.getAttribute(CLIENT_SESSION_NR) != null){
 			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
 			
+			@SuppressWarnings("unchecked")
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
 			ClientSession cs = clientSessions.get(nr);
 			clientCall.setClientSession(cs);
 			
-System.out.println("Filter3 ClientSessionNr is " + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
+			log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 		} 
 
 	}

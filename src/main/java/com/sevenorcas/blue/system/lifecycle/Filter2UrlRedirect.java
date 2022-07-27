@@ -13,6 +13,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.JaxrsActivator;
 import com.sevenorcas.blue.system.ApplicationI;
 
@@ -28,6 +30,8 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 	//Defined in JaxrsActivator
 	static private String ApplicationPath;
 	static private Integer CLIENT_SESSION_NRL;
+	
+	private static Logger log = Logger.getLogger(Filter2UrlRedirect.class.getName());
 	
 	/**
 	 * Get the ApplicationPath (used in URLs) 
@@ -59,7 +63,7 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-System.out.println("Filter2 called");
+		log.debug("called");
 
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
@@ -74,12 +78,13 @@ System.out.println("Filter2 called");
 				
 				url = ApplicationPath + url.substring(index2);
 				
-System.out.println("Filter2 forward to url=" + url);
+				log.debug("forward to url=" + url);
 				RequestDispatcher rd = request.getRequestDispatcher(url);
 				rd.forward(request, response);
 			}
 		}
-System.out.println("Filter2 doFilter");
+
+		log.debug("doFilter");
 		chain.doFilter(request, response);
 	}
 

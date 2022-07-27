@@ -7,13 +7,14 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.jboss.logging.Logger;
 
 /**
  * Calls need to have a valid http session, otherwise they are not allowed into the system.
@@ -26,6 +27,8 @@ public class Filter1SessionAuthentication implements Filter{
 
 	private List <String> excludedUrls;
 
+	private static Logger log = Logger.getLogger(Filter1SessionAuthentication.class.getName());
+	
 	//Load the excluded URLs
 	public void init(FilterConfig conf) throws ServletException {
 		String excludePattern = conf.getInitParameter("excludedUrls");
@@ -38,7 +41,7 @@ public class Filter1SessionAuthentication implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-System.out.println("Filter1 called");
+		log.debug("called");
 
 		boolean proceed = false;
 
@@ -46,7 +49,7 @@ System.out.println("Filter1 called");
 			HttpServletRequest req = (HttpServletRequest)request;
 			
 			String url = req.getRequestURL().toString();
-System.out.println("Filter1 url=" + url);			
+			log.debug("req url=" + url);			
 			
 			//Check if url is excluded from check
 			for (String u : excludedUrls) {
@@ -69,7 +72,7 @@ System.out.println("Filter1 url=" + url);
 			chain.doFilter(request, response);
 		}
 		else if (response instanceof HttpServletResponse) {
-System.out.println("Filter1 SC_UNAUTHORIZED");
+			log.warn("return SC_UNAUTHORIZED");
 			((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 		
