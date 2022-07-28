@@ -1,77 +1,71 @@
-package com.sevenorcas.blue.system.org;
+package com.sevenorcas.blue.system.login;
 
 import java.lang.invoke.MethodHandles;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-import javax.ws.rs.QueryParam;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.app.Label;
+import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
-import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
 * Created July '22
 * 
-* Data access methods for organisation data
+* Data access methods to the Login Module
+* TODO Expand Module Description
 * 
 * [Licence]
 * @author John Stewart
 */
 
 @Stateless
-public class OrgDao extends BaseDao {
+public class LoginDao extends BaseDao {
 
+	private AppProperties appProperties = AppProperties.getInstance();
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-	
+		
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
 
-	
-	public List<OrgDto> orgList(
-    		CallObject callObj,
-    		SqlParm parms) throws Exception {
+	public LoginDto login(
+    		SqlParm parms,
+    		String userid,
+    		String pw,
+    		Integer org) throws Exception {
 		
 		parms = validateParms(parms);
 		
-		String sql = "SELECT id, org, code, dvalue " +
-				     "FROM cntrl.org ";
+		String sql;
+		sql = "SELECT l.id, l.xxx, l.yyy, l.attempts " +
+				"FROM cntrl.zzz AS l " + 
+				"WHERE l.xxx";
 		
-		if (parms.isActiveOnly()) {
-			sql += "WHERE active = true ";
-		}
 		
-		List<Object[]> r = SqlExecute.executeQuery(callObj, parms, sql, log);
-		List<OrgDto> list = new ArrayList<>();
+		List<Object[]> r = SqlExecute.executeQuery(null, parms, sql, log);
+		List<LoginDto> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			OrgDto d = new OrgDto();
+			LoginDto d = new LoginDto();
 			list.add(d);
 			Object[] row = r.get(i);
-			
+						
 			d.setId((Long)row[0])
 			 .setOrg((Integer)row[1])
 			 .setCode((String)row[2])
-			 .setDefaultValue((Boolean)row[3])
-			 ;
+			 .setDescr((String)row[3])
+			 .setDefaultValue(appProperties.get("LanguageDefault").equals((String)row[2]));
 		}
-		
-		return list;
+		return new LoginDto();
     }
-	
+
 	
 	
 	

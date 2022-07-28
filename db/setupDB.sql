@@ -33,9 +33,10 @@ ALTER TABLE cntrl.org OWNER to postgres;
  
 CREATE TABLE cntrl.zzz
 (
- 	usename varchar,
- 	pw varchar,
+ 	xxx varchar,
+ 	yyy varchar,
  	orgs varchar,
+ 	attempts integer default 0,
 	CONSTRAINT zzz_primary PRIMARY KEY (id)
 ) INHERITS (public.base);
 ALTER TABLE cntrl.zzz OWNER to postgres;

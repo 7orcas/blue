@@ -22,7 +22,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 * [Licence]
 * @author John Stewart
 */
-public class Sql {
+public class SqlExecute {
 
 	static final String DS = "java:jboss/datasources/blueDS";
 	
