@@ -18,7 +18,7 @@ public class OrgDto extends BaseDto<OrgDto> {
 	public OrgJsonRes toJSon() {
 		OrgJsonRes j = new OrgJsonRes();
 		super.toJSon(j);
-		j.d = defaultValue;
+		j.x = defaultValue;
 		return j;
 	}
 

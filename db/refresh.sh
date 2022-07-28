@@ -1,0 +1,2 @@
+./setupDB.sh
+./loadData.sh

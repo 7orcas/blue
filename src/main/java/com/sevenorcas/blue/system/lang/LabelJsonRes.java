@@ -14,5 +14,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 public class LabelJsonRes extends BaseJsonRes{
 	public String l;
 	public String p;
-	public Long _id_key;
+	public Long id_key;
 }

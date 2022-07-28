@@ -1,6 +1,6 @@
 package com.sevenorcas.blue.system.lang;
 
-import java.util.ArrayList;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -12,8 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
+import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 /**
@@ -30,18 +33,17 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 @Consumes({"application/json"})
 public class LangRest extends BaseRest {
 
+	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	
 	@EJB
 	private LangSrv service;
 	
 	@GET
 	@Path("pack")
-    public List<LabelJsonRes> langPackage(
-    		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("pack") String pack) throws Exception {
-		
-System.out.println("LangRest lang=" + callObj.getLang());		
-		
-		return service.langPackageJson(callObj, pack, callObj.getLang());
+    public JsonRes pack(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		log.info("pack for lang=" + callObj.getLang());		
+		return service.langPackageJson(callObj, null, callObj.getLang());
     }
 	
 	/**
@@ -55,21 +57,11 @@ System.out.println("LangRest lang=" + callObj.getLang());
 	 */
 	@SkipAuthorisation
 	@GET
-	@Path("login-lang")
-    public List<LangJsonRes> langLogin(
+	@Path("languages")
+    public JsonRes languages(
     		@QueryParam ("co") CallObject callObj) throws Exception {
-		
-		List<LangJsonRes> l = new ArrayList<>();
-		LangJsonRes r = new LangJsonRes();
-		r._c = "en";
-		r.l = "English";
-		r.d = true;
-		l.add(r);
-		r = new LangJsonRes();
-		r._c = "de";
-		r.l = "Deutsch";
-		l.add(r);
-		return l;
+		log.info("languages");
+		return service.languagesJson(callObj);		
     }
 
 	/**
@@ -83,11 +75,10 @@ System.out.println("LangRest lang=" + callObj.getLang());
 	@SkipAuthorisation
 	@GET
 	@Path("login-pack")
-    public List<LabelJsonRes> langPackageLogin(
+    public JsonRes langPack(
     		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("pack") String pack,
     		@QueryParam ("lang") String lang) throws Exception {
-		
+		log.info("loging-pack for lang=" + lang);
 		return service.langPackageJson(callObj, "login", lang);
     }
 	

@@ -10,11 +10,11 @@ package com.sevenorcas.blue.system.base;
 */
 
 public class BaseDto <T> {
-	private Long _id;
-	private Integer _org;
-    private String _code;
-    private String _encoded;
-    private Boolean _active;
+	private Long id;
+	private Integer org;
+    private String code;
+    private String encoded;
+    private Boolean active;
 	
  
     /**
@@ -22,47 +22,47 @@ public class BaseDto <T> {
      * @param j
      */
     protected void toJSon(BaseJsonRes j) {
-		j._i = _id;
-		j._c = _code;
-		j._o = _org;
+		j.i = id;
+		j.c = code;
+		j.o = org;
 	}
     
     public Long getId() {
-		return _id;
+		return id;
 	}
 	public T setId(Long _id) {
-		this._id = _id;
+		this.id = _id;
 		return (T)this;
 	}
 	public Integer getOrg() {
-		return _org;
+		return org;
 	}
 	public T setOrg(Integer _org) {
-		this._org = _org;
+		this.org = _org;
 		return (T)this;
 	}
 	public String getCode() {
-		return _code;
+		return code;
 	}
 	public T setCode(String _code) {
-		this._code = _code;
+		this.code = _code;
 		return (T)this;
 	}
 	public String getEncoded() {
-		return _encoded;
+		return encoded;
 	}
 	public T setEncoded(String _encoded) {
-		this._encoded = _encoded;
+		this.encoded = _encoded;
 		return (T)this;
 	}
 	public Boolean isActive() {
-		return _active;
+		return active;
 	}
 	public T setActive() {
 		return setActive(true);
 	}
 	public T setActive(Boolean _active) {
-		this._active = _active;
+		this.active = _active;
 		return (T)this;
 	}
     

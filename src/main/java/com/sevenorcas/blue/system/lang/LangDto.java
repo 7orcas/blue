@@ -3,7 +3,7 @@ package com.sevenorcas.blue.system.lang;
 import com.sevenorcas.blue.system.base.BaseDto;
 
 /**
-* Created July '22
+* Created 28 July '22
 * 
 * Language Data Transfer Object
 * 
@@ -13,34 +13,33 @@ import com.sevenorcas.blue.system.base.BaseDto;
 
 public class LangDto extends BaseDto<LangDto> {
 
-    private String label;
-	private Long _id_lang_key;
-
+    private String descr;
+    private boolean defaultValue;
 	
-	public LabelJsonRes toJSon() {
-		LabelJsonRes j = new LabelJsonRes();
+	public LangJsonRes toJSon() {
+		LangJsonRes j = new LangJsonRes();
 		super.toJSon(j);
-		j.l = label;
-		j._id_key = _id_lang_key;
+		j.d = descr;
+		j.x = defaultValue;
 		return j;
 	}
-	
-	public String getLabel() {
-		return label;
-	}
-	public LangDto setLabel(String label) {
-		this.label = label;
-		return this;
-	}
 
-	public Long getIdLangKey() {
-		return _id_lang_key;
+	public String getDescr() {
+		return descr;
 	}
-	public LangDto setIdLangKey(Long _id_lang_key) {
-		this._id_lang_key = _id_lang_key;
+	public LangDto setDescr(String descr) {
+		this.descr = descr;
+		return this;
+	}
+	public boolean isDefaultValue() {
+		return defaultValue;
+	}
+	public LangDto setDefaultValue(boolean defaultValue) {
+		this.defaultValue = defaultValue;
 		return this;
 	}
 	
+		
 	
 	
 }

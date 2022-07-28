@@ -10,7 +10,7 @@ package com.sevenorcas.blue.system.base;
 */
 
 public class BaseJsonRes {
-	public Long _i;
-	public String _c;
-	public Integer _o;
+	public Long i;
+	public String c;
+	public Integer o;
 }

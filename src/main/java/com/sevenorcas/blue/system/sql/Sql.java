@@ -10,6 +10,8 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 /**
@@ -27,7 +29,8 @@ public class Sql {
 	static public List<Object[]> executeQuery(
     		CallObject callObj,
     		SqlParm parms,
-    		String sql) throws Exception {
+    		String sql,
+    		Logger log) throws Exception {
 		
 		Connection conn = null;
     	Statement stmt = null;
@@ -40,7 +43,7 @@ public class Sql {
     		conn = ds.getConnection();
     		stmt = conn.createStatement();
     		
-System.out.println(sql);    		
+    		log.info(sql);    		
     		rs = stmt.executeQuery(sql);
     	
     		ResultSetMetaData rsmd = rs.getMetaData();
@@ -57,6 +60,7 @@ System.out.println(sql);
 			}
            
     	} catch (Exception x) {
+    		log.error(x);
     		x.printStackTrace();
     		
     	} finally {

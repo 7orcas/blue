@@ -1,5 +1,6 @@
 package com.sevenorcas.blue.system.org;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -12,6 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import javax.ws.rs.QueryParam;
+
+import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.app.Label;
 import com.sevenorcas.blue.system.base.BaseDao;
@@ -31,6 +34,8 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Stateless
 public class OrgDao extends BaseDao {
 
+	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
 
@@ -41,14 +46,14 @@ public class OrgDao extends BaseDao {
 		
 		parms = validateParms(parms);
 		
-		String sql = "SELECT _id, _org, _code, dvalue " +
+		String sql = "SELECT id, org, code, dvalue " +
 				     "FROM cntrl.org ";
 		
 		if (parms.isActiveOnly()) {
-			sql += "WHERE _active = true ";
+			sql += "WHERE active = true ";
 		}
 		
-		List<Object[]> r = Sql.executeQuery(callObj, parms, sql);
+		List<Object[]> r = Sql.executeQuery(callObj, parms, sql, log);
 		List<OrgDto> list = new ArrayList<>();
 		
 		// Extract data from result set

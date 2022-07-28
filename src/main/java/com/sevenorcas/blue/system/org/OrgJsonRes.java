@@ -12,5 +12,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class OrgJsonRes extends BaseJsonRes{
-	public Boolean d;
+	public Boolean x;
 }

@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 
@@ -25,7 +26,18 @@ public class LangSrv extends BaseSrv {
 	@EJB
 	private LangDao dao;
 	
-	public List<LabelJsonRes> langPackageJson(
+	public JsonRes languagesJson(
+    		CallObject callObj) throws Exception{
+		
+		List<LangDto> x = dao.languages(callObj, null);
+		List<LangJsonRes> y = new ArrayList<LangJsonRes>();
+		for (LangDto d : x) {
+			y.add(d.toJSon());
+		}
+		return new JsonRes().setData(y);
+    }
+	
+	public JsonRes langPackageJson(
     		CallObject callObj,
     		String pack,
     		String lang) throws Exception{
@@ -34,15 +46,16 @@ public class LangSrv extends BaseSrv {
 		if (lang == null) {
 			throw new RedException ("Call must include valid lang");
 		}
-		
-		
-		List<LangDto> x = dao.langPackage(callObj, null, pack, lang);
-		List<LabelJsonRes> y = new ArrayList<LabelJsonRes>();
-		for (LangDto d : x) {
-			y.add(d.toJSon());
+		if (lang.equals("es")) {
+			return new JsonRes().setError("Don't actually have this language pack :-)");
 		}
 		
-		return y;
+		List<LabelDto> x = dao.langPackage(callObj, null, pack, lang);
+		List<LabelJsonRes> y = new ArrayList<LabelJsonRes>();
+		for (LabelDto d : x) {
+			y.add(d.toJSon());
+		}
+		return new JsonRes().setData(y);
     }
 	
 }
