@@ -1,5 +1,8 @@
 package com.sevenorcas.blue.system.sql;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
 * Created 22 July '22
 * 
@@ -14,7 +17,16 @@ package com.sevenorcas.blue.system.sql;
 public class SqlParm {
 
 	protected boolean activeOnly = false;
-
+	protected List<Object> parameters;
+	
+	public SqlParm addParameter(Object o) {
+		if (parameters == null) {
+			parameters = new ArrayList<>();	
+		}
+		parameters.add(o);
+		return this;
+	}
+	
 	public boolean isActiveOnly() {
 		return activeOnly;
 	}

@@ -15,7 +15,6 @@ import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
-import com.sevenorcas.blue.system.sql.SqlPrepExecute;
 
 /**
 * Created July '22
@@ -50,7 +49,7 @@ public class LangDao extends BaseDao {
 			sql += "WHERE l.active = TRUE"; 	
 		}
 
-		List<Object[]> r = SqlExecute.executeQuery(callObj, parms, sql, log);
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
 		List<LangDto> list = new ArrayList<>();
 		
 		// Extract data from result set
@@ -76,9 +75,7 @@ public class LangDao extends BaseDao {
     		String lang) throws Exception {
 		
 		parms = validateParms(parms);
-
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(lang);
+		parms.addParameter(lang);
 		
 		String sql;
 		sql = "SELECT l.id, l.org, k.code AS code, l.code AS label %1 " +
@@ -88,14 +85,14 @@ public class LangDao extends BaseDao {
 		
 		//Filter by language pack
 		if (pack != null && pack.length() > 0) {
-			parameters.add("%" + pack + "%");
+			parms.addParameter("%" + pack + "%");
 			sql += "WHERE k.pack LIKE ? ";
 		}
 		
 		//Load default labels as well
 		String dlang = appProperties.get("LanguageDefault");
 		if (!dlang.equals(lang)) {
-			parameters.add(dlang);
+			parms.addParameter(dlang);
 			sql = sql.replace("%1", ", x.code as dcode");
 			sql = sql.replace("%2", "LEFT JOIN cntrl.lang_label AS x ON (k.id = x.id_lang_key AND x.lang = ?) ");
 		}
@@ -106,9 +103,7 @@ public class LangDao extends BaseDao {
 		
 		sql += "ORDER BY k.code ";
 
-		
-		
-		List<Object[]> r = SqlPrepExecute.executeQuery(callObj, parms, sql, parameters, log);
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
 		List<LabelDto> list = new ArrayList<>();
 		
 		// Extract data from result set

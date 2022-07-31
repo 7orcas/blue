@@ -53,7 +53,7 @@ public class OrgDao extends BaseDao {
 			sql += "WHERE active = true ";
 		}
 		
-		List<Object[]> r = SqlExecute.executeQuery(callObj, parms, sql, log);
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
 		List<OrgDto> list = new ArrayList<>();
 		
 		// Extract data from result set

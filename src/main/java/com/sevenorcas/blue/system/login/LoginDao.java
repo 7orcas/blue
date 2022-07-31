@@ -12,8 +12,8 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
-import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.sql.SqlExecute;
 
 /**
 * Created July '22
@@ -42,13 +42,11 @@ public class LoginDao extends BaseDao {
 		
 		parms = validateParms(parms);
 		
-		String sql;
-		sql = "SELECT l.id, l.xxx, l.yyy, l.attempts " +
+		String sql = "SELECT l.id, l.xxx, l.yyy, l.attempts " +
 				"FROM cntrl.zzz AS l " + 
 				"WHERE l.xxx";
 		
-		
-		List<Object[]> r = SqlExecute.executeQuery(null, parms, sql, log);
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
 		List<LoginDto> list = new ArrayList<>();
 		
 		// Extract data from result set
