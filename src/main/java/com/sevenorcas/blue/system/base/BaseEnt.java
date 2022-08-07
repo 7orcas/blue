@@ -1,6 +1,13 @@
 package com.sevenorcas.blue.system.base;
 
+import java.io.Serializable;
 import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
 * Create July 2022
@@ -11,13 +18,20 @@ import java.sql.Date;
 * @author John Stewart
 */
 
-public class BaseEnt {
-	private Long _id;
-	private Integer _org;
-    private String _code;
-    private Date _created;
-    private String _encoded;
-    private Integer _encoded_flag;
+@SuppressWarnings("serial")
+@MappedSuperclass
+public class BaseEnt implements Serializable {
+	
+	@Id  
+	@GeneratedValue (strategy=GenerationType.SEQUENCE, generator="ID_SEQUENCE")
+	private Long id;
+	
+	private Integer org;
+    private String code;
+    private Date created;
+    private String encoded;
+    @Column(name="encoded_flag")
+    private Integer encodedFlag;
     
     public BaseEnt () {
     	
@@ -25,40 +39,40 @@ public class BaseEnt {
     
     
 	public Long getId() {
-		return _id;
+		return id;
 	}
-	public void setId(Long _id) {
-		this._id = _id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public Integer getOrg() {
-		return _org;
+		return org;
 	}
-	public void setOrg(Integer _org) {
-		this._org = _org;
+	public void setOrg(Integer org) {
+		this.org = org;
 	}
 	public String getCode() {
-		return _code;
+		return code;
 	}
-	public void setCode(String _code) {
-		this._code = _code;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	public Date getCreated() {
-		return _created;
+		return created;
 	}
-	public void setCreated(Date _created) {
-		this._created = _created;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 	public String getEncoded() {
-		return _encoded;
+		return encoded;
 	}
-	public void setEncoded(String _encoded) {
-		this._encoded = _encoded;
+	public void setEncoded(String encoded) {
+		this.encoded = encoded;
 	}
 	public Integer getEncodedFlag() {
-		return _encoded_flag;
+		return encodedFlag;
 	}
-	public void setEncodedFlag(Integer _encoded_flag) {
-		this._encoded_flag = _encoded_flag;
+	public void setEncodedFlag(Integer encoded_flag) {
+		this.encodedFlag = encoded_flag;
 	}
     
 }

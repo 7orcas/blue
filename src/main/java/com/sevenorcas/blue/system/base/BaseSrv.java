@@ -2,6 +2,7 @@ package com.sevenorcas.blue.system.base;
 
 import javax.interceptor.Interceptors;
 
+import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
 
 /**
@@ -12,6 +13,6 @@ import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
 */
 
 @Interceptors({SrvAroundInvoke.class})
-public class BaseSrv {
+public class BaseSrv implements ApplicationI {
 
 }

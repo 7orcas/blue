@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
+import com.sevenorcas.blue.system.base.JsonRes;
 
 /**
  * Part 1 of the login process 
@@ -41,14 +42,26 @@ public class LoginRest {
 	@EJB
 	private LoginCache cache;
 	
+	@EJB
+	private LoginSrv service;
+	
 	@POST
 	@Path("web")
-	public LoginJsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
+	public JsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
 		
+		UserEnt user = service.getUser(req.u, req.p, req.o);
+System.out.println("User is " + (user==null?"null":" found, pw=" + user.getPassword()));		
+		
+		if (user == null) {
+			return new JsonRes().setError("invuid");			
+		}
+		if (!user.isValid()) {
+			return new JsonRes().setError(user.getInValidMessage());	
+		}
+		
+				
+		//Success !
 		HttpSession s = httpRequest.getSession(true);
-		
-		//TODO
-		//Test login attempt and if successful create a session object
 		
 		ClientSession u = new ClientSession()
 				.setOrgNr(req.o)
@@ -67,7 +80,7 @@ public class LoginRest {
 		}
 				
 		cache.put(s.getId(), u);
-		return j;
+		return new JsonRes().setData(j);
     }
 
 	/**

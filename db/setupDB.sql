@@ -22,7 +22,6 @@ CREATE TABLE base
     active boolean default true
 );
 ALTER TABLE base OWNER to postgres;
-CREATE INDEX "base_primary" ON base USING btree (id) TABLESPACE pg_default;    
 
 CREATE TABLE cntrl.org
 (
@@ -37,9 +36,11 @@ CREATE TABLE cntrl.zzz
  	yyy varchar,
  	orgs varchar,
  	attempts integer default 0,
-	CONSTRAINT zzz_primary PRIMARY KEY (id)
+	CONSTRAINT zzz_primary PRIMARY KEY (id),
+ 	CONSTRAINT zzz_xxx UNIQUE (xxx)
 ) INHERITS (public.base);
 ALTER TABLE cntrl.zzz OWNER to postgres;
+
 
 CREATE TABLE cntrl.lang
 (
