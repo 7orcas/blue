@@ -29,15 +29,15 @@ public class LoginSrv extends BaseSrv {
 			user.incrementAttempts();
 			
 			if (user.getAttempts() > MAX_LOGIN_ATTEMPTS) {
-				user.setInValidMessage("maxatt");
+				user.setInvalidMessage("maxatt");
 				return user;
 			}
 			if (!user.getPassword().equals(pw)) {
-				user.setInValidMessage("invpw");
+				user.setInvalidMessage("invpw");
 				return user;	
 			}
 			if (!user.containsOrg(org)) {
-				user.setInValidMessage("invorg");
+				user.setInvalidMessage("invorg");
 				return user;	
 			}
 

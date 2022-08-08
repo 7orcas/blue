@@ -50,13 +50,12 @@ public class LoginRest {
 	public JsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
 		
 		UserEnt user = service.getUser(req.u, req.p, req.o);
-System.out.println("User is " + (user==null?"null":" found, pw=" + user.getPassword()));		
 		
 		if (user == null) {
 			return new JsonRes().setError("invuid");			
 		}
 		if (!user.isValid()) {
-			return new JsonRes().setError(user.getInValidMessage());	
+			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 		
 				

@@ -150,5 +150,6 @@ Components
 Select : 
 npm i react-select
 npm i bootstrap
+npm install react-bootstrap bootstrap
 
 

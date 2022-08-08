@@ -23,7 +23,7 @@ import javax.persistence.MappedSuperclass;
 public class BaseEnt implements Serializable {
 	
 	@Id  
-	@GeneratedValue (strategy=GenerationType.SEQUENCE, generator="ID_SEQUENCE")
+	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private Integer org;

@@ -83,12 +83,6 @@ public class LangDao extends BaseDao {
 				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
 				"%2";
 		
-		//Filter by language pack
-		if (pack != null && pack.length() > 0) {
-			parms.addParameter("%" + pack + "%");
-			sql += "WHERE k.pack LIKE ? ";
-		}
-		
 		//Load default labels as well
 		String dlang = appProperties.get("LanguageDefault");
 		if (!dlang.equals(lang)) {
@@ -101,6 +95,12 @@ public class LangDao extends BaseDao {
 			sql = sql.replace("%2", "");	
 		}
 		
+		//Filter by language pack
+		if (pack != null && pack.length() > 0) {
+			parms.addParameter("%" + pack + "%");
+			sql += "WHERE k.pack LIKE ? ";
+		}
+				
 		sql += "ORDER BY k.code ";
 
 		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);

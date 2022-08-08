@@ -34,8 +34,8 @@ public class LoginDao extends BaseDao {
 	public UserEnt getUser (String userid) {
 		try {
 //			return em.find(UserEnt.class, 1L);
-			TypedQuery<UserEnt> tq = em.createQuery("FROM UserEnt AS t WHERE xxx = :uid1", UserEnt.class);
-			return tq.setParameter("uid1", userid).getSingleResult();
+			TypedQuery<UserEnt> tq = em.createQuery("FROM UserEnt WHERE xxx = :uid", UserEnt.class);
+			return tq.setParameter("uid", userid).getSingleResult();
 		} catch (Exception e) {
 			log.error("userid=" + userid + " error:" + e);
 			return null;

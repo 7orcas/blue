@@ -90,10 +90,10 @@ public class UserEnt extends BaseEnt {
 		return this;
 	}
 
-	public String getInValidMessage() {
+	public String getInvalidMessage() {
 		return inValidMessage;
 	}
-	public UserEnt setInValidMessage(String inValidMessage) {
+	public UserEnt setInvalidMessage(String inValidMessage) {
 		this.inValidMessage = inValidMessage;
 		return this;
 	}
