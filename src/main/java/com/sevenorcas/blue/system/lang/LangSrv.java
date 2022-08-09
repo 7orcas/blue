@@ -10,6 +10,7 @@ import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
 * Created July '22
@@ -29,7 +30,7 @@ public class LangSrv extends BaseSrv {
 	public JsonRes languagesJson(
     		CallObject callObj) throws Exception{
 		
-		List<LangDto> x = dao.languages(callObj, null);
+		List<LangDto> x = dao.languages(callObj, new SqlParm ().setActiveOnly());
 		List<LangJsonRes> y = new ArrayList<LangJsonRes>();
 		for (LangDto d : x) {
 			y.add(d.toJSon());

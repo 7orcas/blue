@@ -36,6 +36,8 @@ public class UserEnt extends BaseEnt {
     private Boolean valid;
 	@Transient
     private String inValidMessage;
+	@Transient
+    private Integer org;
 	
 	public UserEnt () {
 		
@@ -60,17 +62,27 @@ public class UserEnt extends BaseEnt {
 	public void setOrgs(String orgs) {
 		this.orgs = orgs;
 	}
-	public boolean containsOrg (Integer org) {
+	public boolean containsOrg(Integer org) {
 		String [] s = orgs != null? orgs.split(",") : new String [] {""};
 		for (String o : s) {
-			if (o.equals(org.toString())) {
+			if (org != null && o.equals(org.toString())) {
+				this.org = org;
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	
+	public void setDefaultOrg() {
+		try {
+			String [] s = orgs != null? orgs.split(",") : new String [] {""};
+			org = Integer.parseInt(s[0]);
+		} catch (Exception x) {
+		}
+	}
+	public Integer getOrg() {
+		return org;
+	}
+
 	public Integer getAttempts() {
 		return attempts;
 	}
