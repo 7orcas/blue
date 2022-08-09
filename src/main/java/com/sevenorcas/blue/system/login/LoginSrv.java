@@ -32,7 +32,7 @@ public class LoginSrv extends BaseSrv {
 	 * @param org
 	 * @return User object with valid flag (or null if no valid user id) 
 	 */
-	public UserEnt getUser (String userid, String pw, Integer org) {
+	public UserEnt getUserAndValidate (String userid, String pw, Integer org) {
 		
 		UserEnt user = dao.getUser (userid); 
 		

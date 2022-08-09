@@ -47,23 +47,25 @@ public class LoginRest {
 	
 	@POST
 	@Path("web")
-	public JsonRes login(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
+	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
 		
-		UserEnt user = service.getUser(req.u, req.p, req.o);
+		UserEnt user = service.getUserAndValidate(req.u, req.p, req.o);
 		
+		//Invalid user id
 		if (user == null) {
 			return new JsonRes().setError("invuid");			
 		}
+		//Login can't be validated
 		if (!user.isValid()) {
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 		
 				
-		//Success !
+		//Success! Set parameters for client to open web gui
 		HttpSession s = httpRequest.getSession(true);
 		
 		ClientSession u = new ClientSession()
-				.setOrgNr(req.o)
+				.setOrgNr(user.getOrg())
 				.setLang(req.l);
 		
 		LoginJsonRes j = new LoginJsonRes();
@@ -82,18 +84,6 @@ public class LoginRest {
 		return new JsonRes().setData(j);
     }
 
-	/**
-	 * TODO delete
-	 * @return
-	 */
-	@SkipAuthorisation
-	@GET
-	@Path("ping")
-	public String login() {
-		
-System.out.println("login ping");		
-		return "ok";
-    }
 	
 	
 }
