@@ -1,7 +1,6 @@
 package com.sevenorcas.blue.app.login;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -18,8 +17,9 @@ import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
-import com.sevenorcas.blue.system.login.LoginCache;
+import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.login.LoginCache;
 
 /**
  * 
@@ -44,10 +44,11 @@ public class Login2Rest extends BaseRest {
 	 * @param httpRequest
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@SkipAuthorisation
 	@GET
 	@Path("init-web")
-    public Login2JsonRes login2Web(@Context HttpServletRequest httpRequest,
+    public JsonRes login2Web(@Context HttpServletRequest httpRequest,
     		@QueryParam("SessionID") String sid) {
 
 		try {
@@ -72,7 +73,7 @@ public class Login2Rest extends BaseRest {
 			r.o = clientSes.getOrgNr();
 			r.l = clientSes.getLang();
 			r.u ="admin";
-			return r;
+			return new JsonRes().setData(r);
 		
 		//Not a valid attempt
 		} catch (Exception e) {

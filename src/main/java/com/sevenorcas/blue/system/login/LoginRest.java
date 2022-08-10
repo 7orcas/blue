@@ -36,9 +36,6 @@ public class LoginRest {
 	
 	private AppProperties appProperties = AppProperties.getInstance();
 
-	@PersistenceContext(unitName="blue")
-	protected EntityManager em;
-	
 	@EJB
 	private LoginCache cache;
 	
