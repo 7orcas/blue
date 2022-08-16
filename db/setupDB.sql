@@ -20,7 +20,7 @@ create table sys.base
     encoded_flag integer,
     active boolean default true
 );
-alter table base OWNER to postgres;
+alter table sys.base OWNER to postgres;
 
 
 create table cntrl.org

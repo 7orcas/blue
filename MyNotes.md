@@ -86,6 +86,25 @@ in project folder: tsc --init (create config file)
 - Use tuts/ts/tsconfig.json as configuration file
 
 
+CSS
+---
+npm install normalize.css
+import 'normalize.css'; (in top js file)
+https://nicolasgallagher.com/about-normalize-css/
+
+Font Awesome
+------------
+https://fontawesome.com/docs/web/use-with/react/
+https://fontawesome.com/docs/web/add-icons/how-to
+
+npm i --save @fortawesome/fontawesome-svg-core
+free:
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/free-regular-svg-icons
+react component
+npm i --save @fortawesome/react-fontawesome@latest
+
+
 React
 -----
 Used npm to install React (created tutorial via npx create-react-app react-task-tracker - took 2 goes as it timed out)
@@ -151,5 +170,13 @@ Select :
 npm i react-select
 npm i bootstrap
 npm install react-bootstrap bootstrap
+
+Menu
+----
+https://szhsin.github.io/react-menu
+npm install @szhsin/react-menu
+
+
+
 
 
