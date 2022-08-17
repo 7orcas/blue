@@ -92,6 +92,12 @@ npm install normalize.css
 import 'normalize.css'; (in top js file)
 https://nicolasgallagher.com/about-normalize-css/
 
+Install Sass
+- VS Code extension: Sass
+- VS Code extension: Live Sass Compiler
+npm i -D node-sass
+npm i -D @types/node-sass
+
 Font Awesome
 ------------
 https://fontawesome.com/docs/web/use-with/react/
