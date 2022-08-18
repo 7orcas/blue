@@ -1,22 +1,15 @@
 package com.sevenorcas.blue.system.org;
 
 import java.lang.invoke.MethodHandles;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-import javax.ws.rs.QueryParam;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.app.Label;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlExecute;

@@ -35,9 +35,7 @@ public class LangDao extends BaseDao {
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
 
-	public List<LangDto> languages(
-    		CallObject callObj,
-    		SqlParm parms) throws Exception {
+	public List<LangDto> languages(SqlParm parms) throws Exception {
 		
 		parms = validateParms(parms);
 		
@@ -69,7 +67,6 @@ public class LangDao extends BaseDao {
 
 	
 	public List<LabelDto> langPackage(
-    		CallObject callObj,
     		SqlParm parms,
     		String pack,
     		String lang) throws Exception {

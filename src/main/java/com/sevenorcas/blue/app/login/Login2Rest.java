@@ -20,6 +20,8 @@ import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.login.ClientSession;
 import com.sevenorcas.blue.system.login.LoginCache;
+import com.sevenorcas.blue.system.login.LoginSrv;
+import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
  * 
@@ -33,9 +35,9 @@ import com.sevenorcas.blue.system.login.LoginCache;
 @Consumes({"application/json"})
 public class Login2Rest extends BaseRest {
 
-	@PersistenceContext(unitName="blue")
-	protected EntityManager em;
-
+	@EJB
+	private LoginSrv service;
+	
 	@EJB
 	private LoginCache cache;
 	
@@ -66,13 +68,17 @@ public class Login2Rest extends BaseRest {
 			Integer nextSes = clientSessions.size();
 			clientSessions.put(nextSes, clientSes.setSessionNr(nextSes));
 			
+			//Get User configuration, eg roles
+			String userid = service.getUserid(clientSes.getUserId());
+			String roles = service.getUserRolesAsString(clientSes.getUserId());
 			
 			//Return the base usn number for the client to use in all coms
 			Login2JsonRes r = new Login2JsonRes();
+			r.u = userid; 
 			r.b = CLIENT_SESSION_NR + clientSes.getSessionNr() + "/";
 			r.o = clientSes.getOrgNr();
 			r.l = clientSes.getLang();
-			r.u ="admin";
+			r.r = roles;
 			return new JsonRes().setData(r);
 		
 		//Not a valid attempt

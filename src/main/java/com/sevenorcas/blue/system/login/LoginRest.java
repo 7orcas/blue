@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
  * Part 1 of the login process 
@@ -61,7 +62,7 @@ public class LoginRest {
 		//Success! Set parameters for client to open web gui
 		HttpSession s = httpRequest.getSession(true);
 		
-		ClientSession u = new ClientSession()
+		ClientSession u = new ClientSession(user.getId())
 				.setOrgNr(user.getOrg())
 				.setLang(req.l);
 		

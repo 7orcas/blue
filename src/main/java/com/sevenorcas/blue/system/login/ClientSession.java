@@ -9,11 +9,18 @@ package com.sevenorcas.blue.system.login;
 
 public class ClientSession {
 
+	private Long userId;
 	private Integer sessionNr;
 	private Integer orgNr;
 	private String lang;
+
+	public ClientSession (Long userId) {
+		this.userId = userId;
+	}
 	
-	
+	public Long getUserId() {
+		return userId;
+	}
 	public Integer getSessionNr() {
 		return sessionNr;
 	}

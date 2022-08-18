@@ -1,9 +1,13 @@
 package com.sevenorcas.blue.system.login;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
 * Created July '22
@@ -49,6 +53,11 @@ public class LoginSrv extends BaseSrv {
 				return user;	
 			}
 			
+			if (!user.isActive()) {
+				user.setInvalidMessage("inarec");
+				return user;	
+			}
+			
 			if (org == null) {
 				user.setDefaultOrg();
 			}
@@ -68,5 +77,41 @@ public class LoginSrv extends BaseSrv {
 		return user;
 	}
 
+	/**
+	 * Return userid for the passed in user id
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUserid (Long userId) throws Exception {
+		return dao.getUserid(userId, new SqlParm());
+	}
+	
+	
+	/**
+	 * Return list of roles for the passed in user id
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<String> getUserRoles (Long userId) throws Exception {
+		return dao.getUserRoles(userId, new SqlParm().setActiveOnly());
+	}
+	
+	/**
+	 * Return comma separated list of roles for the passed in user id
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUserRolesAsString (Long userId)  throws Exception {
+		List<String> roles = getUserRoles(userId);
+		StringBuffer sb = new StringBuffer();
+		for (int i=0;i<roles.size();i++) {
+			sb.append((sb.length()>0?",":"") + roles.get(i));
+		}
+		return sb.toString();
+	}
+	
 	
 }

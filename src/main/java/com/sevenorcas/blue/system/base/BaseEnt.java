@@ -32,11 +32,10 @@ public class BaseEnt implements Serializable {
     private String encoded;
     @Column(name="encoded_flag")
     private Integer encodedFlag;
+    private Boolean active;
     
     public BaseEnt () {
-    	
     }
-    
     
 	public Long getId() {
 		return id;
@@ -73,6 +72,12 @@ public class BaseEnt implements Serializable {
 	}
 	public void setEncodedFlag(Integer encoded_flag) {
 		this.encodedFlag = encoded_flag;
+	}
+	public boolean isActive() {
+		return active != null && active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
     
 }

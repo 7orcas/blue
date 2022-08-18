@@ -1,6 +1,7 @@
 drop table if exists cntrl.lang_label;
 drop table if exists cntrl.lang_key;
 drop table if exists cntrl.lang;
+drop table if exists cntrl.role;
 drop table if exists cntrl.zzz;
 drop table if exists cntrl.org;
 drop table if exists sys.base;
@@ -41,6 +42,19 @@ create table cntrl.zzz
 ) INHERITS (sys.base);
 alter table cntrl.zzz OWNER to postgres;
 
+create table cntrl.role
+(
+	id bigserial primary key
+) INHERITS (sys.base);
+alter table cntrl.role OWNER to postgres;
+
+create table cntrl.zzz_role
+(
+	id bigserial primary key,
+    id_zzz bigint references cntrl.zzz (id),
+    id_role bigint references cntrl.role (id)
+) INHERITS (sys.base);
+alter table cntrl.zzz_role OWNER to postgres;
 
 create table cntrl.lang
 (

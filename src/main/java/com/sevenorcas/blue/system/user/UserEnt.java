@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.login;
+package com.sevenorcas.blue.system.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -109,9 +109,5 @@ public class UserEnt extends BaseEnt {
 		this.inValidMessage = inValidMessage;
 		return this;
 	}
-	
-	
-	
-	
 	
 }

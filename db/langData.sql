@@ -29,8 +29,10 @@ INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (19, 'molds',  
 INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (20, 'machines', '',      0, NOW());
 INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (21, 'shifts',   '',      0, NOW());
 INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (22, 'fixes',    '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (23, 'cThemeL',   '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (24, 'cThemeD',   '',      0, NOW());
+INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (23, 'themeL',   '',      0, NOW());
+INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (24, 'themeD',   '',      0, NOW());
+INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (25, 'editLabels','',     0, NOW());
+INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (26, 'inarec',   '',      0, NOW());
 
 
 INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (1, 1, 'en', 'User ID',      0, NOW());
@@ -55,8 +57,10 @@ INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES 
 INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (20, 20, 'en', 'Machines',   0, NOW());
 INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (21, 21, 'en', 'Shifts',   0, NOW());
 INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (22, 22, 'en', 'Fixes',    0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (23, 23, 'en', 'Change to Light Theme',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (24, 24, 'en', 'Change to Dark Theme',   0, NOW());
+INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (23, 23, 'en', 'Light Theme',   0, NOW());
+INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (24, 24, 'en', 'Dark Theme',   0, NOW());
+INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (25, 25, 'en', 'Edit Labels',  0, NOW());
+INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (26, 26, 'en', 'Inactive Record',  0, NOW());
 
 INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (1, 101, 'de', 'Benutser ID',  0, NOW());
 INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (2, 102, 'de', 'Passwort',     0, NOW());

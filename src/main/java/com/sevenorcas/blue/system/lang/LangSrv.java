@@ -30,7 +30,7 @@ public class LangSrv extends BaseSrv {
 	public JsonRes languagesJson(
     		CallObject callObj) throws Exception{
 		
-		List<LangDto> x = dao.languages(callObj, new SqlParm ().setActiveOnly());
+		List<LangDto> x = dao.languages(new SqlParm ().setActiveOnly());
 		List<LangJsonRes> y = new ArrayList<LangJsonRes>();
 		for (LangDto d : x) {
 			y.add(d.toJSon());
@@ -51,7 +51,7 @@ public class LangSrv extends BaseSrv {
 			return new JsonRes().setError("Don't actually have this language pack :-)");
 		}
 		
-		List<LabelDto> x = dao.langPackage(callObj, null, pack, lang);
+		List<LabelDto> x = dao.langPackage(null, pack, lang);
 		List<LabelJsonRes> y = new ArrayList<LabelJsonRes>();
 		for (LabelDto d : x) {
 			y.add(d.toJSon());

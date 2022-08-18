@@ -1,6 +1,8 @@
 package com.sevenorcas.blue.system.login;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,6 +13,9 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.sql.SqlExecute;
+import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
 * Created July '22
@@ -31,48 +36,86 @@ public class LoginDao extends BaseDao {
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
 
+	/**
+	 * Return the user entity
+	 * @param userid
+	 * @return
+	 */
 	public UserEnt getUser (String userid) {
 		try {
-//			return em.find(UserEnt.class, 1L);
-			TypedQuery<UserEnt> tq = em.createQuery("FROM UserEnt WHERE xxx = :uid", UserEnt.class);
-			return tq.setParameter("uid", userid).getSingleResult();
+			TypedQuery<UserEnt> tq = em.createQuery("FROM com.sevenorcas.blue.system.user.UserEnt WHERE xxx = :userid", UserEnt.class);
+			return tq.setParameter("userid", userid).getSingleResult();
 		} catch (Exception e) {
 			log.error("userid=" + userid + " error:" + e);
 			return null;
 		}
 	}
 	
+	/**
+	 * Return userid for the passed in user id
+	 * @param userId
+	 * @param parms
+	 * @return
+	 * @throws Exception
+	 */
+	public String getUserid (Long userId,
+		SqlParm parms) throws Exception {
 	
-//DELETE	
-//	public LoginDto login(
-//    		SqlParm parms,
-//    		String userid,
-//    		String pw,
-//    		Integer org) throws Exception {
-//		
-//		parms = validateParms(parms);
-//		
-//		String sql = "SELECT l.id, l.xxx, l.yyy, l.attempts " +
-//				"FROM cntrl.zzz AS l " + 
-//				"WHERE l.xxx";
-//		
-//		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
-//		List<LoginDto> list = new ArrayList<>();
-//		
-//		// Extract data from result set
-//		for (int i=0;i<r.size();i++) {
-//			LoginDto d = new LoginDto();
-//			list.add(d);
-//			Object[] row = r.get(i);
-//						
-//			d.setId((Long)row[0])
-//			 .setOrg((Integer)row[1])
-//			 .setCode((String)row[2])
-//			 .setDescr((String)row[3])
-//			 .setDefaultValue(appProperties.get("LanguageDefault").equals((String)row[2]));
-//		}
-//		return new LoginDto();
-//    }
+		parms = validateParms(parms);
+	
+		String sql;
+		sql = "SELECT u.xxx " 
+				+ "FROM cntrl.zzz AS u "
+				+ "WHERE u.id = " + userId;
+		
+		if (parms.isActiveOnly()) {
+			sql += "AND u.active = TRUE"; 	
+		}
+
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+	
+		// Extract data from result set
+		if (r.size() > 0) {
+			Object[] row = r.get(0);
+			return (String)row[0];
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Return list of roles for the passed in user id
+	 * @param userId
+	 * @param parms
+	 * @return
+	 * @throws Exception
+	 */
+	public List<String> getUserRoles (Long userId,
+		SqlParm parms) throws Exception {
+	
+		parms = validateParms(parms);
+	
+		String sql;
+		sql = "SELECT r.code " 
+				+ "FROM cntrl.role AS r "
+				+ "JOIN cntrl.zzz_role AS j ON j.id_role = r.id "
+				+ "WHERE j.id_zzz = " + userId;
+		
+		if (parms.isActiveOnly()) {
+			sql += "AND r.active = TRUE"; 	
+		}
+
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		List<String> list = new ArrayList<>();
+	
+		// Extract data from result set
+		for (int i=0;i<r.size();i++) {
+			Object[] row = r.get(i);
+			list.add((String)row[0]);
+		}
+		
+		return list;
+	}
 
 	
 	
