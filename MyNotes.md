@@ -182,7 +182,11 @@ Menu
 https://szhsin.github.io/react-menu
 npm install @szhsin/react-menu
 
-
-
+Tables
+------
+Using React Table: https://react-table-v7.tanstack.com/
+https://react-table-v7.tanstack.com/docs/quick-start
+npm install react-table --save
+npm install --save @types/react-table
 
 

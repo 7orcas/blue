@@ -1,75 +1,32 @@
 
-DELETE FROM cntrl.lang_label;
-DELETE FROM cntrl.lang_key; 
-DELETE FROM cntrl.lang;
+delete from cntrl.lang_label;
+delete from cntrl.lang_key; 
+delete from cntrl.lang;
 
-INSERT INTO cntrl.lang (id, code, descr, org, created) VALUES (1, 'en', 'English', 0, NOW());
-INSERT INTO cntrl.lang (id, code, descr, org, created) VALUES (2, 'de', 'Deutsch', 0, NOW());
-INSERT INTO cntrl.lang (id, code, descr, org, created) VALUES (3, 'es', 'Espanol', 0, NOW());
-
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (1, 'userid',    'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (2, 'pw',        'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (3, 'org',       'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (4, 'login',     'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (5, 'yes',       '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (6, 'no',        '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (7, 'lang',      'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (8, 'loginT',    'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (9, 'maxatt',    'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (10, 'invorg',   'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (11, 'invpw',    'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (12, 'invuid',   'login', 0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (13, 'appname',  '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (14, 'planmat',  '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (15, 'startmo',  '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (16, 'simus',    '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (17, 'mastdat',  '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (18, 'styles',   '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (19, 'molds',    '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (20, 'machines', '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (21, 'shifts',   '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (22, 'fixes',    '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (23, 'themeL',   '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (24, 'themeD',   '',      0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (25, 'editLabels','',     0, NOW());
-INSERT INTO cntrl.lang_key (id, code, pack, org, created) VALUES (26, 'inarec',   '',      0, NOW());
+insert into cntrl.lang (id, code, descr, org, created) values (1, 'en', 'English', 0, NOW());
+insert into cntrl.lang (id, code, descr, org, created) values (2, 'de', 'Deutsch', 0, NOW());
+insert into cntrl.lang (id, code, descr, org, created) values (3, 'es', 'Espanol', 0, NOW());
 
 
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (1, 1, 'en', 'User ID',      0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (2, 2, 'en', 'Password',     0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (3, 3, 'en', 'Organisation', 0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (4, 4, 'en', 'GO Login',     0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (5, 5, 'en', 'Yes',          0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (6, 6, 'en', 'No',           0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (7, 7, 'en', 'Language',     0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (8, 8, 'en', 'Login to Blue',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (9, 9, 'en', 'Max. Login Attempts Exceeded',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (10, 10, 'en', 'No Permission for Organisation',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (11, 11, 'en', 'Invalid Password (%1 of %2 attempts)',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (12, 12, 'en', 'Invalid UserID / Password',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (13, 13, 'en', 'Blue Planning',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (14, 14, 'en', 'Preplan',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (15, 15, 'en', 'Start Molds',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (16, 16, 'en', 'Simulations',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (17, 17, 'en', 'Master Data',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (18, 18, 'en', 'Styles',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (19, 19, 'en', 'Molds',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (20, 20, 'en', 'Machines',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (21, 21, 'en', 'Shifts',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (22, 22, 'en', 'Fixes',    0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (23, 23, 'en', 'Light Theme',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (24, 24, 'en', 'Dark Theme',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (25, 25, 'en', 'Edit Labels',  0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (26, 26, 'en', 'Inactive Record',  0, NOW());
+drop table if exists sys._lang;
+create table sys._lang
+(
+  code       varchar,
+  pack       varchar,
+  org        int,
+  en         varchar,
+  de         varchar
+  );
 
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (1, 101, 'de', 'Benutser ID',  0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (2, 102, 'de', 'Passwort',     0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (3, 103, 'de', 'Organisation', 0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (4, 104, 'de', 'Anmeldung',    0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (5, 105, 'de', 'Ja',           0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (6, 106, 'de', 'Nein',         0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (7, 107, 'de', 'Sprache',      0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (9, 109, 'de', '(D) Max. Login Attempts Exceeded',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (10, 110, 'de', '(D) No Permission for Organisation',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (11, 111, 'de', '(D) Invalid Password (%1 of %2 attempts)',   0, NOW());
-INSERT INTO cntrl.lang_label (id_lang_key, id, lang, code, org, created) VALUES (12, 112, 'de', '(D) Invalid UserID / Password',   0, NOW());
+\copy sys._lang from '/media/jarvisting/Jarvis/projects/blue/db/labels.csv' with DELIMITER ','  CSV  ENCODING 'UTF-8';  
+
+alter table sys._lang add column lang_key_id bigint;
+alter table sys._lang add column en_id bigint;
+alter table sys._lang add column de_id bigint;
+update sys._lang set lang_key_id = NEXTVAL('cntrl.lang_key_id_seq');
+update sys._lang set en_id = NEXTVAL('cntrl.lang_label_id_seq');
+update sys._lang set de_id = NEXTVAL('cntrl.lang_label_id_seq'); --need to repeat new id's for each language
+
+insert into cntrl.lang_key (id, code, pack, org, created) select lang_key_id, code, pack, org, NOW() from sys._lang;
+insert into cntrl.lang_label (id_lang_key, id, lang, code, org, created) select lang_key_id, en_id, 'en', en, org, NOW() from sys._lang where length(en) > 0;
+insert into cntrl.lang_label (id_lang_key, id, lang, code, org, created) select lang_key_id, de_id, 'de', de, org, NOW() from sys._lang where length(de) > 0;

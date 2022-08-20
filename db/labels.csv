@@ -1,0 +1,59 @@
+userid,login,0,User ID,Benutser ID
+pw,login,0,Password,Passwort
+org,login,0,Organisation,Organisation
+login,login,0,Login,Anmeldung
+lang,login,0,Language,Sprache
+loginT,login,0,Login into Blue,(D) Max. Login Attempts Exceeded
+maxatt,login,0,Max. Login Attempts Exceeded,(D) No Permission for Organisation
+invorg,login,0,No Permission for Organisation,(D) Invalid Password (%1 of %2 attempts)
+invpw,login,0,Invalid Password (%1 of %2 attempts),Passwort Ungültig
+invuid,login,0,Unknown UserID / Password,Unbekannt Benutzer/Passwort
+yes,login,0,Yes,Ja
+no,login,0,No,Nein
+brwver,sys,0,Your browser version has not been tested for this application (minimum requirement is: %1).,Dieses Programm wurde mit Ihrer Browserversion nicht getestet (Mindestanforderungen sind: %1).
+brwupd,sys,0,Please update your browser.,Bitte aktualisieren Sie Ihren Browser.
+passnew,sys,0,New Password,Neues Passwort
+passchg,sys,0,Change Password,Passwort ändern
+passchgd,sys,0,Password Changed,Passwort geändert
+passconf,sys,0,Confirm New Password,Neues Passwort bestätigen
+passlen,sys,0,Passwords must contain a minimum of %% characters.,Neue Passwörter müssen mindestens %1 Zeichen lang sein.
+passinc,sys,0,"They must include at least 1 of each of the following: upper case, lower case, number and special characters %1","Sie müssen folgende Bedingungen erfüllen: mindestens je einen Großbuchstaben, Kleinbuchstaben, eine Ziffer und eines dieser Sonderzeichen %1"
+stimeout,sys,0,Your session has timed-out due to inactivity. Please re-login.,Die Session ist wegen Inaktivität abgelaufen. Bitte erneut einloggen.
+relogin,sys,0,"Your access has timed out, please relogin",Sitzung abgelaufen. Bitte erneut einloggen.
+logout,sys,0,Logout,Abmelden
+loggedout,sys,0,Logged out,Abgemeldet
+cancel,sys,0,Cancel,Abbrechen
+clear,sys,0,Clear,Leeren
+close,sys,0,Close,Schliessen
+delete,sys,0,Delete,Löschen
+desc,sys,0,Description,Bezeichnung
+help,sys,0,Help,Hilfe
+invalid,,,Invalid,Ungültig
+std,,,Standard,Standard
+blank,,,Blank,Leer
+mandatory,,,Mandatory,Pflichtfeld
+message,,,Message,Meldung
+type,,,Type,Typ
+appname,,0,Blue Planning,
+planmat,,0,Preplan,
+startmo,,0,Start Molds,
+simus,,0,Simulations,
+mastdat,,0,Master Data,
+styles,,0,Styles,Modelle
+molds,,0,Molds,
+machines,,0,Machines,Maschinen
+shifts,,0,Shifts,Schichten
+fixes,,0,Fixes,
+themeL,,0,Light Theme,
+themeD,,0,Dark Theme,
+editLabels,,0,Edit Labels,
+inarec,,0,Inactive Record,
+plnhorz,,0,Planning horizon,Planungshorizont
+cmpltso,,0,Complete Sales Orders first,Vollständige Aufträge zuerst
+nxtship,,0,Next Shipment,Nächste Lieferung
+nxtshipd,,0,Shipment Date,Lieferung Datum
+nxtshipid,,0,Shipment ID,Lieferung Nummer
+starttime,gen,0,Start Time,Startzeit
+endtime,gen,0,End Time,Endzeit
+capacity,,0,Capacity,Kapazität
+today,gen,0,Today,Heute

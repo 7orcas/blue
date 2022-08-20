@@ -43,7 +43,6 @@ public class LangRest extends BaseRest {
     public JsonRes pack(
     		@QueryParam ("co") CallObject callObj) throws Exception {
 		log.info("pack for lang=" + callObj.getLang());	
-//System.out.println("lang org=" + callObj.getOrg().getOrg());		
 		return service.langPackageJson(callObj, null, callObj.getLang());
     }
 	
