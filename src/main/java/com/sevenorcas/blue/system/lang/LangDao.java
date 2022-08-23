@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
@@ -15,6 +16,7 @@ import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
 * Created July '22
@@ -130,5 +132,62 @@ public class LangDao extends BaseDao {
     	return entity;
     }
 	
-	
+    /**
+     * Return the <code>LangKeyEnt</code> entity id
+     * @param parms
+     * @param label
+     * @return
+     */
+    public Long getLangKeyId (
+			SqlParm parms,
+    		String label) throws Exception {
+		
+    	parms = validateParms(parms);
+		parms.addParameter(label);
+		
+		String sql;
+		sql = "SELECT k.id " +
+				"FROM cntrl.lang_key AS k " + 
+				"WHERE k.code = ?";
+		
+		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		Long id = null;
+		
+		// Extract data from result set
+		for (int i=0;i<r.size();i++) {
+			Object[] row = r.get(i);
+			id = row[0] != null? (Long)row[0] : null;
+		}
+		
+    	return id;
+	}
+    
+    
+    
+	/**
+	 * Return a list of <code>LangLabelEnt</code> entities
+	 * A language label may exist for mulitple orgs
+	 * 
+	 * @param idLangKey
+	 * @param lang
+	 * @return
+	 */
+	public List<LangLabelEnt> getLangLabel (Long idLangKey, String lang) {
+		try {
+			TypedQuery<LangLabelEnt> tq = em.createQuery(
+					"FROM com.sevenorcas.blue.system.lang.LangLabelEnt "
+					+ "WHERE id_lang_key = :idLangKey "
+					+ "AND lang = :lang", 
+					LangLabelEnt.class);
+			return tq.setParameter("idLangKey", idLangKey)
+					.setParameter("lang", lang)
+					.getResultList();
+		} catch (Exception e) {
+			log.error("idLangKey=" + idLangKey + ", lang=" + lang + " error:" + e);
+			return null;
+		}
+	}
+
+    
+    
 }

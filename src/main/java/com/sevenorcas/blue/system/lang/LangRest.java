@@ -82,6 +82,23 @@ public class LangRest extends BaseRest {
 		return service.langPackageJson(callObj, "login", lang);
     }
 	
+	/**
+	 * Return the complete label entity(s)
+	 * A language label may have multiple orgs
+	 * 
+	 * @param callObj
+	 * @param label
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("label")
+    public JsonRes getLabel(
+    		@QueryParam ("co") CallObject callObj,
+    		@QueryParam ("label") String label) throws Exception {
+		return new JsonRes().setData(service.getLabelJson(callObj, label));
+    }
+	
 	
 	@POST
 	@Path("update")

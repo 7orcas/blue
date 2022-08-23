@@ -110,6 +110,10 @@ npm i --save @fortawesome/free-regular-svg-icons
 react component
 npm i --save @fortawesome/react-fontawesome@latest
 
+usage ex:
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
+
 
 React
 -----
@@ -144,11 +148,15 @@ Deployment 02tutb
 
 XXX npm install --save-dev gulp gulp-inline-source gulp-replace    for bundling build into one file
 npm run build
-mvn install
-cp to deployments directory
+
 XXX "homepage": "/blue",
 
 *** styled-components for css stuff
+
+War file
+--------
+mvn install
+cp to deployments directory: cp deployments/blue-web.war /opt/wildfly/standalone/deployments/
 
 React + TypeScript
 ------------------
@@ -177,6 +185,10 @@ npm i react-select
 npm i bootstrap
 npm install react-bootstrap bootstrap
 
+https://mui.com/
+npm install @mui/material @emotion/react @emotion/styled
+
+
 Menu
 ----
 https://szhsin.github.io/react-menu
@@ -184,9 +196,15 @@ npm install @szhsin/react-menu
 
 Tables
 ------
+1.
 Using React Table: https://react-table-v7.tanstack.com/
 https://react-table-v7.tanstack.com/docs/quick-start
 npm install react-table --save
 npm install --save @types/react-table
+2.
+https://reactdatagrid.io/docs/
+npm install @inovua/reactdatagrid-community --save
+
+
 
 

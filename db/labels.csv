@@ -16,7 +16,7 @@ passnew,sys,0,New Password,Neues Passwort
 passchg,sys,0,Change Password,Passwort ändern
 passchgd,sys,0,Password Changed,Passwort geändert
 passconf,sys,0,Confirm New Password,Neues Passwort bestätigen
-passlen,sys,0,Passwords must contain a minimum of %% characters.,Neue Passwörter müssen mindestens %1 Zeichen lang sein.
+passlen,sys,0,Passwords must contain a minimum of %1 characters.,Neue Passwörter müssen mindestens %1 Zeichen lang sein.
 passinc,sys,0,"They must include at least 1 of each of the following: upper case, lower case, number and special characters %1","Sie müssen folgende Bedingungen erfüllen: mindestens je einen Großbuchstaben, Kleinbuchstaben, eine Ziffer und eines dieser Sonderzeichen %1"
 stimeout,sys,0,Your session has timed-out due to inactivity. Please re-login.,Die Session ist wegen Inaktivität abgelaufen. Bitte erneut einloggen.
 relogin,sys,0,"Your access has timed out, please relogin",Sitzung abgelaufen. Bitte erneut einloggen.
@@ -28,13 +28,14 @@ close,sys,0,Close,Schliessen
 delete,sys,0,Delete,Löschen
 desc,sys,0,Description,Bezeichnung
 help,sys,0,Help,Hilfe
-invalid,,,Invalid,Ungültig
-std,,,Standard,Standard
-blank,,,Blank,Leer
-mandatory,,,Mandatory,Pflichtfeld
-message,,,Message,Meldung
-type,,,Type,Typ
-appname,,0,Blue Planning,
+invalid,,0,Invalid,Ungültig
+std,,0,Standard,Standard
+blank,,0,Blank,Leer
+mandatory,,0,Mandatory,Pflichtfeld
+message,,0,Message,Meldung
+type,,0,Type,Typ
+appname,,0,Blue Planning,(D) Blue Planning
+appname,,1,Blue PlanningX,(D) Blue PlanningX
 planmat,,0,Preplan,
 startmo,,0,Start Molds,
 simus,,0,Simulations,

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
@@ -58,5 +59,49 @@ public class LangSrv extends BaseSrv {
 		}
 		return new JsonRes().setData(y);
     }
+	
+	/**
+	 * Return the complete label entity(s)
+	 * A language label may have multiple orgs
+	 * 
+	 * @param callObj
+	 * @param label
+	 * @return
+	 * @throws Exception
+	 */
+	public List<LangLabelJson> getLabelJson(
+    		CallObject callObj,
+    		String label) throws Exception {
+	
+		try{
+			List<LangLabelEnt> x = getLabel(callObj, label);
+			List<LangLabelJson>	y = new ArrayList<>();	
+			for (LangLabelEnt l : x) {
+				y.add(new LangLabelJson(l));
+			}
+			return y;
+
+		} catch (Exception e) {
+			return null;
+		}
+    }
+	
+	/**
+	 * Return the complete label entity
+ 	 * A language label may have multiple orgs
+ 	 * 
+	 * @param callObj
+	 * @param label
+	 * @return
+	 * @throws Exception
+	 */
+	public List<LangLabelEnt> getLabel(
+    		CallObject callObj,
+    		String label) throws Exception {
+		
+		Long id = dao.getLangKeyId(null, label);
+		return dao.getLangLabel(id, callObj.getLang());
+    }
+	 
 	
 }

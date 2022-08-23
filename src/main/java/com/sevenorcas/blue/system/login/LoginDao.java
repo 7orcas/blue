@@ -37,7 +37,7 @@ public class LoginDao extends BaseDao {
 	protected EntityManager em;
 
 	/**
-	 * Return the user entity
+	 * Return the <code>UserEnt</code> entity
 	 * @param userid
 	 * @return
 	 */
