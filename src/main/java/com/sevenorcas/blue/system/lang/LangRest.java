@@ -96,15 +96,21 @@ public class LangRest extends BaseRest {
     public JsonRes getLabel(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("label") String label) throws Exception {
+		if (label == null) {
+			return new JsonRes().setError("Invalid Label");
+		}
 		return new JsonRes().setData(service.getLabelJson(callObj, label));
     }
 	
 	
 	@POST
-	@Path("update")
-    public LabelJsonRes langUpdate(
+	@Path("label")
+    public LabelJsonRes postLabel(
     		@QueryParam ("co") CallObject callObj, 
-    		LangJsonReq key) {
+    		List<LangLabelJson> list) {
+		
+for (int i=0;list!=null && i<list.size();i++)		
+	System.out.println(list.get(i).code + " id=" + list.get(i).id);
 		
 		LabelJsonRes r = new LabelJsonRes();
 				

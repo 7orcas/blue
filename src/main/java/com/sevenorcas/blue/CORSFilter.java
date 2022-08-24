@@ -46,7 +46,8 @@ public class CORSFilter implements ContainerResponseFilter {
 		for (String domain: whiteList) {
 			if (domain.equals(req.getHeaders().get("Origin").get(0))) {
 				res.getHeaders().add("Access-Control-Allow-Origin", domain);
-				res.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
+				res.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, Access-Control-Allow-Origin");
+//				res.getHeaders().add("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
 				res.getHeaders().add("Access-Control-Allow-Credentials", "true");
 				res.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 				res.getHeaders().add("Access-Control-Max-Age", "1209600");

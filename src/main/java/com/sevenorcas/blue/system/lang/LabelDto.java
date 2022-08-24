@@ -20,7 +20,7 @@ public class LabelDto extends BaseDto<LabelDto> {
 	public LabelJsonRes toJSon() {
 		LabelJsonRes j = new LabelJsonRes();
 		super.toJSon(j);
-		j.l = label;
+		j.label = label;
 		j.id_key = id_lang_key;
 		return j;
 	}

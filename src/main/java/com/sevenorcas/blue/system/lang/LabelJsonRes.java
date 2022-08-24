@@ -12,7 +12,7 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class LabelJsonRes extends BaseJsonRes{
-	public String l;
-	public String p;
+	public String label;
+	public String pack;
 	public Long id_key;
 }

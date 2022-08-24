@@ -13,6 +13,18 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 public class LangLabelJson extends BaseJsonRes{
 	public Long idLangKey;
 	
+	public LangLabelJson () {
+		
+	}
+	
+	/**
+	 * JSON string constructor
+	 * @param String JSON object
+	 */
+	public LangLabelJson(String json) throws Exception{
+System.out.println(json);		
+	}
+	
 	public LangLabelJson (LangLabelEnt ent) {
 		this.initialise(ent);
 		idLangKey = ent.getIdLangKey();	

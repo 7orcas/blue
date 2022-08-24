@@ -12,16 +12,16 @@ import com.sevenorcas.blue.system.lang.LangLabelEnt;
 */
 
 public class BaseJsonRes {
-	public Long i;
-	public String c;
-	public Integer o;
-	public Boolean a;
+	public Long id;
+	public String code;
+	public Integer org;
+	public Boolean active;
 	
 	public void initialise (BaseEnt ent) {
-		i = ent.getId();
-		c = ent.getCode();
-		o = ent.getOrg();
-		a = ent.isActive();
+		id = ent.getId();
+		code = ent.getCode();
+		org = ent.getOrg();
+		active = ent.isActive();
 	}
 	
 }

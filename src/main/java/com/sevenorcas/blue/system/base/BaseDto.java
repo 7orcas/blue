@@ -22,9 +22,9 @@ public class BaseDto <T> {
      * @param j
      */
     protected void toJSon(BaseJsonRes j) {
-		j.i = id;
-		j.c = code;
-		j.o = org;
+		j.id = id;
+		j.code = code;
+		j.org = org;
 	}
     
     public Long getId() {
