@@ -22,7 +22,7 @@ public class LangLabelJson extends BaseJsonRes{
 	 * @param String JSON object
 	 */
 	public LangLabelJson(String json) throws Exception{
-System.out.println(json);		
+
 	}
 	
 	public LangLabelJson (LangLabelEnt ent) {

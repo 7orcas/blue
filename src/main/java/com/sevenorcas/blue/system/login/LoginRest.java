@@ -2,12 +2,9 @@ package com.sevenorcas.blue.system.login;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,6 +12,7 @@ import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
+import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.user.UserEnt;
 
@@ -33,9 +31,8 @@ import com.sevenorcas.blue.system.user.UserEnt;
 @Path("/login")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class LoginRest {
+public class LoginRest extends BaseRest{
 	
-	private AppProperties appProperties = AppProperties.getInstance();
 
 	@EJB
 	private LoginCache cache;
@@ -43,6 +40,7 @@ public class LoginRest {
 	@EJB
 	private LoginSrv service;
 	
+	@SkipAuthorisation
 	@POST
 	@Path("web")
 	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, LoginJsonReq req) {
@@ -62,9 +60,11 @@ public class LoginRest {
 		//Success! Set parameters for client to open web gui
 		HttpSession s = httpRequest.getSession(true);
 		
+		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
+		
 		ClientSession u = new ClientSession(user.getId())
 				.setOrgNr(user.getOrg())
-				.setLang(req.l);
+				.setLang(lang);
 		
 		LoginJsonRes j = new LoginJsonRes();
 		j.s = s.getId();

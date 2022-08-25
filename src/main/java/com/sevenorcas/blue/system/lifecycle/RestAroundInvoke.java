@@ -7,6 +7,7 @@ import javax.interceptor.InvocationContext;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
+import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
  * Inject CallObject into the target method
@@ -44,6 +45,9 @@ public class RestAroundInvoke {
 				CallObject callObj = new CallObject("");
 				proceed = true;
 				callObj.setClientSession(clientCall.getClientSession());
+				
+				//ToDo get org from cache
+				callObj.setOrg(new BaseOrg(clientCall.getClientSession().getOrgNr()));
 				
 				for (int i=0;i<ctx.getMethod().getParameterTypes().length;i++) {
 					if (ctx.getMethod().getParameterTypes()[i].getTypeName().equals(CallObject.class.getTypeName())) {

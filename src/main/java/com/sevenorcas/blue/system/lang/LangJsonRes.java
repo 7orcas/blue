@@ -12,6 +12,6 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class LangJsonRes extends BaseJsonRes{
-	public String d;
-	public Boolean x;
+	public String descr;
+	public Boolean dvalue;
 }

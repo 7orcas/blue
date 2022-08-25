@@ -8,9 +8,7 @@ import com.sevenorcas.blue.system.login.ClientSession;
 public class CallObject {
 
 	private ClientSession ses;
-	private BaseOrg org;
-	
-	
+	private BaseOrg org;	
 	
 	Hashtable<String, Object> objects = new Hashtable<>();
 	

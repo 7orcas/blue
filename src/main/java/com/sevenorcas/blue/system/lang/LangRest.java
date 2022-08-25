@@ -41,9 +41,11 @@ public class LangRest extends BaseRest {
 	@GET
 	@Path("pack")
     public JsonRes pack(
-    		@QueryParam ("co") CallObject callObj) throws Exception {
+    		@QueryParam ("co") CallObject callObj,
+    		@QueryParam ("load") String loadFlag) throws Exception {
 		log.info("pack for lang=" + callObj.getLang());	
-		return service.langPackageJson(callObj, null, callObj.getLang());
+		
+		return service.langPackageJson(callObj.getOrg().getNr(), null, callObj.getLang(), loadFlag);
     }
 	
 	/**
@@ -79,7 +81,11 @@ public class LangRest extends BaseRest {
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("lang") String lang) throws Exception {
 		log.info("loging-pack for lang=" + lang);
-		return service.langPackageJson(callObj, "login", lang);
+		Integer org = 0;
+		if (callObj != null && callObj.getOrg() != null) {
+			org = callObj.getOrg().getNr();
+		}
+		return service.langPackageJson(org, "login", lang, null);
     }
 	
 	/**
@@ -102,20 +108,24 @@ public class LangRest extends BaseRest {
 		return new JsonRes().setData(service.getLabelJson(callObj, label));
     }
 	
-	
+	/**
+	 * Update and Persist the label list
+	 * @param callObj
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
 	@POST
 	@Path("label")
-    public LabelJsonRes postLabel(
+    public JsonRes postLabel(
     		@QueryParam ("co") CallObject callObj, 
-    		List<LangLabelJson> list) {
+    		List<LangLabelJson> list)  throws Exception {
 		
-for (int i=0;list!=null && i<list.size();i++)		
-	System.out.println(list.get(i).code + " id=" + list.get(i).id);
-		
-		LabelJsonRes r = new LabelJsonRes();
-				
-		
-    	return r;
+		if (list == null) {
+			return new JsonRes().setError("Invalid Label");
+		}
+		service.updateLabel(callObj, list);
+		return new JsonRes();
     }
 	
 	

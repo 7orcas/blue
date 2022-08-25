@@ -19,8 +19,8 @@ public class LangDto extends BaseDto<LangDto> {
 	public LangJsonRes toJSon() {
 		LangJsonRes j = new LangJsonRes();
 		super.toJSon(j);
-		j.d = descr;
-		j.x = defaultValue;
+		j.descr = descr;
+		j.dvalue = defaultValue;
 		return j;
 	}
 

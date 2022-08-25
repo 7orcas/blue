@@ -13,6 +13,9 @@ import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
 */
 
 @Interceptors({SrvAroundInvoke.class})
-public class BaseSrv implements ApplicationI {
+public class BaseSrv extends BaseUtil {
 
+	public String cleanParam (String s) {
+		return s == null? "" : s;
+	}
 }

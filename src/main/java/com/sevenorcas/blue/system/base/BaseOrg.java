@@ -9,19 +9,22 @@ package com.sevenorcas.blue.system.base;
 
 public class BaseOrg {
 
-	private Integer org;
+	private Integer nr;
 
-	
+	public BaseOrg(Integer nr) {
+		this.nr = nr;
+	}
+
 	public BaseOrg (String encoding) {
 		//do some decoding....
 	}
 	
-	public Integer getOrg() {
-		return org;
+	public Integer getNr() {
+		return nr;
 	}
 
-	public void setOrg(Integer org) {
-		this.org = org;
+	public void setNr(Integer nr) {
+		this.nr = nr;
 	}
 	
 	

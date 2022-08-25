@@ -11,7 +11,6 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
@@ -30,12 +29,11 @@ import com.sevenorcas.blue.system.user.UserEnt;
 @Stateless
 public class LoginDao extends BaseDao {
 
-	private AppProperties appProperties = AppProperties.getInstance();
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
-
+	
 	/**
 	 * Return the <code>UserEnt</code> entity
 	 * @param userid

@@ -2,7 +2,9 @@ package com.sevenorcas.blue.system.lang;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,10 +15,8 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
-import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
-import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
 * Created July '22
@@ -69,9 +69,11 @@ public class LangDao extends BaseDao {
 
 	
 	public List<LabelDto> langPackage(
-    		SqlParm parms,
+			Integer org,
     		String pack,
-    		String lang) throws Exception {
+    		String lang,
+    		Boolean loadAll,
+    		SqlParm parms) throws Exception {
 		
 		parms = validateParms(parms);
 		parms.addParameter(lang);
@@ -94,28 +96,41 @@ public class LangDao extends BaseDao {
 			sql = sql.replace("%2", "");	
 		}
 		
+		if (!loadAll) {
+			sql += "WHERE " + (org == 0? "l.org = 0" : "(l.org = 0 OR l.org = " + org + ")");
+		}
+		
 		//Filter by language pack
 		if (pack != null && pack.length() > 0) {
 			parms.addParameter("%" + pack + "%");
-			sql += "WHERE k.pack LIKE ? ";
+			sql += (!loadAll?"AND":"WHERE") + " k.pack LIKE ? ";
 		}
 				
-		sql += "ORDER BY k.code ";
+		sql += "ORDER BY k.code, l.org " + (!loadAll?"DESC":"");
 
 		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
 		List<LabelDto> list = new ArrayList<>();
+		Set<String> set = new HashSet<String> ();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			LabelDto d = new LabelDto();
-			list.add(d);
+			
 			Object[] row = r.get(i);
+			String code = (String)row[2];
 
-			d.setId(row[0] != null? (Long)row[0] : -1L)
-			 .setOrg(row[1] != null? (Integer)row[1] : -1)
-			 .setCode((String)row[2])
-			 .setLabel(!dlang.equals(lang) && (String)row[3] == null? (String)row[4] : (String)row[3])
-			 ;
+			if (loadAll || !set.contains(code)) {
+				
+				LabelDto d = new LabelDto();
+				list.add(d);
+	
+				d.setId(row[0] != null? (Long)row[0] : -1L)
+				 .setOrg(row[1] != null? (Integer)row[1] : -1)
+				 .setCode(code)
+				 .setLabel(!dlang.equals(lang) && (String)row[3] == null? (String)row[4] : (String)row[3])
+				 ;
+
+				if (!loadAll) set.add(code);
+			}
 		}
 		
     	return list;

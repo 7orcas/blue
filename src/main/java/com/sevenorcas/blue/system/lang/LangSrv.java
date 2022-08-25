@@ -40,11 +40,14 @@ public class LangSrv extends BaseSrv {
     }
 	
 	public JsonRes langPackageJson(
-    		CallObject callObj,
+    		Integer org,
     		String pack,
-    		String lang) throws Exception{
+    		String lang,
+    		String loadFlag) throws Exception{
 		
-		pack = pack==null? "" : pack;
+		pack = cleanParam(pack);
+		loadFlag = cleanParam(loadFlag);
+		
 		if (lang == null) {
 			throw new RedException ("Call must include valid lang");
 		}
@@ -52,7 +55,7 @@ public class LangSrv extends BaseSrv {
 			return new JsonRes().setError("Don't actually have this language pack :-)");
 		}
 		
-		List<LabelDto> x = dao.langPackage(null, pack, lang);
+		List<LabelDto> x = dao.langPackage(org, pack, lang, isSameNonNUll(loadFlag,"All"), null);
 		List<LabelJsonRes> y = new ArrayList<LabelJsonRes>();
 		for (LabelDto d : x) {
 			y.add(d.toJSon());
@@ -103,5 +106,26 @@ public class LangSrv extends BaseSrv {
 		return dao.getLangLabel(id, callObj.getLang());
     }
 	 
+	/**
+	 * Persist the label list
+	 * @param list
+	 * @throws Exception
+	 */
+	public void updateLabel (
+			CallObject callObj,
+			List<LangLabelJson> list) throws Exception {
+		
+		List<LangLabelEnt> listX = dao.getLangLabel(list.get(0).idLangKey, callObj.getLang());
+		
+		for (int i=0;i<list.size();i++) {
+			for (int j=0;j<listX.size();j++) {
+				if (isSameNonNUll(list.get(i).id, listX.get(j).getId())) {
+					listX.get(j).setCode(list.get(i).code);
+				}
+			}
+		}
+
+	}
+	
 	
 }

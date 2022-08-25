@@ -4,8 +4,6 @@ import java.util.Hashtable;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -20,8 +18,8 @@ import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.login.ClientSession;
 import com.sevenorcas.blue.system.login.LoginCache;
+import com.sevenorcas.blue.system.login.LoginCacheDev;
 import com.sevenorcas.blue.system.login.LoginSrv;
-import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
  * 
@@ -40,6 +38,11 @@ public class Login2Rest extends BaseRest {
 	
 	@EJB
 	private LoginCache cache;
+	
+	//NOT TO BE USED IN PRODUCTION
+	@EJB
+	private LoginCacheDev cacheDev;
+
 	
 	/**
 	 * Initialise a successful web login
@@ -64,6 +67,7 @@ public class Login2Rest extends BaseRest {
 				httpSes.setAttribute(CLIENT_SESSIONS, clientSessions);
 			}
 			
+			
 			//Store the new user session 
 			Integer nextSes = clientSessions.size();
 			clientSessions.put(nextSes, clientSes.setSessionNr(nextSes));
@@ -79,6 +83,11 @@ public class Login2Rest extends BaseRest {
 			r.o = clientSes.getOrgNr();
 			r.l = clientSes.getLang();
 			r.r = roles;
+
+			if (appProperties.is("DevelopmentMode")) {
+				cacheDev.put(httpRequest.getRemoteHost(), httpSes);
+			}
+			
 			return new JsonRes().setData(r);
 		
 		//Not a valid attempt

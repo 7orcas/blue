@@ -2,6 +2,7 @@ package com.sevenorcas.blue.system.base;
 
 import javax.interceptor.Interceptors;
 
+import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
@@ -15,8 +16,8 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Interceptors({DaoAroundInvoke.class})
-public class BaseDao {
-
+public class BaseDao extends BaseUtil {
+	
 	/**
 	 * Ensure a valid SQL Parameter object is used
 	 * @param parms

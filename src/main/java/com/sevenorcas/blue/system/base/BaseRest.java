@@ -2,6 +2,7 @@ package com.sevenorcas.blue.system.base;
 
 import javax.interceptor.Interceptors;
 
+import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.lifecycle.RestAroundInvoke;
 
@@ -13,6 +14,5 @@ import com.sevenorcas.blue.system.lifecycle.RestAroundInvoke;
 */
 
 @Interceptors({RestAroundInvoke.class})
-public class BaseRest implements ApplicationI {
-
+public class BaseRest extends BaseUtil {
 }

@@ -3,10 +3,10 @@ pw,login,0,Password,Passwort
 org,login,0,Organisation,Organisation
 login,login,0,Login,Anmeldung
 lang,login,0,Language,Sprache
-loginT,login,0,Login into Blue,(D) Max. Login Attempts Exceeded
-maxatt,login,0,Max. Login Attempts Exceeded,(D) No Permission for Organisation
-invorg,login,0,No Permission for Organisation,(D) Invalid Password (%1 of %2 attempts)
-invpw,login,0,Invalid Password (%1 of %2 attempts),Passwort Ungültig
+loginT,login,0,Login into Blue,(d) Login into Blue
+maxatt,login,0,Max. Login Attempts Exceeded,(D) Max. Login Attempts Exceeded
+invorg,login,0,No Permission for Organisation,(D) No Permission for Organisation
+invpw,login,0,Invalid Password (%1 of %2 attempts),(D) Invalid Password (%1 of %2 attempts)
 invuid,login,0,Unknown UserID / Password,Unbekannt Benutzer/Passwort
 yes,login,0,Yes,Ja
 no,login,0,No,Nein
