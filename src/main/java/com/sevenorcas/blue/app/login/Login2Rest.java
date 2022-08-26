@@ -60,6 +60,10 @@ public class Login2Rest extends BaseRest {
 			ClientSession clientSes = cache.getSessionAndRemove(sid);
 			HttpSession httpSes = httpRequest.getSession(true);
 			
+			if (httpSes.isNew()) {
+System.out.println("NEW SESSION " + httpSes.getId());				
+			}
+			
 			//Get user sessions or create a new list (if new login)
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
 			if (clientSessions == null) {

@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.excel.ExcelSrv;
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.file.FileSrv;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
@@ -27,6 +29,13 @@ public class LangSrv extends BaseSrv {
 
 	@EJB
 	private LangDao dao;
+	
+	@EJB
+	private ExcelSrv excelSrv;
+
+	@EJB
+	private FileSrv fileSrv;
+
 	
 	public JsonRes languagesJson(
     		CallObject callObj) throws Exception{
@@ -61,6 +70,25 @@ public class LangSrv extends BaseSrv {
 			y.add(d.toJSon());
 		}
 		return new JsonRes().setData(y);
+    }
+	
+	public Response langPackageExcel(
+    		Integer org,
+    		String pack,
+    		String lang,
+    		String loadFlag) throws Exception{
+		
+		pack = cleanParam(pack);
+		loadFlag = cleanParam(loadFlag);
+		
+		if (lang == null) {
+			throw new RedException ("Call must include valid lang");
+		}
+		
+		List<LabelDto> x = dao.langPackage(org, pack, lang, isSameNonNUll(loadFlag,"All"), null);
+		String fn = excelSrv.createListFile("LabelList", org, x);
+		
+		return fileSrv.getFile(fn, "LabelList.xlsx", false);
     }
 	
 	/**
@@ -106,6 +134,7 @@ public class LangSrv extends BaseSrv {
 		return dao.getLangLabel(id, callObj.getLang());
     }
 	 
+	
 	/**
 	 * Persist the label list
 	 * @param list

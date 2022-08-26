@@ -205,6 +205,14 @@ npm install --save @types/react-table
 https://reactdatagrid.io/docs/
 npm install @inovua/reactdatagrid-community --save
 
+Downloads
+---------
+npm i file-saver
+npm install --save @types/file-saver
+
+
+
+
 
 
 

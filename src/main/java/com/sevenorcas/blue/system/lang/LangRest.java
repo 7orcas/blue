@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
@@ -47,6 +48,16 @@ public class LangRest extends BaseRest {
 		
 		return service.langPackageJson(callObj.getOrg().getNr(), null, callObj.getLang(), loadFlag);
     }
+	
+	@GET
+	@Path("pack/excel")
+    public Response packExcel(
+    		@QueryParam ("co") CallObject callObj,
+    		@QueryParam ("load") String loadFlag) throws Exception {
+		
+		return service.langPackageExcel(callObj.getOrg().getNr(), null, callObj.getLang(), loadFlag);
+    }
+	
 	
 	/**
 	 * This end-point is excluded from servlet filter check
@@ -107,6 +118,7 @@ public class LangRest extends BaseRest {
 		}
 		return new JsonRes().setData(service.getLabelJson(callObj, label));
     }
+	
 	
 	/**
 	 * Update and Persist the label list

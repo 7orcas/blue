@@ -29,5 +29,10 @@
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<listener>
+      	<listener-class>
+       		com.sevenorcas.blue.system.lifecycle.SessionListener
+      	</listener-class>
+	</listener>
 	
 </web-app>
