@@ -16,7 +16,7 @@
 	
 	<filter-mapping>
 	    <filter-name>Filter1</filter-name>
-	    <url-pattern>/*</url-pattern>
+	    <url-pattern>/api/*</url-pattern>
 	</filter-mapping>
 	
 	<filter>
@@ -26,7 +26,7 @@
 	
 	<filter-mapping>
 	    <filter-name>Filter2</filter-name>
-	    <url-pattern>/*</url-pattern>
+	    <url-pattern>/api/*</url-pattern>
 	</filter-mapping>
 	
 	<listener>
@@ -34,5 +34,16 @@
        		com.sevenorcas.blue.system.lifecycle.SessionListener
       	</listener-class>
 	</listener>
+	
+	<servlet>
+        <servlet-name>fileUploadServlet</servlet-name>
+        <servlet-class>com.sevenorcas.blue.system.file.FileUploadServlet</servlet-class>
+    </servlet>
+	
+	<servlet-mapping>
+        <servlet-name>fileUploadServlet</servlet-name>
+        <url-pattern>/upload/*</url-pattern>
+    </servlet-mapping>
+	
 	
 </web-app>

@@ -232,6 +232,14 @@
 		    <version>5.2.2</version>
 		</dependency>
         
+        <!-- fileupload Added 27.8.22 -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		        
+        
     </dependencies>
 
     <build>

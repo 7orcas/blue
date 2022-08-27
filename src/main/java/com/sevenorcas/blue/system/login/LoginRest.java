@@ -69,6 +69,7 @@ public class LoginRest extends BaseRest{
 		LoginJsonRes j = new LoginJsonRes();
 		j.s = s.getId();
 		j.b = appProperties.get("BaseUrl");
+		j.u = appProperties.get("UploadUrl");
 		j.i = appProperties.get("WebLoginInitUrl");
 		
 		if (appProperties.is("DevelopmentMode")) {

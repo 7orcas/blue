@@ -31,7 +31,6 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Stateless
 public class LangDao extends BaseDao {
 
-	private AppProperties appProperties = AppProperties.getInstance();
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		
 	@PersistenceContext(unitName="blue")
