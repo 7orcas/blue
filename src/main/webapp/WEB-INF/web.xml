@@ -17,6 +17,8 @@
 	<filter-mapping>
 	    <filter-name>Filter1</filter-name>
 	    <url-pattern>/api/*</url-pattern>
+	    <dispatcher>FORWARD</dispatcher>
+	    <dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
 	<filter>
@@ -27,6 +29,8 @@
 	<filter-mapping>
 	    <filter-name>Filter2</filter-name>
 	    <url-pattern>/api/*</url-pattern>
+  	    <dispatcher>FORWARD</dispatcher>
+  	    <dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
 	<listener>

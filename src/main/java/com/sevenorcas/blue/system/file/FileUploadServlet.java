@@ -11,9 +11,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -45,7 +47,10 @@ public class FileUploadServlet extends BaseServlet {
      */
     private void processRequest (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	if (request.getSession(false) == null){
+    	HttpSession ses = request.getSession(false);
+    	
+    	if (ses == null){
+System.out.println("Upload servlet NO SESSION");    		
 //    		return;
     	}
 //    	UserParam params = RestParamPreProcess.getUserParam(request);
@@ -109,8 +114,35 @@ public class FileUploadServlet extends BaseServlet {
 //            		ObjectMapper o = new ObjectMapper();
 //                	response.getWriter().write(o.writeValueAsString(filename));
                 	
-                	response.setStatus(HttpServletResponse.SC_OK);
-                	response.setContentType("application/json;charset=UTF-8");
+            		path = request.getRequestURL().toString();
+path = path.replaceFirst("upload", "api") + "?filename=" + filename;
+//path = "/blue/api/client-nr0/lang/upload"; // + "?filename=" + filename;
+
+
+
+					path = "/api/client-nr0/lang/upload"  + "?filename=" + filename; //goes to filter 3
+					request.setAttribute("HttpSession", ses);
+response.setHeader("Content-Type", "application/json");
+response.setHeader("Accept", "application/json");
+					
+//path = "/blue/api/client-nr0/lang/upload";
+					
+//path = "/lang/upload";
+System.out.println("forward url=" + path);            		
+//            		RequestDispatcher rd = request.getRequestDispatcher(path);
+					RequestDispatcher rd = getServletContext().getRequestDispatcher(path);
+					rd.forward(request, response);
+//					rd.include(request, response);
+					
+
+//path = request.getContextPath() + "/" + path;
+//System.out.println("redirect url=" + path);
+//					response.sendRedirect(path);
+            		
+//                	response.setStatus(HttpServletResponse.SC_OK);
+//                	response.setContentType("application/json;charset=UTF-8");
+                	
+                	
             		
                 } catch (IOException e) {
                 	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

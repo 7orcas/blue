@@ -140,5 +140,23 @@ public class LangRest extends BaseRest {
 		return new JsonRes();
     }
 	
+	/**
+	 * Update and Persist the uploaded label list
+	 * @param callObj
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	@POST
+	@Path("upload")
+	@Consumes({"multipart/form-data"})
+	public JsonRes uploadLabels(
+    		@QueryParam ("co") CallObject callObj, 
+    		@QueryParam ("filename") String filename)  throws Exception {
+System.out.println("filename=" + filename);
+		
+		return new JsonRes().setData(filename);
+    }
+	
 	
 }

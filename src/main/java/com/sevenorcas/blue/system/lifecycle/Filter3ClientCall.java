@@ -36,8 +36,13 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 	@Override
 	public void filter(final ContainerRequestContext req) throws IOException {
 		log.debug("req url=" + req.getUriInfo().getPath());
-
+System.out.println("filter3");
 		HttpSession ses = httpRequest.getSession(false);
+		
+		if (ses == null) {
+			ses = (HttpSession)httpRequest.getAttribute("HttpSession");
+		}
+		
 		if (ses != null && httpRequest.getAttribute(CLIENT_SESSION_NR) != null){
 			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
 			

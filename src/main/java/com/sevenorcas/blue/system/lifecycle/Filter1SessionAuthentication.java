@@ -52,7 +52,7 @@ public class Filter1SessionAuthentication implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		log.debug("called");
-
+System.out.println("filter1");
 		boolean proceed = false;
 
 		if (request instanceof HttpServletRequest) {

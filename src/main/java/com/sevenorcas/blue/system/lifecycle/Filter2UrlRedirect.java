@@ -57,14 +57,13 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
     }
 	
 	/**
-	 * Filter out user session number from URL
-	 * Pass the user session number via a request attribute 
+	 * Filter out client session number from URL
+	 * Pass the client session number via a request attribute 
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		log.debug("called");
-
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			
@@ -77,10 +76,12 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 				request.setAttribute(CLIENT_SESSION_NR, nr);
 				
 				url = ApplicationPath + url.substring(index2);
+System.out.println("filter2 url=" + url);
 				
 				log.debug("forward to url=" + url);
-				RequestDispatcher rd = request.getRequestDispatcher(url);
+				RequestDispatcher rd = request.getServletContext().getRequestDispatcher(url);
 				rd.forward(request, response);
+				return;
 			}
 		}
 

@@ -27,7 +27,7 @@ public class RestAroundInvoke {
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
-		
+System.out.println("RestAroundInvoke");		
 		log.debug("called method=" + ctx.getMethod().getName());
 
 		boolean proceed = false;
