@@ -12,11 +12,10 @@ import javax.ws.rs.core.Response;
 import com.sevenorcas.blue.system.base.BaseSrv;
 
 /**
-* Created 27.8.22
-* 
-* TODO Module Description
+* File and directory utilities
 * 
 * [Licence]
+* Created 27.8.22
 * @author John Stewart
 */
 
@@ -81,5 +80,47 @@ public class FileSrv extends BaseSrv {
 		return res;
 	}
 	
+	
+	/**
+     * Get unique file name by appending an incremental number 
+     * @param filename
+     * @return
+     */
+	static public String filenameIncrement (String filename){
+		return filenameIncrement(filename, 0);
+	}
+	
+	/**
+     * Get unique file name by appending an incremental number 
+     * @param filename
+     * @param current increment
+     * @return
+     */
+    static private String filenameIncrement (String filename, int counter){
+    	
+    	String file = null;
+    	String ext = null;
+        
+        int index = filename.lastIndexOf(".");
+        if (index != -1){
+        	file = filename.substring(0, index);
+        	ext = filename.substring(index);
+        }
+        else{
+        	file = filename;
+        	ext = "";
+        }
+        
+        String filename1 = file +  
+                           (counter > 0? "-" + counter : "") +
+                           ext; 
+
+        Path p = Paths.get(filename1);
+        if (Files.exists(p)){
+        	return filenameIncrement (filename, ++counter);
+        }
+        
+    	return filename1;
+    }
 	
 }

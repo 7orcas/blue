@@ -10,9 +10,10 @@ import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseOrg;
 
 /**
- * Inject CallObject into the target method
+ * Inject the <code>CallObject</code> into the target rest methods (if in the method signature).
  *  
  * [Licence]
+ * Created July '22
  * @author John Stewart
  */
 //@Interceptor
@@ -27,7 +28,7 @@ public class RestAroundInvoke {
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
-System.out.println("RestAroundInvoke");		
+		
 		log.debug("called method=" + ctx.getMethod().getName());
 
 		boolean proceed = false;

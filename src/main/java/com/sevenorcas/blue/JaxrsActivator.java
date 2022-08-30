@@ -3,6 +3,8 @@ package com.sevenorcas.blue;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import com.sevenorcas.blue.system.ApplicationI;
+
 /**
  * To deploy the application, we need a JAX-RS class activator.
  * This is a class extending javax.ws.rs.core.Application and 
@@ -14,7 +16,7 @@ import javax.ws.rs.core.Application;
  * @author John Stewart
  */
 
-@ApplicationPath("/api")
+@ApplicationPath(ApplicationI.APPLICATION_PATH)
 public class JaxrsActivator extends Application {
 
 }

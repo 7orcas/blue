@@ -25,6 +25,7 @@ import com.sevenorcas.blue.system.login.LoginCacheDev;
  * Exceptions are defined in web.xml in 'excludedUrls' parameters.
  *   
  * [Licence]
+ * Created Aug '22
  * @author John Stewart
  */
 public class Filter1SessionAuthentication implements Filter{
@@ -52,7 +53,7 @@ public class Filter1SessionAuthentication implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		log.debug("called");
-System.out.println("filter1");
+
 		boolean proceed = false;
 
 		if (request instanceof HttpServletRequest) {
@@ -81,10 +82,7 @@ System.out.println("filter1");
 			
 			if (ses != null) {
 				proceed = true;
-//				request.setAttribute("CallObject", ses);  NOT USED? DELETE
 			}
-			
-			
 		}
 
 		if (proceed) {

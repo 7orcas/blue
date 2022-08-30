@@ -5,9 +5,10 @@ import javax.enterprise.context.RequestScoped;
 import com.sevenorcas.blue.system.login.ClientSession;
 
 /**
- * Object to pass on the CLIENT_SESSION in a call
+ * Object to pass on the <code>CLIENT_SESSION</code> in a call
  *  
  * [Licence]
+ * Created August '22
  * @author John Stewart
  */
 

@@ -3,6 +3,7 @@ package com.sevenorcas.blue.system.lifecycle;
 import java.io.IOException;
 import java.util.Hashtable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,9 +20,16 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.login.ClientSession;
 
+/**
+ * Inject the <code>ClientSession</code> object into a @RequestScoped object
+ *  - can then be accessed by the RestAroundInvoke interceptor
+ * 
+ * [Licence]
+ * Created July '22
+ * @author John Stewart
+ */
 
 @PreMatching //indicates (with request filter) that such filter should be applied globally on all resources in the application before the actual resource matching occurs
-
 @Provider
 public class Filter3ClientCall implements ContainerRequestFilter, ContainerResponseFilter, ApplicationI {
 
@@ -36,12 +44,8 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 	@Override
 	public void filter(final ContainerRequestContext req) throws IOException {
 		log.debug("req url=" + req.getUriInfo().getPath());
-System.out.println("filter3");
+
 		HttpSession ses = httpRequest.getSession(false);
-		
-		if (ses == null) {
-			ses = (HttpSession)httpRequest.getAttribute("HttpSession");
-		}
 		
 		if (ses != null && httpRequest.getAttribute(CLIENT_SESSION_NR) != null){
 			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
@@ -53,10 +57,7 @@ System.out.println("filter3");
 			
 			log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 		} 
-
 	}
-
-	
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)

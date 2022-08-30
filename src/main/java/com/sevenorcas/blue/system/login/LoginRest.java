@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.login;
 
+import java.util.Hashtable;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
@@ -55,32 +56,44 @@ public class LoginRest extends BaseRest{
 		if (!user.isValid()) {
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
-		
 				
 		//Success! Set parameters for client to open web gui
-		HttpSession s = httpRequest.getSession(true);
+		HttpSession ses = httpRequest.getSession(true);
 		
+		//Return object
+		LoginJsonRes login = new LoginJsonRes();
+		login.sessionId = ses.getId();
+		login.uploadUrl = appProperties.get("UploadUrl");
+		login.initialisationUrl = appProperties.get("WebLoginInitUrl");
+		
+		if (appProperties.is("DevelopmentMode")) {
+			login.locationHref = appProperties.get("WebClientMainUrl-CORS");	
+		}
+		else {
+			login.locationHref = appProperties.get("WebClientMainUrl");
+		}
+				
 		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
 		
-		ClientSession u = new ClientSession(user.getId())
+		//Get next client sessions
+		@SuppressWarnings("unchecked")
+		Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
+		if (clientSessions == null) {
+			clientSessions = new Hashtable<>();
+			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
+		}
+		ClientSession cs = new ClientSession(user.getId())
 				.setOrgNr(user.getOrg())
 				.setLang(lang);
 		
-		LoginJsonRes j = new LoginJsonRes();
-		j.s = s.getId();
-		j.b = appProperties.get("BaseUrl");
-		j.u = appProperties.get("UploadUrl");
-		j.i = appProperties.get("WebLoginInitUrl");
-		
-		if (appProperties.is("DevelopmentMode")) {
-			j.m = appProperties.get("WebClientMainUrl-CORS");	
-		}
-		else {
-			j.m = appProperties.get("WebClientMainUrl");
-		}
-				
-		cache.put(s.getId(), u);
-		return new JsonRes().setData(j);
+		Integer nextSes = clientSessions.size();
+		clientSessions.put(nextSes, cs.setSessionNr(nextSes));
+
+		//Append client session to base url, client will use this to connect to this server
+		login.baseUrl = appProperties.get("BaseUrl") + cs.getUrlSegment();
+
+//		cache.put(ses.getId(), cs);
+		return new JsonRes().setData(login);
     }
 
 	

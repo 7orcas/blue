@@ -9,6 +9,7 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -25,12 +26,32 @@ import org.apache.commons.io.FilenameUtils;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseServlet;
+import com.sevenorcas.blue.system.lifecycle.Filter2UrlRedirect;
+import com.sevenorcas.blue.system.login.ClientSession;
+
+/**
+ * Upload files to the server and forward request for processing
+ * 
+ * [Licence]
+ * Created 29/08/22
+ * @author John Stewart
+ */
 
 public class FileUploadServlet extends BaseServlet {
     
-    private static String [] VALID_TYPES = new String [] {"csv", "xls", "xlsx"}; //Keep lower case
+	private static final long serialVersionUID = 1L;
+	private static String [] VALID_TYPES = new String [] {"csv", "xls", "xlsx"}; //Keep lower case
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());    
-    
+    private String importFileDir;
+	
+	@Override
+	public void init() {
+		importFileDir = appProperties.get("ImportFileDirectory");
+    	if (!importFileDir.endsWith(File.separator)){
+    		importFileDir += File.separator;
+    	}
+	}
+	
     /**
      * Process POST request.
      * @see HttpServlet#doPost(HttpServletRequest, HttpServletResponse).
@@ -50,31 +71,25 @@ public class FileUploadServlet extends BaseServlet {
     	HttpSession ses = request.getSession(false);
     	
     	if (ses == null){
-System.out.println("Upload servlet NO SESSION");    		
-//    		return;
-    	}
-//    	UserParam params = RestParamPreProcess.getUserParam(request);
-//    	if (params == null){
-//    	    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//    	    return;
-//    	}
-//    	
-//    	Company comp = null;
-//		companyService = Utilities.lookupService(companyService, "CompanyServiceImp");
-//		try {
-//            comp = companyService.findByNr(params, params.getCompany());
-//		} catch (Exception e) {
-//            ApplicationLog.error(e);
-//        }
-		
-    	
-    	String path = appProperties.get("ImportFileDirectory");
-    	if (!path.endsWith(File.separator)){
-    	    path += File.separator;
+    		log.debug("Call to Upload servlet with NO SESSION");    		
+    		return;
     	}
     	
-     	// Save file to directory ---------------------------------------------------------
     	try {
+    		String importFileDirX = importFileDir;
+    		String url = request.getRequestURL().toString();
+    		
+    		//Create directory with org_nr appended (if required)
+			@SuppressWarnings("unchecked")
+    		Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
+			ClientSession cs = clientSessions.get(Filter2UrlRedirect.getClientSessionNr(url));
+			
+    		importFileDirX += cs.getOrgNr() + "/";
+    		Path pathX = Paths.get(importFileDirX);
+    		if (!Files.isDirectory(pathX)) {
+    			pathX = Files.createDirectory(pathX);
+    		}
+    		
     		
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for (FileItem item : items) {
@@ -86,63 +101,34 @@ System.out.println("Upload servlet NO SESSION");
                 	response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             		return;
                 }
+                                
+                filename = importFileDirX + filename;
+                //If file exists then increment
+                filename = FileSrv.filenameIncrement(filename);
                 
-                Path pathX = Paths.get(path);
-                if (!Files.isDirectory(pathX)) {
-        			pathX = Files.createDirectory(pathX);
-        		}
-                
-                filename = pathX.toString() + "/" + filename;
-                
-                File file = new File(filename);
-//                Utilities.mkdirs(file); 
                 
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
                 try{
+                	
+                	//Save file
                 	inputStream = item.getInputStream();
                 	outputStream = new FileOutputStream(new File(filename));
                     
             		int read = 0;
             		byte[] bytes = new byte[1024];
-             
-            		while ((read = inputStream.read(bytes)) != -1) {
+             		while ((read = inputStream.read(bytes)) != -1) {
             			outputStream.write(bytes, 0, read);
             		}
             		
-            		
-//            		ObjectMapper o = new ObjectMapper();
-//                	response.getWriter().write(o.writeValueAsString(filename));
-                	
-            		path = request.getRequestURL().toString();
-path = path.replaceFirst("upload", "api") + "?filename=" + filename;
-//path = "/blue/api/client-nr0/lang/upload"; // + "?filename=" + filename;
+            		//Get new URL to forward to
+             		url = url.replaceFirst(UPLOAD_PATH, APPLICATION_PATH) + "?filename=" + filename;
+            		int index = url.indexOf(APPLICATION_PATH + "/");
+            		url = url.substring(index);
 
-
-
-					path = "/api/client-nr0/lang/upload"  + "?filename=" + filename; //goes to filter 3
-					request.setAttribute("HttpSession", ses);
-response.setHeader("Content-Type", "application/json");
-response.setHeader("Accept", "application/json");
-					
-//path = "/blue/api/client-nr0/lang/upload";
-					
-//path = "/lang/upload";
-System.out.println("forward url=" + path);            		
-//            		RequestDispatcher rd = request.getRequestDispatcher(path);
-					RequestDispatcher rd = getServletContext().getRequestDispatcher(path);
+            		//Forward to rest for processing
+  					RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 					rd.forward(request, response);
-//					rd.include(request, response);
-					
-
-//path = request.getContextPath() + "/" + path;
-//System.out.println("redirect url=" + path);
-//					response.sendRedirect(path);
-            		
-//                	response.setStatus(HttpServletResponse.SC_OK);
-//                	response.setContentType("application/json;charset=UTF-8");
-                	
-                	
             		
                 } catch (IOException e) {
                 	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

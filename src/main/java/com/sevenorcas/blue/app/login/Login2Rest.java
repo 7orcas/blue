@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ClientSession;
 import com.sevenorcas.blue.system.login.LoginCache;
 import com.sevenorcas.blue.system.login.LoginCacheDev;
@@ -36,8 +37,8 @@ public class Login2Rest extends BaseRest {
 	@EJB
 	private LoginSrv service;
 	
-	@EJB
-	private LoginCache cache;
+//	@EJB
+//	private LoginCache cache;
 	
 	//NOT TO BE USED IN PRODUCTION
 	@EJB
@@ -50,43 +51,44 @@ public class Login2Rest extends BaseRest {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	@SkipAuthorisation
+//	@SkipAuthorisation
 	@GET
 	@Path("init-web")
     public JsonRes login2Web(@Context HttpServletRequest httpRequest,
+    		@QueryParam ("co") CallObject callObj,
     		@QueryParam("SessionID") String sid) {
 
 		try {
-			ClientSession clientSes = cache.getSessionAndRemove(sid);
+//			ClientSession clientSes = cache.getSessionAndRemove(sid);
 			HttpSession httpSes = httpRequest.getSession(true);
-			
-			if (httpSes.isNew()) {
-System.out.println("NEW SESSION " + httpSes.getId());				
-			}
 			
 			//Get user sessions or create a new list (if new login)
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
-			if (clientSessions == null) {
-				clientSessions = new Hashtable<>();
-				httpSes.setAttribute(CLIENT_SESSIONS, clientSessions);
-			}
-			
-			
-			//Store the new user session 
-			Integer nextSes = clientSessions.size();
-			clientSessions.put(nextSes, clientSes.setSessionNr(nextSes));
+//			if (clientSessions == null) {
+//				clientSessions = new Hashtable<>();
+//				httpSes.setAttribute(CLIENT_SESSIONS, clientSessions);
+//			}
+//			
+//			
+//			//Store the new user session 
+//			Integer nextSes = clientSessions.size();
+//			clientSessions.put(nextSes, clientSes.setSessionNr(nextSes));
+				
+			ClientSession cs = callObj.getClientSession();
 			
 			//Get User configuration, eg roles
-			String userid = service.getUserid(clientSes.getUserId());
-			String roles = service.getUserRolesAsString(clientSes.getUserId());
+			String userid = service.getUserid(cs.getUserId());
+			String roles = service.getUserRolesAsString(cs.getUserId());
 			
 			//Return the base usn number for the client to use in all coms
 			Login2JsonRes r = new Login2JsonRes();
-			r.u = userid; 
-			r.b = CLIENT_SESSION_NR + clientSes.getSessionNr() + "/";
-			r.o = clientSes.getOrgNr();
-			r.l = clientSes.getLang();
-			r.r = roles;
+			r.userid = userid; 
+			r.clientUrl = cs.getUrlSegment();
+			r.orgNr = cs.getOrgNr();
+			r.lang = cs.getLang();
+			r.roles = roles;
+			
+System.out.println("NEW CLIENT sid=" + httpSes.getId() + "  passed in sid=" + sid  + "  clientNr=" + cs.getSessionNr());				
 
 			if (appProperties.is("DevelopmentMode")) {
 				cacheDev.put(httpRequest.getRemoteHost(), httpSes);

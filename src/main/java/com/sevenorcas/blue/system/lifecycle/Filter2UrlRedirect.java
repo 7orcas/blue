@@ -27,8 +27,6 @@ import com.sevenorcas.blue.system.ApplicationI;
  */
 public class Filter2UrlRedirect implements Filter, ApplicationI {
 
-	//Defined in JaxrsActivator
-	static private String ApplicationPath;
 	static private Integer CLIENT_SESSION_NRL;
 	
 	private static Logger log = Logger.getLogger(Filter2UrlRedirect.class.getName());
@@ -37,23 +35,7 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 	 * Get the ApplicationPath (used in URLs) 
 	 */
 	public void init(FilterConfig conf) throws ServletException {
-	
 		CLIENT_SESSION_NRL = CLIENT_SESSION_NR.length();
-		
-		for (Annotation annotation : JaxrsActivator.class.getAnnotations()) {
-            Class<? extends Annotation> type = annotation.annotationType();
-            if (type.equals(javax.ws.rs.ApplicationPath.class)) {
-	            for (Method method : type.getDeclaredMethods()) {
-	            	try {
-	            		ApplicationPath = method.invoke(annotation, (Object[])null).toString();
-	            	} catch (Exception x) {
-	            		//TODO log this
-	            	}
-	            }
-            }
-            
-        }
-		
     }
 	
 	/**
@@ -63,30 +45,57 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.debug("called");
+
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			
 			String url = req.getRequestURL().toString();
+			Integer nr = getClientSessionNr(url);
+			url = getURLAfterClientSessionNr(url);
 			
-			int index1 = url.indexOf(CLIENT_SESSION_NR);
-			if (index1 != -1) {
-				int index2 = url.indexOf("/", index1);
-				Integer nr = Integer.parseInt(url.substring(index1 + CLIENT_SESSION_NRL, index2));
+			if (nr != -1) {
 				request.setAttribute(CLIENT_SESSION_NR, nr);
-				
-				url = ApplicationPath + url.substring(index2);
-System.out.println("filter2 url=" + url);
-				
-				log.debug("forward to url=" + url);
-				RequestDispatcher rd = request.getServletContext().getRequestDispatcher(url);
+				RequestDispatcher rd = request.getServletContext().getRequestDispatcher(APPLICATION_PATH + url);
 				rd.forward(request, response);
+				log.debug("forward: " + APPLICATION_PATH + url);
 				return;
 			}
 		}
 
-		log.debug("doFilter");
 		chain.doFilter(request, response);
 	}
+	
+	/**
+	 * Return the client session number embedded in the URL
+	 * If not found the <code>-1</code> is returned
+	 * @param url
+	 * @return
+	 */
+	static public Integer getClientSessionNr(String url) {
+		try {
+			int index1 = url.indexOf(CLIENT_SESSION_NR);
+			int index2 = url.indexOf("/", index1);
+			return Integer.parseInt(url.substring(index1 + CLIENT_SESSION_NRL, index2));
+		} catch (Exception e) {
+			return -1;
+		}
+	}
 
+	/**
+	 * Return the URL segment after the embedded client session number 
+	 * If not found then <code>NULL</code> is returned
+	 * @param url
+	 * @return
+	 */
+	static public String getURLAfterClientSessionNr(String url) {
+		try {
+			int index1 = url.indexOf(CLIENT_SESSION_NR);
+			int index2 = url.indexOf("/", index1);
+			return url.substring(index2);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	
 }

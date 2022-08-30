@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.login;
 
+import com.sevenorcas.blue.system.ApplicationI;
+
 /**
  * Client session object to store settings (for the session)
  * 
@@ -7,7 +9,7 @@ package com.sevenorcas.blue.system.login;
  * @author John Stewart
  */
 
-public class ClientSession {
+public class ClientSession implements ApplicationI {
 
 	private Long userId;
 	private Integer sessionNr;
@@ -41,6 +43,10 @@ public class ClientSession {
 	public ClientSession setLang(String lang) {
 		this.lang = lang;
 		return this;
+	}
+	
+	public String getUrlSegment() {
+		return CLIENT_SESSION_NR + sessionNr + "/";
 	}
 	
 	
