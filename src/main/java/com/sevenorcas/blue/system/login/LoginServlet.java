@@ -12,6 +12,15 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseServlet;
 
+/**
+ * Login client is separate from the main client app.
+ * I wanted to hide the main app's base url (for security).
+ * This servlet allows the login app to use a different base url, which is then translated into the correct url.
+ * 
+ * [Licence]
+ * Created 31/08/22
+ * @author John Stewart
+ */
 public class LoginServlet extends BaseServlet {
     
 	private static final long serialVersionUID = 1L;
@@ -50,9 +59,7 @@ public class LoginServlet extends BaseServlet {
 		int index = url.indexOf(APPLICATION_PATH + "/");
 		url = "/" + url.substring(index);
 
-System.out.println("Login Servlet url=" + url);    	
 		//Forward to rest for processing
-
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 		rd.forward(request, response);
     	

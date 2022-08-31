@@ -23,7 +23,8 @@ import com.sevenorcas.blue.system.login.LoginCacheDev;
 import com.sevenorcas.blue.system.login.LoginSrv;
 
 /**
- * 
+ * Once a user is logged in, then initialise their session
+ *  
  * [Licence]
  * @author John Stewart
  */
@@ -37,9 +38,6 @@ public class Login2Rest extends BaseRest {
 	@EJB
 	private LoginSrv service;
 	
-//	@EJB
-//	private LoginCache cache;
-	
 	//NOT TO BE USED IN PRODUCTION
 	@EJB
 	private LoginCacheDev cacheDev;
@@ -51,7 +49,6 @@ public class Login2Rest extends BaseRest {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-//	@SkipAuthorisation
 	@GET
 	@Path("init-web")
     public JsonRes login2Web(@Context HttpServletRequest httpRequest,
@@ -59,21 +56,10 @@ public class Login2Rest extends BaseRest {
     		@QueryParam("SessionID") String sid) {
 
 		try {
-//			ClientSession clientSes = cache.getSessionAndRemove(sid);
 			HttpSession httpSes = httpRequest.getSession(true);
 			
 			//Get user sessions or create a new list (if new login)
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
-//			if (clientSessions == null) {
-//				clientSessions = new Hashtable<>();
-//				httpSes.setAttribute(CLIENT_SESSIONS, clientSessions);
-//			}
-//			
-//			
-//			//Store the new user session 
-//			Integer nextSes = clientSessions.size();
-//			clientSessions.put(nextSes, clientSes.setSessionNr(nextSes));
-				
 			ClientSession cs = callObj.getClientSession();
 			
 			//Get User configuration, eg roles
@@ -81,12 +67,11 @@ public class Login2Rest extends BaseRest {
 			String roles = service.getUserRolesAsString(cs.getUserId());
 			
 			//Return the base usn number for the client to use in all coms
-			Login2JsonRes r = new Login2JsonRes();
-			r.userid = userid; 
-			r.clientUrl = cs.getUrlSegment();
-			r.orgNr = cs.getOrgNr();
-			r.lang = cs.getLang();
-			r.roles = roles;
+			Login2JsonRes login = new Login2JsonRes();
+			login.userid = userid; 
+			login.orgNr = cs.getOrgNr();
+			login.lang = cs.getLang();
+			login.roles = roles;
 			
 System.out.println("NEW CLIENT sid=" + httpSes.getId() + "  passed in sid=" + sid  + "  clientNr=" + cs.getSessionNr());				
 
@@ -94,7 +79,7 @@ System.out.println("NEW CLIENT sid=" + httpSes.getId() + "  passed in sid=" + si
 				cacheDev.put(httpRequest.getRemoteHost(), httpSes);
 			}
 			
-			return new JsonRes().setData(r);
+			return new JsonRes().setData(login);
 		
 		//Not a valid attempt
 		} catch (Exception e) {

@@ -59,7 +59,6 @@ public class LoginRest extends BaseRest{
 		//Return object
 		LoginJsonRes login = new LoginJsonRes();
 		login.sessionId = ses.getId();
-		login.uploadUrl = appProperties.get("BaseUrl") + UPLOAD_PATH + "/";
 		login.initialisationUrl = appProperties.get("WebLoginInitUrl");
 		
 		if (appProperties.is("DevelopmentMode")) {
@@ -87,6 +86,7 @@ public class LoginRest extends BaseRest{
 
 		//Append client session to base url, client will use this to connect to this server
 		login.baseUrl = appProperties.get("BaseUrl") + APPLICATION_PATH + "/" + cs.getUrlSegment();
+		login.uploadUrl = appProperties.get("BaseUrl") + UPLOAD_PATH + "/" + cs.getUrlSegment();
 
 		return new JsonRes().setData(login);
     }
