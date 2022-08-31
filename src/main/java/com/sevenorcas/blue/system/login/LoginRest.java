@@ -34,9 +34,8 @@ import com.sevenorcas.blue.system.user.UserEnt;
 @Consumes({"application/json"})
 public class LoginRest extends BaseRest{
 	
-
-	@EJB
-	private LoginCache cache;
+//	@EJB
+//	private LoginCache cache;
 	
 	@EJB
 	private LoginSrv service;

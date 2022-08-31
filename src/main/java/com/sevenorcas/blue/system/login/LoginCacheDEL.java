@@ -21,12 +21,12 @@ import org.infinispan.manager.EmbeddedCacheManager;
 
 @Singleton
 @Startup
-public class LoginCache {
+public class LoginCacheDEL {
 
 	private EmbeddedCacheManager cacheManager;
 	private Cache<String, ClientSession> cache;
 	
-	public LoginCache() {}
+	public LoginCacheDEL() {}
 	
 	@PostConstruct
 	public void initalise() {

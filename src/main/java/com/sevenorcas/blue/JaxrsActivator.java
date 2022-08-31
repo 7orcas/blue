@@ -18,5 +18,4 @@ import com.sevenorcas.blue.system.ApplicationI;
 
 @ApplicationPath(ApplicationI.APPLICATION_PATH)
 public class JaxrsActivator extends Application {
-
 }
