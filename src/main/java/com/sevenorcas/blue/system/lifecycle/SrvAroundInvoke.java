@@ -16,7 +16,6 @@ public class SrvAroundInvoke {
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
 		
-System.out.println("ServiceAroundInvoke called on " + ctx.getMethod().getName());
 		try {
 			return ctx.proceed();
 

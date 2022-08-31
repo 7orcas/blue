@@ -16,7 +16,7 @@
 	
 	<filter-mapping>
 	    <filter-name>Filter1</filter-name>
-	    <url-pattern>/api/*</url-pattern>
+	    <url-pattern>/rest-api-x/*</url-pattern>
 	    <dispatcher>FORWARD</dispatcher>
 	    <dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
@@ -28,7 +28,7 @@
 	
 	<filter-mapping>
 	    <filter-name>Filter2</filter-name>
-	    <url-pattern>/api/*</url-pattern>
+	    <url-pattern>/rest-api-x/*</url-pattern>
   	    <dispatcher>FORWARD</dispatcher>
   	    <dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
@@ -38,6 +38,16 @@
        		com.sevenorcas.blue.system.lifecycle.SessionListener
       	</listener-class>
 	</listener>
+	
+	<servlet>
+        <servlet-name>loginServlet</servlet-name>
+        <servlet-class>com.sevenorcas.blue.system.login.LoginServlet</servlet-class>
+    </servlet>
+	
+	<servlet-mapping>
+        <servlet-name>loginServlet</servlet-name>
+        <url-pattern>/blue-login/*</url-pattern>
+    </servlet-mapping>
 	
 	<servlet>
         <servlet-name>fileUploadServlet</servlet-name>

@@ -211,7 +211,9 @@ npm i file-saver
 npm install --save @types/file-saver
 
 
-
+Git
+===
+refer for storing userid/pw: https://stackoverflow.com/questions/11403407/git-asks-for-username-every-time-i-push
 
 
 

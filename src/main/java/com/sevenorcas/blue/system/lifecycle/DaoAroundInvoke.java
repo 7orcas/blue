@@ -15,8 +15,7 @@ public class DaoAroundInvoke {
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
-		
-System.out.println("DaoAroundInvoke called on " + ctx.getMethod().getName());
+
 		try {
 			return ctx.proceed();
 

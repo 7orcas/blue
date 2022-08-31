@@ -124,7 +124,7 @@ public class FileUploadServlet extends BaseServlet {
             		//Get new URL to forward to
              		url = url.replaceFirst(UPLOAD_PATH, APPLICATION_PATH) + "?filename=" + filename;
             		int index = url.indexOf(APPLICATION_PATH + "/");
-            		url = url.substring(index);
+            		url = "/" + url.substring(index);
 
             		//Forward to rest for processing
   					RequestDispatcher rd = getServletContext().getRequestDispatcher(url);

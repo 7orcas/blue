@@ -55,7 +55,7 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 			
 			if (nr != -1) {
 				request.setAttribute(CLIENT_SESSION_NR, nr);
-				RequestDispatcher rd = request.getServletContext().getRequestDispatcher(APPLICATION_PATH + url);
+				RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/" + APPLICATION_PATH + url);
 				rd.forward(request, response);
 				log.debug("forward: " + APPLICATION_PATH + url);
 				return;

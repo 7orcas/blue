@@ -34,9 +34,6 @@ import com.sevenorcas.blue.system.user.UserEnt;
 @Consumes({"application/json"})
 public class LoginRest extends BaseRest{
 	
-//	@EJB
-//	private LoginCache cache;
-	
 	@EJB
 	private LoginSrv service;
 	
@@ -62,14 +59,14 @@ public class LoginRest extends BaseRest{
 		//Return object
 		LoginJsonRes login = new LoginJsonRes();
 		login.sessionId = ses.getId();
-		login.uploadUrl = appProperties.get("UploadUrl");
+		login.uploadUrl = appProperties.get("BaseUrl") + UPLOAD_PATH + "/";
 		login.initialisationUrl = appProperties.get("WebLoginInitUrl");
 		
 		if (appProperties.is("DevelopmentMode")) {
-			login.locationHref = appProperties.get("WebClientMainUrl-CORS");	
+			login.locationHref = appProperties.get("WebClientUrl-CORS");	
 		}
 		else {
-			login.locationHref = appProperties.get("WebClientMainUrl");
+			login.locationHref = appProperties.get("BaseUrl") + appProperties.get("WebClientUrl");
 		}
 				
 		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
@@ -89,9 +86,8 @@ public class LoginRest extends BaseRest{
 		clientSessions.put(nextSes, cs.setSessionNr(nextSes));
 
 		//Append client session to base url, client will use this to connect to this server
-		login.baseUrl = appProperties.get("BaseUrl") + cs.getUrlSegment();
+		login.baseUrl = appProperties.get("BaseUrl") + APPLICATION_PATH + "/" + cs.getUrlSegment();
 
-//		cache.put(ses.getId(), cs);
 		return new JsonRes().setData(login);
     }
 

@@ -16,6 +16,6 @@ import com.sevenorcas.blue.system.ApplicationI;
  * @author John Stewart
  */
 
-@ApplicationPath(ApplicationI.APPLICATION_PATH)
+@ApplicationPath("/" + ApplicationI.APPLICATION_PATH)
 public class JaxrsActivator extends Application {
 }
