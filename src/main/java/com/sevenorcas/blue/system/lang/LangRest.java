@@ -46,6 +46,8 @@ public class LangRest extends BaseRest {
     		@QueryParam ("load") String loadFlag) throws Exception {
 		log.info("pack for lang=" + callObj.getLang());	
 		
+//if (loadFlag != null && loadFlag.equals("All")) return new JsonRes().setError("TEST ERROR");
+
 		return service.langPackageJson(callObj.getOrg().getNr(), null, callObj.getLang(), loadFlag);
     }
 	

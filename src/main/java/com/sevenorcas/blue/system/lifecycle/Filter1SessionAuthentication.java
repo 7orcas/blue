@@ -83,8 +83,12 @@ public class Filter1SessionAuthentication implements Filter{
 			if (ses != null) {
 				proceed = true;
 			}
+
+if (req.getParameter("load") != null && req.getParameter("load").equals("All"))
+proceed = false;				
 		}
 
+		
 		if (proceed) {
 			chain.doFilter(request, response);
 		}

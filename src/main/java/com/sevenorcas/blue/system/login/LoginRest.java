@@ -65,7 +65,7 @@ public class LoginRest extends BaseRest{
 			login.locationHref = appProperties.get("WebClientUrl-CORS");	
 		}
 		else {
-			login.locationHref = appProperties.get("BaseUrl") + appProperties.get("WebClientUrl");
+			login.locationHref = appProperties.get("WebClientUrl");
 		}
 				
 		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");

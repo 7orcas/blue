@@ -3,7 +3,7 @@ package com.sevenorcas.blue.system.base;
 public class JsonRes {
 	public Boolean valid = true;
 	public Object data;
-	public Object message;
+	public Object message = "";
 	
 	public JsonRes setData(Object data) {
 		this.data = data;
