@@ -84,8 +84,6 @@ public class Filter1SessionAuthentication implements Filter{
 				proceed = true;
 			}
 
-if (req.getParameter("load") != null && req.getParameter("load").equals("All"))
-proceed = false;				
 		}
 
 		
