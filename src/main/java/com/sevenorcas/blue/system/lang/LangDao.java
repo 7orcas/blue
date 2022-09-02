@@ -147,33 +147,39 @@ public class LangDao extends BaseDao {
     }
 	
     /**
-     * Return the <code>LangKeyEnt</code> entity id
+     * Return the <code>LangKeyEnt</code> entity 
      * @param parms
-     * @param label
+     * @param code
      * @return
      */
-    public Long getLangKeyId (
-			SqlParm parms,
-    		String label) throws Exception {
+    public LangKeyEnt getLangKey (
+    		String code) throws Exception {
 		
-    	parms = validateParms(parms);
-		parms.addParameter(label);
+//    	parms = validateParms(parms);
+//		parms.addParameter(label);
+//		
+//		String sql;
+//		sql = "SELECT k.id " +
+//				"FROM cntrl.lang_key AS k " + 
+//				"WHERE k.code = ?";
+//		
+//		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+//		Long id = null;
+//		
+//		// Extract data from result set
+//		for (int i=0;i<r.size();i++) {
+//			Object[] row = r.get(i);
+//			id = row[0] != null? (Long)row[0] : null;
+//		}
+//    	return id;
 		
-		String sql;
-		sql = "SELECT k.id " +
-				"FROM cntrl.lang_key AS k " + 
-				"WHERE k.code = ?";
-		
-		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
-		Long id = null;
-		
-		// Extract data from result set
-		for (int i=0;i<r.size();i++) {
-			Object[] row = r.get(i);
-			id = row[0] != null? (Long)row[0] : null;
-		}
-		
-    	return id;
+    	TypedQuery<LangKeyEnt> tq = em.createQuery(
+				"FROM com.sevenorcas.blue.system.lang.LangKeyEnt "
+				+ "WHERE code = :codeLangKey", 
+				LangKeyEnt.class);
+		return tq.setParameter("code", code)
+				.getSingleResult();
+    	
 	}
     
     

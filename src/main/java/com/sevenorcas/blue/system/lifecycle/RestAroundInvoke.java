@@ -8,6 +8,7 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseOrg;
+import com.sevenorcas.blue.system.base.JsonRes;
 
 /**
  * Inject the <code>CallObject</code> into the target rest methods (if in the method signature).
@@ -68,7 +69,7 @@ public class RestAroundInvoke {
 			return null;
 		} catch (Exception e) {
 			log.error("Exception:" + e.getMessage());
-			return null;
+			return new JsonRes().setError("errunk", e.getMessage());
 		}
     }
 		

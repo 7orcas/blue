@@ -104,17 +104,12 @@ public class LangSrv extends BaseSrv {
     		CallObject callObj,
     		String label) throws Exception {
 	
-		try{
-			List<LangLabelEnt> x = getLabel(callObj, label);
-			List<LangLabelJson>	y = new ArrayList<>();	
-			for (LangLabelEnt l : x) {
-				y.add(new LangLabelJson(l));
-			}
-			return y;
-
-		} catch (Exception e) {
-			return null;
+		List<LangLabelEnt> x = getLabel(callObj, label);
+		List<LangLabelJson>	y = new ArrayList<>();	
+		for (LangLabelEnt l : x) {
+			y.add(new LangLabelJson(l));
 		}
+		return y;
     }
 	
 	/**
@@ -122,16 +117,21 @@ public class LangSrv extends BaseSrv {
  	 * A language label may have multiple orgs
  	 * 
 	 * @param callObj
-	 * @param label
+	 * @param code
 	 * @return
 	 * @throws Exception
 	 */
 	public List<LangLabelEnt> getLabel(
     		CallObject callObj,
-    		String label) throws Exception {
+    		String code) throws Exception {
 		
-		Long id = dao.getLangKeyId(null, label);
-		return dao.getLangLabel(id, callObj.getLang());
+		LangKeyEnt key = dao.getLangKey(code);
+		List<LangLabelEnt> list = dao.getLangLabel(key.getId(), callObj.getLang());
+		for (int i=0;i<list.size();i++) {
+			LangLabelEnt e = list.get(i);
+			e.setLangKey(code);
+		}
+		return list;
     }
 	 
 	

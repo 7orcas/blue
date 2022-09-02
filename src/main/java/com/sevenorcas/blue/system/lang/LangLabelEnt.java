@@ -3,6 +3,7 @@ package com.sevenorcas.blue.system.lang;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
 
@@ -24,6 +25,9 @@ public class LangLabelEnt extends BaseEnt {
 	@Column(name="id_lang_key")
 	private Long idLangKey;
 
+	@Transient
+	private String langKey;
+	
 	private String lang;
 	
 	public LangLabelEnt () {
@@ -42,6 +46,13 @@ public class LangLabelEnt extends BaseEnt {
 	}
 	public void setLang(String lang) {
 		this.lang = lang;
+	}
+
+	public String getLangKey() {
+		return langKey;
+	}
+	public void setLangKey(String key) {
+		this.langKey = key;
 	}
 
 	
