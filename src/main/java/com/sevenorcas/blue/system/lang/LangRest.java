@@ -106,7 +106,7 @@ public class LangRest extends BaseRest {
 	 * A language label may have multiple orgs
 	 * 
 	 * @param callObj
-	 * @param label
+	 * @param langKey
 	 * @return
 	 * @throws Exception
 	 */
@@ -114,11 +114,11 @@ public class LangRest extends BaseRest {
 	@Path("label")
     public JsonRes getLabel(
     		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("label") String label) throws Exception {
-		if (label == null) {
+    		@QueryParam ("langKey") String langKey) throws Exception {
+		if (langKey == null) {
 			return new JsonRes().setError("Invalid Label");
 		}
-		return new JsonRes().setData(service.getLabelJson(callObj, label));
+		return new JsonRes().setData(service.getLabelJson(callObj, langKey));
     }
 	
 	

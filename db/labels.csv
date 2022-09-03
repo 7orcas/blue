@@ -59,3 +59,8 @@ starttime,gen,0,Start Time,Startzeit
 endtime,gen,0,End Time,Endzeit
 capacity,,0,Capacity,Kapazität
 today,gen,0,Today,Heute
+error,,0,Error,Error
+warn,,0,Warning,Warning
+errunk,,0,"An error has occurred, please contact your system admin","An error has occurred, please contact your system admin"
+context,,0,Context,Context
+detail,,0,Detail,Detail

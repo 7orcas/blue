@@ -14,15 +14,15 @@ public class DaoAroundInvoke {
 	public DaoAroundInvoke() {}
 	
 	@AroundInvoke
-    public Object invocation(InvocationContext ctx) {
+    public Object invocation(InvocationContext ctx) throws Exception {
 
 		try {
 			return ctx.proceed();
 
 		} catch (Exception e) {
+			
 System.out.println("DaoAroundInvoke Exception:" + e.getMessage());
-			return null;
-		
+			throw e;
 		}
     }
 		

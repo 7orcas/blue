@@ -149,37 +149,17 @@ public class LangDao extends BaseDao {
     /**
      * Return the <code>LangKeyEnt</code> entity 
      * @param parms
-     * @param code
+     * @param langKey
      * @return
      */
     public LangKeyEnt getLangKey (
-    		String code) throws Exception {
-		
-//    	parms = validateParms(parms);
-//		parms.addParameter(label);
-//		
-//		String sql;
-//		sql = "SELECT k.id " +
-//				"FROM cntrl.lang_key AS k " + 
-//				"WHERE k.code = ?";
-//		
-//		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
-//		Long id = null;
-//		
-//		// Extract data from result set
-//		for (int i=0;i<r.size();i++) {
-//			Object[] row = r.get(i);
-//			id = row[0] != null? (Long)row[0] : null;
-//		}
-//    	return id;
-		
+    		String langKey) throws Exception {
     	TypedQuery<LangKeyEnt> tq = em.createQuery(
 				"FROM com.sevenorcas.blue.system.lang.LangKeyEnt "
-				+ "WHERE code = :codeLangKey", 
+				+ "WHERE code = :langKey", 
 				LangKeyEnt.class);
-		return tq.setParameter("code", code)
+		return tq.setParameter("langKey", langKey)
 				.getSingleResult();
-    	
 	}
     
     
@@ -193,19 +173,15 @@ public class LangDao extends BaseDao {
 	 * @return
 	 */
 	public List<LangLabelEnt> getLangLabel (Long idLangKey, String lang) {
-		try {
-			TypedQuery<LangLabelEnt> tq = em.createQuery(
-					"FROM com.sevenorcas.blue.system.lang.LangLabelEnt "
-					+ "WHERE id_lang_key = :idLangKey "
-					+ "AND lang = :lang", 
-					LangLabelEnt.class);
-			return tq.setParameter("idLangKey", idLangKey)
-					.setParameter("lang", lang)
-					.getResultList();
-		} catch (Exception e) {
-			log.error("idLangKey=" + idLangKey + ", lang=" + lang + " error:" + e);
-			return null;
-		}
+		TypedQuery<LangLabelEnt> tq = em.createQuery(
+				"FROM com.sevenorcas.blue.system.lang.LangLabelEnt "
+				+ "WHERE id_lang_key = :idLangKey "
+				+ "AND lang = :lang", 
+				LangLabelEnt.class);
+		return tq.setParameter("idLangKey", idLangKey)
+				.setParameter("lang", lang)
+				.getResultList();
+	
 	}
 
     

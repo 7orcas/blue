@@ -12,7 +12,7 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 
 public class LangLabelJson extends BaseJsonRes{
 	public Long idLangKey;
-	public String langkey;
+	public String langKey;
 	
 	public LangLabelJson () {
 		
@@ -28,7 +28,7 @@ public class LangLabelJson extends BaseJsonRes{
 	
 	public LangLabelJson (LangLabelEnt ent) {
 		this.initialise(ent);
-		langkey = ent.getLangKey();
+		langKey = ent.getLangKey();
 		idLangKey = ent.getIdLangKey();	
 	}
 }

@@ -67,9 +67,15 @@ public class RestAroundInvoke {
 			
 			log.debug("returning null");			
 			return null;
+			
 		} catch (Exception e) {
-			log.error("Exception:" + e.getMessage());
-			return new JsonRes().setError("errunk", e.getMessage());
+			String detail = e.getMessage();
+			if (detail == null) {
+				detail = e.getClass().getCanonicalName();
+			}
+			
+			log.error("Exception:" + detail);
+			return new JsonRes().setError("errunk", detail);
 		}
     }
 		
