@@ -1,6 +1,7 @@
-package com.sevenorcas.blue.system.lang;
+package com.sevenorcas.blue.system.lang.ent;
 
 import com.sevenorcas.blue.system.base.BaseDto;
+import com.sevenorcas.blue.system.lang.json.LabelJsonRes;
 
 /**
 * Created July '22
@@ -40,7 +41,5 @@ public class LabelDto extends BaseDto<LabelDto> {
 		this.id_lang_key = id_lang_key;
 		return this;
 	}
-	
-	
 	
 }

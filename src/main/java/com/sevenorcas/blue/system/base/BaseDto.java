@@ -9,9 +9,9 @@ package com.sevenorcas.blue.system.base;
 * @author John Stewart
 */
 
-public class BaseDto <T> {
+public class BaseDto <T> implements IdCodeI {
 	private Long id;
-	private Integer org;
+	private Integer orgNr;
     private String code;
     private String encoded;
     private Boolean active;
@@ -24,26 +24,29 @@ public class BaseDto <T> {
     protected void toJSon(BaseJsonRes j) {
 		j.id = id;
 		j.code = code;
-		j.org = org;
+		j.org = orgNr;
 	}
     
     public Long getId() {
 		return id;
 	}
+	@SuppressWarnings({"unchecked"})
 	public T setId(Long _id) {
 		this.id = _id;
 		return (T)this;
 	}
-	public Integer getOrg() {
-		return org;
+	public Integer getOrgNr() {
+		return orgNr;
 	}
-	public T setOrg(Integer _org) {
-		this.org = _org;
+	@SuppressWarnings("unchecked")
+	public T setOrgNr(Integer _org) {
+		this.orgNr = _org;
 		return (T)this;
 	}
 	public String getCode() {
 		return code;
 	}
+	@SuppressWarnings("unchecked")
 	public T setCode(String _code) {
 		this.code = _code;
 		return (T)this;
@@ -51,6 +54,7 @@ public class BaseDto <T> {
 	public String getEncoded() {
 		return encoded;
 	}
+	@SuppressWarnings("unchecked")
 	public T setEncoded(String _encoded) {
 		this.encoded = _encoded;
 		return (T)this;
@@ -61,6 +65,7 @@ public class BaseDto <T> {
 	public T setActive() {
 		return setActive(true);
 	}
+	@SuppressWarnings("unchecked")
 	public T setActive(Boolean _active) {
 		this.active = _active;
 		return (T)this;

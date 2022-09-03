@@ -19,17 +19,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.file.FileSrv;
-import com.sevenorcas.blue.system.lang.LabelDto;
+import com.sevenorcas.blue.system.lang.ent.LabelDto;
 
 /**
-* Created 27.8.22
-* 
-* TODO Module Description
+* Create an excel file 
 * 
 * [Licence]
+* Created 27.8.22
 * @author John Stewart
 */
-
 @Stateless
 public class ExcelSrv extends BaseSrv {
 	
@@ -39,11 +37,11 @@ public class ExcelSrv extends BaseSrv {
 	public String createListFile(
 			String filename,
 			Integer orgNr,
-			List<LabelDto> list) throws Exception{
+			ExcelListI list) throws Exception{
 		
 		Workbook workbook = new XSSFWorkbook();
 
-		Sheet sheet = workbook.createSheet("Persons");
+		Sheet sheet = workbook.createSheet(list.getSheetName());
 		sheet.setColumnWidth(0, 6000);
 		sheet.setColumnWidth(1, 4000);
 
@@ -59,26 +57,23 @@ public class ExcelSrv extends BaseSrv {
 		font.setBold(true);
 		headerStyle.setFont(font);
 
-		Cell headerCell = header.createCell(0);
-		headerCell.setCellValue("Name");
-		headerCell.setCellStyle(headerStyle);
-
-		headerCell = header.createCell(1);
-		headerCell.setCellValue("Age");
-		headerCell.setCellStyle(headerStyle);
-		
+		for (int j=0;j<list.getColumns().size();j++) {
+			Cell headerCell = header.createCell(j);
+			headerCell.setCellValue(list.getColumns().get(j));
+			headerCell.setCellStyle(headerStyle);
+		}
 		
 		CellStyle style = workbook.createCellStyle();
 		style.setWrapText(true);
 
-		Row row = sheet.createRow(2);
-		Cell cell = row.createCell(0);
-		cell.setCellValue("John Smith");
-		cell.setCellStyle(style);
-
-		cell = row.createCell(1);
-		cell.setCellValue(20);
-		cell.setCellStyle(style);
+		for (int i=0;i<list.getRowCount();i++) {
+			Row row = sheet.createRow(2+i);
+			for (int j=0;j<list.getColumns().size();j++) {
+				Cell cell = row.createCell(j);
+				cell.setCellValue(list.getCell(i,j));
+				cell.setCellStyle(style);
+			}
+		}
 		
 		
 		Path path = fileSrv.getTempDirectory(orgNr);

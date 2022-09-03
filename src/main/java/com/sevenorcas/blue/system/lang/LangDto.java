@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.lang;
 
 import com.sevenorcas.blue.system.base.BaseDto;
+import com.sevenorcas.blue.system.lang.json.LangJsonRes;
 
 /**
 * Created 28 July '22

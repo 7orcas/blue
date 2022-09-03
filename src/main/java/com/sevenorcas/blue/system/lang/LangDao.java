@@ -15,6 +15,9 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.lang.ent.LabelDto;
+import com.sevenorcas.blue.system.lang.ent.LangKeyEnt;
+import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
@@ -58,7 +61,7 @@ public class LangDao extends BaseDao {
 			Object[] row = r.get(i);
 						
 			d.setId((Long)row[0])
-			 .setOrg((Integer)row[1])
+			 .setOrgNr((Integer)row[1])
 			 .setCode((String)row[2])
 			 .setDescr((String)row[3])
 			 .setDefaultValue(appProperties.get("LanguageDefault").equals((String)row[2]));
@@ -123,7 +126,7 @@ public class LangDao extends BaseDao {
 				list.add(d);
 	
 				d.setId(row[0] != null? (Long)row[0] : -1L)
-				 .setOrg(row[1] != null? (Integer)row[1] : -1)
+				 .setOrgNr(row[1] != null? (Integer)row[1] : -1)
 				 .setCode(code)
 				 .setLabel(!dlang.equals(lang) && (String)row[3] == null? (String)row[4] : (String)row[3])
 				 ;

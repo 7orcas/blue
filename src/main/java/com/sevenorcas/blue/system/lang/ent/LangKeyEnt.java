@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.lang;
+package com.sevenorcas.blue.system.lang.ent;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

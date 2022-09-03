@@ -18,6 +18,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.lang.json.LangLabelJson;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 /**
@@ -44,10 +45,6 @@ public class LangRest extends BaseRest {
     public JsonRes pack(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("load") String loadFlag) throws Exception {
-		log.info("pack for lang=" + callObj.getLang());	
-		
-//if (loadFlag != null && loadFlag.equals("All")) return new JsonRes().setError("TEST ERROR");
-
 		return service.langPackageJson(callObj.getOrg().getNr(), null, callObj.getLang(), loadFlag);
     }
 	
@@ -56,7 +53,6 @@ public class LangRest extends BaseRest {
     public Response packExcel(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("load") String loadFlag) throws Exception {
-		
 		return service.langPackageExcel(callObj.getOrg().getNr(), null, callObj.getLang(), loadFlag);
     }
 	

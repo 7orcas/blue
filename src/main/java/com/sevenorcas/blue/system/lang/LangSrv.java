@@ -12,6 +12,14 @@ import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.excel.ExcelSrv;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.file.FileSrv;
+import com.sevenorcas.blue.system.lang.ent.LabelDto;
+import com.sevenorcas.blue.system.lang.ent.LabelExcel;
+import com.sevenorcas.blue.system.lang.ent.LabelUtil;
+import com.sevenorcas.blue.system.lang.ent.LangKeyEnt;
+import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
+import com.sevenorcas.blue.system.lang.json.LabelJsonRes;
+import com.sevenorcas.blue.system.lang.json.LangJsonRes;
+import com.sevenorcas.blue.system.lang.json.LangLabelJson;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
@@ -48,48 +56,76 @@ public class LangSrv extends BaseSrv {
 		return new JsonRes().setData(y);
     }
 	
+	/**
+	 * Return specific labels for the package, orgnr and language
+	 * @param orgnr
+	 * @param package
+	 * @param language
+	 * @return
+	 * @throws Exception
+	 */
+	public List<LabelDto> langPackage(
+			Integer org,
+    		String pack,
+    		String lang,
+    		String loadFlag) throws Exception {
+		
+		pack = cleanParam(pack);
+		loadFlag = cleanParam(loadFlag);
+		
+		if (lang == null) {
+			throw new RedException ("Call must include valid lang");
+		}
+		
+		return dao.langPackage(org, pack, lang, isSameNonNull(loadFlag,"All"), null);
+    }
+	
 	public JsonRes langPackageJson(
     		Integer org,
     		String pack,
     		String lang,
     		String loadFlag) throws Exception{
 		
-		pack = cleanParam(pack);
-		loadFlag = cleanParam(loadFlag);
-		
-		if (lang == null) {
-			throw new RedException ("Call must include valid lang");
-		}
-		if (lang.equals("es")) {
-			return new JsonRes().setError("Don't actually have this language pack :-)");
-		}
-		
-		List<LabelDto> x = dao.langPackage(org, pack, lang, isSameNonNUll(loadFlag,"All"), null);
+		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
 		List<LabelJsonRes> y = new ArrayList<LabelJsonRes>();
 		for (LabelDto d : x) {
 			y.add(d.toJSon());
 		}
 		return new JsonRes().setData(y);
     }
+
+	/**
+	 * Label utility object
+	 * @param org
+	 * @param pack
+	 * @param lang
+	 * @param loadFlag
+	 * @return
+	 * @throws Exception
+	 */
+	public LabelUtil getLabelUtil (
+			Integer org,
+    		String pack,
+    		String lang,
+    		String loadFlag) throws Exception {
+		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
+		return new LabelUtil(org, lang, listToHashtableCode (x));
+	}
 	
 	public Response langPackageExcel(
     		Integer org,
     		String pack,
     		String lang,
-    		String loadFlag) throws Exception{
+    		String loadFlag) throws Exception {
 		
-		pack = cleanParam(pack);
-		loadFlag = cleanParam(loadFlag);
+		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
+		LabelUtil labels = new LabelUtil(org, lang, listToHashtableCode (x));
+		LabelExcel excel = new LabelExcel("Labels", labels, x);
 		
-		if (lang == null) {
-			throw new RedException ("Call must include valid lang");
-		}
-		
-		List<LabelDto> x = dao.langPackage(org, pack, lang, isSameNonNUll(loadFlag,"All"), null);
-		String fn = excelSrv.createListFile("LabelList", org, x);
-		
+		String fn = excelSrv.createListFile("LabelList", org, excel);
 		return fileSrv.getFile(fn, "LabelList.xlsx", false);
     }
+	
 	
 	/**
 	 * Return the complete label entity(s)

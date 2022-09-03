@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.lang;
+package com.sevenorcas.blue.system.lang.json;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 

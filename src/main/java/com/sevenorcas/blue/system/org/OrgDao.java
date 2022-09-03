@@ -56,7 +56,7 @@ public class OrgDao extends BaseDao {
 			Object[] row = r.get(i);
 			
 			d.setId((Long)row[0])
-			 .setOrg((Integer)row[1])
+			 .setOrgNr((Integer)row[1])
 			 .setCode((String)row[2])
 			 .setDefaultValue((Boolean)row[3])
 			 ;

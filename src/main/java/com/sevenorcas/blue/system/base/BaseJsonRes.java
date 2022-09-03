@@ -1,6 +1,6 @@
 package com.sevenorcas.blue.system.base;
 
-import com.sevenorcas.blue.system.lang.LangLabelEnt;
+import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
 
 /**
 * Created 22 July 2022
