@@ -65,7 +65,7 @@ errunk,,0,"An error has occurred, please contact your system admin","An error ha
 context,,0,Context,Context
 detail,,0,Detail,Detail
 orgnr,excel,0,Organisation Number,Organisation Number
-Orgnr-s,,0,Org Nr,Org Nr
+orgnr-s,,0,Org Nr,Org Nr
 langkey,excel,0,Label Key,Label Key
 label,excel,0,Label,Label
-id,excel,0,Record ID,Record ID
+id,excel,0,ID,Record ID

@@ -12,12 +12,14 @@ import java.util.ArrayList;
 abstract public class BaseException extends Exception{
 
 	private static final long serialVersionUID = 1L;
+	private String detail;
 	private boolean logMe = false;
 	private boolean notifyMe = false;
 	private StackTraceElement[] stack;
 	
-	public BaseException (String message) {
+	public BaseException (String message, String detail) {
 		super (message);
+		this.detail = detail;
 	}
 
 	public BaseException logMe() {

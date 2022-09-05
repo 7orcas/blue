@@ -151,8 +151,8 @@ public class LangRest extends BaseRest {
 	public JsonRes uploadLabels(
     		@QueryParam ("co") CallObject callObj, 
     		@QueryParam ("filename") String filename)  throws Exception {
-System.out.println("filename=" + filename);
-		
+
+		service.updateLabels(callObj.getOrg().getNr(), (String)null, callObj.getLang(), (String)null, filename);		
 		return new JsonRes().setData(filename);
     }
 	

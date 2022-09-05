@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
 
-public class EncodeTest extends BaseTest{
+public class EncodeTest extends BaseTest {
 	
 	@Before
 	public void setup() throws Exception {

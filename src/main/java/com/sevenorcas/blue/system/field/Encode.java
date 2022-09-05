@@ -48,7 +48,7 @@ public class Encode {
 	 */
 	public Encode add(String key, Object o) throws Exception {
 		if (hash.containsKey(key)) 
-			throw new RedException("Duplicate key passed to Encode");
+			throw new RedException("errunk", "Duplicate key passed to Encode");
 		hash.put(key, o);
 		return this;
 	}
@@ -62,7 +62,7 @@ public class Encode {
 	 */
 	public Encode addForeignKey(ForeignKeyField f) throws Exception {
 		if (hash.containsKey(f.getField())) 
-			throw new RedException("Duplicate key passed to Encode");
+			throw new RedException("errunk", "Duplicate key passed to Encode");
 		
 		hash.put(f.getField(), f.getValue());
 		hash.put(f.getField() + REF_SCHEMA, f.getSchema());
@@ -105,7 +105,7 @@ public class Encode {
 		
 		long l = Long.parseLong(fields[0].substring(6));
 		if (l != s.length()) {
-			throw new RedException("Invalid ?");
+			throw new RedException("errunk", "Invalid ?");
 		}
 		
 		for (int i=1; i<fields.length; i++) {

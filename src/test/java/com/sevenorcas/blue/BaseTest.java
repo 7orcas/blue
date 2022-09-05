@@ -5,10 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
+import org.postgresql.ds.PGPoolingDataSource;
+
 import com.sevenorcas.blue.system.exception.BaseException;
 
 public class BaseTest {
 
+	static final String DB_NAME = "blue";
 	static final String DB_URL = "jdbc:postgresql://localhost/blue";
 	static final String USER = "postgres";
 	static final String PASS = "7o";
@@ -36,6 +42,47 @@ public class BaseTest {
 			}
 		}
 		
+	}
+	
+	/**
+	 * Setup data source 
+	 * @return datasource name
+	 */
+	public String setupDataSource(){
+		String ds = "java:jboss/datasources/blueDS";
+		
+		try {
+		    InitialContext ctx = new InitialContext();
+		    ctx.lookup(ds);
+		    return ds;
+		} catch (Exception e) {
+		}
+		
+		try {
+			
+			PGPoolingDataSource source = new PGPoolingDataSource();
+			source.setServerName("localhost:5432/" + DB_NAME + "?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8");
+			source.setDataSourceName("blueDS");
+			source.setDatabaseName(DB_NAME);
+			source.setUser("postgres");
+			source.setPassword("7o");
+			source.setMaxConnections(10);
+	
+			// Create initial context
+            System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
+            System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");   
+			InitialContext ic = new InitialContext();
+			ic.createSubcontext("java:");
+            ic.createSubcontext("java:jboss");
+            ic.createSubcontext("java:jboss/datasources");
+			ic.bind(ds, source);
+			
+			return ds;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+			
 	}
 	
 }

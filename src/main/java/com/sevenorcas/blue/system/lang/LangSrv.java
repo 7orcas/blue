@@ -2,6 +2,7 @@ package com.sevenorcas.blue.system.lang;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -74,7 +75,7 @@ public class LangSrv extends BaseSrv {
 		loadFlag = cleanParam(loadFlag);
 		
 		if (lang == null) {
-			throw new RedException ("Call must include valid lang");
+			throw new RedException ("errunk", "Call must include valid lang");
 		}
 		
 		return dao.langPackage(org, pack, lang, isSameNonNull(loadFlag,"All"), null);
@@ -112,6 +113,15 @@ public class LangSrv extends BaseSrv {
 		return new LabelUtil(org, lang, listToHashtableCode (x));
 	}
 	
+	/**
+	 * Export language package to excel
+	 * @param org
+	 * @param pack
+	 * @param lang
+	 * @param loadFlag
+	 * @return
+	 * @throws Exception
+	 */
 	public Response langPackageExcel(
     		Integer org,
     		String pack,
@@ -120,11 +130,63 @@ public class LangSrv extends BaseSrv {
 		
 		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
 		LabelUtil labels = new LabelUtil(org, lang, listToHashtableCode (x));
-		LabelExcel excel = new LabelExcel("Labels", labels, x);
+		LabelExcel excel = new LabelExcel(labels, x);
 		
 		String fn = excelSrv.createListFile("LabelList", org, excel);
 		return fileSrv.getFile(fn, "LabelList.xlsx", false);
     }
+	
+	/**
+	 * Persist the label list
+	 * @param filename
+	 * @throws Exception
+	 */
+	public List<Map<Integer, List<Object>>> updateLabels (
+			Integer org,
+    		String pack,
+    		String lang,
+    		String loadFlag,
+			String filename) throws Exception {
+		
+		//Read in file
+		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
+		LabelUtil labels = new LabelUtil(org, lang, listToHashtableCode (x));
+		LabelExcel excel = new LabelExcel(labels, x);
+		List<Map<Integer, List<Object>>> sheets = excelSrv.readListFile(filename);
+		
+		for (int s=0;s<sheets.size(); s++) {
+			Map<Integer, List<Object>> sheet = sheets.get(s);
+			
+			for (int r=0;r<sheet.size();r++) {
+				List<Object> row = sheet.get(r);
+				StringBuffer sb = new StringBuffer();
+				for (int c=0;c<row.size();c++) {
+					sb.append(row.get(c) + ",");
+				}
+				System.out.println(sb);
+			}
+			
+			
+		}
+		
+		return sheets;
+		//Validate
+		
+		//Save
+		
+		
+//		List<LangLabelEnt> listX = dao.getLangLabel(list.get(0).idLangKey, callObj.getLang());
+//		
+//		for (int i=0;i<list.size();i++) {
+//			for (int j=0;j<listX.size();j++) {
+//				if (isSameNonNUll(list.get(i).id, listX.get(j).getId())) {
+//					listX.get(j).setCode(list.get(i).code);
+//				}
+//			}
+//		}
+
+	}
+
 	
 	
 	/**

@@ -74,7 +74,7 @@ public class SqlExecute {
 	    				case "Date":
 	    					stmtP.setDate(i+1, (Date)sqlParms.parameters.get(i)); break;
 	    				default:
-	    					throw new RedException("Invalid parameter passed to " + MethodHandles.lookup().lookupClass().getName());
+	    					throw new RedException("errunk", "Invalid parameter passed to " + MethodHandles.lookup().lookupClass().getName());
 	    			}
 	    		}
 	    		rs = stmtP.executeQuery();
