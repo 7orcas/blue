@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.file.FileSrv;
+import com.sevenorcas.blue.system.lang.ent.LabelUtil;
 
 /**
 * Create an excel file 
@@ -59,7 +60,7 @@ public class ExcelSrv extends BaseSrv {
 				Column col = cols.get(j);
 				sheet.setColumnWidth(j, col.getWidth());
 				Cell headerCell = header.createCell(j);
-				headerCell.setCellValue(col.getName());
+				headerCell.setCellValue(col.getLabel());
 				headerCell.setCellStyle(headerStyle);
 			}
 
@@ -115,37 +116,41 @@ public class ExcelSrv extends BaseSrv {
 		return headerStyle;
 	}
 	
-	public List<Map<Integer, List<Object>>> readListFile(String filename) throws Exception{
+	/**
+	 * Read in an excel workbook
+	 * @param filename
+	 * @param labels
+	 * @return
+	 * @throws Exception
+	 */
+	public ExcelImport readListFile(String filename, LabelUtil labels) throws Exception{
 	
 		if (filename.toLowerCase().endsWith("xlsx")) {
-			return readListFileXlsx(filename);
+			return readListFileXlsx(filename, labels);
 		}
 		
 		throw new RedException("errunk", "Unknown file extension");
 	}
 	
 	
-	private List<Map<Integer, List<Object>>> readListFileXlsx(String filename) throws Exception{
+	private ExcelImport readListFileXlsx(String filename, LabelUtil labels) throws Exception{
 
 		FileInputStream file = null;
 		Workbook workbook = null;
-		List<Map<Integer, List<Object>>> list = new ArrayList<>();
+		ExcelImport excel = new ExcelImport(labels);		
 		
 		try {
 			
 			file = new FileInputStream(new File(filename));
 			workbook = new XSSFWorkbook(file);
-
 			
-			for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
-			    Sheet sheet = workbook.getSheetAt(i);
-			    Map<Integer, List<Object>> data = new HashMap<>();
-			    list.add(data);
+			for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
+			    Sheet sheet = workbook.getSheetAt(s);
+			    excel.addSheet(sheet.getSheetName());
 			    
 			    int r = 0;
 			    for (Row row : sheet) {
 			    	ArrayList<Object> objs = new ArrayList<Object>();
-			    	data.put(r, objs);
 			    	
 			        for (Cell cell : row) {
 			            switch (cell.getCellType()) {
@@ -161,7 +166,12 @@ public class ExcelSrv extends BaseSrv {
 			                default: objs.add(null);
 			            }
 			        }
-			        r++;
+			        
+			        if (r++ == 0) {
+			        	excel.setColumns(s, objs);
+			        } else {
+			        	excel.addRow(s, objs);
+			        }
 			    }
 			}
 			
@@ -174,7 +184,7 @@ public class ExcelSrv extends BaseSrv {
 		}
 		
 		
-		return list;
+		return excel;
     }
 
 	

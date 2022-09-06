@@ -37,6 +37,10 @@ abstract public class BaseException extends Exception{
 		return this;	
 	}
 	
+	public String getDetail() {
+		return detail;
+	}
+
 	public boolean isLog() {
 		return logMe;
 	}

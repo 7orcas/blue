@@ -47,7 +47,7 @@ public class EncodeField {
 			return "X" + df.format(d);
 		}
 		
-		throw new RedException("Unknown Object passed to be encoded");
+		throw new RedException("errunk", "Unknown Object passed to be encoded");
 	}
 	
 	static protected Object decode (String s) throws Exception {

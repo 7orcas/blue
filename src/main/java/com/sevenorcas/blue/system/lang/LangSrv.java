@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.excel.ExcelImport;
 import com.sevenorcas.blue.system.excel.ExcelSrv;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.file.FileSrv;
@@ -141,35 +142,36 @@ public class LangSrv extends BaseSrv {
 	 * @param filename
 	 * @throws Exception
 	 */
-	public List<Map<Integer, List<Object>>> updateLabels (
+	public void updateLabels (
 			Integer org,
     		String pack,
     		String lang,
     		String loadFlag,
 			String filename) throws Exception {
-		
-		//Read in file
+
+		//Get labels
 		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
 		LabelUtil labels = new LabelUtil(org, lang, listToHashtableCode (x));
-		LabelExcel excel = new LabelExcel(labels, x);
-		List<Map<Integer, List<Object>>> sheets = excelSrv.readListFile(filename);
 		
-		for (int s=0;s<sheets.size(); s++) {
-			Map<Integer, List<Object>> sheet = sheets.get(s);
-			
-			for (int r=0;r<sheet.size();r++) {
-				List<Object> row = sheet.get(r);
-				StringBuffer sb = new StringBuffer();
-				for (int c=0;c<row.size();c++) {
-					sb.append(row.get(c) + ",");
-				}
-				System.out.println(sb);
-			}
-			
-			
+		//Read in file
+		ExcelImport xImport = excelSrv.readListFile(filename, labels);
+		LabelExcel excel = new LabelExcel(labels, xImport);		
+		excel.populate(x);
+		
+for (int s=0;s<excel.getSheetCount(); s++) {
+	System.out.println("Sheet " + excel.getSheetName(s));
+	
+	for (int r=0;r<excel.getRowCount(s);r++) {
+		List<Object> row = excel.getRow(s, r);
+		StringBuffer sb = new StringBuffer();
+		for (int c=0;c<row.size();c++) {
+			sb.append(row.get(c) + ",");
 		}
+		System.out.println(sb);
+	}
+}
 		
-		return sheets;
+//		return sheets;
 		//Validate
 		
 		//Save

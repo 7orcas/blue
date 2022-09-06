@@ -10,10 +10,6 @@ package com.sevenorcas.blue.system.exception;
 public class RedException extends BaseException {
 
 	private static final long serialVersionUID = 1L;
-
-	public RedException (String message) {
-		super(message, "");	
-	}
 	
 	public RedException (String message, String detail) {
 		super(message, detail);

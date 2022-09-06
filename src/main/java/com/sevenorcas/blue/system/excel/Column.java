@@ -1,23 +1,37 @@
 package com.sevenorcas.blue.system.excel;
 
 public class Column {
-	private String name;
+	private int index;
+	private String label;
+	private String langKey;
 	private Integer width;
-	private int clazz;
+	private Integer clazz;
 	
-	public Column(String name, int width, int clazz) {
-		this.name = name;
+	public Column(int index, String langKey, String label, Integer width, Integer clazz) {
+		this.index = index;
+		this.langKey = langKey;
+		this.label = label;
 		this.width = width;
 		this.clazz = clazz;
 	}
 
-	public String getName() {
-		return name;
+	public int getIndex() {
+		return index;
+	}
+	public Column setIndex(int index) {
+		this.index = index;
+		return this;
+	}
+	public String getLangKey() {
+		return langKey;
+	}
+	public String getLabel() {
+		return label;
 	}
 	public Integer getWidth() {
 		return width;
 	}
-	public int getCellClass() {
+	public Integer getCellClass() {
 		return clazz;
 	}
 	

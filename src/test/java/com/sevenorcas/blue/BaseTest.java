@@ -1,18 +1,22 @@
 package com.sevenorcas.blue;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.ejb.EJB;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
+import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.BaseException;
+import com.sevenorcas.blue.system.exception.RedException;
 
-public class BaseTest {
+public class BaseTest extends BaseUtil {
 
 	static final String DB_NAME = "blue";
 	static final String DB_URL = "jdbc:postgresql://localhost/blue";
@@ -30,7 +34,10 @@ public class BaseTest {
 	public void showException (Exception e) {
 		
 		System.out.println("Got Exception: " + e.getClass().getSimpleName());
-		System.out.println(e.getMessage());
+		System.out.println("Message: " + e.getMessage());
+		if (e instanceof RedException) {
+			System.out.println("Detail: " + ((RedException)e).getDetail());
+		}
 		
 		if (e instanceof BaseException) { 
 			BaseException b = (BaseException)e;
@@ -41,8 +48,21 @@ public class BaseTest {
 				}
 			}
 		}
-		
 	}
+
+	
+	public void setupEJBs(Object entity) throws Exception {
+		for (Field field : entity.getClass().getDeclaredFields()) {
+			if (field.isAnnotationPresent(EJB.class)) {
+				field.setAccessible(true);
+				Object x = field.getType().newInstance();
+				field.set(entity, x);
+			}
+		}
+		setupDataSource();
+	}
+	
+	
 	
 	/**
 	 * Setup data source 
