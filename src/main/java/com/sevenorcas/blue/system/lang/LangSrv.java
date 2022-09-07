@@ -176,7 +176,7 @@ public class LangSrv extends BaseSrv {
 						
 						for (int j=0;j<listX.size();j++) {
 							if (isSameNonNull(dto.getId(), listX.get(j).getId())) {
-								listX.get(j).setCode(dto.getCode());
+								listX.get(j).setCode(dto.getLabel()); //note code = label in the entity
 							}
 						}
 					}

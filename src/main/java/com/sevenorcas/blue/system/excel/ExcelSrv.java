@@ -36,7 +36,7 @@ import com.sevenorcas.blue.system.lang.ent.LabelUtil;
 * @author John Stewart
 */
 @Stateless
-public class ExcelSrv extends BaseSrv implements ExcelI {
+public class ExcelSrv extends BaseSrv {
 	
 	@EJB
 	private FileSrv fileSrv;
@@ -179,7 +179,7 @@ public class ExcelSrv extends BaseSrv implements ExcelI {
 		                Cell cell = row.getCell(c, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
 		                
 		                if (cell == null) {
-		                	objs.add(NULL);	
+		                	objs.add(ExcelI.NULL);	
 		                }
 		                else {
 				            switch (cell.getCellType()) {
@@ -192,7 +192,7 @@ public class ExcelSrv extends BaseSrv implements ExcelI {
 				                	}
 				                	break;
 				                case BOOLEAN: objs.add(cell.getBooleanCellValue()); break;
-				                default: objs.add(NULL);
+				                default: objs.add(ExcelI.NULL);
 				            }
 		                }
 		            }

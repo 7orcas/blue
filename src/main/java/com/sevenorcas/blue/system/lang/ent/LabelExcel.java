@@ -82,6 +82,7 @@ public class LabelExcel extends BaseExcel implements ExportListI {
 	
 	/**
 	 * Populate the label DTO's with changes
+	 * Use in excel import
 	 */
 	public void updateList (List<LabelDto> table) throws Exception {
 		this.table = table;

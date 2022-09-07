@@ -80,7 +80,7 @@ public class LangDao extends BaseDao {
 		parms.addParameter(lang);
 		
 		String sql;
-		sql = "SELECT l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
+		sql = "SELECT k.id, l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
 				"FROM cntrl.lang_key AS k " + 
 				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
 				"%2";
@@ -117,18 +117,19 @@ public class LangDao extends BaseDao {
 		for (int i=0;i<r.size();i++) {
 			
 			Object[] row = r.get(i);
-			String code = (String)row[3];
+			String code = (String)row[4];
 
 			if (loadAll || !set.contains(code)) {
 				
 				LabelDto d = new LabelDto();
 				list.add(d);
 	
-				d.setId(row[0] != null? (Long)row[0] : -1L)
-				 .setOrgNr(row[1] != null? (Integer)row[1] : -1)
-				 .setLang((String)row[2])
+				d.setIdLangKey((Long)row[0])
+				 .setId(row[1] != null? (Long)row[1] : -1L)
+				 .setOrgNr(row[2] != null? (Integer)row[2] : -1)
+				 .setLang((String)row[3])
 				 .setCode(code)
-				 .setLabel(!dlang.equals(lang) && (String)row[4] == null? (String)row[5] : (String)row[4])
+				 .setLabel(!dlang.equals(lang) && (String)row[5] == null? (String)row[6] : (String)row[5])
 				 ;
 
 				if (!loadAll) set.add(code);
@@ -158,7 +159,7 @@ public class LangDao extends BaseDao {
     public LangKeyEnt getLangKey (
     		String langKey) throws Exception {
     	TypedQuery<LangKeyEnt> tq = em.createQuery(
-				"FROM com.sevenorcas.blue.system.lang.LangKeyEnt "
+				"FROM com.sevenorcas.blue.system.lang.ent.LangKeyEnt "
 				+ "WHERE code = :langKey", 
 				LangKeyEnt.class);
 		return tq.setParameter("langKey", langKey)
@@ -177,7 +178,7 @@ public class LangDao extends BaseDao {
 	 */
 	public List<LangLabelEnt> getLangLabel (Long idLangKey, String lang) {
 		TypedQuery<LangLabelEnt> tq = em.createQuery(
-				"FROM com.sevenorcas.blue.system.lang.LangLabelEnt "
+				"FROM com.sevenorcas.blue.system.lang.ent.LangLabelEnt "
 				+ "WHERE id_lang_key = :idLangKey "
 				+ "AND lang = :lang", 
 				LangLabelEnt.class);
