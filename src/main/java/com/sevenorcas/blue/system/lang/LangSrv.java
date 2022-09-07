@@ -2,7 +2,6 @@ package com.sevenorcas.blue.system.lang;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -150,25 +149,38 @@ public class LangSrv extends BaseSrv {
 			String filename) throws Exception {
 
 		//Get labels
-		List<LabelDto> x = langPackage(org, pack, lang, loadFlag);
-		LabelUtil labels = new LabelUtil(org, lang, listToHashtableCode (x));
+		List<LabelDto> list = langPackage(org, pack, lang, loadFlag);
+		LabelUtil labels = new LabelUtil(org, lang, listToHashtableCode (list));
 		
 		//Read in file
 		ExcelImport xImport = excelSrv.readListFile(filename, labels);
 		LabelExcel excel = new LabelExcel(labels, xImport);	
-		excel.populate(x);
+		excel.updateList(list);
 
 		String rtn = "nochanges";
 		
 		if (excel.isChanged()) {
 			
+			//Create file with invalid comments
 			if (excel.isInvalid()) {
-				excel = new LabelExcel(labels, x);
+				excel = new LabelExcel(labels, list);
 				excel.setIsImportComment(true);
 				rtn = excelSrv.createListFile("LabelList-Error", org, excel);				
 			}
+			//Persist updates
 			else {
-				dao.langPackage(org, pack, lang, isSameNonNull(loadFlag,"All"), null);
+				for (int i=0;i<list.size();i++) {
+					LabelDto dto = list.get(i);
+					if (dto.isChanged()) {
+						List<LangLabelEnt> listX = dao.getLangLabel(dto.getIdLangKey(), dto.getLang());
+						
+						for (int j=0;j<listX.size();j++) {
+							if (isSameNonNull(dto.getId(), listX.get(j).getId())) {
+								listX.get(j).setCode(dto.getCode());
+							}
+						}
+					}
+				}
 				rtn = "updated";
 			}
 		}

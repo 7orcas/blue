@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -64,16 +65,26 @@ public class ExcelSrv extends BaseSrv implements ExcelI {
 				headerCell.setCellStyle(headerStyle);
 			}
 
-			//Data
 			CellStyle style = workbook.createCellStyle();
+			CellStyle styleRed = createRedStyle (workbook);
 			style.setWrapText(true);
 			
+			//Data
 			for (int r=0;r<list.getRowCount(sheetIdx);r++) {
 				Row row = sheet.createRow(1+r);
+				CellStyle styleX;
+				
+				if (list.isRowInvalid(sheetIdx, r)) {
+					styleX = styleRed;	
+				} 
+				else {
+					styleX = style;
+				}
+				
 				for (int c=0;c<cols.size();c++) {
 					Column col = cols.get(c);
 					Cell cell = row.createCell(c);
-					cell.setCellStyle(style);
+					cell.setCellStyle(styleX);
 					Object o = list.getCell(sheetIdx,r,c);
 					
 					switch (col.getCellClass()) {
@@ -110,10 +121,18 @@ public class ExcelSrv extends BaseSrv implements ExcelI {
 
 		XSSFFont font = ((XSSFWorkbook) workbook).createFont();
 		font.setFontName("Arial");
-		font.setFontHeightInPoints((short) 14);
+		font.setFontHeightInPoints((short) 12);
 		font.setBold(true);
 		headerStyle.setFont(font);
 		return headerStyle;
+	}
+	
+	private CellStyle createRedStyle (Workbook workbook) {
+		CellStyle styleRed = workbook.createCellStyle();
+		Font headerFont = workbook.createFont();
+		headerFont.setColor(IndexedColors.RED.getIndex());
+		styleRed.setFont(headerFont);
+		return styleRed;
 	}
 	
 	/**

@@ -17,4 +17,5 @@ public interface ExportListI {
 	public Integer getRowCount(int sheet);
 	public Object getCell(int sheet, Integer row, Integer col);
 	public void initialiseColumns();
+	public boolean isRowInvalid(int sheet, Integer row);
 }

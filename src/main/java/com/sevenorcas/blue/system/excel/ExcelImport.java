@@ -1,9 +1,7 @@
 package com.sevenorcas.blue.system.excel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.ent.LabelUtil;

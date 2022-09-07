@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lang.ent.LabelDto;
 import com.sevenorcas.blue.system.lang.ent.LangKeyEnt;

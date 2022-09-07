@@ -83,7 +83,7 @@ public class LabelExcel extends BaseExcel implements ExportListI {
 	/**
 	 * Populate the label DTO's with changes
 	 */
-	public void populate (List<LabelDto> table) throws Exception {
+	public void updateList (List<LabelDto> table) throws Exception {
 		this.table = table;
 		
 		int idx = findColumnByLangKey(sheet, "id"),
@@ -173,4 +173,10 @@ public class LabelExcel extends BaseExcel implements ExportListI {
 			default: return "ERROR";
 		}
 	}
+	
+	public boolean isRowInvalid(int sheet, Integer row) {
+		LabelDto l = table.get(row);
+		return !l.isValid();
+	}
+	
 }
