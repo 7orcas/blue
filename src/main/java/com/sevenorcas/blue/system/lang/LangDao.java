@@ -81,7 +81,7 @@ public class LangDao extends BaseDao {
 		parms.addParameter(lang);
 		
 		String sql;
-		sql = "SELECT l.id, l.org, k.code AS code, l.code AS label %1 " +
+		sql = "SELECT l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
 				"FROM cntrl.lang_key AS k " + 
 				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
 				"%2";
@@ -118,7 +118,7 @@ public class LangDao extends BaseDao {
 		for (int i=0;i<r.size();i++) {
 			
 			Object[] row = r.get(i);
-			String code = (String)row[2];
+			String code = (String)row[3];
 
 			if (loadAll || !set.contains(code)) {
 				
@@ -127,8 +127,9 @@ public class LangDao extends BaseDao {
 	
 				d.setId(row[0] != null? (Long)row[0] : -1L)
 				 .setOrgNr(row[1] != null? (Integer)row[1] : -1)
+				 .setLang((String)row[2])
 				 .setCode(code)
-				 .setLabel(!dlang.equals(lang) && (String)row[3] == null? (String)row[4] : (String)row[3])
+				 .setLabel(!dlang.equals(lang) && (String)row[4] == null? (String)row[5] : (String)row[4])
 				 ;
 
 				if (!loadAll) set.add(code);

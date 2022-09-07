@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Hashtable;
 
 import javax.ejb.EJB;
 import javax.naming.Context;
@@ -22,6 +23,8 @@ public class BaseTest extends BaseUtil {
 	static final String DB_URL = "jdbc:postgresql://localhost/blue";
 	static final String USER = "postgres";
 	static final String PASS = "7o";
+	
+	Hashtable<String, Object> ejbs = new Hashtable<>();
 
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DB_URL, USER, PASS);
@@ -55,8 +58,15 @@ public class BaseTest extends BaseUtil {
 		for (Field field : entity.getClass().getDeclaredFields()) {
 			if (field.isAnnotationPresent(EJB.class)) {
 				field.setAccessible(true);
-				Object x = field.getType().newInstance();
-				field.set(entity, x);
+				if (ejbs.containsKey(field.getName())) {
+					field.set(entity, ejbs.get(field.getName()));	
+				}
+				else {
+					Object x = field.getType().newInstance();
+					ejbs.put(field.getName(), x);
+					field.set(entity, x);
+					setupEJBs(x); //recursive
+				}
 			}
 		}
 		setupDataSource();

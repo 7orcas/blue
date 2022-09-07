@@ -3,13 +3,11 @@ package com.sevenorcas.blue.system.lang;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
+import com.sevenorcas.blue.system.base.JsonRes;
 
 public class LangSrvTest extends BaseTest {
 
@@ -25,11 +23,12 @@ public class LangSrvTest extends BaseTest {
 	public void updateLabels () {
 		try {
 			//Read in file
-			langSrv.updateLabels(
+			JsonRes r = langSrv.updateLabels(
 					1, (String)null, "en", (String)null,
-					"/media/jarvisting/Jarvis/blue/import/1/LabelList.xlsx");
+					"/home/jarvisting/Downloads/LabelList.xls");
+			System.out.println(r.data);
 			
-			assertTrue(0 == 0);
+			assertTrue(true);
 		} catch (Exception x) {
 			showException(x);
 			fail(x.getMessage());

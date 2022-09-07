@@ -69,5 +69,6 @@ orgnr-s,,0,Org Nr,Org Nr
 langkey,excel,0,Label Key,Label Key
 label,excel,0,Label,Label
 id,excel,0,ID,Record ID
-duplabel,excel,0,Column label is duplicated,
-invexcel,excel,0,Invalid Excel File,
+duplabel,excel,0,Column label is duplicated,Column label is duplicated
+invexcel,excel,0,Invalid Excel File,Invalid Excel File
+labels,excel,0,Labels,Labels

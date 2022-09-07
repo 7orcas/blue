@@ -79,4 +79,42 @@ public class ExcelImport extends BaseExcel {
 		return data.get(row);	
 	}
 	
+	private Object getCellValue (Integer sheet, Integer row, Integer col) {
+		List<List<Object>> data = list.get(sheet);
+		List<Object> r = data.get(row);
+		try{
+			Object o = r.get(col);
+			if (o.toString().equals(NULL)) {
+				return null;
+			}
+			return o;
+		} catch (Exception x) {
+			return null;	
+		}
+	}
+	
+	public Long getCellLong (Integer sheet, Integer row, Integer col) {
+		Object o = getCellValue(sheet, row, col);
+		if (o == null) {
+			return null;
+		}
+		return Double.valueOf(o.toString()).longValue();	
+	}
+
+	public Integer getCellInteger (Integer sheet, Integer row, Integer col) {
+		Object o = getCellValue(sheet, row, col);
+		if (o == null) {
+			return null;
+		}
+		return Double.valueOf(o.toString()).intValue();	
+	}
+
+	public String getCellString (Integer sheet, Integer row, Integer col) {
+		Object o = getCellValue(sheet, row, col);
+		if (o == null) {
+			return null;
+		}
+		return o.toString();	
+	}
+	
 }

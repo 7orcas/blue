@@ -19,19 +19,25 @@ public class BaseUtil implements ApplicationI {
 	public AppProperties appProperties = AppProperties.getInstance();
 	
 		
-	public boolean isSameNonNUll (Long o1, Long o2) {
-		if (o1 == null && o2 == null) return false;
-		if (o1 == null || o2 == null) return false;
-		return o1.equals(o2);
-	}
-	
+//	public boolean isSameNonNull (Integer o1, Integer o2) {
+//		if (o1 == null && o2 == null) return false;
+//		if (o1 == null || o2 == null) return false;
+//		return o1.equals(o2);
+//	}
+//	
+//	public boolean isSameNonNull (Long o1, Long o2) {
+//		if (o1 == null && o2 == null) return false;
+//		if (o1 == null || o2 == null) return false;
+//		return o1.equals(o2);
+//	}
+//	
 	/**
-	 * Return true if both strings are non-null and equal
-	 * @param o1 String 1
-	 * @param o2 String 2
+	 * Return true if both objects are non-null and equal
+	 * @param o1 
+	 * @param o2 
 	 * @return
 	 */
-	public boolean isSameNonNull (String o1, String o2) {
+	public boolean isSameNonNull (Object o1, Object o2) {
 		if (o1 == null && o2 == null) return false;
 		if (o1 == null || o2 == null) return false;
 		return o1.equals(o2);

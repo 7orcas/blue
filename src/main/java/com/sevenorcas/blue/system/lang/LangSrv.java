@@ -142,7 +142,7 @@ public class LangSrv extends BaseSrv {
 	 * @param filename
 	 * @throws Exception
 	 */
-	public void updateLabels (
+	public JsonRes updateLabels (
 			Integer org,
     		String pack,
     		String lang,
@@ -155,38 +155,25 @@ public class LangSrv extends BaseSrv {
 		
 		//Read in file
 		ExcelImport xImport = excelSrv.readListFile(filename, labels);
-		LabelExcel excel = new LabelExcel(labels, xImport);		
+		LabelExcel excel = new LabelExcel(labels, xImport);	
 		excel.populate(x);
-		
-for (int s=0;s<excel.getSheetCount(); s++) {
-	System.out.println("Sheet " + excel.getSheetName(s));
-	
-	for (int r=0;r<excel.getRowCount(s);r++) {
-		List<Object> row = excel.getRow(s, r);
-		StringBuffer sb = new StringBuffer();
-		for (int c=0;c<row.size();c++) {
-			sb.append(row.get(c) + ",");
-		}
-		System.out.println(sb);
-	}
-}
-		
-//		return sheets;
-		//Validate
-		
-		//Save
-		
-		
-//		List<LangLabelEnt> listX = dao.getLangLabel(list.get(0).idLangKey, callObj.getLang());
-//		
-//		for (int i=0;i<list.size();i++) {
-//			for (int j=0;j<listX.size();j++) {
-//				if (isSameNonNUll(list.get(i).id, listX.get(j).getId())) {
-//					listX.get(j).setCode(list.get(i).code);
-//				}
-//			}
-//		}
 
+		String rtn = "nochanges";
+		
+		if (excel.isChanged()) {
+			
+			if (excel.isInvalid()) {
+				excel = new LabelExcel(labels, x);
+				excel.setIsImportComment(true);
+				rtn = excelSrv.createListFile("LabelList-Error", org, excel);				
+			}
+			else {
+				dao.langPackage(org, pack, lang, isSameNonNull(loadFlag,"All"), null);
+				rtn = "updated";
+			}
+		}
+		
+		return new JsonRes().setData(rtn);
 	}
 
 	
@@ -248,7 +235,7 @@ for (int s=0;s<excel.getSheetCount(); s++) {
 		
 		for (int i=0;i<list.size();i++) {
 			for (int j=0;j<listX.size();j++) {
-				if (isSameNonNUll(list.get(i).id, listX.get(j).getId())) {
+				if (isSameNonNull(list.get(i).id, listX.get(j).getId())) {
 					listX.get(j).setCode(list.get(i).code);
 				}
 			}

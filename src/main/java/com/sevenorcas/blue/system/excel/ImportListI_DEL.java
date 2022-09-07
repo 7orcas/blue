@@ -9,9 +9,10 @@ import java.util.List;
 * Created 03.09.22
 * @author John Stewart
 */
-public interface ImportListI {
+public interface ImportListI_DEL {
 
 	public int getSheetCount();
 	public String getSheetName(int sheet);
 	public List<Column> getColumns (int sheet);
+
 }

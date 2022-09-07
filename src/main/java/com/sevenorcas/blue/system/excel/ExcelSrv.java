@@ -5,13 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -36,7 +35,7 @@ import com.sevenorcas.blue.system.lang.ent.LabelUtil;
 * @author John Stewart
 */
 @Stateless
-public class ExcelSrv extends BaseSrv {
+public class ExcelSrv extends BaseSrv implements ExcelI {
 	
 	@EJB
 	private FileSrv fileSrv;
@@ -46,6 +45,7 @@ public class ExcelSrv extends BaseSrv {
 			Integer orgNr,
 			ExportListI list) throws Exception{
 		
+		list.initialiseColumns();
 		Workbook workbook = new XSSFWorkbook();
 
 		for (int sheetIdx=0;sheetIdx<list.getSheetCount();sheetIdx++) {
@@ -124,16 +124,15 @@ public class ExcelSrv extends BaseSrv {
 	 * @throws Exception
 	 */
 	public ExcelImport readListFile(String filename, LabelUtil labels) throws Exception{
-	
-		if (filename.toLowerCase().endsWith("xlsx")) {
-			return readListFileXlsx(filename, labels);
+		if (filename.toLowerCase().endsWith("xlsx") 
+				|| filename.toLowerCase().endsWith("xls")) {
+			return readListFileX(filename, labels);
 		}
-		
 		throw new RedException("errunk", "Unknown file extension");
 	}
 	
 	
-	private ExcelImport readListFileXlsx(String filename, LabelUtil labels) throws Exception{
+	private ExcelImport readListFileX(String filename, LabelUtil labels) throws Exception{
 
 		FileInputStream file = null;
 		Workbook workbook = null;
@@ -142,7 +141,12 @@ public class ExcelSrv extends BaseSrv {
 		try {
 			
 			file = new FileInputStream(new File(filename));
-			workbook = new XSSFWorkbook(file);
+			if (filename.toLowerCase().endsWith("xlsx")) {
+				workbook = new XSSFWorkbook(file);
+			}
+			if (filename.toLowerCase().endsWith("xls")) {
+				workbook = new HSSFWorkbook(file);
+			}
 			
 			for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
 			    Sheet sheet = workbook.getSheetAt(s);
@@ -152,20 +156,27 @@ public class ExcelSrv extends BaseSrv {
 			    for (Row row : sheet) {
 			    	ArrayList<Object> objs = new ArrayList<Object>();
 			    	
-			        for (Cell cell : row) {
-			            switch (cell.getCellType()) {
-			                case STRING: objs.add(cell.getRichStringCellValue().getString()); break;
-			                case NUMERIC: 
-			                	if (DateUtil.isCellDateFormatted(cell)) {
-			                		objs.add(cell.getDateCellValue());
-			                	} else {
-			                		objs.add(cell.getNumericCellValue());
-			                	}
-			                	break;
-			                case BOOLEAN: objs.add(cell.getBooleanCellValue()); break;
-			                default: objs.add(null);
-			            }
-			        }
+		        	for (int c=0; c<row.getLastCellNum(); c++) {
+		                Cell cell = row.getCell(c, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+		                
+		                if (cell == null) {
+		                	objs.add(NULL);	
+		                }
+		                else {
+				            switch (cell.getCellType()) {
+				                case STRING: objs.add(cell.getRichStringCellValue().getString()); break;
+				                case NUMERIC: 
+				                	if (DateUtil.isCellDateFormatted(cell)) {
+				                		objs.add(cell.getDateCellValue());
+				                	} else {
+				                		objs.add(cell.getNumericCellValue());
+				                	}
+				                	break;
+				                case BOOLEAN: objs.add(cell.getBooleanCellValue()); break;
+				                default: objs.add(NULL);
+				            }
+		                }
+		            }
 			        
 			        if (r++ == 0) {
 			        	excel.setColumns(s, objs);
@@ -186,6 +197,5 @@ public class ExcelSrv extends BaseSrv {
 		
 		return excel;
     }
-
 	
 }

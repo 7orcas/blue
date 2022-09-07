@@ -16,4 +16,5 @@ public interface ExportListI {
 	public List<Column> getColumns (int sheet);
 	public Integer getRowCount(int sheet);
 	public Object getCell(int sheet, Integer row, Integer col);
+	public void initialiseColumns();
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.ent.LabelUtil;
 
@@ -15,12 +16,16 @@ import com.sevenorcas.blue.system.lang.ent.LabelUtil;
 * Created 05.09.22
 * @author John Stewart
 */
-public class BaseExcel implements ExcelI {
+public abstract class BaseExcel extends BaseUtil implements ExcelI {
 	
 	protected List<Sheet> sheets;
 	protected Map<Integer, List<Column>> columns;
 	protected LabelUtil labels;
 	protected ExcelImport excel;
+	protected Boolean isInvalid;
+	protected Boolean isChanged;
+	protected Boolean isImportComment;
+	
 	
 	public BaseExcel (LabelUtil labels) {
 		this.labels = labels;
@@ -49,13 +54,6 @@ public class BaseExcel implements ExcelI {
 		sheets.add(new Sheet(sheet, langKey, getLabel(langKey, true)));
 		return this;
 	}
-
-	public BaseExcel setColumns(Integer sheet, List<Column> columns) {
-		this.columns.put(sheet, columns);
-		return this;
-	}
-
-
 	
 	public int getSheetCount() {
 		return sheets.size();
@@ -77,8 +75,13 @@ public class BaseExcel implements ExcelI {
 	}
 	
 	
-
-	
+	public BaseExcel setColumns(Integer sheet, List<Column> columns) {
+		if (isImportComment()) {
+			columns.add(addColumn(-1, "icomment", 20000, STRING));
+		}
+		this.columns.put(sheet, columns);
+		return this;
+	}
 	/**
 	 * Excel columns
 	 * @param sheet number
@@ -114,4 +117,28 @@ public class BaseExcel implements ExcelI {
 		return labels.getLabel(langKey, ignoreMissing);
 	}
 
+	
+	public boolean isInvalid() {
+		return isInvalid != null && isInvalid;
+	}
+	public void setIsInvalid(Boolean isInvalid) {
+		this.isInvalid = isInvalid;
+	}
+
+	public Boolean isChanged() {
+		return isChanged != null && isChanged;
+	}
+	public void setIsChanged(Boolean isChanged) {
+		this.isChanged = isChanged;
+	}
+
+	public Boolean isImportComment() {
+		return isImportComment != null && isImportComment;
+	}
+	public void setIsImportComment(Boolean isImportComment) {
+		this.isImportComment = isImportComment;
+	}
+
+	
+	
 }
