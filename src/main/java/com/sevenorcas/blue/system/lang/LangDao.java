@@ -177,8 +177,9 @@ public class LangDao extends BaseDao {
 	 * @return
 	 */
 	public List<LangLabelEnt> getLangLabel (Long idLangKey, String lang) {
+System.out.println(LangLabelEnt.class.getCanonicalName());		
 		TypedQuery<LangLabelEnt> tq = em.createQuery(
-				"FROM com.sevenorcas.blue.system.lang.ent.LangLabelEnt "
+				"FROM " + LangLabelEnt.class.getCanonicalName() + " "
 				+ "WHERE id_lang_key = :idLangKey "
 				+ "AND lang = :lang", 
 				LangLabelEnt.class);

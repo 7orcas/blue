@@ -26,8 +26,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseServlet;
+import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
 import com.sevenorcas.blue.system.lifecycle.Filter2UrlRedirect;
 import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.util.JsonResponseI;
 
 /**
  * Upload files to the server and forward request for processing
@@ -36,7 +38,7 @@ import com.sevenorcas.blue.system.login.ClientSession;
  * Created 29/08/22
  * @author John Stewart
  */
-public class FileUploadServlet extends BaseServlet {
+public class FileUploadServlet extends BaseServlet implements HardCodeLangKeyI, JsonResponseI {
     
 	private static final long serialVersionUID = 1L;
 	private static String [] VALID_TYPES = new String [] {"csv", "xls", "xlsx"}; //Keep lower case
@@ -93,22 +95,32 @@ public class FileUploadServlet extends BaseServlet {
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for (FileItem item : items) {
                 
-                // Process form file field (input type="file").
-                String filename = FilenameUtils.getName(item.getName());
-                
-                if (!isValidType(filename)){
-                	response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            		return;
-                }
-                                
-                filename = importFileDirX + filename;
-                //If file exists then increment
-                filename = FileSrv.filenameIncrement(filename);
-                
-                
-                InputStream inputStream = null;
-                OutputStream outputStream = null;
-                try{
+            	InputStream inputStream = null;
+            	OutputStream outputStream = null;
+            	try{
+            		
+	                // Process form file field (input type="file").
+	                String filename = FilenameUtils.getName(item.getName());
+	                
+	                if (!isValidType(filename)){
+	                	int index = url.indexOf("/" + CLIENT_SESSION_NR);
+	                	int index1 = url.indexOf("/", index+1);
+	                	
+	            		url = "/" + APPLICATION_PATH
+	            				+ url.substring(index, index1)
+	            				+ "/" + ERROR_PATH + "/" + UPLOAD_PATH
+	            				+ "?message=" + LK_INVALID_FILE 
+	            				+ "&append=" + HttpServletResponse.SC_FORBIDDEN
+	            				+ "&detail=" + filename
+	            				+ "&code=" + JS_INVALID;
+         		
+	            		forward(url, request, response);
+	            		return;
+	                }
+	                                
+	                filename = importFileDirX + filename;
+	                //If file exists then increment
+	                filename = FileSrv.filenameIncrement(filename);
                 	
                 	//Save file
                 	inputStream = item.getInputStream();
@@ -126,10 +138,9 @@ public class FileUploadServlet extends BaseServlet {
             		url = "/" + url.substring(index);
 
             		//Forward to rest for processing
-  					RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
-					rd.forward(request, response);
+            		forward(url, request, response);
             		
-                } catch (IOException e) {
+                } catch (Exception e) {
                 	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             		e.printStackTrace();
             		
@@ -160,10 +171,14 @@ public class FileUploadServlet extends BaseServlet {
         	log.error("Cannot parse multipart request.", e);
             throw new ServletException("Cannot parse multipart request.", e);
         }
-    	
-    	
     }
-  
+
+    //Forward to rest for processing
+    private void forward (String url, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+		rd.forward(request, response);    	
+    }
+    
     private boolean isValidType (String file){
     	
     	file = file.toLowerCase();

@@ -115,6 +115,10 @@ public class LabelExcel extends BaseExcel implements ExportListI {
 				dto = dtos.get(id);	
 			}
 			
+			if (dto == null) {
+				continue;
+			}
+			
 			//Find changes
 			if (!isSameNonNull(org, dto.getOrgNr())) {
 				dto.setOrgNr(org)

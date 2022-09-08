@@ -157,7 +157,6 @@ public class LangSrv extends BaseSrv {
 		LabelExcel excel = new LabelExcel(labels, xImport);	
 		excel.updateList(list);
 
-		String rtn = "nochanges";
 		
 		if (excel.isChanged()) {
 			
@@ -165,7 +164,11 @@ public class LangSrv extends BaseSrv {
 			if (excel.isInvalid()) {
 				excel = new LabelExcel(labels, list);
 				excel.setIsImportComment(true);
-				rtn = excelSrv.createListFile("LabelList-Error", org, excel);				
+				String fn = excelSrv.createListFile("LabelList-Error", org, excel);
+				return new JsonRes()
+						.setData(fn)
+						.setError("invchanges")
+						.setReturnCode(JS_INVALID);
 			}
 			//Persist updates
 			else {
@@ -181,11 +184,15 @@ public class LangSrv extends BaseSrv {
 						}
 					}
 				}
-				rtn = "updated";
+				return new JsonRes()
+						.setData("updated")
+						.setReturnCode(JS_UPLOADED);
 			}
 		}
 		
-		return new JsonRes().setData(rtn);
+		return new JsonRes()
+				.setData("nochanges")
+				.setReturnCode(JS_NO_CHANGE);
 	}
 
 	

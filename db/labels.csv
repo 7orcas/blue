@@ -72,3 +72,10 @@ id,excel,0,ID,Record ID
 duplabel,excel,0,Column label is duplicated,Column label is duplicated
 invexcel,excel,0,Invalid Excel File,Invalid Excel File
 labels,excel,0,Labels,Labels
+invchanges,,0,Invalid Changes,
+chfile,,0,Choose a File,
+upfile,,0,Upload a File,
+nochanges,,0,There are no changes,
+errstatus,,0,Error Status,
+fileup,,0,File Upload,
+invfile,,0,Invalid File Extension,

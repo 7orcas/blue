@@ -146,14 +146,13 @@ public class LangRest extends BaseRest {
 	 * @throws Exception
 	 */
 	@POST
-	@Path("upload")
+	@Path(UPLOAD_PATH)
 	@Consumes({"multipart/form-data"})
 	public JsonRes uploadLabels(
     		@QueryParam ("co") CallObject callObj, 
     		@QueryParam ("filename") String filename)  throws Exception {
 
-		service.updateLabels(callObj.getOrg().getNr(), (String)null, callObj.getLang(), (String)null, filename);		
-		return new JsonRes().setData(filename);
+		return service.updateLabels(callObj.getOrg().getNr(), (String)null, callObj.getLang(), (String)null, filename);		
     }
 	
 	
