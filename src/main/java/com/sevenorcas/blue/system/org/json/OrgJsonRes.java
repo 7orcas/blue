@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.org;
+package com.sevenorcas.blue.system.org.json;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
@@ -12,5 +12,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class OrgJsonRes extends BaseJsonRes{
-	public Boolean x;
+	public Boolean dvalue;
 }

@@ -1,6 +1,7 @@
-package com.sevenorcas.blue.system.org;
+package com.sevenorcas.blue.system.org.ent;
 
 import com.sevenorcas.blue.system.base.BaseDto;
+import com.sevenorcas.blue.system.org.json.OrgJsonRes;
 
 /**
 * Created 22 July 2022
@@ -18,7 +19,7 @@ public class OrgDto extends BaseDto<OrgDto> {
 	public OrgJsonRes toJSon() {
 		OrgJsonRes j = new OrgJsonRes();
 		super.toJSon(j);
-		j.x = defaultValue;
+		j.dvalue = defaultValue;
 		return j;
 	}
 

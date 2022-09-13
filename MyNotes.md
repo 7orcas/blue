@@ -185,7 +185,8 @@ npm i react-select
 npm i bootstrap
 npm install react-bootstrap bootstrap
 
-https://mui.com/
+
+https://mui.com/   (used in @mui/x-data-grid tables - below)
 npm install @mui/material @emotion/react @emotion/styled
 
 
@@ -204,6 +205,9 @@ npm install --save @types/react-table
 2.
 https://reactdatagrid.io/docs/
 npm install @inovua/reactdatagrid-community --save
+3.
+npm install @mui/x-data-grid
+
 
 Downloads
 ---------

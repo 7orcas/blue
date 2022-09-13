@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.org.ent.OrgDto;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 

@@ -1,2 +1,2 @@
-/media/jarvisting/Jarvis/projects/blue/db/setupDB.sh
-/media/jarvisting/Jarvis/projects/blue/db/loadData.sh
+/media/jarvisting/Jarvis/projects/blue/db/_setupDB.sh
+/media/jarvisting/Jarvis/projects/blue/db/_loadData.sh

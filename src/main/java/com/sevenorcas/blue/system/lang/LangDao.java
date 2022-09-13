@@ -15,6 +15,7 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lang.ent.LabelDto;
+import com.sevenorcas.blue.system.lang.ent.LangDto;
 import com.sevenorcas.blue.system.lang.ent.LangKeyEnt;
 import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
 import com.sevenorcas.blue.system.sql.SqlExecute;
@@ -177,7 +178,6 @@ public class LangDao extends BaseDao {
 	 * @return
 	 */
 	public List<LangLabelEnt> getLangLabel (Long idLangKey, String lang) {
-System.out.println(LangLabelEnt.class.getCanonicalName());		
 		TypedQuery<LangLabelEnt> tq = em.createQuery(
 				"FROM " + LangLabelEnt.class.getCanonicalName() + " "
 				+ "WHERE id_lang_key = :idLangKey "

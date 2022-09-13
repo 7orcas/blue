@@ -1,7 +1,5 @@
 package com.sevenorcas.blue.system.org;
 
-import java.util.List;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -12,6 +10,7 @@ import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
+import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
@@ -45,7 +44,7 @@ public class OrgRest extends BaseRest {
 	@SkipAuthorisation
 	@GET
 	@Path("org-list")
-    public List<OrgJsonRes> orgList(
+    public JsonRes orgList(
     		@QueryParam ("co") CallObject callObj) throws Exception {
 		return service.orgListJson(callObj, new SqlParm().setActiveOnly());
     }

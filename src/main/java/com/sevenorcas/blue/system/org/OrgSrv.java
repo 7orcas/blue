@@ -7,7 +7,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.org.ent.OrgDto;
+import com.sevenorcas.blue.system.org.json.OrgJsonRes;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -25,7 +28,7 @@ public class OrgSrv extends BaseSrv {
 	@EJB
 	private OrgDao dao;
 	
-	public List<OrgJsonRes> orgListJson(
+	public JsonRes orgListJson(
     		CallObject callObj,
     		SqlParm parms) throws Exception{
 		
@@ -35,7 +38,7 @@ public class OrgSrv extends BaseSrv {
 			y.add(d.toJSon());
 		}
 		
-		return y;
+		return new JsonRes().setData(y);
     }
 	
 }
