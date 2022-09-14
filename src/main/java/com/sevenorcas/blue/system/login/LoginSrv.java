@@ -65,7 +65,7 @@ public class LoginSrv extends BaseSrv {
 				user.containsOrg(org);
 			}
 
-			if (user.getOrg() == null) {
+			if (user.getOrgNr() == null) {
 				user.setInvalidMessage("invorg");
 				return user;	
 			}

@@ -20,6 +20,7 @@ import com.sevenorcas.blue.system.lang.ent.LangKeyEnt;
 import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
 * Created July '22
@@ -51,20 +52,19 @@ public class LangDao extends BaseDao {
 			sql += "WHERE l.active = TRUE"; 	
 		}
 
-		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<LangDto> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
 			LangDto d = new LangDto();
 			list.add(d);
-			Object[] row = r.get(i);
-						
-			d.setId((Long)row[0])
-			 .setOrgNr((Integer)row[1])
-			 .setCode((String)row[2])
-			 .setDescr((String)row[3])
-			 .setDefaultValue(appProperties.get("LanguageDefault").equals((String)row[2]));
+		
+			d.setId(r.getLong(i, "id"))
+			 .setOrgNr(r.getInteger(i, "org"))
+			 .setCode(r.getString(i, "code"))
+			 .setDescr(r.getString(i, "descr"))
+			 .setDefaultValue(appProperties.get("LanguageDefault").equals(r.getString(i, "code")));
 		}
 		return list;
     }
@@ -81,7 +81,7 @@ public class LangDao extends BaseDao {
 		parms.addParameter(lang);
 		
 		String sql;
-		sql = "SELECT k.id, l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
+		sql = "SELECT k.id AS id_langKey, l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
 				"FROM cntrl.lang_key AS k " + 
 				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
 				"%2";
@@ -110,28 +110,37 @@ public class LangDao extends BaseDao {
 				
 		sql += "ORDER BY k.code, l.org " + (!loadAll?"DESC":"");
 
-		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<LabelDto> list = new ArrayList<>();
 		Set<String> set = new HashSet<String> ();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
 			
-			Object[] row = r.get(i);
-			String code = (String)row[4];
+			//String code = (String)row[4];
+			String code = r.getString(i, "code");
 
 			if (loadAll || !set.contains(code)) {
 				
 				LabelDto d = new LabelDto();
 				list.add(d);
-	
-				d.setIdLangKey((Long)row[0])
-				 .setId(row[1] != null? (Long)row[1] : -1L)
-				 .setOrgNr(row[2] != null? (Integer)row[2] : -1)
-				 .setLang((String)row[3])
-				 .setCode(code)
-				 .setLabel(!dlang.equals(lang) && (String)row[5] == null? (String)row[6] : (String)row[5])
-				 ;
+
+				d.setIdLangKey(r.getLong(i, "id_langKey"))
+				 .setId(r.get(i, "id", -1L))
+				 .setOrgNr(r.get(i, "org", -1))
+				 .setLang(r.getString(i, "lang"))
+				 .setCode(code);
+				
+				String label = r.getString(i, "label"); 
+				d.setLabel(!dlang.equals(lang) && label == null? r.getString(i, "dcode") : label);
+				
+//				d.setIdLangKey((Long)row[0])
+//				 .setId(row[1] != null? (Long)row[1] : -1L)
+//				 .setOrgNr(row[2] != null? (Integer)row[2] : -1)
+//				 .setLang((String)row[3])
+//				 .setCode(code)
+//				 .setLabel(!dlang.equals(lang) && (String)row[5] == null? (String)row[6] : (String)row[5])
+//				 ;
 
 				if (!loadAll) set.add(code);
 			}
@@ -160,7 +169,7 @@ public class LangDao extends BaseDao {
     public LangKeyEnt getLangKey (
     		String langKey) throws Exception {
     	TypedQuery<LangKeyEnt> tq = em.createQuery(
-				"FROM com.sevenorcas.blue.system.lang.ent.LangKeyEnt "
+				"FROM " + LangKeyEnt.class.getCanonicalName() + " "
 				+ "WHERE code = :langKey", 
 				LangKeyEnt.class);
 		return tq.setParameter("langKey", langKey)

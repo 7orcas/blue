@@ -4,7 +4,7 @@ DELETE FROM cntrl.zzz;
 DELETE FROM cntrl.org;
 
 INSERT INTO cntrl.org (id, code, org, created) VALUES (1, 'Org 1', 1, NOW());
-INSERT INTO cntrl.org (id, code, org, created) VALUES (2, 'Org 2', 2, NOW());
+INSERT INTO cntrl.org (id, code, org, created, active) VALUES (2, 'Org 2', 2, NOW(), false);
 INSERT INTO cntrl.org (id, code, org, created, dvalue) VALUES (3, 'Org 3', 3, NOW(), true);
 INSERT INTO cntrl.org (id, code, org, created) VALUES (4, 'Org 4', 4, NOW());
 INSERT INTO cntrl.org (id, code, org, created) VALUES (5, 'Org 5', 5, NOW());

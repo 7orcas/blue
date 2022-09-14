@@ -29,8 +29,9 @@ public class BaseDto <T> implements IdCodeI {
      */
     protected void toJSon(BaseJsonRes j) {
 		j.id = id;
-		j.code = code;
 		j.org = orgNr;
+		j.code = code;
+		j.active = active;
 	}
     
     public Long getId() {

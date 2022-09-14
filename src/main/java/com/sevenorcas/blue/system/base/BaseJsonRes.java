@@ -20,7 +20,7 @@ public class BaseJsonRes {
 	public void initialise (BaseEnt ent) {
 		id = ent.getId();
 		code = ent.getCode();
-		org = ent.getOrg();
+		org = ent.getOrgNr();
 		active = ent.isActive();
 	}
 	

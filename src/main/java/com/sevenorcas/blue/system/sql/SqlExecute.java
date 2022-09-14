@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -18,10 +16,9 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.exception.RedException;
 
 /**
+* Helper class to manage a normal and prepared statement JDBC call
+* 
 * Created July '22
-* 
-* Helper class to manage a prepared statement JDBC call
-* 
 * [Licence]
 * @author John Stewart
 */
@@ -29,7 +26,7 @@ public class SqlExecute {
 
 	static final String DS = "java:jboss/datasources/blueDS";
 	
-	static public List<Object[]> executeQuery(
+	static public SqlResultSet executeQuery(
     		SqlParm sqlParms,
     		String sql,
     		Logger log) throws Exception {
@@ -38,9 +35,8 @@ public class SqlExecute {
 		Statement stmt = null;
 		PreparedStatement stmtP = null;
     	ResultSet rs = null;
-    	    	
-		List<Object[]> r = new ArrayList<>();
-		
+    	SqlResultSet r = null;
+    	
 		try {
 			log.info(sql);    		
 			
@@ -80,14 +76,18 @@ public class SqlExecute {
 	    		rs = stmtP.executeQuery();
     		}
     		
+    		r = new SqlResultSet();
     		ResultSetMetaData rsmd = rs.getMetaData();
     		
 			int columns = rsmd.getColumnCount();
+			for (int i=1;i<=columns;i++) {
+				r.columns.put(rsmd.getColumnName(i), i);
+			}
     		
 			// Extract data from result set
 			while(rs.next()){
 				Object[] row = new Object[columns];
-				r.add(row);
+				r.rows.add(row);
 				for (int i=0; i<columns; i++){
 					row[i] = rs.getObject(i+1);
 				}

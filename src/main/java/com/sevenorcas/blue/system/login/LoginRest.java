@@ -78,7 +78,7 @@ public class LoginRest extends BaseRest{
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 		}
 		ClientSession cs = new ClientSession(user.getId())
-				.setOrgNr(user.getOrg())
+				.setOrgNr(user.getOrgNr())
 				.setLang(lang);
 		
 		Integer nextSes = clientSessions.size();

@@ -14,6 +14,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.sql.SqlResultSet;
 import com.sevenorcas.blue.system.user.UserEnt;
 
 /**
@@ -70,12 +71,11 @@ public class LoginDao extends BaseDao {
 			sql += "AND u.active = TRUE"; 	
 		}
 
-		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 	
 		// Extract data from result set
 		if (r.size() > 0) {
-			Object[] row = r.get(0);
-			return (String)row[0];
+			return r.getString(0, "xxx");
 		}
 		
 		return null;
@@ -103,13 +103,12 @@ public class LoginDao extends BaseDao {
 			sql += "AND r.active = TRUE"; 	
 		}
 
-		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<String> list = new ArrayList<>();
 	
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			Object[] row = r.get(i);
-			list.add((String)row[0]);
+			list.add(r.getString(i, "code"));
 		}
 		
 		return list;

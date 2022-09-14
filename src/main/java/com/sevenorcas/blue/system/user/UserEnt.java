@@ -79,7 +79,7 @@ public class UserEnt extends BaseEnt {
 		} catch (Exception x) {
 		}
 	}
-	public Integer getOrg() {
+	public Integer getOrgNr() {
 		return org;
 	}
 

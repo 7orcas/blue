@@ -11,4 +11,5 @@ public interface HardCodeLangKeyI {
 	
 	final static String LK_APPEND = "|";
 	final static String LK_INVALID_FILE = "invfile";
+	final static String LK_UNKNOWN_ERROR = "errunk";
 }

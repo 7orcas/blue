@@ -13,8 +13,10 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.OrgDto;
+import com.sevenorcas.blue.system.org.ent.OrgEnt;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
 * Created July '22
@@ -40,33 +42,40 @@ public class OrgDao extends BaseDao {
 		
 		parms = validateParms(parms);
 		
-		String sql = "SELECT id, org, code, dvalue " +
-				     "FROM cntrl.org ";
+		String sql = "SELECT " + BASE_FIELDS_SQL
+				+ "dvalue "
+				+ "FROM cntrl.org ";
 		
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
 		}
 		
-		List<Object[]> r = SqlExecute.executeQuery(parms, sql, log);
+		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<OrgDto> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
 			OrgDto d = new OrgDto();
 			list.add(d);
-			Object[] row = r.get(i);
 			
-			d.setId((Long)row[0])
-			 .setOrgNr((Integer)row[1])
-			 .setCode((String)row[2])
-			 .setDefaultValue((Boolean)row[3])
-			 ;
+			d.setId(r.getLong(i, "id"))
+			 .setOrgNr(r.getInteger(i, "org"))
+			 .setCode(r.getString(i, "code"))
+			 .setDvalue(r.getBoolean(i, "dvalue"));
 		}
 		
 		return list;
     }
 	
 	
-	
+	/**
+     * Return the <code>OrgEnt</code> entity 
+     * @param orgId
+     * @return
+     */
+    public OrgEnt getOrg (
+    		Long orgId) throws Exception {
+    	return em.find(OrgEnt.class, orgId);
+	}
 	
 }

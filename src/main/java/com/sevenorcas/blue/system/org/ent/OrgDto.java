@@ -14,20 +14,24 @@ import com.sevenorcas.blue.system.org.json.OrgJsonRes;
 
 public class OrgDto extends BaseDto<OrgDto> {
 	
-	private boolean defaultValue;
+	private boolean dvalue;
 	
+	/**
+	 * List JSon is a cutdown object (ie minimal fields)
+	 * @return
+	 */
 	public OrgJsonRes toJSon() {
 		OrgJsonRes j = new OrgJsonRes();
 		super.toJSon(j);
-		j.dvalue = defaultValue;
+		j.dvalue = dvalue;
 		return j;
 	}
-
-	public boolean isDefaultValue() {
-		return defaultValue;
+	
+	public boolean isDvalue() {
+		return dvalue;
 	}
-	public OrgDto setDefaultValue(boolean defaultValue) {
-		this.defaultValue = defaultValue;
+	public OrgDto setDvalue(boolean dvalue) {
+		this.dvalue = dvalue;
 		return this;
 	}
 	

@@ -26,13 +26,26 @@ public class BaseEnt implements Serializable {
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	private Integer org;
+	@Column(name="org")
+	private Integer orgNr;
     private String code;
     private Date created;
     private String encoded;
     @Column(name="encoded_flag")
     private Integer encodedFlag;
     private Boolean active;
+    
+    /**
+     * Set standard fields in JSon object
+     * @param j
+     */
+    protected void toJSon(BaseJsonRes j) {
+		j.id = id;
+		j.code = code;
+		j.org = orgNr;
+		j.active = active;
+	}
+    
     
     public BaseEnt () {
     }
@@ -43,11 +56,11 @@ public class BaseEnt implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getOrg() {
-		return org;
+	public Integer getOrgNr() {
+		return orgNr;
 	}
-	public void setOrg(Integer org) {
-		this.org = org;
+	public void setOrgNr(Integer orgNr) {
+		this.orgNr = orgNr;
 	}
 	public String getCode() {
 		return code;

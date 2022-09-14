@@ -46,7 +46,26 @@ public class OrgRest extends BaseRest {
 	@Path("org-list")
     public JsonRes orgList(
     		@QueryParam ("co") CallObject callObj) throws Exception {
-		return service.orgListJson(callObj, new SqlParm().setActiveOnly());
+		return service.orgListJson(callObj, new SqlParm());
     }
 	
+	
+	/**
+	 * Return an organisation entity
+	 * 
+	 * @param callObj
+	 * @param org id
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("")
+    public JsonRes getOrg(
+    		@QueryParam ("co") CallObject callObj,
+    		@QueryParam ("id") Long orgId) throws Exception {
+		if (orgId == null) {
+			return new JsonRes().setError("inv-id", "Invalid org id");
+		}
+		return service.getOrgJson(callObj, orgId);
+    }
 }
