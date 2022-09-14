@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.base.BaseDto;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.OrgDto;
 import com.sevenorcas.blue.system.org.ent.OrgEnt;
@@ -42,9 +43,9 @@ public class OrgDao extends BaseDao {
 		
 		parms = validateParms(parms);
 		
-		String sql = "SELECT " + BASE_FIELDS_SQL
-				+ "dvalue "
-				+ "FROM cntrl.org ";
+		String sql = "SELECT " + BASE_LIST_FIELDS_SQL
+				+ ", dvalue "
+				+ "FROM " + tableName(OrgEnt.class, " ");
 		
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
@@ -57,11 +58,8 @@ public class OrgDao extends BaseDao {
 		for (int i=0;i<r.size();i++) {
 			OrgDto d = new OrgDto();
 			list.add(d);
-			
-			d.setId(r.getLong(i, "id"))
-			 .setOrgNr(r.getInteger(i, "org"))
-			 .setCode(r.getString(i, "code"))
-			 .setDvalue(r.getBoolean(i, "dvalue"));
+			addBaseListFields(d, i, r);
+			d.setDvalue(r.getBoolean(i, "dvalue"));
 		}
 		
 		return list;

@@ -6,6 +6,7 @@ import java.util.List;
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.base.IdCodeI;
+import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
 
 /**
 * TODO Module Description
@@ -14,23 +15,10 @@ import com.sevenorcas.blue.system.base.IdCodeI;
 * Created 3/9/2022
 * @author John Stewart
 */
-public class BaseUtil implements ApplicationI {
+public class BaseUtil implements ApplicationI, HardCodeLangKeyI {
 
 	public AppProperties appProperties = AppProperties.getInstance();
 	
-		
-//	public boolean isSameNonNull (Integer o1, Integer o2) {
-//		if (o1 == null && o2 == null) return false;
-//		if (o1 == null || o2 == null) return false;
-//		return o1.equals(o2);
-//	}
-//	
-//	public boolean isSameNonNull (Long o1, Long o2) {
-//		if (o1 == null && o2 == null) return false;
-//		if (o1 == null || o2 == null) return false;
-//		return o1.equals(o2);
-//	}
-//	
 	/**
 	 * Return true if both objects are non-null and equal
 	 * @param o1 

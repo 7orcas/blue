@@ -81,7 +81,7 @@ public class LangDao extends BaseDao {
 		parms.addParameter(lang);
 		
 		String sql;
-		sql = "SELECT k.id AS id_langKey, l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
+		sql = "SELECT k.id AS id_langkey, l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
 				"FROM cntrl.lang_key AS k " + 
 				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
 				"%2";
@@ -125,7 +125,7 @@ public class LangDao extends BaseDao {
 				LabelDto d = new LabelDto();
 				list.add(d);
 
-				d.setIdLangKey(r.getLong(i, "id_langKey"))
+				d.setIdLangKey(r.getLong(i, "id_langkey"))
 				 .setId(r.get(i, "id", -1L))
 				 .setOrgNr(r.get(i, "org", -1))
 				 .setLang(r.getString(i, "lang"))
