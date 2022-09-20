@@ -61,6 +61,7 @@ capacity,,0,Capacity,Kapazität
 today,gen,0,Today,Heute
 error,,0,Error,Error
 warn,,0,Warning,Warning
+warnchanges,,0,Warning Unsave Changes,
 errunk,,0,"An error has occurred, please contact your system admin","An error has occurred, please contact your system admin"
 context,,0,Context,Context
 detail,,0,Detail,Detail
@@ -87,3 +88,5 @@ orgadmin,,0,Organisation Admin,
 inv-id,,0,Invalid Id,
 code,,0,Code,
 active,,0,Active,
+savechanges1,,0,There are unsaved changes.,
+savechanges2,,0,These will be lost if you navigate away from this page.,
