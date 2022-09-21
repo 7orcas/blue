@@ -33,10 +33,6 @@ public class OrgDao extends BaseDao {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@PersistenceContext(unitName="blue")
-	protected EntityManager em;
-
-	
 	public List<OrgDto> orgList(
     		CallObject callObj,
     		SqlParm parms) throws Exception {
@@ -50,6 +46,7 @@ public class OrgDao extends BaseDao {
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
 		}
+		sql += "ORDER BY org ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<OrgDto> list = new ArrayList<>();
@@ -59,7 +56,7 @@ public class OrgDao extends BaseDao {
 			OrgDto d = new OrgDto();
 			list.add(d);
 			addBaseListFields(d, i, r);
-			d.setDvalue(r.getBoolean(i, "dvalue"));
+			d.setDvalue(r.getBoolean(i, "dvalue", false));
 		}
 		
 		return list;
@@ -76,4 +73,44 @@ public class OrgDao extends BaseDao {
     	return em.find(OrgEnt.class, orgId);
 	}
 	
+    
+    /**
+     * Persist the <code>OrgEnt</code> entity 
+     * @param org entity
+     * @return
+     */
+    public void persistOrg (
+    		OrgEnt org) throws Exception {
+    	em.persist(org);
+	}
+    
+    /**
+     * Merge selected fields and return the <code>OrgEnt</code> entity 
+     * @param org entity
+     * @return
+     */
+    public OrgEnt mergeOrg (
+    		OrgEnt org) throws Exception {
+    	
+    	OrgEnt ent = getOrg(org.getId()); 
+    	
+    	ent.setCode(org.getCode())
+    	   .setActive(org.isActive())
+    	   .setDvalue(org.getDvalue());
+    	
+    	return ent;
+	}
+    
+    
+    /**
+     * Delete the <code>OrgEnt</code> entity 
+     * @param org entity id
+     * @return
+     */
+    public void deleteOrg (
+    		Long id) throws Exception {
+    	OrgEnt ent = getOrg(id);
+    	em.remove(ent);
+	}
+    
 }

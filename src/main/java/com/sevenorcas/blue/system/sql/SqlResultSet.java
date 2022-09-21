@@ -86,8 +86,13 @@ public class SqlResultSet implements HardCodeLangKeyI {
 	}
 	
 	public Boolean getBoolean (Integer row, String column) throws Exception{
+		return getBoolean(row, column, null);
+	}
+	
+	public Boolean getBoolean (Integer row, String column, Boolean dvalue) throws Exception{
 		try {
-			return (Boolean)getObject(row, column);
+			Boolean v = (Boolean)getObject(row, column);
+			return v == null? dvalue : v;
 		} catch (Exception e) {
 			throw new RedException(LK_UNKNOWN_ERROR, e.getMessage());
 		}

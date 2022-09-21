@@ -29,7 +29,7 @@ public class BaseDto <T> implements IdCodeI {
      */
     protected void toJSon(BaseJsonRes j) {
 		j.id = id;
-		j.org = orgNr;
+		j.orgNr = orgNr;
 		j.code = code;
 		j.active = active;
 	}

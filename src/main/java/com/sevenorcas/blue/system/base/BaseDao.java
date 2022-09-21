@@ -1,6 +1,8 @@
 package com.sevenorcas.blue.system.base;
 
 import javax.interceptor.Interceptors;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
@@ -27,6 +29,14 @@ public class BaseDao extends BaseUtil {
 	/** standard fields in tables **/
 	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org,code,created,encoded,encoded_flag,active ";
 	
+	@PersistenceContext(unitName="blue")
+	protected EntityManager em;
+
+	public EntityManager getEntityManager() { 	
+		return em;
+	}
+	
+	
 	/**
 	 * Ensure a valid SQL Parameter object is used
 	 * @param parms
@@ -46,11 +56,11 @@ public class BaseDao extends BaseUtil {
 	 * @param result set
 	 * @throws Exception
 	 */
-	static protected void addBaseListFields(BaseDto<?> dto, Integer index, SqlResultSet r) throws Exception {
-		dto.setId(r.getLong(index, "id"));
-		dto.setOrgNr(r.getInteger(index, "org"));
-		dto.setCode(r.getString(index, "code"));
-		dto.setActive(r.getBoolean(index, "active"));
+	static protected <T extends BaseDto<T>> void addBaseListFields(T dto, Integer index, SqlResultSet r) throws Exception {
+		dto.setId(r.getLong(index, "id")) 
+		   .setOrgNr(r.getInteger(index, "org")) 
+		   .setCode(r.getString(index, "code")) 
+		   .setActive(r.getBoolean(index, "active"));
 	}
 	
 	

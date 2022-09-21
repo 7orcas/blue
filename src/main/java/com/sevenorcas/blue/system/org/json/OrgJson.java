@@ -3,14 +3,14 @@ package com.sevenorcas.blue.system.org.json;
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
 /**
-* Create 22 July 2022
+* Created July '22
 * 
-* Organisation data JSON object.
-* * 
+* TODO Module Description
+* 
 * [Licence]
 * @author John Stewart
 */
 
-public class OrgJsonReq extends BaseJsonRes {
-	
+public class OrgJson extends BaseJsonRes{
+	public Boolean dvalue;
 }

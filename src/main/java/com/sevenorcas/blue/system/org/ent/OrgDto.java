@@ -1,7 +1,7 @@
 package com.sevenorcas.blue.system.org.ent;
 
 import com.sevenorcas.blue.system.base.BaseDto;
-import com.sevenorcas.blue.system.org.json.OrgJsonRes;
+import com.sevenorcas.blue.system.org.json.OrgJson;
 
 /**
 * Created 22 July 2022
@@ -17,11 +17,11 @@ public class OrgDto extends BaseDto<OrgDto> {
 	private boolean dvalue;
 	
 	/**
-	 * List JSon is a cutdown object (ie minimal fields)
+	 * JSon is a cut-down object (ie minimal fields)
 	 * @return
 	 */
-	public OrgJsonRes toJSon() {
-		OrgJsonRes j = new OrgJsonRes();
+	public OrgJson toJSon() {
+		OrgJson j = new OrgJson();
 		super.toJSon(j);
 		j.dvalue = dvalue;
 		return j;

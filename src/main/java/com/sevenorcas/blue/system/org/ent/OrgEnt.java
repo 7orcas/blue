@@ -4,7 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.org.json.OrgJsonRes;
+import com.sevenorcas.blue.system.base.BaseValidation;
+import com.sevenorcas.blue.system.org.json.OrgJson;
 
 /**
 * Organisation Entity
@@ -16,7 +17,7 @@ import com.sevenorcas.blue.system.org.json.OrgJsonRes;
 
 @Entity
 @Table(name="org", schema="cntrl")
-public class OrgEnt extends BaseEnt {
+public class OrgEnt extends BaseEnt<OrgEnt> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,13 +27,22 @@ public class OrgEnt extends BaseEnt {
 		super();
 	}
 
-	public OrgJsonRes toJSon() {
-		OrgJsonRes j = new OrgJsonRes();
+	/**
+     * Is <b>this</b> a valid entity?
+     * @return
+     */
+    public void isValid () {
+    	BaseValidation<?> val = new BaseValidation<Object>();
+    	isValid(val);
+    	
+    }
+	
+	public OrgJson toJSon() {
+		OrgJson j = new OrgJson();
 		super.toJSon(j);
 		j.dvalue = dvalue;
 		return j;
 	}
-	
 	
 	public Boolean getDvalue() {
 		return dvalue;

@@ -1,7 +1,5 @@
 package com.sevenorcas.blue.system.base;
 
-import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
-
 /**
 * Created 22 July 2022
 * 
@@ -14,13 +12,13 @@ import com.sevenorcas.blue.system.lang.ent.LangLabelEnt;
 public class BaseJsonRes {
 	public Long id;
 	public String code;
-	public Integer org;
+	public Integer orgNr;
 	public Boolean active;
 	
 	public void initialise (BaseEnt ent) {
 		id = ent.getId();
 		code = ent.getCode();
-		org = ent.getOrgNr();
+		orgNr = ent.getOrgNr();
 		active = ent.isActive();
 	}
 	
