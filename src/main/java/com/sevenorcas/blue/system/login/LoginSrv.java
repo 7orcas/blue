@@ -70,7 +70,7 @@ public class LoginSrv extends BaseSrv {
 				return user;	
 			}
 			
-			user.setValid()
+			user.setValidUser()
 			    .setAttempts(0);
 		}
 		

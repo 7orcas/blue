@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.base.BaseValidation;
+import com.sevenorcas.blue.system.field.validation.Validation;
 import com.sevenorcas.blue.system.org.json.OrgJson;
 
 /**
@@ -31,11 +31,7 @@ public class OrgEnt extends BaseEnt<OrgEnt> {
      * Is <b>this</b> a valid entity?
      * @return
      */
-    public void isValid () {
-    	BaseValidation<?> val = new BaseValidation<Object>();
-    	isValid(val);
-    	
-    }
+    protected void validate (Validation validation) { }
 	
 	public OrgJson toJSon() {
 		OrgJson j = new OrgJson();
@@ -47,8 +43,9 @@ public class OrgEnt extends BaseEnt<OrgEnt> {
 	public Boolean getDvalue() {
 		return dvalue;
 	}
-	public void setDvalue(Boolean dvalue) {
+	public OrgEnt setDvalue(Boolean dvalue) {
 		this.dvalue = dvalue;
+		return this;
 	}
 
 	

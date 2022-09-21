@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.field.validation.Validation;
 
 /**
  * User entity 
@@ -33,7 +34,7 @@ public class UserEnt extends BaseEnt {
 	 * To be valid, correct password and org and attempts < max
 	 */
 	@Transient
-    private Boolean valid;
+    private Boolean validUser;
 	@Transient
     private String inValidMessage;
 	@Transient
@@ -42,6 +43,13 @@ public class UserEnt extends BaseEnt {
 	public UserEnt () {
 		
 	}
+	
+	/**
+     * Is <b>this</b> a valid entity?
+     * @return
+     */
+    protected void validate (Validation validation) { }
+	
 	
 	public String getUserId() {
 		return userId;
@@ -94,11 +102,11 @@ public class UserEnt extends BaseEnt {
 		return this;
 	}
 
-	public Boolean isValid() {
-		return valid != null && valid;
+	public Boolean isValidUser() {
+		return validUser != null && validUser;
 	}
-	public UserEnt setValid() {
-		this.valid = true;
+	public UserEnt setValidUser() {
+		this.validUser = true;
 		return this;
 	}
 

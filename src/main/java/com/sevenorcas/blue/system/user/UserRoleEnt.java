@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.field.validation.Validation;
 
 /**
  * User-Role join entity 
@@ -29,6 +30,13 @@ public class UserRoleEnt extends BaseEnt{
 	
 	public UserRoleEnt () {
 	}
+	
+	/**
+     * Is <b>this</b> a valid entity?
+     * @return
+     */
+    protected void validate (Validation validation) { }
+	
 	
 	public Long getIdUser() {
 		return idUser;

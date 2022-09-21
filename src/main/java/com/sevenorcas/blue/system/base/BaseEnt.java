@@ -10,7 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import com.sevenorcas.blue.system.field.ValidationErrorI;
+import com.sevenorcas.blue.system.field.validation.Validation;
+import com.sevenorcas.blue.system.field.validation.ValidationI;
 
 /**
 * Base Entity Object for actual entities to extend
@@ -22,7 +23,7 @@ import com.sevenorcas.blue.system.field.ValidationErrorI;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-abstract public class BaseEnt <T> implements Serializable, ValidationErrorI {
+abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	
 	@Id  
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
@@ -40,17 +41,32 @@ abstract public class BaseEnt <T> implements Serializable, ValidationErrorI {
     @Transient
     private Boolean delete;
     
-    abstract public void isValid();
+    @Transient
+    private Validation validation;
+    
+    /**
+     * Implementing class can attach invalid fields
+     * @param validation
+     */
+    abstract protected void validate(Validation validation);
     
     /**
      * Is <b>this</b> a valid entity?
      * @return
      */
-    public void isValid (BaseValidation<?> val) {
-    	if (orgNr == null) val.add("orgNr", NON_NULL_FIELD);
+    public boolean isValidEntity () {
+    	validation = new Validation(id);
+    	if (orgNr == null) validation.add("orgNr", NON_NULL_FIELD);
+    	if (code == null) validation.add("code", NON_NULL_FIELD);
+    	validate(validation);
+    	return validation.isValid();
     }
     
-    /**
+    public Validation getValidation() {
+		return validation;
+	}
+
+	/**
      * Set standard fields in JSon object
      * @param j
      */

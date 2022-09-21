@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.field.validation.Validation;
 
 /**
 * Created July '22
@@ -34,6 +35,13 @@ public class LangLabelEnt extends BaseEnt {
 		super();
 	}
 
+	/**
+     * Is <b>this</b> a valid entity?
+     * @return
+     */
+    protected void validate (Validation validation) { }
+	
+	
 	public Long getIdLangKey() {
 		return idLangKey;
 	}

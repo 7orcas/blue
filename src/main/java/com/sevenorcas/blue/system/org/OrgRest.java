@@ -89,8 +89,7 @@ public class OrgRest extends BaseRest {
 		if (list == null) {
 			return new JsonRes().setError("Invalid post");
 		}
-		service.putOrgs(callObj, list);
-		return list(callObj);
+		return service.putOrgs(callObj, list);
     }
 	
 }

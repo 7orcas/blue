@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.field;
+package com.sevenorcas.blue.system.field.validation;
 
 /**
 * Field Validation Object

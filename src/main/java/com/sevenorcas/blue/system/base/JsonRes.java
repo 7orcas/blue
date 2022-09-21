@@ -12,7 +12,7 @@ public class JsonRes {
 		return this;
 	}
 	public JsonRes setError(String err) {
-		return setError(err, null);
+		return setError(err, "");
 	}
 	public JsonRes setError(String err, String detail) {
 		valid = false;

@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.field.validation.Validation;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.OrgDto;
 import com.sevenorcas.blue.system.org.ent.OrgEnt;
@@ -91,11 +92,24 @@ public class OrgSrv extends BaseSrv {
 	 * @throws Exception
 	 */
 @Transactional  //working?
-    public void putOrgs(
+    public JsonRes putOrgs(
     		CallObject callObj,
     		List<OrgEnt> list) throws Exception {
 		
-		//ToDo validation
+		List<Validation> vals = new ArrayList<>();
+	
+		//Validation
+		for (OrgEnt ent : list) {
+			if (!ent.isValidEntity()) {
+				vals.add(ent.getValidation());
+			}
+		}
+		
+		//Errors
+		if (vals.size() > 0) {
+			return new JsonRes().setData(vals).setError("invlist");
+		}
+	
 	
   		try {
   		
@@ -116,6 +130,8 @@ dao.getEntityManager().getTransaction().commit();
   			
   		} catch (Exception e) {
   		}
+  		
+  		return new JsonRes();
   	}  
    
 }

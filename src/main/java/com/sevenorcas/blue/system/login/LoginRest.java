@@ -49,7 +49,7 @@ public class LoginRest extends BaseRest{
 			return new JsonRes().setError("invuid");			
 		}
 		//Login can't be validated
-		if (!user.isValid()) {
+		if (!user.isValidUser()) {
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 				
