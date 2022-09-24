@@ -1,11 +1,15 @@
 package com.sevenorcas.blue.system.org.ent;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.field.validation.Validation;
-import com.sevenorcas.blue.system.org.json.OrgJson;
+import com.sevenorcas.blue.system.org.json.JsonOrg;
 
 /**
 * Organisation Entity
@@ -17,24 +21,38 @@ import com.sevenorcas.blue.system.org.json.OrgJson;
 
 @Entity
 @Table(name="org", schema="cntrl")
-public class OrgEnt extends BaseEnt<OrgEnt> {
+public class EntOrg extends BaseEnt<EntOrg> {
 
 	private static final long serialVersionUID = 1L;
+
+	@Id  
+	@SequenceGenerator(name="org_id_seq", sequenceName="org_id_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="org_id_seq")
+	private Long id;
+	
 	
 	private Boolean dvalue;
 	
-	public OrgEnt () {
+	public EntOrg () {
 		super();
 	}
 
+	public Long getId() {
+		return id;
+	}
+	public EntOrg setId(Long id) {
+		this.id = id;
+		return this;
+	}
+	
 	/**
      * Is <b>this</b> a valid entity?
      * @return
      */
     protected void validate (Validation validation) { }
 	
-	public OrgJson toJSon() {
-		OrgJson j = new OrgJson();
+	public JsonOrg toJSon() {
+		JsonOrg j = new JsonOrg();
 		super.toJSon(j);
 		j.dvalue = dvalue;
 		return j;
@@ -43,7 +61,7 @@ public class OrgEnt extends BaseEnt<OrgEnt> {
 	public Boolean getDvalue() {
 		return dvalue;
 	}
-	public OrgEnt setDvalue(Boolean dvalue) {
+	public EntOrg setDvalue(Boolean dvalue) {
 		this.dvalue = dvalue;
 		return this;
 	}

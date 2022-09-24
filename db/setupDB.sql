@@ -25,13 +25,13 @@ create table sys.base
 );
 alter table sys.base OWNER to postgres;
 
-
 create table cntrl.org
 (
 	id bigserial primary key,
 	dvalue boolean default false 	
 ) INHERITS (sys.base);
 alter table cntrl.org OWNER to postgres;
+alter sequence org_id_seq restart with 10000;
  
 create table cntrl.zzz
 (

@@ -13,8 +13,8 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.base.BaseDto;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.OrgDto;
-import com.sevenorcas.blue.system.org.ent.OrgEnt;
+import com.sevenorcas.blue.system.org.ent.DtoOrg;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
@@ -29,11 +29,11 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class OrgDao extends BaseDao {
+public class DaoOrg extends BaseDao {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	public List<OrgDto> orgList(
+	public List<DtoOrg> orgList(
     		CallObject callObj,
     		SqlParm parms) throws Exception {
 		
@@ -41,7 +41,7 @@ public class OrgDao extends BaseDao {
 		
 		String sql = "SELECT " + BASE_LIST_FIELDS_SQL
 				+ ", dvalue "
-				+ "FROM " + tableName(OrgEnt.class, " ");
+				+ "FROM " + tableName(EntOrg.class, " ");
 		
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
@@ -49,11 +49,11 @@ public class OrgDao extends BaseDao {
 		sql += "ORDER BY org ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
-		List<OrgDto> list = new ArrayList<>();
+		List<DtoOrg> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			OrgDto d = new OrgDto();
+			DtoOrg d = new DtoOrg();
 			list.add(d);
 			addBaseListFields(d, i, r);
 			d.setDvalue(r.getBoolean(i, "dvalue", false));
@@ -68,9 +68,9 @@ public class OrgDao extends BaseDao {
      * @param orgId
      * @return
      */
-    public OrgEnt getOrg (
+    public EntOrg getOrg (
     		Long orgId) throws Exception {
-    	return em.find(OrgEnt.class, orgId);
+    	return em.find(EntOrg.class, orgId);
 	}
 	
     
@@ -80,7 +80,7 @@ public class OrgDao extends BaseDao {
      * @return
      */
     public void persistOrg (
-    		OrgEnt org) throws Exception {
+    		EntOrg org) throws Exception {
     	em.persist(org);
 	}
     
@@ -89,10 +89,10 @@ public class OrgDao extends BaseDao {
      * @param org entity
      * @return
      */
-    public OrgEnt mergeOrg (
-    		OrgEnt org) throws Exception {
+    public EntOrg mergeOrg (
+    		EntOrg org) throws Exception {
     	
-    	OrgEnt ent = getOrg(org.getId()); 
+    	EntOrg ent = getOrg(org.getId()); 
     	
     	ent.setCode(org.getCode())
     	   .setActive(org.isActive())
@@ -109,7 +109,7 @@ public class OrgDao extends BaseDao {
      */
     public void deleteOrg (
     		Long id) throws Exception {
-    	OrgEnt ent = getOrg(id);
+    	EntOrg ent = getOrg(id);
     	em.remove(ent);
 	}
     

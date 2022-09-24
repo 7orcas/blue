@@ -2,6 +2,10 @@ package com.sevenorcas.blue.system.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,9 +23,14 @@ import com.sevenorcas.blue.system.field.validation.Validation;
 
 @Entity
 @Table(name="zzz", schema="cntrl")
-public class UserEnt extends BaseEnt {
+@SequenceGenerator(name="zzz_id_seq", sequenceName="zzz_id_seq", allocationSize=1)
+public class UserEnt extends BaseEnt<UserEnt> {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Id  
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz_id_seq")
+	private Long id;
 	
 	@Column(name="xxx")
 	private String userId;
@@ -50,6 +59,13 @@ public class UserEnt extends BaseEnt {
      */
     protected void validate (Validation validation) { }
 	
+    public Long getId() {
+		return id;
+	}
+	public UserEnt setId(Long id) {
+		this.id = id;
+		return this;
+	}
 	
 	public String getUserId() {
 		return userId;

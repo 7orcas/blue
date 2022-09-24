@@ -1,20 +1,21 @@
 package com.sevenorcas.blue.system.org;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.transaction.Transactional;
-import javax.ws.rs.QueryParam;
+
+import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.field.validation.Validation;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.OrgDto;
-import com.sevenorcas.blue.system.org.ent.OrgEnt;
-import com.sevenorcas.blue.system.org.json.OrgJson;
+import com.sevenorcas.blue.system.org.ent.DtoOrg;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.org.json.JsonOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -27,10 +28,12 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class OrgSrv extends BaseSrv {
+public class SrvOrg extends BaseSrv {
 
+	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	
 	@EJB
-	private OrgDao dao;
+	private DaoOrg dao;
 	
 	/**
 	 * List of organisation objects
@@ -45,9 +48,9 @@ public class OrgSrv extends BaseSrv {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<OrgDto> x = dao.orgList(callObj, parms);
-		List<OrgJson> y = new ArrayList<OrgJson>();
-		for (OrgDto d : x) {
+		List<DtoOrg> x = dao.orgList(callObj, parms);
+		List<JsonOrg> y = new ArrayList<JsonOrg>();
+		for (DtoOrg d : x) {
 			y.add(d.toJSon());
 		}
 		
@@ -63,12 +66,12 @@ public class OrgSrv extends BaseSrv {
 	 * @throws Exception
 	 */
 	public JsonRes getOrgJson(
-			@QueryParam ("co") CallObject callObj,
-			@QueryParam ("id") Long orgId) throws Exception {
+			CallObject callObj,
+			Long orgId) throws Exception {
 		if (orgId == null) {
 			return new JsonRes().setError("inv-id", "Invalid org id");
 		}
-		OrgEnt e = getOrg(orgId);
+		EntOrg e = getOrg(orgId);
 		return new JsonRes().setData(e);
     }
 	
@@ -79,7 +82,7 @@ public class OrgSrv extends BaseSrv {
 	 * @return
 	 * @throws Exception
 	 */
-    public OrgEnt getOrg(Long orgId) throws Exception {
+    public EntOrg getOrg(Long orgId) throws Exception {
     	return dao.getOrg(orgId);
     }
   
@@ -91,15 +94,15 @@ public class OrgSrv extends BaseSrv {
 	 * @param org entities to do CrUD on
 	 * @throws Exception
 	 */
-@Transactional  //working?
+
     public JsonRes putOrgs(
     		CallObject callObj,
-    		List<OrgEnt> list) throws Exception {
+    		List<EntOrg> list) throws Exception {
 		
 		List<Validation> vals = new ArrayList<>();
 	
 		//Validation
-		for (OrgEnt ent : list) {
+		for (EntOrg ent : list) {
 			if (!ent.isValidEntity()) {
 				vals.add(ent.getValidation());
 			}
@@ -107,13 +110,13 @@ public class OrgSrv extends BaseSrv {
 		
 		//Errors
 		if (vals.size() > 0) {
-			return new JsonRes().setData(vals).setError("invlist");
+			return new JsonRes().setError("invlist").setData(vals);
 		}
 	
 	
   		try {
   		
-  			for (OrgEnt ent : list) {
+  			for (EntOrg ent : list) {
   				if (ent.isDelete()) {
   					dao.deleteOrg(ent.getId());
   				}
@@ -126,9 +129,11 @@ public class OrgSrv extends BaseSrv {
   				}
   			}
 //ToDo not working  			
-dao.getEntityManager().getTransaction().commit();
+//dao.getEntityManager().getTransaction().commit();
   			
   		} catch (Exception e) {
+  			log.equals(e);
+  			throw e;
   		}
   		
   		return new JsonRes();

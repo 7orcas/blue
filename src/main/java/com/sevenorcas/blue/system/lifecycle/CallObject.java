@@ -31,13 +31,15 @@ public class CallObject {
 	public BaseOrg getOrg() {
 		return org;
 	}
-	public void setOrg(BaseOrg org) {
+	public CallObject setOrg(BaseOrg org) {
 		this.org = org;
+		return this;
 	}
 
 
-	public void put (String key, Object obj) {
+	public CallObject put (String key, Object obj) {
 		objects.put(key, obj);
+		return this;
 	}
 	public Object get (String key) {
 		return objects.get(key);

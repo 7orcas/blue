@@ -13,9 +13,11 @@ import javax.naming.InitialContext;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
+import com.sevenorcas.blue.system.base.BaseOrg;
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 public class BaseTest extends BaseUtil {
 
@@ -23,6 +25,7 @@ public class BaseTest extends BaseUtil {
 	static final String DB_URL = "jdbc:postgresql://localhost/blue";
 	static final String USER = "postgres";
 	static final String PASS = "7o";
+	static final Integer ORG_NR = 1;
 	
 	Hashtable<String, Object> ejbs = new Hashtable<>();
 
@@ -72,7 +75,11 @@ public class BaseTest extends BaseUtil {
 		setupDataSource();
 	}
 	
-	
+	public CallObject getCallObject() {
+		BaseOrg org = new BaseOrg(ORG_NR);
+		CallObject o = new CallObject("").setOrg(org);
+		return o;
+	}
 	
 	/**
 	 * Setup data source 

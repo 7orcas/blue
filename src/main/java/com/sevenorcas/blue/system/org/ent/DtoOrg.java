@@ -1,7 +1,7 @@
 package com.sevenorcas.blue.system.org.ent;
 
 import com.sevenorcas.blue.system.base.BaseDto;
-import com.sevenorcas.blue.system.org.json.OrgJson;
+import com.sevenorcas.blue.system.org.json.JsonOrg;
 
 /**
 * Created 22 July 2022
@@ -12,7 +12,7 @@ import com.sevenorcas.blue.system.org.json.OrgJson;
 * @author John Stewart
 */
 
-public class OrgDto extends BaseDto<OrgDto> {
+public class DtoOrg extends BaseDto<DtoOrg> {
 	
 	private boolean dvalue;
 	
@@ -20,8 +20,8 @@ public class OrgDto extends BaseDto<OrgDto> {
 	 * JSon is a cut-down object (ie minimal fields)
 	 * @return
 	 */
-	public OrgJson toJSon() {
-		OrgJson j = new OrgJson();
+	public JsonOrg toJSon() {
+		JsonOrg j = new JsonOrg();
 		super.toJSon(j);
 		j.dvalue = dvalue;
 		return j;
@@ -30,7 +30,7 @@ public class OrgDto extends BaseDto<OrgDto> {
 	public boolean isDvalue() {
 		return dvalue;
 	}
-	public OrgDto setDvalue(boolean dvalue) {
+	public DtoOrg setDvalue(boolean dvalue) {
 		this.dvalue = dvalue;
 		return this;
 	}

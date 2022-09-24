@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
@@ -21,8 +22,15 @@ import com.sevenorcas.blue.system.field.validation.Validation;
 
 @Entity
 @Table(name="zzz-role", schema="cntrl")
-public class UserRoleEnt extends BaseEnt{
+@SequenceGenerator(name="zzz-role_id_seq", sequenceName="zzz-role_id_seq", allocationSize=1)
+public class UserRoleEnt extends BaseEnt<UserRoleEnt>{
 	
+	private static final long serialVersionUID = 1L;
+
+	@Id  
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz-role_id_seq")
+	private Long id;
+
 	@Column(name="id_zzz")
 	private Long idUser;
 	@Column(name="id_role")
@@ -30,6 +38,15 @@ public class UserRoleEnt extends BaseEnt{
 	
 	public UserRoleEnt () {
 	}
+
+    public Long getId() {
+		return id;
+	}
+	public UserRoleEnt setId(Long id) {
+		this.id = id;
+		return this;
+	}
+
 	
 	/**
      * Is <b>this</b> a valid entity?

@@ -11,6 +11,6 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class OrgJson extends BaseJsonRes{
+public class JsonOrg extends BaseJsonRes{
 	public Boolean dvalue;
 }

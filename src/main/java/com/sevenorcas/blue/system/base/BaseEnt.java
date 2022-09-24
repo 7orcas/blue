@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import com.sevenorcas.blue.system.annotation.Field;
 import com.sevenorcas.blue.system.field.validation.Validation;
 import com.sevenorcas.blue.system.field.validation.ValidationI;
 
@@ -25,16 +23,16 @@ import com.sevenorcas.blue.system.field.validation.ValidationI;
 @MappedSuperclass
 abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	
-	@Id  
-	@GeneratedValue (strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name="org")
+	@Field(unique = true, min = 1)
+	@Column(name = "org", nullable = false)
 	private Integer orgNr;
+	
+	@Field(unique = true)
+	@Column(nullable = false, length = 20)
     private String code;
     private Date created;
     private String encoded;
-    @Column(name="encoded_flag")
+    @Column(name = "encoded_flag")
     private Integer encodedFlag;
     private Boolean active;
     
@@ -48,30 +46,30 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
      * Implementing class can attach invalid fields
      * @param validation
      */
-    abstract protected void validate(Validation validation);
+abstract protected void validate(Validation validation);
     
     /**
-     * Is <b>this</b> a valid entity?
-     * @return
-     */
-    public boolean isValidEntity () {
-    	validation = new Validation(id);
-    	if (orgNr == null) validation.add("orgNr", NON_NULL_FIELD);
-    	if (code == null) validation.add("code", NON_NULL_FIELD);
-    	validate(validation);
-    	return validation.isValid();
-    }
-    
-    public Validation getValidation() {
-		return validation;
-	}
+ * Is <b>this</b> a valid entity?
+ * @return
+ */
+public boolean isValidEntity () {
+	validation = new Validation(getId());
+	if (orgNr == null) validation.add("orgNr", NON_NULL_FIELD);
+if (code == null) validation.add("code", NON_NULL_FIELD);
+	validate(validation);
+	return validation.isValid();
+}
+
+public Validation getValidation() {
+	return validation;
+}
 
 	/**
      * Set standard fields in JSon object
      * @param j
      */
     protected void toJSon(BaseJsonRes j) {
-		j.id = id;
+		j.id = getId();
 		j.code = code;
 		j.orgNr = orgNr;
 		j.active = active;
@@ -81,19 +79,14 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     public BaseEnt () {
     }
     
-	public Long getId() {
-		return id;
-	}
-	@SuppressWarnings("unchecked")
-	public T setId(Long id) {
-		this.id = id;
-		return (T)this;
-	}
+	abstract public Long getId();
+	abstract public T setId(Long id);
+	
 	public boolean isValidId() {
-		return id != null & id > 0L;
+		return getId() != null & getId() > 0L;
 	}
 	public boolean isNew() {
-		return id != null & id < 0L;
+		return getId() != null & getId() < 0L;
 	}
 	
 	public Integer getOrgNr() {
