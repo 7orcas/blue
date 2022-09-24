@@ -104,7 +104,7 @@ public class RestOrg extends BaseRest {
 	 */
 	@GET
 	@Path("config")
-	@Override
+//	@Override
     public JsonRes getConfig(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("entity") String entity) throws Exception {
