@@ -28,7 +28,7 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	private Integer orgNr;
 	
 	@Field(unique = true)
-	@Column(nullable = false, length = 20)
+	@Column(nullable = false, length = 30)
     private String code;
     private Date created;
     private String encoded;

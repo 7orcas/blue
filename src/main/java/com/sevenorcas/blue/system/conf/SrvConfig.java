@@ -58,6 +58,17 @@ public class SrvConfig extends BaseSrv {
 		Class<?> clazz = Class.forName(CLASS_PATH_PREFIX + entity);
 		EntityConfig conf = new EntityConfig();
 		getConfig(clazz, conf);
+		
+//Exceptions TESTING move to annotated method
+if (entity.equals("system.org.ent.EntOrg")) {
+	for (int i=0;i<conf.fields.size();i++) {
+		if (conf.fields.get(i).name.equals("code")) {
+			conf.fields.get(i).max = 21D;
+		}
+	}
+}
+		
+		
 		return conf;
     }
 	
