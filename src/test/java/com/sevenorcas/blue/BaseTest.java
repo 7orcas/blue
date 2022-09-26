@@ -13,11 +13,11 @@ import javax.naming.InitialContext;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
-import com.sevenorcas.blue.system.base.BaseOrg;
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class BaseTest extends BaseUtil {
 
@@ -76,7 +76,8 @@ public class BaseTest extends BaseUtil {
 	}
 	
 	public CallObject getCallObject() {
-		BaseOrg org = new BaseOrg(ORG_NR);
+		EntOrg org = new EntOrg();
+		org.setOrgNr(ORG_NR);
 		CallObject o = new CallObject("").setOrg(org);
 		return o;
 	}

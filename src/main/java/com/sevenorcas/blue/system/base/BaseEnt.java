@@ -8,8 +8,10 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.annotation.Field;
-import com.sevenorcas.blue.system.field.validation.Validation;
-import com.sevenorcas.blue.system.field.validation.ValidationI;
+import com.sevenorcas.blue.system.conf.ConfigurationI_DEL;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.field.validationDEL.ValidationI;
 
 /**
 * Base Entity Object for actual entities to extend
@@ -41,6 +43,13 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     
     @Transient
     private Validation validation;
+    
+//    /**
+//     * Override for field configurations.
+//     * Implementing class needs to override this method
+//     */
+//    public void getConfigOverride (Integer orgNr, EntityConfig config) {}
+    
     
     /**
      * Implementing class can attach invalid fields

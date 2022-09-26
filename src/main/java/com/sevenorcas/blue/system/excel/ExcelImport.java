@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.lang.ent.LabelUtil;
+import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**
 * Object to hold imported excel file 
@@ -17,7 +17,7 @@ public class ExcelImport extends BaseExcel {
 	
 	private List<List<List<Object>>> list;
 	
-	public ExcelImport (LabelUtil labels) {
+	public ExcelImport (UtilLabel labels) {
 		super (labels);
 		list = new ArrayList<>();	
 	}

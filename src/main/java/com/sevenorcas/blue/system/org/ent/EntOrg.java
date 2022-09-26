@@ -8,7 +8,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.field.validation.Validation;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.FieldConfig;
+import com.sevenorcas.blue.system.field.validationDEL.Validation;
 import com.sevenorcas.blue.system.org.json.JsonOrg;
 
 /**
@@ -51,6 +53,23 @@ public class EntOrg extends BaseEnt<EntOrg> {
      */
     protected void validate (Validation validation) { }
 	
+    /**
+     * Override field configurations
+     * @param current org
+     * @param config
+     */
+    static public void getConfigOverride (EntOrg org, EntityConfig config) {
+		for (int i=0;i<config.fields.size();i++) {
+			FieldConfig f = config.fields.get(i);
+			switch (f.name) {
+				case "code":
+					f.max = 12D;
+					break;
+			}
+		}
+    }
+    
+    
 	public JsonOrg toJSon() {
 		JsonOrg j = new JsonOrg();
 		super.toJSon(j);

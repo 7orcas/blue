@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.AppProperties;
-import com.sevenorcas.blue.system.login.LoginCacheDev;
+import com.sevenorcas.blue.system.login.CacheLogin_Dev;
 
 /**
  * Calls need to have a valid http session, otherwise they are not allowed into the system.
@@ -38,7 +38,7 @@ public class Filter1SessionAuthentication implements Filter{
 	
 	//NOT TO BE USED IN PRODUCTION
 	@EJB
-	private LoginCacheDev cacheDev;
+	private CacheLogin_Dev cacheDev;
 
 	//Load the excluded URLs
 	public void init(FilterConfig conf) throws ServletException {

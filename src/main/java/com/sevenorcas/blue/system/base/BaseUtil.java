@@ -6,7 +6,7 @@ import java.util.List;
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.base.IdCodeI;
-import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
 /**
 * TODO Module Description
@@ -15,7 +15,7 @@ import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
 * Created 3/9/2022
 * @author John Stewart
 */
-public class BaseUtil implements ApplicationI, HardCodeLangKeyI {
+public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
 
 	public AppProperties appProperties = AppProperties.getInstance();
 	

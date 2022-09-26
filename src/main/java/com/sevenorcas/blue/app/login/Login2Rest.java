@@ -13,14 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
-import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.login.CacheLogin_Dev;
 import com.sevenorcas.blue.system.login.ClientSession;
-import com.sevenorcas.blue.system.login.LoginCacheDEL;
-import com.sevenorcas.blue.system.login.LoginCacheDev;
-import com.sevenorcas.blue.system.login.LoginSrv;
+import com.sevenorcas.blue.system.login.SrvLogin;
 
 /**
  * Once a user is logged in, then initialise their session
@@ -36,11 +34,11 @@ import com.sevenorcas.blue.system.login.LoginSrv;
 public class Login2Rest extends BaseRest {
 
 	@EJB
-	private LoginSrv service;
+	private SrvLogin service;
 	
 	//NOT TO BE USED IN PRODUCTION
 	@EJB
-	private LoginCacheDev cacheDev;
+	private CacheLogin_Dev cacheDev;
 
 	
 	/**

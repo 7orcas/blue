@@ -7,8 +7,8 @@ import javax.interceptor.InvocationContext;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
-import com.sevenorcas.blue.system.base.BaseOrg;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
  * Inject the <code>CallObject</code> into the target rest methods (if in the method signature).
@@ -49,7 +49,7 @@ public class RestAroundInvoke {
 				callObj.setClientSession(clientCall.getClientSession());
 				
 				//ToDo get org from cache
-				callObj.setOrg(new BaseOrg(clientCall.getClientSession().getOrgNr()));
+				callObj.setOrg(new EntOrg().setOrgNr(clientCall.getClientSession().getOrgNr()));
 				
 				for (int i=0;i<ctx.getMethod().getParameterTypes().length;i++) {
 					if (ctx.getMethod().getParameterTypes()[i].getTypeName().equals(CallObject.class.getTypeName())) {

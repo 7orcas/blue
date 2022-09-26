@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.system.conf.SrvConfig;
-import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.lifecycle.RestAroundInvoke;
 import com.sevenorcas.blue.system.util.JsonResponseI;
@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.util.JsonResponseI;
 */
 
 @Interceptors({RestAroundInvoke.class})
-public class BaseRest extends BaseUtil implements HardCodeLangKeyI, JsonResponseI {
+public class BaseRest extends BaseUtil implements IntHardCodeLangKey, JsonResponseI {
 	
 	@EJB
 	protected SrvConfig serviceConf;

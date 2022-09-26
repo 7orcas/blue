@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
 /**
 * Helper class to manage a JDBC result set
@@ -14,7 +14,7 @@ import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
 * [Licence]
 * @author John Stewart
 */
-public class SqlResultSet implements HardCodeLangKeyI {
+public class SqlResultSet implements IntHardCodeLangKey {
 
 	protected Hashtable<String, Integer> columns;
 	protected List<Object[]> rows;

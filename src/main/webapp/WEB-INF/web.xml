@@ -41,7 +41,7 @@
 	
 	<servlet>
         <servlet-name>loginServlet</servlet-name>
-        <servlet-class>com.sevenorcas.blue.system.login.LoginServlet</servlet-class>
+        <servlet-class>com.sevenorcas.blue.system.login.ServletLogin</servlet-class>
     </servlet>
 	
 	<servlet-mapping>
@@ -51,7 +51,7 @@
 	
 	<servlet>
         <servlet-name>fileUploadServlet</servlet-name>
-        <servlet-class>com.sevenorcas.blue.system.file.FileUploadServlet</servlet-class>
+        <servlet-class>com.sevenorcas.blue.system.file.ServletFileUpload</servlet-class>
     </servlet>
 	
 	<servlet-mapping>

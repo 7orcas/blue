@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.lang.ent.LabelUtil;
+import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**
 * Create an excel file 
@@ -20,24 +20,24 @@ public abstract class BaseExcel extends BaseUtil implements ExcelI {
 	
 	protected List<Sheet> sheets;
 	protected Map<Integer, List<Column>> columns;
-	protected LabelUtil labels;
+	protected UtilLabel labels;
 	protected ExcelImport excel;
 	protected Boolean isInvalid;
 	protected Boolean isChanged;
 	protected Boolean isImportComment;
 	
 	
-	public BaseExcel (LabelUtil labels) {
+	public BaseExcel (UtilLabel labels) {
 		this.labels = labels;
 		initialise (labels);
 	}
 	
-	public BaseExcel (LabelUtil labels, ExcelImport excel) {
+	public BaseExcel (UtilLabel labels, ExcelImport excel) {
 		this.excel = excel;
 		initialise (labels);
 	}
 	
-	private void initialise (LabelUtil labels) {
+	private void initialise (UtilLabel labels) {
 		this.labels = labels;
 		sheets = new ArrayList<>();
 		columns = new HashMap<>();

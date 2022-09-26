@@ -2,6 +2,7 @@ package com.sevenorcas.blue.system.conf;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Method;
 
 import javax.ejb.Stateless;
 
@@ -10,6 +11,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
  * Configuration Module service bean.
@@ -57,17 +59,7 @@ public class SrvConfig extends BaseSrv {
 		//Derive entity's class
 		Class<?> clazz = Class.forName(CLASS_PATH_PREFIX + entity);
 		EntityConfig conf = new EntityConfig();
-		getConfig(clazz, conf);
-		
-//Exceptions TESTING move to annotated method
-if (entity.equals("system.org.ent.EntOrg")) {
-	for (int i=0;i<conf.fields.size();i++) {
-		if (conf.fields.get(i).name.equals("code")) {
-			conf.fields.get(i).max = 21D;
-		}
-	}
-}
-		
+		getConfig(callObj.getOrg(), clazz, conf);
 		
 		return conf;
     }
@@ -76,22 +68,22 @@ if (entity.equals("system.org.ent.EntOrg")) {
 	 * Return an classes configuration - recursive
 	 * Note @Field annotation overwrites @Column 
 	 * 
+	 * @param organisation number
 	 * @param class
+	 * @param configuration object
 	 * @return
 	 * @throws Exception
 	 */
 	private void getConfig(
+			EntOrg org,
 			Class<?> clazz,
 			EntityConfig config) throws Exception {
 		
 		if (clazz.getSuperclass() != null) {
-			getConfig(clazz.getSuperclass(), config);
+			getConfig(org, clazz.getSuperclass(), config);
 		}
 		
-		for (Annotation annotation : clazz.getDeclaredAnnotations()) {
-		    //Not yet used
-		}
-		
+		//Get configurations as per annotated fields 
 		for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
 			FieldConfig f = null;
 
@@ -120,7 +112,14 @@ if (entity.equals("system.org.ent.EntOrg")) {
 				config.fields.add(f);
 			}
 		}
-		
+
+		//Get configurations as per the <code>getConfigOverride</code> method
+		try {
+			Method m = clazz.getMethod("getConfigOverride", EntOrg.class, EntityConfig.class);
+			if (m != null) {
+				m.invoke(null, org, config);
+			}
+		} catch (Exception e) {}
     }
 	
 	private FieldConfig fieldConfig (FieldConfig f, java.lang.reflect.Field field) {

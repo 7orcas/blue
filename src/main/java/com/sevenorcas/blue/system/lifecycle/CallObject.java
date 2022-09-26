@@ -2,13 +2,14 @@ package com.sevenorcas.blue.system.lifecycle;
 
 import java.util.Hashtable;
 
-import com.sevenorcas.blue.system.base.BaseOrg;
+import com.sevenorcas.blue.system.base.BaseOrgDEL;
 import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class CallObject {
 
 	private ClientSession ses;
-	private BaseOrg org;	
+	private EntOrg org;	
 	
 	Hashtable<String, Object> objects = new Hashtable<>();
 	
@@ -27,11 +28,13 @@ public class CallObject {
 	}
 
 
-
-	public BaseOrg getOrg() {
+	public Integer getOrgNr() {
+		return org.getOrgNr();
+	}
+	public EntOrg getOrg() {
 		return org;
 	}
-	public CallObject setOrg(BaseOrg org) {
+	public CallObject setOrg(EntOrg org) {
 		this.org = org;
 		return this;
 	}

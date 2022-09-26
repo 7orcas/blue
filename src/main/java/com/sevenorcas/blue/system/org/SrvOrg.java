@@ -11,7 +11,7 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.field.validation.Validation;
+import com.sevenorcas.blue.system.field.validationDEL.Validation;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.DtoOrg;
 import com.sevenorcas.blue.system.org.ent.EntOrg;

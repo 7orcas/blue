@@ -4,7 +4,7 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.sevenorcas.blue.system.lang.HardCodeLangKeyI;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
 import com.sevenorcas.blue.system.util.JsonResponseI;
 
@@ -16,7 +16,7 @@ import com.sevenorcas.blue.system.util.JsonResponseI;
 */
 
 @Interceptors({SrvAroundInvoke.class})
-public class BaseSrv extends BaseUtil implements HardCodeLangKeyI, JsonResponseI {
+public class BaseSrv extends BaseUtil implements IntHardCodeLangKey, JsonResponseI {
 
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
