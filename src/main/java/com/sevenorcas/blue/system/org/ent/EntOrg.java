@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.sevenorcas.blue.system.annotation.FieldOverride;
 import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.conf.FieldConfig;
@@ -58,12 +59,13 @@ public class EntOrg extends BaseEnt<EntOrg> {
      * @param current org
      * @param config
      */
+    @FieldOverride
     static public void getConfigOverride (EntOrg org, EntityConfig config) {
 		for (int i=0;i<config.fields.size();i++) {
 			FieldConfig f = config.fields.get(i);
 			switch (f.name) {
 				case "code":
-					f.max = 12D;
+					f.max = 21D;
 					break;
 			}
 		}

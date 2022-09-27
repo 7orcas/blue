@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
-import com.sevenorcas.blue.system.base.BaseDto;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.DtoOrg;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -46,7 +43,7 @@ public class DaoOrg extends BaseDao {
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
 		}
-		sql += "ORDER BY org ";
+		sql += "ORDER BY org_nr ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<DtoOrg> list = new ArrayList<>();

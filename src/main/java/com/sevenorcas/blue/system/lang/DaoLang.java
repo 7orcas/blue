@@ -45,7 +45,7 @@ public class DaoLang extends BaseDao {
 		parms = validateParms(parms);
 		
 		String sql;
-		sql = "SELECT l.id, l.org, l.code, l.descr " +
+		sql = "SELECT l.id, l.org_nr, l.code, l.descr " +
 				"FROM cntrl.lang AS l ";
 		
 		if (parms.isActiveOnly()) {
@@ -61,7 +61,7 @@ public class DaoLang extends BaseDao {
 			list.add(d);
 		
 			d.setId(r.getLong(i, "id"))
-			 .setOrgNr(r.getInteger(i, "org"))
+			 .setOrgNr(r.getInteger(i, "org_nr"))
 			 .setCode(r.getString(i, "code"))
 			 .setDescr(r.getString(i, "descr"))
 			 .setDefaultValue(appProperties.get("LanguageDefault").equals(r.getString(i, "code")));
@@ -71,7 +71,7 @@ public class DaoLang extends BaseDao {
 
 	
 	public List<DtoLabel> langPackage(
-			Integer org,
+			Integer orgNr,
     		String pack,
     		String lang,
     		Boolean loadAll,
@@ -81,7 +81,7 @@ public class DaoLang extends BaseDao {
 		parms.addParameter(lang);
 		
 		String sql;
-		sql = "SELECT k.id AS id_langkey, l.id, l.org, l.lang, k.code AS code, l.code AS label %1 " +
+		sql = "SELECT k.id AS id_langkey, l.id, l.org_nr, l.lang, k.code AS code, l.code AS label %1 " +
 				"FROM cntrl.lang_key AS k " + 
 				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
 				"%2";
@@ -99,7 +99,7 @@ public class DaoLang extends BaseDao {
 		}
 		
 		if (!loadAll) {
-			sql += "WHERE " + (org == 0? "l.org = 0" : "(l.org = 0 OR l.org = " + org + ")");
+			sql += "WHERE " + (orgNr == 0? "l.org = 0" : "(l.org = 0 OR l.org = " + orgNr + ")");
 		}
 		
 		//Filter by language pack
@@ -108,7 +108,7 @@ public class DaoLang extends BaseDao {
 			sql += (!loadAll?"AND":"WHERE") + " k.pack LIKE ? ";
 		}
 				
-		sql += "ORDER BY k.code, l.org " + (!loadAll?"DESC":"");
+		sql += "ORDER BY k.code, l.org_nr " + (!loadAll?"DESC":"");
 
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<DtoLabel> list = new ArrayList<>();
@@ -127,20 +127,12 @@ public class DaoLang extends BaseDao {
 
 				d.setIdLangKey(r.getLong(i, "id_langkey"))
 				 .setId(r.get(i, "id", -1L))
-				 .setOrgNr(r.get(i, "org", -1))
+				 .setOrgNr(r.get(i, "org_nr", -1))
 				 .setLang(r.getString(i, "lang"))
 				 .setCode(code);
 				
 				String label = r.getString(i, "label"); 
 				d.setLabel(!dlang.equals(lang) && label == null? r.getString(i, "dcode") : label);
-				
-//				d.setIdLangKey((Long)row[0])
-//				 .setId(row[1] != null? (Long)row[1] : -1L)
-//				 .setOrgNr(row[2] != null? (Integer)row[2] : -1)
-//				 .setLang((String)row[3])
-//				 .setCode(code)
-//				 .setLabel(!dlang.equals(lang) && (String)row[5] == null? (String)row[6] : (String)row[5])
-//				 ;
 
 				if (!loadAll) set.add(code);
 			}

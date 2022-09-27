@@ -14,6 +14,7 @@ public class BaseDto <T> implements IdCodeI {
 	private Integer orgNr;
     private String lang;
     private String code;
+    private String descr;
     private String encoded;
     private Boolean active;
     
@@ -31,6 +32,7 @@ public class BaseDto <T> implements IdCodeI {
 		j.id = id;
 		j.orgNr = orgNr;
 		j.code = code;
+		j.descr = descr;
 		j.active = active;
 	}
     
@@ -64,6 +66,14 @@ public class BaseDto <T> implements IdCodeI {
 	@SuppressWarnings("unchecked")
 	public T setCode(String _code) {
 		this.code = _code;
+		return (T)this;
+	}
+	public String getDescr() {
+		return descr;
+	}
+	@SuppressWarnings("unchecked")
+	public T setDescr(String _descr) {
+		this.descr = _descr;
 		return (T)this;
 	}
 	public String getEncoded() {

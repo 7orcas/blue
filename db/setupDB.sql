@@ -16,9 +16,11 @@ create schema sys;
 
 create table sys.base
 (
-	org integer,
+	org_nr integer,
     code varchar,
+    descr varchar,
     created timestamp without time zone,
+    updated timestamp without time zone,
     encoded varchar,
     encoded_flag integer,
     active boolean default true
@@ -61,8 +63,7 @@ alter table cntrl.zzz_role OWNER to postgres;
 
 create table cntrl.lang
 (
-	id bigserial primary key,
-	descr varchar
+	id bigserial primary key
 ) INHERITS (sys.base);
 alter table cntrl.lang OWNER to postgres;
 

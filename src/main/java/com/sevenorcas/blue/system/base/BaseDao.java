@@ -24,10 +24,10 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 public class BaseDao extends BaseUtil {
 	
 	/** standard fields in tables **/
-	final static protected String BASE_LIST_FIELDS_SQL = " id,org,code,active ";
+	final static protected String BASE_LIST_FIELDS_SQL = " id,org,code,descr,active ";
 	
 	/** standard fields in tables **/
-	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org,code,created,encoded,encoded_flag,active ";
+	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org,code,descr,created,encoded,encoded_flag,active ";
 	
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
@@ -59,7 +59,8 @@ public class BaseDao extends BaseUtil {
 	static protected <T extends BaseDto<T>> void addBaseListFields(T dto, Integer index, SqlResultSet r) throws Exception {
 		dto.setId(r.getLong(index, "id")) 
 		   .setOrgNr(r.getInteger(index, "org")) 
-		   .setCode(r.getString(index, "code")) 
+		   .setCode(r.getString(index, "code"))
+		   .setDescr(r.getString(index, "descr"))
 		   .setActive(r.getBoolean(index, "active"));
 	}
 	

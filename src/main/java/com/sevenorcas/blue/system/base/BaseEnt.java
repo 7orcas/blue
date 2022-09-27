@@ -26,13 +26,19 @@ import com.sevenorcas.blue.system.field.validationDEL.ValidationI;
 abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	
 	@Field(unique = true, min = 1)
-	@Column(name = "org", nullable = false)
+	@Column(name = "org_nr", nullable = false)
 	private Integer orgNr;
 	
 	@Field(unique = true)
 	@Column(nullable = false, length = 30)
     private String code;
+	
+	@Column(length = 80)
+    private String descr;
+	
     private Date created;
+    private Date updated;
+    
     private String encoded;
     @Column(name = "encoded_flag")
     private Integer encodedFlag;
@@ -116,12 +122,30 @@ public Validation getValidation() {
 		return (T)this;
 	}
 	
+	public String getDescr() {
+		return descr;
+	}
+	@SuppressWarnings("unchecked")
+	public T setDescr(String descr) {
+		this.descr = descr;
+		return (T)this;
+	}
+		
 	public Date getCreated() {
 		return created;
 	}
 	@SuppressWarnings("unchecked")
 	public T setCreated(Date created) {
 		this.created = created;
+		return (T)this;
+	}
+	
+	public Date getUpdated() {
+		return updated;
+	}
+	@SuppressWarnings("unchecked")
+	public T setUpdated(Date updated) {
+		this.updated = updated;
 		return (T)this;
 	}
 	

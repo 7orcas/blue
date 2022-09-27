@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import org.jboss.logging.Logger;
 
+import com.sevenorcas.blue.system.annotation.FieldOverride;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -84,42 +85,51 @@ public class SrvConfig extends BaseSrv {
 		}
 		
 		//Get configurations as per annotated fields 
-		for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
-			FieldConfig f = null;
+		for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
+			FieldConfig fc = null;
 
-			for (Annotation anno : field.getDeclaredAnnotations()) {
+			for (Annotation anno : f.getDeclaredAnnotations()) {
 				if (anno instanceof javax.persistence.Column) {
 					javax.persistence.Column a = (javax.persistence.Column)anno;
-					f = fieldConfig(f, field);
-					f.nonNull = !a.nullable();
+					fc = fieldConfig(fc, f);
+					fc.nonNull = !a.nullable();
 					
-					if (isSameNonNull(field.getType().getCanonicalName(), STRING_CLASS)
-							&& (f.max == null || f.max == -1D)) {
-						f.max = Double.parseDouble("" + a.length());	
+					if (isSameNonNull(f.getType().getCanonicalName(), STRING_CLASS)
+							&& (fc.max == null || fc.max == -1D)) {
+						fc.max = Double.parseDouble("" + a.length());	
 					}
 					
 				}
 				if (anno instanceof com.sevenorcas.blue.system.annotation.Field) {
 					com.sevenorcas.blue.system.annotation.Field a = (com.sevenorcas.blue.system.annotation.Field)anno;
-					f = fieldConfig(f, field);
-					f.min = Double.parseDouble("" + a.min());
-					f.max = Double.parseDouble("" + a.max());
+					fc = fieldConfig(fc, f);
+					fc.min = Double.parseDouble("" + a.min());
+					fc.max = Double.parseDouble("" + a.max());
 				}
 				
 			}
 
-			if (f != null) {
-				config.fields.add(f);
+			if (fc != null) {
+				config.fields.add(fc);
 			}
 		}
 
+		
 		//Get configurations as per the <code>getConfigOverride</code> method
-		try {
-			Method m = clazz.getMethod("getConfigOverride", EntOrg.class, EntityConfig.class);
-			if (m != null) {
-				m.invoke(null, org, config);
-			}
-		} catch (Exception e) {}
+		for (Method m : clazz.getDeclaredMethods()) {
+			for (Annotation anno : m.getDeclaredAnnotations()) {
+				if (anno instanceof FieldOverride) {
+					try {
+						m.invoke(null, org, config);
+					} catch (Exception e) {
+						log.error(e);
+					}
+					
+				}
+			}			
+		}
+		
+
     }
 	
 	private FieldConfig fieldConfig (FieldConfig f, java.lang.reflect.Field field) {
