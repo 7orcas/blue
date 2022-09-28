@@ -24,7 +24,7 @@ import com.sevenorcas.blue.system.exception.RedException;
 */
 public class SqlExecute {
 
-	static final String DS = "java:jboss/datasources/blueDS";
+	static final public String DS = "java:jboss/datasources/blueDS";
 	
 	static public SqlResultSet executeQuery(
     		SqlParm sqlParms,

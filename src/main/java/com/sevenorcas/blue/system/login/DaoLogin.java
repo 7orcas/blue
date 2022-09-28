@@ -15,7 +15,9 @@ import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
+import com.sevenorcas.blue.system.user.EntRole;
 import com.sevenorcas.blue.system.user.EntUser;
+import com.sevenorcas.blue.system.user.EntUserRole;
 
 /**
 * Created July '22
@@ -42,7 +44,7 @@ public class DaoLogin extends BaseDao {
 	 */
 	public EntUser getUser (String userid) {
 		try {
-			TypedQuery<EntUser> tq = em.createQuery("FROM com.sevenorcas.blue.system.user.UserEnt WHERE xxx = :userid", EntUser.class);
+			TypedQuery<EntUser> tq = em.createQuery("FROM " + EntUser.class.getCanonicalName() + " WHERE xxx = :userid", EntUser.class);
 			return tq.setParameter("userid", userid).getSingleResult();
 		} catch (Exception e) {
 			log.error("userid=" + userid + " error:" + e);
@@ -64,7 +66,7 @@ public class DaoLogin extends BaseDao {
 	
 		String sql;
 		sql = "SELECT u.xxx " 
-				+ "FROM cntrl.zzz AS u "
+				+ "FROM " + tableName(EntUser.class, " AS u ")
 				+ "WHERE u.id = " + userId;
 		
 		if (parms.isActiveOnly()) {
@@ -95,8 +97,8 @@ public class DaoLogin extends BaseDao {
 	
 		String sql;
 		sql = "SELECT r.code " 
-				+ "FROM cntrl.role AS r "
-				+ "JOIN cntrl.zzz_role AS j ON j.id_role = r.id "
+				+ "FROM " + tableName(EntRole.class, " AS r ")
+				+ "JOIN " + tableName(EntUserRole.class, " AS j ON j.id_role = r.id ")
 				+ "WHERE j.id_zzz = " + userId;
 		
 		if (parms.isActiveOnly()) {

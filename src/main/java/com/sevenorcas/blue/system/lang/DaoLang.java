@@ -99,7 +99,7 @@ public class DaoLang extends BaseDao {
 		}
 		
 		if (!loadAll) {
-			sql += "WHERE " + (orgNr == 0? "l.org = 0" : "(l.org = 0 OR l.org = " + orgNr + ")");
+			sql += "WHERE " + (orgNr == 0? "l.org_nr = 0" : "(l.org_nr = 0 OR l.org_nr = " + orgNr + ")");
 		}
 		
 		//Filter by language pack

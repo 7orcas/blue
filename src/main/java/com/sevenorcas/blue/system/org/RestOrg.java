@@ -114,4 +114,20 @@ public class RestOrg extends BaseRest {
 		return serviceConf.getConfigJson(callObj, entity);
     }
 	
+	
+	/**
+	 * Return a new organisation object (uncommitted)
+	 * 
+	 * @param callObj
+	 * @param org id
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("new")
+    public JsonRes newOrg(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		return service.newOrgJson(callObj);
+    }
+	
 }

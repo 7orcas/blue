@@ -3,7 +3,6 @@ package com.sevenorcas.blue.system.lifecycle;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -8,8 +8,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.annotation.Field;
-import com.sevenorcas.blue.system.conf.ConfigurationI_DEL;
-import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
 import com.sevenorcas.blue.system.field.validationDEL.ValidationI;
 
@@ -27,7 +25,7 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	
 	@Field(unique = true, min = 1)
 	@Column(name = "org_nr", nullable = false)
-	private Integer orgNr;
+	protected Integer orgNr;
 	
 	@Field(unique = true)
 	@Column(nullable = false, length = 30)
@@ -169,6 +167,10 @@ public Validation getValidation() {
 	
 	public boolean isActive() {
 		return active != null && active;
+	}
+	@SuppressWarnings("unchecked")
+	public T setActive() {
+		return setActive(true);
 	}
 	@SuppressWarnings("unchecked")
 	public T setActive(Boolean active) {

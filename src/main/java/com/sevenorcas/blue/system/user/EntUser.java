@@ -17,6 +17,11 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
  * 
  * TODO document this bean
  * 
+ * Notes: 
+ * - orgNr is transient, ie changes with each login. Potentially a user could log into multiple org's 
+ *   (each login attempt uses the orgNr to store the current attempt)
+ * 
+ * 
  * [Licence]
  * @author John Stewart
  */
@@ -46,8 +51,8 @@ public class EntUser extends BaseEnt<EntUser> {
     private Boolean validUser;
 	@Transient
     private String inValidMessage;
-	@Transient
-    private Integer org;
+//	@Transient
+//    private Integer org; DELETE
 	
 	public EntUser () {
 		
@@ -90,7 +95,7 @@ public class EntUser extends BaseEnt<EntUser> {
 		String [] s = orgs != null? orgs.split(",") : new String [] {""};
 		for (String o : s) {
 			if (org != null && o.equals(org.toString())) {
-				this.org = org;
+				this.orgNr = org;
 				return true;
 			}
 		}
@@ -99,13 +104,13 @@ public class EntUser extends BaseEnt<EntUser> {
 	public void setDefaultOrg() {
 		try {
 			String [] s = orgs != null? orgs.split(",") : new String [] {""};
-			org = Integer.parseInt(s[0]);
+			orgNr = Integer.parseInt(s[0]);
 		} catch (Exception x) {
 		}
 	}
-	public Integer getOrgNr() {
-		return org;
-	}
+//	public Integer getOrgNr() {
+//		return org;
+//	}
 
 	public Integer getAttempts() {
 		return attempts;

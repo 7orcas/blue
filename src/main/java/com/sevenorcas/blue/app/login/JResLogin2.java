@@ -1,6 +1,6 @@
 package com.sevenorcas.blue.app.login;
 
-public class Login2JsonRes {
+public class JResLogin2 {
 	/** userid                */ public String userid;
 	/** org number            */ public Integer orgNr;
 	/** language code         */ public String lang;

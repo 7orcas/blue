@@ -86,7 +86,36 @@ public class SrvOrg extends BaseSrv {
     	return dao.getOrg(orgId);
     }
   
+    
+    /**
+	 * Return an uncommitted organisation entity
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+    public JsonRes newOrgJson(CallObject callObj) throws Exception {
+    	EntOrg o = newOrg(callObj);
+    	List<JsonOrg> y = new ArrayList<JsonOrg>();
+    	y.add(o.toJSon());
+		return new JsonRes().setData(y);
+    }
   
+    /**
+	 * Return an uncommitted organisation entity
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+    public EntOrg newOrg(CallObject callObj) throws Exception {
+    	EntOrg o = new EntOrg();
+    	o.setId(dao.nextTempIdNegative())
+    	 .setOrgNr(0)
+    	 .setActive()
+    	 .setDvalue(false);
+    	
+    	return o;
+    }  
+    
     /**
 	 * Create / Update / Delete the organisation list
 	 * 

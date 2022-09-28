@@ -31,7 +31,7 @@ import com.sevenorcas.blue.system.login.SrvLogin;
 @Path("/login2")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class Login2Rest extends BaseRest {
+public class RestLogin2 extends BaseRest {
 
 	@EJB
 	private SrvLogin service;
@@ -65,7 +65,7 @@ public class Login2Rest extends BaseRest {
 			String roles = service.getUserRolesAsString(cs.getUserId());
 			
 			//Return the base usn number for the client to use in all coms
-			Login2JsonRes login = new Login2JsonRes();
+			JResLogin2 login = new JResLogin2();
 			login.userid = userid; 
 			login.orgNr = cs.getOrgNr();
 			login.lang = cs.getLang();

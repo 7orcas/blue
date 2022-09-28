@@ -1,8 +1,6 @@
 package com.sevenorcas.blue.system.lifecycle;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.JaxrsActivator;
 import com.sevenorcas.blue.system.ApplicationI;
 
 /**

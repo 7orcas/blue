@@ -1,13 +1,27 @@
 package com.sevenorcas.blue.system.base;
 
+import java.lang.invoke.MethodHandles;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.interceptor.Interceptors;
+import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
+import javax.sql.DataSource;
 
-import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
+import com.sevenorcas.blue.system.org.ent.DtoOrg;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
@@ -23,11 +37,13 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 @Interceptors({DaoAroundInvoke.class})
 public class BaseDao extends BaseUtil {
 	
-	/** standard fields in tables **/
-	final static protected String BASE_LIST_FIELDS_SQL = " id,org,code,descr,active ";
+	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	/** standard fields in tables **/
-	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org,code,descr,created,encoded,encoded_flag,active ";
+	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,active ";
+	
+	/** standard fields in tables **/
+	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,created,encoded,encoded_flag,active ";
 	
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
@@ -35,6 +51,47 @@ public class BaseDao extends BaseUtil {
 	public EntityManager getEntityManager() { 	
 		return em;
 	}
+	
+	
+	/**
+	 * Clients creating new objects must have unique negative ids
+	 * @return
+	 * @throws Exception
+	 */
+	public Long nextTempIdNegative() throws Exception {
+		return nextTempId() * -1;
+	}
+	
+	/**
+	 * Unique ID
+	 * @return
+	 * @throws Exception
+	 */
+	public Long nextTempId() throws Exception {
+		
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "SELECT NEXTVAL ('sys.temp_id')";
+			DataSource ds = (DataSource) new InitialContext().lookup(SqlExecute.DS);
+    		conn = ds.getConnection();
+    		stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+    	
+			// Extract data from result set
+			while(rs.next()){
+				return rs.getLong(1);
+			}
+		} finally {
+			if (rs != null) rs.close();
+    		if (stmt != null) stmt.close();
+    		if (conn != null) conn.close();	
+		}
+		
+		return null;
+    }
 	
 	
 	/**
@@ -58,7 +115,7 @@ public class BaseDao extends BaseUtil {
 	 */
 	static protected <T extends BaseDto<T>> void addBaseListFields(T dto, Integer index, SqlResultSet r) throws Exception {
 		dto.setId(r.getLong(index, "id")) 
-		   .setOrgNr(r.getInteger(index, "org")) 
+		   .setOrgNr(r.getInteger(index, "org_nr")) 
 		   .setCode(r.getString(index, "code"))
 		   .setDescr(r.getString(index, "descr"))
 		   .setActive(r.getBoolean(index, "active"));

@@ -21,7 +21,7 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
  */
 
 @Entity
-@Table(name="zzz-role", schema="cntrl")
+@Table(name="zzz_role", schema="cntrl")
 @SequenceGenerator(name="zzz-role_id_seq", sequenceName="zzz-role_id_seq", allocationSize=1)
 public class EntUserRole extends BaseEnt<EntUserRole>{
 	

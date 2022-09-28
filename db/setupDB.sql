@@ -8,11 +8,14 @@ drop table if exists cntrl.org;
 drop table if exists sys.base;
 drop table if exists sys._lang;
 drop table if exists sys._langkey;
+drop sequence if exists sys.temp_id;
 drop schema if exists cntrl;
 drop schema if exists sys;
 
 create schema cntrl;
 create schema sys;
+
+create sequence sys.temp_id as bigint start 10000; 
 
 create table sys.base
 (
