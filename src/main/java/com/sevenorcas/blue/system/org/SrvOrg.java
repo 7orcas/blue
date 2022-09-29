@@ -6,15 +6,18 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.DtoOrg;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.org.ent.ExcelOrg;
 import com.sevenorcas.blue.system.org.json.JsonOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
@@ -129,6 +132,7 @@ public class SrvOrg extends BaseSrv {
     		List<EntOrg> list) throws Exception {
 		
 		List<Validation> vals = new ArrayList<>();
+		List<Long []> ids = new ArrayList<>();
 	
 		//Validation
 		for (EntOrg ent : list) {
@@ -141,10 +145,8 @@ public class SrvOrg extends BaseSrv {
 		if (vals.size() > 0) {
 			return new JsonRes().setError("invlist").setData(vals);
 		}
-	
-	
+		
   		try {
-  		
   			for (EntOrg ent : list) {
   				if (ent.isDelete()) {
   					dao.deleteOrg(ent.getId());
@@ -153,19 +155,35 @@ public class SrvOrg extends BaseSrv {
   					dao.mergeOrg (ent);
   				}
   				else if (ent.isNew()){
+  					Long[] id = new Long[2];
+  					ids.add(id);
+  					id[0] = ent.getId();
   					ent.setId(null);
-  					dao.persistOrg(ent);
+  					id[1] = dao.persistOrg(ent);
   				}
   			}
-//ToDo not working  			
-//dao.getEntityManager().getTransaction().commit();
   			
   		} catch (Exception e) {
   			log.equals(e);
   			throw e;
   		}
   		
-  		return new JsonRes();
+  		return new JsonRes().setData(ids);
   	}  
    
+    /**
+	 * Export organisations to excel
+	 * @return
+	 * @throws Exception
+	 */
+	public Response excelExport(CallObject callObj) throws Exception {
+		
+		List<DtoOrg> x = dao.orgList(callObj, null);
+		UtilLabel labels = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
+		ExcelOrg excel = new ExcelOrg(labels, x);
+		
+		String fn = excelSrv.createListFile("OrgList", callObj.getOrgNr(), excel);
+		return fileSrv.getFile(fn, "OrgList.xlsx", false);
+    }
+    
 }

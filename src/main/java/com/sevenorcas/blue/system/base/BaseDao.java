@@ -4,8 +4,8 @@ import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.interceptor.Interceptors;
 import javax.naming.InitialContext;
@@ -17,10 +17,7 @@ import javax.sql.DataSource;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
-import com.sevenorcas.blue.system.org.ent.DtoOrg;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
@@ -52,6 +49,29 @@ public class BaseDao extends BaseUtil {
 		return em;
 	}
 	
+	/**
+     * Persist the entity 
+     * @param entity
+     * @return
+     */
+    public <T extends BaseEnt<T>> Long persist (T ent) throws Exception {
+    	LocalDateTime d = LocalDateTime.now();
+    	ent.setCreated(Timestamp.valueOf(d));
+    	ent.setUpdated(Timestamp.valueOf(d));
+    	em.persist(ent);
+    	em.flush();
+    	return ent.getId();
+	}
+	
+    /**
+     * Update the entities <code>update</code> field 
+     * @param entity
+     * @return
+     */
+    public <T extends BaseEnt<T>> void update (T ent) throws Exception {
+    	LocalDateTime d = LocalDateTime.now();
+    	ent.setUpdated(Timestamp.valueOf(d));
+	}
 	
 	/**
 	 * Clients creating new objects must have unique negative ids

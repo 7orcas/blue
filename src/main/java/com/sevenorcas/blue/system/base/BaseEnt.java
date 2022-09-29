@@ -1,7 +1,7 @@
 package com.sevenorcas.blue.system.base;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -34,8 +34,8 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	@Column(length = 80)
     private String descr;
 	
-    private Date created;
-    private Date updated;
+    private Timestamp created;
+    private Timestamp updated;
     
     private String encoded;
     @Column(name = "encoded_flag")
@@ -129,20 +129,20 @@ public Validation getValidation() {
 		return (T)this;
 	}
 		
-	public Date getCreated() {
+	public Timestamp getCreated() {
 		return created;
 	}
 	@SuppressWarnings("unchecked")
-	public T setCreated(Date created) {
+	public T setCreated(Timestamp created) {
 		this.created = created;
 		return (T)this;
 	}
 	
-	public Date getUpdated() {
+	public Timestamp getUpdated() {
 		return updated;
 	}
 	@SuppressWarnings("unchecked")
-	public T setUpdated(Date updated) {
+	public T setUpdated(Timestamp updated) {
 		this.updated = updated;
 		return (T)this;
 	}

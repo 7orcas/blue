@@ -40,12 +40,6 @@ public class SrvLang extends BaseSrv {
 	@EJB
 	private DaoLang dao;
 	
-	@EJB
-	private SrvExcel excelSrv;
-
-	@EJB
-	private SrvFile fileSrv;
-
 	
 	public JsonRes languagesJson(
     		CallObject callObj) throws Exception{

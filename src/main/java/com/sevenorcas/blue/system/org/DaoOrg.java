@@ -74,11 +74,10 @@ public class DaoOrg extends BaseDao {
     /**
      * Persist the <code>OrgEnt</code> entity 
      * @param org entity
-     * @return
+     * @return new id
      */
-    public void persistOrg (
-    		EntOrg org) throws Exception {
-    	em.persist(org);
+    public Long persistOrg (EntOrg org) throws Exception {
+    	return persist(org);
 	}
     
     /**
@@ -94,6 +93,8 @@ public class DaoOrg extends BaseDao {
     	ent.setCode(org.getCode())
     	   .setActive(org.isActive())
     	   .setDvalue(org.getDvalue());
+    
+    	update(ent);
     	
     	return ent;
 	}

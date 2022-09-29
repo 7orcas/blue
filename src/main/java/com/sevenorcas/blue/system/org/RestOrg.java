@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
@@ -128,6 +129,19 @@ public class RestOrg extends BaseRest {
     public JsonRes newOrg(
     		@QueryParam ("co") CallObject callObj) throws Exception {
 		return service.newOrgJson(callObj);
+    }
+	
+	/**
+	 * Export orgs to excel file
+	 * @param callObj
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("excel")
+    public Response excel(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		return service.excelExport(callObj);
     }
 	
 }
