@@ -1,5 +1,6 @@
 package com.sevenorcas.blue.system.sql;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -99,5 +100,18 @@ public class SqlResultSet implements IntHardCodeLangKey {
 		
 	}
 	
+	public Timestamp getTimestamp (Integer row, String column) throws Exception{
+		return getTimestamp(row, column, null);
+	}
+	
+	public Timestamp getTimestamp (Integer row, String column, Timestamp dvalue) throws Exception{
+		try {
+			Timestamp v = (Timestamp)getObject(row, column);
+			return v == null? dvalue : v;
+		} catch (Exception e) {
+			throw new RedException(LK_UNKNOWN_ERROR, e.getMessage());
+		}
+		
+	}
 	
 }

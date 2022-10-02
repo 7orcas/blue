@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.base;
 
+import java.sql.Timestamp;
+
 /**
 * Created 22 July 2022
 * 
@@ -17,6 +19,8 @@ public class BaseDto <T> implements IdCodeI {
     private String descr;
     private String encoded;
     private Boolean active;
+    private Timestamp created;
+    private Timestamp updated;
     
     //Used in excel import
     private Boolean changed;
@@ -34,6 +38,8 @@ public class BaseDto <T> implements IdCodeI {
 		j.code = code;
 		j.descr = descr;
 		j.active = active;
+		j.created = created;
+		j.updated = updated;
 	}
     
     public Long getId() {
@@ -135,4 +141,24 @@ public class BaseDto <T> implements IdCodeI {
 		this.valid = valid;
 		return (T)this;
 	}
+	public Timestamp getCreated() {
+		return created;
+	}
+	@SuppressWarnings("unchecked")
+	public T setCreated(Timestamp created) {
+		this.created = created;
+		return (T)this;
+	}
+	public Timestamp getUpdated() {
+		return updated;
+	}
+	@SuppressWarnings("unchecked")
+	public T setUpdated(Timestamp updated) {
+		this.updated = updated;
+		return (T)this;
+	}
+	
+	
+	
+	
 }
