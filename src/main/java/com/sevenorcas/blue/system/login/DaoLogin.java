@@ -12,10 +12,10 @@ import javax.persistence.TypedQuery;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
-import com.sevenorcas.blue.system.user.EntRole;
 import com.sevenorcas.blue.system.user.EntUser;
 import com.sevenorcas.blue.system.user.EntUserRole;
 

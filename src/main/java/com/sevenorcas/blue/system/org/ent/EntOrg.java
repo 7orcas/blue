@@ -73,8 +73,7 @@ public class EntOrg extends BaseEnt<EntOrg> {
     
     
 	public JsonOrg toJSon() {
-		JsonOrg j = new JsonOrg();
-		super.toJSon(j);
+		JsonOrg j = super.toJSon(new JsonOrg());
 		j.dvalue = dvalue;
 		return j;
 	}

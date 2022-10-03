@@ -3,9 +3,9 @@ delete from cntrl.lang_label;
 delete from cntrl.lang_key; 
 delete from cntrl.lang;
 
-insert into cntrl.lang (id, code, descr, org_nr, created) values (1, 'en', 'English', 0, NOW());
-insert into cntrl.lang (id, code, descr, org_nr, created) values (2, 'de', 'Deutsch', 0, NOW());
-insert into cntrl.lang (id, code, descr, org_nr, created) values (3, 'es', 'Espanol', 0, NOW());
+insert into cntrl.lang (id, code, descr, org_nr, updated) values (1, 'en', 'English', 0, NOW());
+insert into cntrl.lang (id, code, descr, org_nr, updated) values (2, 'de', 'Deutsch', 0, NOW());
+insert into cntrl.lang (id, code, descr, org_nr, updated) values (3, 'es', 'Espanol', 0, NOW());
 
 
 drop table if exists sys._lang;
@@ -37,6 +37,6 @@ update sys._lang as l set lang_key_id = (select id from sys._langKey as k where 
 update sys._lang set en_id = NEXTVAL('cntrl.lang_label_id_seq');
 update sys._lang set de_id = NEXTVAL('cntrl.lang_label_id_seq'); --need to repeat new id's for each language
 
-insert into cntrl.lang_key (id, code, pack, org_nr, created) select id, code, pack, 0, NOW() from sys._langkey;
-insert into cntrl.lang_label (id_lang_key, id, lang, code, org_nr, created) select lang_key_id, en_id, 'en', en, org_nr, NOW() from sys._lang where length(en) > 0;
-insert into cntrl.lang_label (id_lang_key, id, lang, code, org_nr, created) select lang_key_id, de_id, 'de', de, org_nr, NOW() from sys._lang where length(de) > 0;
+insert into cntrl.lang_key (id, code, pack, org_nr, updated) select id, code, pack, 0, NOW() from sys._langkey;
+insert into cntrl.lang_label (id_lang_key, id, lang, code, org_nr, updated) select lang_key_id, en_id, 'en', en, org_nr, NOW() from sys._lang where length(en) > 0;
+insert into cntrl.lang_label (id_lang_key, id, lang, code, org_nr, updated) select lang_key_id, de_id, 'de', de, org_nr, NOW() from sys._lang where length(de) > 0;

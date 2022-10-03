@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.user;
+package com.sevenorcas.blue.system.role.ent;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +14,7 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
  * Role entity 
  * Roles determine a users's authorisation to access methods
  * 
- * TODO document this bean
- * 
+ * Created Sept '22
  * [Licence]
  * @author John Stewart
  */
@@ -27,6 +26,7 @@ public class EntRole extends BaseEnt<EntRole>{
 	private static final long serialVersionUID = 1L;
 	
 	@Id  
+	@SequenceGenerator(name="role_id_seq", sequenceName="role_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="role_id_seq")
 	private Long id;
 	

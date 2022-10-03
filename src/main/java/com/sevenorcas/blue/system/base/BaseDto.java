@@ -19,7 +19,6 @@ public class BaseDto <T> implements IdCodeI {
     private String descr;
     private String encoded;
     private Boolean active;
-    private Timestamp created;
     private Timestamp updated;
     
     //Used in excel import
@@ -38,7 +37,6 @@ public class BaseDto <T> implements IdCodeI {
 		j.code = code;
 		j.descr = descr;
 		j.active = active;
-		j.created = created;
 		j.updated = updated;
 	}
     
@@ -139,14 +137,6 @@ public class BaseDto <T> implements IdCodeI {
 	@SuppressWarnings("unchecked")
 	public T setValid(Boolean valid) {
 		this.valid = valid;
-		return (T)this;
-	}
-	public Timestamp getCreated() {
-		return created;
-	}
-	@SuppressWarnings("unchecked")
-	public T setCreated(Timestamp created) {
-		this.created = created;
 		return (T)this;
 	}
 	public Timestamp getUpdated() {

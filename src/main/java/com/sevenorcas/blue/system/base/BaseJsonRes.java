@@ -16,7 +16,6 @@ public class BaseJsonRes {
 	public String descr;
 	public Integer orgNr;
 	public Boolean active;
-	public Timestamp created;
 	public Timestamp updated;
 	
 	public void initialise (BaseEnt<?> ent) {
@@ -25,7 +24,6 @@ public class BaseJsonRes {
 		descr = ent.getDescr();
 		orgNr = ent.getOrgNr();
 		active = ent.isActive();
-		created = ent.getCreated();
 		updated = ent.getUpdated();
 	}
 	

@@ -37,10 +37,10 @@ public class BaseDao extends BaseUtil {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	/** standard fields in tables **/
-	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,created,updated,active ";
+	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,updated,active ";
 	
 	/** standard fields in tables **/
-	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,created,updated,encoded,encoded_flag,active ";
+	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,updated,encoded,encoded_flag,active ";
 	
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
@@ -56,7 +56,6 @@ public class BaseDao extends BaseUtil {
      */
     public <T extends BaseEnt<T>> Long persist (T ent) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
-    	ent.setCreated(Timestamp.valueOf(d));
     	ent.setUpdated(Timestamp.valueOf(d));
     	em.persist(ent);
     	em.flush();
@@ -139,7 +138,6 @@ public class BaseDao extends BaseUtil {
 		   .setCode(r.getString(index, "code"))
 		   .setDescr(r.getString(index, "descr"))
 		   .setActive(r.getBoolean(index, "active"))
-		   .setCreated(r.getTimestamp(index, "created"))
 		   .setUpdated(r.getTimestamp(index, "updated"))
 		   ;
 	}

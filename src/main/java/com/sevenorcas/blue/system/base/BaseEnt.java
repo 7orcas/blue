@@ -34,7 +34,6 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	@Column(length = 80)
     private String descr;
 	
-    private Timestamp created;
     private Timestamp updated;
     
     private String encoded;
@@ -81,14 +80,15 @@ public Validation getValidation() {
      * Set standard fields in JSon object
      * @param j
      */
-    protected void toJSon(BaseJsonRes j) {
+    protected <J extends BaseJsonRes> J toJSon(J j) {
 		j.id = getId();
 		j.code = code;
 		j.orgNr = orgNr;
+		j.updated = updated;
 		j.active = active;
+		return j;
 	}
-    
-    
+   
     public BaseEnt () {
     }
     
@@ -129,15 +129,6 @@ public Validation getValidation() {
 		return (T)this;
 	}
 		
-	public Timestamp getCreated() {
-		return created;
-	}
-	@SuppressWarnings("unchecked")
-	public T setCreated(Timestamp created) {
-		this.created = created;
-		return (T)this;
-	}
-	
 	public Timestamp getUpdated() {
 		return updated;
 	}

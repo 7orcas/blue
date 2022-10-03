@@ -1,7 +1,9 @@
 drop table if exists cntrl.lang_label;
 drop table if exists cntrl.lang_key;
 drop table if exists cntrl.lang;
+drop table if exists cntrl.role_permission;
 drop table if exists cntrl.zzz_role;
+drop table if exists cntrl.permission;
 drop table if exists cntrl.role;
 drop table if exists cntrl.zzz;
 drop table if exists cntrl.org;
@@ -22,7 +24,6 @@ create table sys.base
 	org_nr integer,
     code varchar,
     descr varchar,
-    created timestamp without time zone,
     updated timestamp without time zone,
     encoded varchar,
     encoded_flag integer,
@@ -49,11 +50,27 @@ create table cntrl.zzz
 ) INHERITS (sys.base);
 alter table cntrl.zzz OWNER to postgres;
 
+create table cntrl.permission
+(
+	id bigserial primary key,
+	crud varchar	
+) INHERITS (sys.base);
+alter table cntrl.permission OWNER to postgres;
+
 create table cntrl.role
 (
 	id bigserial primary key
 ) INHERITS (sys.base);
 alter table cntrl.role OWNER to postgres;
+
+create table cntrl.role_permission
+(
+	id bigserial primary key,
+    id_role bigint references cntrl.role (id),
+    id_permission bigint references cntrl.permission (id),
+    constraint role_permission_i1 unique (id_role,id_permission)
+) INHERITS (sys.base);
+alter table cntrl.role_permission OWNER to postgres;
 
 create table cntrl.zzz_role
 (
