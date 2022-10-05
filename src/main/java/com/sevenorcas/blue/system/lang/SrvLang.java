@@ -170,7 +170,7 @@ public class SrvLang extends BaseSrv {
 				for (int i=0;i<list.size();i++) {
 					DtoLabel dto = list.get(i);
 					if (dto.isChanged()) {
-						List<EntLangLabel> listX = dao.getLangLabel(dto.getIdLangKey(), dto.getLang());
+						List<EntLangLabel> listX = dao.getLangLabel(dto.getLangKeyId(), dto.getLang());
 						
 						for (int j=0;j<listX.size();j++) {
 							if (isSameNonNull(dto.getId(), listX.get(j).getId())) {

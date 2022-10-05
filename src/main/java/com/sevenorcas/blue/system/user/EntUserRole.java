@@ -31,10 +31,10 @@ public class EntUserRole extends BaseEnt<EntUserRole>{
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz-role_id_seq")
 	private Long id;
 
-	@Column(name="id_zzz")
-	private Long idUser;
-	@Column(name="id_role")
-	private Long idRole;
+	@Column(name="zzz_id")
+	private Long userId;
+	@Column(name="role_id")
+	private Long roleId;
 	
 	public EntUserRole () {
 	}
@@ -55,17 +55,17 @@ public class EntUserRole extends BaseEnt<EntUserRole>{
     protected void validate (Validation validation) { }
 	
 	
-	public Long getIdUser() {
-		return idUser;
+	public Long getUserId() {
+		return userId;
 	}
-	public void setIdUser(Long idUser) {
-		this.idUser = idUser;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-	public Long getIdRole() {
-		return idRole;
+	public Long getRoleId() {
+		return roleId;
 	}
-	public void setIdRole(Long idRole) {
-		this.idRole = idRole;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 	
 	

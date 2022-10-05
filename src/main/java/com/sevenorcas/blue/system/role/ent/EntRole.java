@@ -1,9 +1,14 @@
 package com.sevenorcas.blue.system.role.ent;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -12,7 +17,7 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
 
 /**
  * Role entity 
- * Roles determine a users's authorisation to access methods
+ * Roles determine a users's authorisation to access REST methods
  * 
  * Created Sept '22
  * [Licence]
@@ -29,6 +34,10 @@ public class EntRole extends BaseEnt<EntRole>{
 	@SequenceGenerator(name="role_id_seq", sequenceName="role_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="role_id_seq")
 	private Long id;
+
+	@OneToMany(cascade={CascadeType.ALL},mappedBy="entRole")
+	private List <EntRolePermission> permissions = new ArrayList<>(); 
+
 	
 	public EntRole () {
 	}

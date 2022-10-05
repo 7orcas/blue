@@ -78,8 +78,12 @@ public class SqlResultSet implements IntHardCodeLangKey {
 	}
 	
 	public String getString (Integer row, String column) throws Exception{
+		return getString (row, column, null);
+	}
+	public String getString (Integer row, String column, String dvalue) throws Exception{
 		try {
-			return (String)getObject(row, column);
+			String v = (String)getObject(row, column);
+			return v == null? dvalue : v;
 		} catch (Exception e) {
 			throw new RedException(LK_UNKNOWN_ERROR, e.getMessage());
 		}

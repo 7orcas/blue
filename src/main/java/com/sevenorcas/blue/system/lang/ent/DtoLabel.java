@@ -15,14 +15,14 @@ import com.sevenorcas.blue.system.lang.json.JResLabel;
 public class DtoLabel extends BaseDto<DtoLabel> {
 
     private String label;
-	private Long id_lang_key;
+	private Long langKeyId;
 
 	
 	public JResLabel toJSon() {
 		JResLabel j = new JResLabel();
 		super.toJSon(j);
 		j.label = label;
-		j.id_key = id_lang_key;
+		j.keyId = langKeyId;
 		return j;
 	}
 	
@@ -34,11 +34,11 @@ public class DtoLabel extends BaseDto<DtoLabel> {
 		return this;
 	}
 
-	public Long getIdLangKey() {
-		return id_lang_key;
+	public Long getLangKeyId() {
+		return langKeyId;
 	}
-	public DtoLabel setIdLangKey(Long id_lang_key) {
-		this.id_lang_key = id_lang_key;
+	public DtoLabel setLangKeyId(Long id_lang_key) {
+		this.langKeyId = id_lang_key;
 		return this;
 	}
 	

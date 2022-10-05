@@ -32,8 +32,8 @@ public class EntLangLabel extends BaseEnt<EntLangLabel> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="lang_label_id_seq")
 	private Long id;
 	
-	@Column(name="id_lang_key")
-	private Long idLangKey;
+	@Column(name="lang_key_id")
+	private Long langKeyId;
 
 	@Transient
 	private String langKey;
@@ -59,11 +59,11 @@ public class EntLangLabel extends BaseEnt<EntLangLabel> {
     protected void validate (Validation validation) { }
 	
 	
-	public Long getIdLangKey() {
-		return idLangKey;
+	public Long getLangKeyId() {
+		return langKeyId;
 	}
-	public void setIdLangKey(Long idLangKey) {
-		this.idLangKey = idLangKey;
+	public void setLangKeyId(Long langKeyId) {
+		this.langKeyId = langKeyId;
 	}
 
 	public String getLang() {

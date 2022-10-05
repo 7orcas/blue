@@ -30,6 +30,6 @@ public class JResLangLabel extends BaseJsonRes{
 	public JResLangLabel (EntLangLabel ent) {
 		this.initialise(ent);
 		langKey = ent.getLangKey();
-		idLangKey = ent.getIdLangKey();	
+		idLangKey = ent.getLangKeyId();	
 	}
 }

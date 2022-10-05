@@ -81,9 +81,9 @@ public class DaoLang extends BaseDao {
 		parms.addParameter(lang);
 		
 		String sql;
-		sql = "SELECT k.id AS id_langkey, l.id, l.org_nr, l.lang, k.code AS code, l.code AS label %1 " +
+		sql = "SELECT k.id AS langkey_id, l.id, l.org_nr, l.lang, k.code AS code, l.code AS label %1 " +
 				"FROM cntrl.lang_key AS k " + 
-				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.id_lang_key AND l.lang = ?) " +
+				"LEFT JOIN cntrl.lang_label AS l ON (k.id = l.lang_key_id AND l.lang = ?) " +
 				"%2";
 		
 		//Load default labels as well
@@ -91,7 +91,7 @@ public class DaoLang extends BaseDao {
 		if (!dlang.equals(lang)) {
 			parms.addParameter(dlang);
 			sql = sql.replace("%1", ", x.code as dcode");
-			sql = sql.replace("%2", "LEFT JOIN cntrl.lang_label AS x ON (k.id = x.id_lang_key AND x.lang = ?) ");
+			sql = sql.replace("%2", "LEFT JOIN cntrl.lang_label AS x ON (k.id = x.lang_key_id AND x.lang = ?) ");
 		}
 		else {
 			sql = sql.replace("%1", "");
@@ -125,7 +125,7 @@ public class DaoLang extends BaseDao {
 				DtoLabel d = new DtoLabel();
 				list.add(d);
 
-				d.setIdLangKey(r.getLong(i, "id_langkey"))
+				d.setLangKeyId(r.getLong(i, "langkey_id"))
 				 .setId(r.get(i, "id", -1L))
 				 .setOrgNr(r.get(i, "org_nr", -1))
 				 .setLang(r.getString(i, "lang"))
@@ -174,17 +174,17 @@ public class DaoLang extends BaseDao {
 	 * Return a list of <code>LangLabelEnt</code> entities
 	 * A language label may exist for mulitple orgs
 	 * 
-	 * @param idLangKey
+	 * @param langKeyId
 	 * @param lang
 	 * @return
 	 */
-	public List<EntLangLabel> getLangLabel (Long idLangKey, String lang) {
+	public List<EntLangLabel> getLangLabel (Long langKeyId, String lang) {
 		TypedQuery<EntLangLabel> tq = em.createQuery(
 				"FROM " + EntLangLabel.class.getCanonicalName() + " "
-				+ "WHERE id_lang_key = :idLangKey "
+				+ "WHERE lang_key_id = :langKeyId "
 				+ "AND lang = :lang", 
 				EntLangLabel.class);
-		return tq.setParameter("idLangKey", idLangKey)
+		return tq.setParameter("langKeyId", langKeyId)
 				.setParameter("lang", lang)
 				.getResultList();
 	

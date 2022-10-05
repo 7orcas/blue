@@ -14,5 +14,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 public class JResLabel extends BaseJsonRes{
 	public String label;
 	public String pack;
-	public Long id_key;
+	public Long keyId;
 }

@@ -66,18 +66,18 @@ alter table cntrl.role OWNER to postgres;
 create table cntrl.role_permission
 (
 	id bigserial primary key,
-    id_role bigint references cntrl.role (id),
-    id_permission bigint references cntrl.permission (id),
-    constraint role_permission_i1 unique (id_role,id_permission)
+    role_id bigint references cntrl.role (id),
+    permission_id bigint references cntrl.permission (id),
+    constraint role_permission_i1 unique (role_id,permission_id)
 ) INHERITS (sys.base);
 alter table cntrl.role_permission OWNER to postgres;
 
 create table cntrl.zzz_role
 (
 	id bigserial primary key,
-    id_zzz bigint references cntrl.zzz (id),
-    id_role bigint references cntrl.role (id),
-    constraint zzz_role_i1 unique (id_zzz,id_role)
+    zzz_id bigint references cntrl.zzz (id),
+    role_id bigint references cntrl.role (id),
+    constraint zzz_role_i1 unique (zzz_id,role_id)
 ) INHERITS (sys.base);
 alter table cntrl.zzz_role OWNER to postgres;
 
@@ -97,7 +97,7 @@ alter table cntrl.lang_key OWNER to postgres;
 create table cntrl.lang_label
 (
 	id bigserial primary key,
-	id_lang_key bigint references cntrl.lang_key (id), 
+	lang_key_id bigint references cntrl.lang_key (id), 
     lang varchar
 ) INHERITS (sys.base);
 alter table cntrl.lang_label OWNER to postgres;

@@ -98,8 +98,8 @@ public class DaoLogin extends BaseDao {
 		String sql;
 		sql = "SELECT r.code " 
 				+ "FROM " + tableName(EntRole.class, " AS r ")
-				+ "JOIN " + tableName(EntUserRole.class, " AS j ON j.id_role = r.id ")
-				+ "WHERE j.id_zzz = " + userId;
+				+ "JOIN " + tableName(EntUserRole.class, " AS j ON j.role_id = r.id ")
+				+ "WHERE j.zzz_id = " + userId;
 		
 		if (parms.isActiveOnly()) {
 			sql += "AND r.active = TRUE"; 	

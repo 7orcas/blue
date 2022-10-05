@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.org.ent;
+package com.sevenorcas.blue.system.role.ent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +9,16 @@ import com.sevenorcas.blue.system.excel.ExportListI;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**
-* Create a standard org excel file 
+* Create a standard permissions excel file 
 * 
 * [Licence]
-* Created 29.09.22
+* Created 05.10.22
 * @author John Stewart
 */
-public class ExcelOrg extends BaseExcel implements ExportListI {
+public class ExcelPermission extends BaseExcel implements ExportListI {
 
-	final private static String SHEET_LANGKEY = "Orgs";
-	private List<DtoOrg> table;
+	final private static String SHEET_LANGKEY = "Permissions";
+	private List<EntPermission> table;
 	
 	/**
 	 * Export Constructor
@@ -26,8 +26,8 @@ public class ExcelOrg extends BaseExcel implements ExportListI {
 	 * @param table
 	 * @throws Exception
 	 */
-	public ExcelOrg (UtilLabel labels,
-			List<DtoOrg> table) throws Exception {
+	public ExcelPermission (UtilLabel labels,
+			List<EntPermission> table) throws Exception {
 		super (labels);
 		addSheet(0, SHEET_LANGKEY);
 		this.table = table;
@@ -40,6 +40,7 @@ public class ExcelOrg extends BaseExcel implements ExportListI {
 		cols.add(addColumn(-1, "orgnr-s", 2000, INTEGER));
 		cols.add(addColumn(-1, "code", 6000, STRING));
 		cols.add(addColumn(-1, "desc", 20000, STRING));
+		cols.add(addColumn(-1, "crud", 2000, STRING));
 		setColumns(0, cols);
 	}
 		
@@ -54,18 +55,19 @@ public class ExcelOrg extends BaseExcel implements ExportListI {
 	 * @param column
 	 */
 	public Object getCell(int sheet, Integer row, Integer col) {
-		DtoOrg l = table.get(row);
+		EntPermission l = table.get(row);
 		switch (col) {
 			case 0: return l.getId();
 			case 1: return l.getOrgNr();
 			case 2: return l.getCode();
 			case 3: return l.getDescr();
+			case 4: return l.getCrud();
 			default: return "ERROR";
 		}
 	}
 	
 	public boolean isRowInvalid(int sheet, Integer row) {
-		DtoOrg l = table.get(row);
+		EntPermission l = table.get(row);
 		return !l.isValid();
 	}
 	

@@ -17,6 +17,8 @@ import com.sevenorcas.blue.system.role.json.JsonPermission;
 
 /**
 * Permission Entity
+* Notes:
+*  - The code field holds the REST url
 * 
 * [Licence]
 * Created 03.10.22
@@ -64,14 +66,9 @@ public class EntPermission extends BaseEnt<EntPermission> {
 	public String getCrud() {
 		return crud;
 	}
-
 	public EntPermission setCrud(String crud) {
 		this.crud = crud;
 		return this;
 	}
-	
-	
-
-	
 	
 }

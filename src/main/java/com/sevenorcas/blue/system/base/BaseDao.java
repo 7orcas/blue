@@ -142,6 +142,22 @@ public class BaseDao extends BaseUtil {
 		   ;
 	}
 	
+	/**
+	 * Populate the standard list fields
+	 * @param dto
+	 * @param index
+	 * @param result set
+	 * @throws Exception
+	 */
+	static protected <T extends BaseEnt<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r) throws Exception {
+		ent.setId(r.getLong(index, "id")) 
+		   .setOrgNr(r.getInteger(index, "org_nr")) 
+		   .setCode(r.getString(index, "code"))
+		   .setDescr(r.getString(index, "descr"))
+		   .setActive(r.getBoolean(index, "active"))
+		   .setUpdated(r.getTimestamp(index, "updated"))
+		   ;
+	}
 	
 	/**
 	 * Return the entities database table name

@@ -45,6 +45,7 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     private Boolean delete;
     
     @Transient
+    private Boolean valid;
     private Validation validation;
     
 //    /**
@@ -159,7 +160,6 @@ public Validation getValidation() {
 	public boolean isActive() {
 		return active != null && active;
 	}
-	@SuppressWarnings("unchecked")
 	public T setActive() {
 		return setActive(true);
 	}
@@ -178,4 +178,16 @@ public Validation getValidation() {
 		return (T)this;
 	}
     
+	public boolean isValid() {
+		return valid == null || valid;
+	}
+	public T setValid() {
+		return setValid(true);
+	}
+	@SuppressWarnings("unchecked")
+	public T setValid(Boolean valid) {
+		this.valid = valid;
+		return (T)this;
+	}
+	
 }

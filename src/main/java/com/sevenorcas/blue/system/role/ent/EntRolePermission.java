@@ -1,19 +1,17 @@
 package com.sevenorcas.blue.system.role.ent;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sevenorcas.blue.system.annotation.FieldOverride;
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.conf.EntityConfig;
-import com.sevenorcas.blue.system.conf.FieldConfig;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
-import com.sevenorcas.blue.system.org.json.JsonOrg;
-import com.sevenorcas.blue.system.role.json.JsonPermission;
 
 /**
 * Role-Permission join entity
@@ -34,8 +32,18 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="role_permission_id_seq")
 	private Long id;
 	
-	private String crud;
+	/** Header foreign key */
+	@ManyToOne
+	@JoinColumn(name="role_id")
+	private EntRole entRole;
 	
+	/** Parent */     
+	@Column(insertable=false,updatable=false)
+	private Long role_id;
+	
+	@Column(name="permission_id")
+	private Long permissionId;
+	 
 	public EntRolePermission () {
 		super();
 	}
@@ -53,25 +61,30 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
      * @return
      */
     protected void validate (Validation validation) { }
-	
-    
-	public JsonPermission toJSon() {
-		JsonPermission j = super.toJSon(new JsonPermission());
-		j.crud = crud;
-		return j;
-	}
 
-	public String getCrud() {
-		return crud;
-	}
 
-	public EntRolePermission setCrud(String crud) {
-		this.crud = crud;
+	public EntRole getEntRole() {
+		return entRole;
+	}
+	public EntRolePermission setEntRole(EntRole entRole) {
+		this.entRole = entRole;
 		return this;
 	}
-	
-	
 
-	
+	public Long getRoleId() {
+		return role_id;
+	}
+	public EntRolePermission setRoleId(Long role_id) {
+		this.role_id = role_id;
+		return this;
+	}
+
+	public Long getPermissionId() {
+		return permissionId;
+	}
+	public EntRolePermission setPermissionId(Long permissionId) {
+		this.permissionId = permissionId;
+		return this;
+	}
 	
 }
