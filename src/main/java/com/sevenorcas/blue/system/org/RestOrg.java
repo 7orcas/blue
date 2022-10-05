@@ -21,10 +21,9 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
-* Created July '22
-* 
 * REST interface for Organisation Module
 * 
+* Created July '22
 * [Licence]
 * @author John Stewart
 */

@@ -26,7 +26,6 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
 
 @Entity
 @Table(name="role", schema="cntrl")
-@SequenceGenerator(name="role_id_seq", sequenceName="role_id_seq", allocationSize=1)
 public class EntRole extends BaseEnt<EntRole>{
 	private static final long serialVersionUID = 1L;
 	

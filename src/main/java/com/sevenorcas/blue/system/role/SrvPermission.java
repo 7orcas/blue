@@ -100,12 +100,12 @@ public class SrvPermission extends BaseSrv {
 		List<Validation> vals = new ArrayList<>();
 		List<Long []> ids = new ArrayList<>();
 	
-		//Validation
-		for (EntPermission ent : list) {
-			if (!ent.isValidEntity()) {
-				vals.add(ent.getValidation());
-			}
-		}
+//		//Validation
+//		for (EntPermission ent : list) {
+//			if (!ent.isValidEntity()) {
+//				vals.add(ent.getValidation());
+//			}
+//		}
 		
 		//Errors
 		if (vals.size() > 0) {

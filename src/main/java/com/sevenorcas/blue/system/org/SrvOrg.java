@@ -134,12 +134,12 @@ public class SrvOrg extends BaseSrv {
 		List<Validation> vals = new ArrayList<>();
 		List<Long []> ids = new ArrayList<>();
 	
-		//Validation
-		for (EntOrg ent : list) {
-			if (!ent.isValidEntity()) {
-				vals.add(ent.getValidation());
-			}
-		}
+//		//Validation
+//		for (EntOrg ent : list) {
+//			if (!ent.isValidEntity()) {
+//				vals.add(ent.getValidation());
+//			}
+//		}
 		
 		//Errors
 		if (vals.size() > 0) {

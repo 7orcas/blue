@@ -46,6 +46,7 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     
     @Transient
     private Boolean valid;
+    @Transient
     private Validation validation;
     
 //    /**
@@ -54,28 +55,28 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 //     */
 //    public void getConfigOverride (Integer orgNr, EntityConfig config) {}
     
-    
-    /**
-     * Implementing class can attach invalid fields
-     * @param validation
-     */
-abstract protected void validate(Validation validation);
-    
-    /**
- * Is <b>this</b> a valid entity?
- * @return
- */
-public boolean isValidEntity () {
-	validation = new Validation(getId());
-	if (orgNr == null) validation.add("orgNr", NON_NULL_FIELD);
-if (code == null) validation.add("code", NON_NULL_FIELD);
-	validate(validation);
-	return validation.isValid();
-}
-
-public Validation getValidation() {
-	return validation;
-}
+//    
+//    /**
+//     * Implementing class can attach invalid fields
+//     * @param validation
+//     */
+//abstract protected void validate(Validation validation);
+//    
+//    /**
+// * Is <b>this</b> a valid entity?
+// * @return
+// */
+//public boolean isValidEntity () {
+//	validation = new Validation(getId());
+//	if (orgNr == null) validation.add("orgNr", NON_NULL_FIELD);
+//if (code == null) validation.add("code", NON_NULL_FIELD);
+//	validate(validation);
+//	return validation.isValid();
+//}
+//
+//public Validation getValidation() {
+//	return validation;
+//}
 
 	/**
      * Set standard fields in JSon object

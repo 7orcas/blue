@@ -38,8 +38,7 @@ public class ExcelPermission extends BaseExcel implements ExportListI {
 		List<Column> cols = new ArrayList<>();
 		cols.add(addColumn(-1, "id", 1500, LONG));
 		cols.add(addColumn(-1, "orgnr-s", 2000, INTEGER));
-		cols.add(addColumn(-1, "code", 6000, STRING));
-		cols.add(addColumn(-1, "desc", 20000, STRING));
+		cols.add(addColumn(-1, "url", 6000, STRING));
 		cols.add(addColumn(-1, "crud", 2000, STRING));
 		setColumns(0, cols);
 	}
@@ -60,8 +59,7 @@ public class ExcelPermission extends BaseExcel implements ExportListI {
 			case 0: return l.getId();
 			case 1: return l.getOrgNr();
 			case 2: return l.getCode();
-			case 3: return l.getDescr();
-			case 4: return l.getCrud();
+			case 3: return l.getCrud();
 			default: return "ERROR";
 		}
 	}
