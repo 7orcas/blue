@@ -23,11 +23,10 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
-* Created Jul '22
-* 
 * TODO Module Description
 * 
 * [Licence]
+* Created Jul '22
 * @author John Stewart
 */
 

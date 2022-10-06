@@ -21,12 +21,12 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
 
 @Entity
 @Table(name="lang_key", schema="cntrl")
-@SequenceGenerator(name="lang_key_id_seq", sequenceName="lang_key_id_seq", allocationSize=1)
 public class EntLangKey extends BaseEnt<EntLangKey> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id  
+	@SequenceGenerator(name="lang_key_id_seq", sequenceName="cntrl.lang_key_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="lang_key_id_seq")
 	private Long id;
 	

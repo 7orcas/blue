@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.role.json.JsonRole;
 
 /**
  * Role entity 
@@ -30,7 +31,7 @@ public class EntRole extends BaseEnt<EntRole>{
 	private static final long serialVersionUID = 1L;
 	
 	@Id  
-	@SequenceGenerator(name="role_id_seq", sequenceName="role_id_seq", allocationSize=1)
+	@SequenceGenerator(name="role_id_seq", sequenceName="cntrl.role_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="role_id_seq")
 	private Long id;
 
@@ -41,7 +42,17 @@ public class EntRole extends BaseEnt<EntRole>{
 	public EntRole () {
 	}
 
-    public Long getId() {
+	public JsonRole toJSon() {
+		return super.toJSon(new JsonRole());
+	}
+	
+	/**
+	 * Is <b>this</b> a valid entity?
+	 * @return
+	 */
+	protected void validate (Validation validation) { }
+
+	public Long getId() {
 		return id;
 	}
 	public EntRole setId(Long id) {
@@ -49,11 +60,14 @@ public class EntRole extends BaseEnt<EntRole>{
 		return this;
 	}
 
+    public final List<EntRolePermission> getPermissions() {
+		return permissions;
+	}
+    
+	public final EntRole setPermissions(List<EntRolePermission> permissions) {
+		this.permissions = permissions;
+		return this;
+	}
 	
-	/**
-     * Is <b>this</b> a valid entity?
-     * @return
-     */
-    protected void validate (Validation validation) { }
-	
+    
 }

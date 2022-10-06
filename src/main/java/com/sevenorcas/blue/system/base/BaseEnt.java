@@ -85,6 +85,7 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     protected <J extends BaseJsonRes> J toJSon(J j) {
 		j.id = getId();
 		j.code = code;
+		j.descr = descr;
 		j.orgNr = orgNr;
 		j.updated = updated;
 		j.active = active;

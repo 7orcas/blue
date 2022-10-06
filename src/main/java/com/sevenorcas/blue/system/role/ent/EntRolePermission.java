@@ -27,7 +27,7 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	private static final long serialVersionUID = 1L;
 
 	@Id  
-	@SequenceGenerator(name="role_permission_id_seq", sequenceName="role_permission_id_seq", allocationSize=1)
+	@SequenceGenerator(name="role_permission_id_seq", sequenceName="cntrl.role_permission_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="role_permission_id_seq")
 	private Long id;
 	

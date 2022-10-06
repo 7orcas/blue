@@ -28,12 +28,12 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
 
 @Entity
 @Table(name="zzz", schema="cntrl")
-@SequenceGenerator(name="zzz_id_seq", sequenceName="zzz_id_seq", allocationSize=1)
 public class EntUser extends BaseEnt<EntUser> {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id  
+	@SequenceGenerator(name="zzz_id_seq", sequenceName="cntrl.zzz_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz_id_seq")
 	private Long id;
 	

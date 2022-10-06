@@ -15,29 +15,29 @@ import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.role.ent.EntPermission;
-import com.sevenorcas.blue.system.role.ent.ExcelPermission;
-import com.sevenorcas.blue.system.role.json.JsonPermission;
+import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.role.ent.ExcelRole;
+import com.sevenorcas.blue.system.role.json.JsonRole;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
-* Permissions Module service bean.
+* Roles Module service bean.
 *  
-* Create 22 July 2022
+* Create 06.10.2022
 * [Licence]
 * @author John Stewart
 */
 
 @Stateless
-public class SrvPermission extends BaseSrv {
+public class SrvRole extends BaseSrv {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB
-	private DaoPermission dao;
+	private DaoRole dao;
 	
 	/**
-	 * List of permission objects
+	 * List of role objects
 	 * These are not the full entity
 	 *  
 	 * @param callObj
@@ -49,9 +49,9 @@ public class SrvPermission extends BaseSrv {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<EntPermission> x = dao.permissionList(callObj, parms);
-		List<JsonPermission> y = new ArrayList<>();
-		for (EntPermission d : x) {
+		List<EntRole> x = dao.roleList(callObj, parms);
+		List<JsonRole> y = new ArrayList<>();
+		for (EntRole d : x) {
 			y.add(d.toJSon());
 		}
 		
@@ -60,50 +60,50 @@ public class SrvPermission extends BaseSrv {
 	
 	
     /**
-	 * Return an uncommitted permission entity
+	 * Return an uncommitted role entity
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-    public JsonRes newPermissionJson(CallObject callObj) throws Exception {
-    	EntPermission o = newPermission(callObj);
-    	List<JsonPermission> y = new ArrayList<>();
+    public JsonRes newRoleJson(CallObject callObj) throws Exception {
+    	EntRole o = newRole(callObj);
+    	List<JsonRole> y = new ArrayList<>();
     	y.add(o.toJSon());
 		return new JsonRes().setData(y);
     }
   
     /**
-	 * Return an uncommitted permission entity
+	 * Return an uncommitted role entity
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-    public EntPermission newPermission(CallObject callObj) throws Exception {
-    	EntPermission o = new EntPermission();
+    public EntRole newRole(CallObject callObj) throws Exception {
+    	EntRole o = new EntRole();
     	return o.setId(dao.nextTempIdNegative())
     			.setOrgNr(BASE_ORG_NR)
 		    	.setActive()
-		    	.setCrud("*");
+		    	;
     }  
     
     /**
-	 * Create / Update / Delete the permission list
+	 * Create / Update / Delete the role list
 	 * 
 	 * @param callObj
 	 * @param entities to do CrUD on
 	 * @throws Exception
 	 */
 
-    public JsonRes putPermissions(
+    public JsonRes putRoles(
     		CallObject callObj,
-    		List<EntPermission> list) throws Exception {
+    		List<EntRole> list) throws Exception {
 		
 		List<Validation> vals = new ArrayList<>();
 		List<Long []> ids = new ArrayList<>();
 		
 		
 //		//Validation
-//		for (EntPermission ent : list) {
+//		for (EntRole ent : list) {
 //			if (!ent.isValidEntity()) {
 //				vals.add(ent.getValidation());
 //			}
@@ -115,21 +115,20 @@ public class SrvPermission extends BaseSrv {
 		}
 		
   		try {
-  			for (EntPermission ent : list) {
-  				ent.formatCrud();
+  			for (EntRole ent : list) {
   				
   				if (ent.isDelete()) {
-  					dao.deletePermission(ent.getId());
+  					dao.deleteRole(ent.getId());
   				}
   				else if (ent.isValidId()) {
-  					dao.mergePermission (ent);
+  					dao.mergeRole (ent);
   				}
   				else if (ent.isNew()){
   					Long[] id = new Long[2];
   					ids.add(id);
   					id[0] = ent.getId();
   					ent.setId(null);
-  					id[1] = dao.persistPermission(ent);
+  					id[1] = dao.persistRole(ent);
   				}
   			}
   			
@@ -142,18 +141,18 @@ public class SrvPermission extends BaseSrv {
   	}  
    
     /**
-	 * Export permissions to excel
+	 * Export roles to excel
 	 * @return
 	 * @throws Exception
 	 */
 	public Response excelExport(CallObject callObj) throws Exception {
 		
-		List<EntPermission> x = dao.permissionList(callObj, null);
+		List<EntRole> x = dao.roleList(callObj, null);
 		UtilLabel labels = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
-		ExcelPermission excel = new ExcelPermission(labels, x);
+		ExcelRole excel = new ExcelRole(labels, x);
 		
-		String fn = excelSrv.createListFile("PermissionList", callObj.getOrgNr(), excel);
-		return fileSrv.getFile(fn, "PermissionList.xlsx", false);
+		String fn = excelSrv.createListFile("RoleList", callObj.getOrgNr(), excel);
+		return fileSrv.getFile(fn, "RoleList.xlsx", false);
     }
     
 }

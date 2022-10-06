@@ -29,7 +29,7 @@ public class EntOrg extends BaseEnt<EntOrg> {
 	private static final long serialVersionUID = 1L;
 
 	@Id  
-	@SequenceGenerator(name="org_id_seq", sequenceName="org_id_seq", allocationSize=1)
+	@SequenceGenerator(name="org_id_seq", sequenceName="cntrl.org_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="org_id_seq")
 	private Long id;
 	

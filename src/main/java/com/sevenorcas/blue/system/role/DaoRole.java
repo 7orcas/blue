@@ -10,14 +10,14 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.role.ent.EntPermission;
+import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
 * 
-* Data access methods for permission data
+* Data access methods for role data
 * 
 * Created 05.10.22
 * [Licence]
@@ -25,19 +25,18 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class DaoPermission extends BaseDao {
+public class DaoRole extends BaseDao {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	public List<EntPermission> permissionList(
+	public List<EntRole> roleList(
     		CallObject callObj,
     		SqlParm parms) throws Exception {
 		
 		parms = validateParms(parms);
 		
 		String sql = "SELECT " + BASE_LIST_FIELDS_SQL
-				+ ", crud "
-				+ "FROM " + tableName(EntPermission.class, " ");
+				+ "FROM " + tableName(EntRole.class, " ");
 		
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
@@ -45,14 +44,13 @@ public class DaoPermission extends BaseDao {
 		sql += "ORDER BY code ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
-		List<EntPermission> list = new ArrayList<>();
+		List<EntRole> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			EntPermission ent = new EntPermission();
+			EntRole ent = new EntRole();
 			list.add(ent);
 			addBaseListFields(ent, i, r);
-			ent.setCrud(r.getString(i, "crud", ""));
 		}
 		
 		return list;
@@ -60,38 +58,37 @@ public class DaoPermission extends BaseDao {
 	
 	
 	/**
-     * Return the <code>EntPermission</code> entity 
+     * Return the <code>EntRole</code> entity 
      * @param entity id
      * @return
      */
-    public EntPermission getPermission (
+    public EntRole getRole (
     		Long id) throws Exception {
-    	return em.find(EntPermission.class, id);
+    	return em.find(EntRole.class, id);
 	}
 	
     
     /**
-     * Persist the <code>EntPermission</code> entity 
+     * Persist the <code>EntRole</code> entity 
      * @param entity to persist
      * @return new id
      */
-    public Long persistPermission (EntPermission ent) throws Exception {
+    public Long persistRole (EntRole ent) throws Exception {
     	return persist(ent);
 	}
     
     /**
-     * Merge selected fields and return the <code>EntPermission</code> entity 
+     * Merge selected fields and return the <code>EntRole</code> entity 
      * @param entity
      * @return
      */
-    public EntPermission mergePermission (
-    		EntPermission ent) throws Exception {
+    public EntRole mergeRole (
+    		EntRole ent) throws Exception {
     	
-    	EntPermission mergedEnt = getPermission(ent.getId()); 
+    	EntRole mergedEnt = getRole(ent.getId()); 
     	
     	mergedEnt.setCode(ent.getCode())
-    	   .setActive(ent.isActive())
-    	   .setCrud(ent.getCrud());
+    	   .setActive(ent.isActive());
     
     	update(mergedEnt);
     	
@@ -100,13 +97,13 @@ public class DaoPermission extends BaseDao {
     
     
     /**
-     * Delete the <code>EntPermission</code> entity 
+     * Delete the <code>EntRole</code> entity 
      * @param entity id
      * @return
      */
-    public void deletePermission (
+    public void deleteRole (
     		Long id) throws Exception {
-    	EntPermission ent = getPermission(id);
+    	EntRole ent = getRole(id);
     	em.remove(ent);
 	}
     

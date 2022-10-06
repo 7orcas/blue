@@ -22,15 +22,16 @@ import com.sevenorcas.blue.system.field.validationDEL.Validation;
 
 @Entity
 @Table(name="zzz_role", schema="cntrl")
-@SequenceGenerator(name="zzz-role_id_seq", sequenceName="zzz-role_id_seq", allocationSize=1)
 public class EntUserRole extends BaseEnt<EntUserRole>{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id  
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz-role_id_seq")
+	@SequenceGenerator(name="zzz_role_id_seq", sequenceName="cntrl.zzz_role_id_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz_role_id_seq")
 	private Long id;
 
+	
 	@Column(name="zzz_id")
 	private Long userId;
 	@Column(name="role_id")

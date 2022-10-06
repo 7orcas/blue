@@ -7,12 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sevenorcas.blue.system.annotation.FieldOverride;
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.conf.EntityConfig;
-import com.sevenorcas.blue.system.conf.FieldConfig;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
-import com.sevenorcas.blue.system.org.json.JsonOrg;
 import com.sevenorcas.blue.system.role.json.JsonPermission;
 
 /**
@@ -32,7 +28,7 @@ public class EntPermission extends BaseEnt<EntPermission> {
 	private static final long serialVersionUID = 1L;
 
 	@Id  
-	@SequenceGenerator(name="permission_id_seq", sequenceName="permission_id_seq", allocationSize=1)
+	@SequenceGenerator(name="permission_id_seq", sequenceName="cntrl.permission_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="permission_id_seq")
 	private Long id;
 	
@@ -56,6 +52,29 @@ public class EntPermission extends BaseEnt<EntPermission> {
      */
     protected void validate (Validation validation) { }
 	
+    /**
+     * Format the CRUD string
+     */
+    public void formatCrud() {
+    	crud = crud == null? "" : crud;
+    	if (crud.trim().equals("*")) {
+    		crud = "*";
+    		return;
+    	}
+    	
+    	boolean C = crud.toUpperCase().contains("C");
+    	boolean R = crud.toUpperCase().contains("R");
+    	boolean U = crud.toUpperCase().contains("U");
+    	boolean D = crud.toUpperCase().contains("D");
+    	if (C && R && U && D) {
+    		crud = "*";
+    		return;
+    	}
+    	crud = (C?"C":"-")
+    			+(R?"R":"-")
+    			+(U?"U":"-")
+    			+(D?"D":"-");
+    }
     
 	public JsonPermission toJSon() {
 		JsonPermission j = super.toJSon(new JsonPermission());
