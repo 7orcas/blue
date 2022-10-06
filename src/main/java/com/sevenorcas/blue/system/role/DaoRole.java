@@ -88,7 +88,8 @@ public class DaoRole extends BaseDao {
     	EntRole mergedEnt = getRole(ent.getId()); 
     	
     	mergedEnt.setCode(ent.getCode())
-    	   .setActive(ent.isActive());
+    			 .setDescr(ent.getDescr())
+    			 .setActive(ent.isActive());
     
     	update(mergedEnt);
     	
