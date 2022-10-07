@@ -26,7 +26,7 @@ public class SqlResultSet implements IntHardCodeLangKey {
 	}
 	
 	private Integer index (String column) {
-		return columns.get(column);
+		return columns.get(column.toLowerCase());
 	}
 	
 	public int size() {

@@ -1,7 +1,7 @@
 package com.sevenorcas.blue.system.role;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,6 +11,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseDao;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
@@ -35,8 +36,10 @@ public class DaoRole extends BaseDao {
 		
 		parms = validateParms(parms);
 		
-		String sql = "SELECT " + BASE_LIST_FIELDS_SQL
-				+ "FROM " + tableName(EntRole.class, " ");
+		String sql = "SELECT " + prefix("r", BASE_LIST_FIELDS_SQL) + ",p.id AS idX ,p.permission_id "
+				+ "FROM " + tableName(EntRole.class, " AS r ")
+				+ "LEFT JOIN " + tableName(EntRolePermission.class, " AS p ON p.role_id = r.id ")
+				;
 		
 		if (parms.isActiveOnly()) {
 			sql += "WHERE active = true ";
@@ -44,16 +47,30 @@ public class DaoRole extends BaseDao {
 		sql += "ORDER BY code ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
-		List<EntRole> list = new ArrayList<>();
+		Hashtable<Long, EntRole> list = new Hashtable<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			EntRole ent = new EntRole();
-			list.add(ent);
-			addBaseListFields(ent, i, r);
+			Long id = r.getLong(i, "id");
+			EntRole ent = null;
+			
+			if (list.containsKey(id)) {
+				ent = list.get(id);	
+			}
+			else {
+				ent = new EntRole();	
+				addBaseListFields(ent, i, r);
+				list.put(id, ent);
+			}
+			
+			EntRolePermission p = new EntRolePermission();
+			p.setId(r.getLong(i, "idX"))
+			 .setPermissionId(r.getLong(i, "permission_id"));
+			
+			ent.add(p);
 		}
 		
-		return list;
+		return hashtableToList(list);
     }
 	
 	

@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.role.json;
 
+import java.util.List;
+
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
 /**
@@ -11,4 +13,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class JsonRole extends BaseJsonRes{
+	public List<JsonRolePermission> permissions;
 }

@@ -49,6 +49,24 @@ public class BaseDao extends BaseUtil {
 	}
 	
 	/**
+	 * Prepend the prefix to the fields
+	 * @param prefix
+	 * @param fields
+	 * @return
+	 */
+	public String prefix (String prefix, String fields) {
+		String p = fields.startsWith(" ")? " " : "",
+			   s = fields.endsWith(" ")? " " : "";
+		String [] x = fields.trim().split(",");
+		StringBuffer sb = new StringBuffer();
+		for (String f : x) {
+			if (sb.length()>0) sb.append(",");
+			sb.append(prefix + "." + f.trim());
+		}
+		return p + sb.toString() + s;
+	}
+	
+	/**
      * Persist the entity 
      * @param entity
      * @return

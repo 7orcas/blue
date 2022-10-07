@@ -81,7 +81,7 @@ public class SqlExecute {
     		
 			int columns = rsmd.getColumnCount();
 			for (int i=1;i<=columns;i++) {
-				r.columns.put(rsmd.getColumnName(i), i);
+				r.columns.put(rsmd.getColumnName(i).toLowerCase(), i);
 			}
     		
 			// Extract data from result set

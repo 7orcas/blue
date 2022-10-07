@@ -1,11 +1,12 @@
 package com.sevenorcas.blue.system.base;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
-import com.sevenorcas.blue.system.base.IdCodeI;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
 /**
@@ -53,5 +54,14 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
         return t;
 	}
 	
+	public <T>List<T> hashtableToList(Hashtable<Long,T> hashTable) throws Exception {
+		Enumeration<Long>keys = hashTable.keys();
+		List<T> list = new ArrayList<>();
+		while(keys.hasMoreElements()) {
+			Long id = keys.nextElement();
+			list.add(hashTable.get(id));			
+		}
+		return list;
+	}
 }
 

@@ -48,7 +48,7 @@ public class RestRole extends BaseRest {
 	@Path("list")
     public JsonRes list(
     		@QueryParam ("co") CallObject callObj) throws Exception {
-		return service.permissonListJson(callObj, new SqlParm());
+		return service.roleListJson(callObj, new SqlParm());
     }
 	
 	

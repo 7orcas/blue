@@ -45,11 +45,11 @@ public class SrvRole extends BaseSrv {
 	 * @return
 	 * @throws Exception
 	 */
-	public JsonRes permissonListJson(
+	public JsonRes roleListJson(
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<EntRole> x = dao.roleList(callObj, parms);
+		List<EntRole> x = roleList(callObj, parms);
 		List<JsonRole> y = new ArrayList<>();
 		for (EntRole d : x) {
 			y.add(d.toJSon());
@@ -57,6 +57,22 @@ public class SrvRole extends BaseSrv {
 		
 		return new JsonRes().setData(y);
     }
+	
+	/**
+	 * List of role objects
+	 * These are not the full entity
+	 *  
+	 * @param callObj
+	 * @param parms
+	 * @return
+	 * @throws Exception
+	 */
+	public List<EntRole> roleList(
+			CallObject callObj,
+    		SqlParm parms) throws Exception{
+		return dao.roleList(callObj, parms);
+    }
+	
 	
 	
     /**

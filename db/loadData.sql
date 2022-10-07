@@ -1,6 +1,8 @@
 DELETE FROM cntrl.zzz_role;
-DELETE FROM cntrl.role;
 DELETE FROM cntrl.zzz;
+DELETE FROM cntrl.role_permission;
+DELETE FROM cntrl.role;
+DELETE FROM cntrl.permission;
 DELETE FROM cntrl.org;
 
 INSERT INTO cntrl.org (id, code, descr, org_nr, updated) VALUES (1, 'Org 1', 'Org 1 Description', 1, current_timestamp);
@@ -18,9 +20,10 @@ INSERT INTO cntrl.role (id, code, org_nr, updated) VALUES (3, 'LangEdit', 0, cur
 INSERT INTO cntrl.role (id, code, org_nr, updated) VALUES (4, 'Fix', 0, current_timestamp);
 
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (1, 1, 1, current_timestamp);
-INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (2, 2, 2, current_timestamp);
-INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (3, 3, 3, current_timestamp);
-INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (4, 4, 4, current_timestamp);
+INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (2, 1, 2, current_timestamp);
+INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (3, 2, 2, current_timestamp);
+INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (4, 3, 3, current_timestamp);
+INSERT INTO cntrl.role_permission (id, role_id, permission_id, updated) VALUES (5, 4, 4, current_timestamp);
 
 INSERT INTO cntrl.zzz (id, xxx, yyy, orgs, attempts, updated, active) VALUES (1, 'js@7orcas.com', '123', '1,2,3', 0, current_timestamp, true);
 INSERT INTO cntrl.zzz (id, xxx, yyy, orgs, attempts, updated, active) VALUES (2, '111',           '111', '1,2,3', 0, current_timestamp, true);

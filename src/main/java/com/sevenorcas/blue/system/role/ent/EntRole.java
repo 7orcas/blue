@@ -59,15 +59,20 @@ public class EntRole extends BaseEnt<EntRole>{
 		this.id = id;
 		return this;
 	}
-
+	
     public final List<EntRolePermission> getPermissions() {
 		return permissions;
 	}
-    
-	public final EntRole setPermissions(List<EntRolePermission> permissions) {
+    public final EntRole setPermissions(List<EntRolePermission> permissions) {
 		this.permissions = permissions;
 		return this;
 	}
-	
+    public EntRole add(EntRolePermission p) {
+		if (permissions == null) {
+			permissions = new ArrayList<>();
+		}
+		permissions.add(p);
+		return this;
+	}	
     
 }
