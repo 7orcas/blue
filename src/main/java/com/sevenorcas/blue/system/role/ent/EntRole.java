@@ -43,7 +43,14 @@ public class EntRole extends BaseEnt<EntRole>{
 	}
 
 	public JsonRole toJSon() {
-		return super.toJSon(new JsonRole());
+		JsonRole j = super.toJSon(new JsonRole());
+		if (permissions != null) {
+			j.permissions = new ArrayList<>();
+			for (EntRolePermission p : permissions) {
+				j.permissions.add(p.toJSon());
+			}
+		}		
+		return j;
 	}
 	
 	/**

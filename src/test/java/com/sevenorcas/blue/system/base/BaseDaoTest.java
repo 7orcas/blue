@@ -31,7 +31,7 @@ public class BaseDaoTest extends BaseTest {
 		try {
 			String sql = dao.prefix("r", " f1,f2, f3 ");
 			System.out.println("'" + sql + "'");
-			assertTrue(sql.equals(" r.f1,r.f2,r.f3 "));
+			assertTrue(sql.equals(" r.f1 AS r_f1,r.f2 AS r_f2,r.f3 AS r_f3 "));
 			
 		} catch (Exception e) {
 			System.out.println("EX:" + e);

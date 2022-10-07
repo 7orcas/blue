@@ -49,19 +49,40 @@ public class BaseDao extends BaseUtil {
 	}
 	
 	/**
-	 * Prepend the prefix to the fields
+	 * Prepend the table prefix to the fields
 	 * @param prefix
 	 * @param fields
 	 * @return
 	 */
 	public String prefix (String prefix, String fields) {
+		return prefix (prefix, fields, false);
+	}
+	
+	/**
+	 * Prepend the table prefix to the fields as append 'AS'
+	 * @param prefix
+	 * @param fields
+	 * @return
+	 */
+	public String prefixAs (String prefix, String fields) {
+		return prefix (prefix, fields, true);
+	}
+	
+	/**
+	 * Prepend the table prefix to the fields
+	 * @param prefix
+	 * @param fields
+	 * @param true = append 'AS'
+	 * @return
+	 */
+	public String prefix (String prefix, String fields, boolean as) {
 		String p = fields.startsWith(" ")? " " : "",
 			   s = fields.endsWith(" ")? " " : "";
 		String [] x = fields.trim().split(",");
 		StringBuffer sb = new StringBuffer();
 		for (String f : x) {
 			if (sb.length()>0) sb.append(",");
-			sb.append(prefix + "." + f.trim());
+			sb.append(prefix + "." + f.trim() + (as? " AS "  + prefix + "_" + f.trim() : ""));
 		}
 		return p + sb.toString() + s;
 	}
@@ -167,12 +188,25 @@ public class BaseDao extends BaseUtil {
 	 * @throws Exception
 	 */
 	static protected <T extends BaseEnt<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r) throws Exception {
-		ent.setId(r.getLong(index, "id")) 
-		   .setOrgNr(r.getInteger(index, "org_nr")) 
-		   .setCode(r.getString(index, "code"))
-		   .setDescr(r.getString(index, "descr"))
-		   .setActive(r.getBoolean(index, "active"))
-		   .setUpdated(r.getTimestamp(index, "updated"))
+		addBaseListFields(ent, index, r, null);
+	}
+	
+	/**
+	 * Populate the standard list fields
+	 * @param dto
+	 * @param index
+	 * @param result set
+	 * @param table prefix
+	 * @throws Exception
+	 */
+	static protected <T extends BaseEnt<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r, String prefix) throws Exception {
+		String p = prefix != null? prefix + "_" : "";
+		ent.setId(r.getLong(index, p + "id")) 
+		   .setOrgNr(r.getInteger(index, p + "org_nr")) 
+		   .setCode(r.getString(index, p + "code"))
+		   .setDescr(r.getString(index, p + "descr"))
+		   .setActive(r.getBoolean(index, p + "active"))
+		   .setUpdated(r.getTimestamp(index, p + "updated"))
 		   ;
 	}
 	

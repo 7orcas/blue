@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.role.ent;
 
+import java.util.ArrayList;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.role.json.JsonRole;
+import com.sevenorcas.blue.system.role.json.JsonRolePermission;
 
 /**
 * Role-Permission join entity
@@ -42,7 +47,10 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	
 	@Column(name="permission_id")
 	private Long permissionId;
-	 
+	
+	@Transient
+	private EntPermission entPermission;
+	
 	public EntRolePermission () {
 		super();
 	}
@@ -54,6 +62,19 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 		this.id = id;
 		return this;
 	}
+	
+	public JsonRolePermission toJSon() {
+		JsonRolePermission j = super.toJSon(new JsonRolePermission());
+		j.permission_id = permissionId;
+		if (entPermission != null) {
+			j.code = entPermission.getCode();
+			j.descr = entPermission.getDescr();
+			j.crud = entPermission.getCrud();
+		}
+		return j;
+	}
+	
+	
 //	
 //	/**
 //     * Is <b>this</b> a valid entity?
@@ -85,5 +106,14 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 		this.permissionId = permissionId;
 		return this;
 	}
+
+	public EntPermission getEntPermission() {
+		return entPermission;
+	}
+	public EntRolePermission setEntPermission(EntPermission entPermission) {
+		this.entPermission = entPermission;
+		return this;
+	}
+	
 	
 }

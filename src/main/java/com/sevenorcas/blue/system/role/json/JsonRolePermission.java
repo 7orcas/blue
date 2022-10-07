@@ -12,4 +12,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 
 public class JsonRolePermission extends BaseJsonRes{
 	public Long permission_id;
+	public String crud;
 }
