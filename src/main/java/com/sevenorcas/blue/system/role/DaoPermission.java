@@ -89,9 +89,11 @@ public class DaoPermission extends BaseDao {
     	
     	EntPermission mergedEnt = getPermission(ent.getId()); 
     	
-    	mergedEnt.setCode(ent.getCode())
-    	   .setActive(ent.isActive())
-    	   .setCrud(ent.getCrud());
+    	mergedEnt
+    		.setCode(ent.getCode())
+    		.setDescr(ent.getDescr())
+    		.setActive(ent.isActive())
+    		.setCrud(ent.getCrud());
     
     	update(mergedEnt);
     	

@@ -41,7 +41,7 @@ public class DaoRole extends BaseDao {
 					+ prefixAs("r", BASE_LIST_FIELDS_SQL) 
 					+ "," + prefixAs("p", BASE_LIST_FIELDS_SQL)
 					+ "," + prefixAs("m", BASE_LIST_FIELDS_SQL)
-					+ ", permission_id "
+					+ ", permission_id, crud "
 				+ "FROM " + tableName(EntRole.class, " AS r ")
 				+ "LEFT JOIN " + tableName(EntRolePermission.class, " AS p ON p.role_id = r.id ")
 				+ "LEFT JOIN " + tableName(EntPermission.class, " AS m ON m.id = p.permission_id ")
@@ -77,6 +77,7 @@ public class DaoRole extends BaseDao {
 			EntPermission m = new EntPermission();
 			p.setEntPermission(m);
 			addBaseListFields(m, i, r, "m");
+			m.setCrud(r.getString(i, "crud"));
 		}
 		
 		return hashtableToList(list);
