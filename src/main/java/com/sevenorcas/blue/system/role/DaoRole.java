@@ -57,27 +57,30 @@ public class DaoRole extends BaseDao {
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			Long id = r.getLong(i, "r_id");
+			Long role_id = r.getLong(i, prefixField("r", "id"));
 			EntRole ent = null;
 			
-			if (list.containsKey(id)) {
-				ent = list.get(id);	
+			if (list.containsKey(role_id)) {
+				ent = list.get(role_id);	
 			}
 			else {
 				ent = new EntRole();	
 				addBaseListFields(ent, i, r, "r");
-				list.put(id, ent);
+				list.put(role_id, ent);
 			}
 			
-			EntRolePermission p = new EntRolePermission();
-			ent.add(p);
-			addBaseListFields(p, i, r, "p");
-			p.setPermissionId(r.getLong(i, "permission_id"));
-			
-			EntPermission m = new EntPermission();
-			p.setEntPermission(m);
-			addBaseListFields(m, i, r, "m");
-			m.setCrud(r.getString(i, "crud"));
+			Long rolep_id = r.getLong(i, prefixField("p", "id"));
+			if (rolep_id != null) {
+				EntRolePermission p = new EntRolePermission();
+				ent.add(p);
+				addBaseListFields(p, i, r, "p");
+				p.setPermissionId(r.getLong(i, "permission_id"));
+				
+				EntPermission m = new EntPermission();
+				p.setEntPermission(m);
+				addBaseListFields(m, i, r, "m");
+				m.setCrud(r.getString(i, "crud"));
+			}
 		}
 		
 		return hashtableToList(list);
@@ -131,6 +134,10 @@ public class DaoRole extends BaseDao {
      */
     public void deleteRole (
     		Long id) throws Exception {
+    	
+    	//Remove child records
+    	
+    	
     	EntRole ent = getRole(id);
     	em.remove(ent);
 	}

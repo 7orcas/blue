@@ -200,14 +200,23 @@ public class BaseDao extends BaseUtil {
 	 * @throws Exception
 	 */
 	static protected <T extends BaseEnt<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r, String prefix) throws Exception {
+		ent.setId(r.getLong(index, prefixField(prefix, "id"))) 
+		   .setOrgNr(r.getInteger(index, prefixField(prefix, "org_nr"))) 
+		   .setCode(r.getString(index, prefixField(prefix, "code")))
+		   .setDescr(r.getString(index, prefixField(prefix, "descr")))
+		   .setActive(r.getBoolean(index, prefixField(prefix, "active")))
+		   .setUpdated(r.getTimestamp(index, prefixField(prefix, "updated")));
+	}
+	
+	/**
+	 * Format field with table prefix
+	 * @param table prefix
+	 * @param field
+	 * @throws Exception
+	 */
+	static protected String prefixField(String prefix, String field) throws Exception {
 		String p = prefix != null? prefix + "_" : "";
-		ent.setId(r.getLong(index, p + "id")) 
-		   .setOrgNr(r.getInteger(index, p + "org_nr")) 
-		   .setCode(r.getString(index, p + "code"))
-		   .setDescr(r.getString(index, p + "descr"))
-		   .setActive(r.getBoolean(index, p + "active"))
-		   .setUpdated(r.getTimestamp(index, p + "updated"))
-		   ;
+		return p + field;
 	}
 	
 	/**
