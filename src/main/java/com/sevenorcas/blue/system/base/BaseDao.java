@@ -129,7 +129,57 @@ public class BaseDao extends BaseUtil {
     	em.remove(entX);
 	}
 	
-	
+    /**
+     * Process the entity, CrUD operations
+     * @param ent
+     * @return
+     * @throws Exception
+     */
+    public <T extends BaseEnt<T>> T put (T ent) throws Exception {
+    	
+    	if (ent.isNew() && ent.isDelete()) {
+    		return ent;
+    	}
+    	
+    	if (ent.isDelete()) {
+			deleteEntity(ent);
+		}
+		else if (ent.isValidId()) {
+			merge(ent);
+		}
+		else if (ent.isNew()){
+			Long id = ent.getId();
+			ent.setId(null);
+			ent = persist(ent);
+			ent.setTempId(id);
+		}
+    	
+    	return ent;
+    }
+    
+    /**
+     * Merge selected fields and return the <code>Entity</code>  
+     * @param entity
+     * @return
+     */
+    public <T extends BaseEnt<T>> T merge(T ent) throws Exception {
+    	
+    	T mergedEnt = find(ent); 
+    
+    	//Set relevant fields
+    	String nullFields = ent.getNullBaseFields();
+    	nullFields = nullFields != null? nullFields : ""; 
+    	
+    	if (!nullFields.contains("orgNr")) mergedEnt.setOrgNr(ent.getOrgNr());
+    	if (!nullFields.contains("code")) mergedEnt.setCode(ent.getCode());
+    	if (!nullFields.contains("descr")) mergedEnt.setDescr(ent.getDescr());
+    	if (!nullFields.contains("active")) mergedEnt.setActive(ent.isActive());
+    	
+    	update(mergedEnt);
+    	
+    	return mergedEnt;
+	}
+    
     
 	/**
 	 * Clients creating new objects must have unique negative ids

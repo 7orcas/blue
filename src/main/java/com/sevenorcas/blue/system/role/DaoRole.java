@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
-import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -86,41 +85,5 @@ public class DaoRole extends BaseDao {
 		
 		return hashtableToList(list);
     }
-	
-    
-    /**
-     * Merge selected fields and return the <code>EntRole</code> entity 
-     * @param entity
-     * @return
-     */
-    public <T extends BaseEnt<T>> T merge(T ent) throws Exception {
-    	
-    	T mergedEnt = find(ent); 
-    
-    	if (mergedEnt instanceof EntRole) {
-    		mergedEnt.setCode(ent.getCode())
-			 		 .setDescr(ent.getDescr());
-    	}
-
-    	mergedEnt.setActive(ent.isActive());
-    	update(mergedEnt);
-    	
-    	return mergedEnt;
-	}
-    
-//    /**
-//     * Merge selected fields and return the <code>EntRolePermission</code> entity 
-//     * @param entity
-//     * @return
-//     */
-//    public EntRolePermission merge(EntRolePermission ent) throws Exception {
-//    	
-//    	EntRolePermission mergedEnt = find(ent); 
-//    	mergedEnt.setActive(ent.isActive());
-//    	update(mergedEnt);
-//    	
-//    	return mergedEnt;
-//	}
-   
     
 }

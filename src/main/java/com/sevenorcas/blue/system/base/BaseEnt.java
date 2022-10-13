@@ -36,17 +36,17 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	
 	@Field(unique = true)
 	@Column(nullable = false, length = 30)
-    private String code;
+    protected String code;
 	
 	@Column(length = 80)
-    private String descr;
+	protected String descr;
 	
-    private Timestamp updated;
+	protected Timestamp updated;
     
-    private String encoded;
+	protected String encoded;
     @Column(name = "encoded_flag")
-    private Integer encodedFlag;
-    private Boolean active;
+    protected Integer encodedFlag;
+    protected Boolean active;
     
     @Transient
     private Boolean delete;
@@ -106,6 +106,14 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     
     public Class<T> getEntClass() {
     	return clazz;
+    }
+    
+    /**
+     * List of fields that must be <code>nulled</code> before persistence
+     * Implementing Class to override
+     */
+    public String getNullBaseFields() throws Exception {
+    	return null;
     }
     
 	abstract public Long getId();

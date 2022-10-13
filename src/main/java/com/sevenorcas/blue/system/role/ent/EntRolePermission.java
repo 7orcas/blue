@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.role.ent;
 
-import javax.persistence.CascadeType;
+import java.lang.reflect.Field;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +60,15 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	public EntRolePermission setId(Long id) {
 		this.id = id;
 		return this;
+	}
+	
+	@Override
+	public String getNullBaseFields() throws Exception {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getClass().getDeclaredField(orgNr).getName());
+		sb.append(getClass().getDeclaredField(code).getName());
+		sb.append(getClass().getDeclaredField(descr).getName());
+		return "orgNr,code,descr";
 	}
 	
 	public JsonRolePermission toJSon() {

@@ -134,15 +134,17 @@ public class SrvRole extends BaseSrv {
 		
   		try {
   			for (EntRole ent : list) {
-//  				if (ent.isNew()) {
-//  					for (EntRolePermission perm : ent.getPermissions()) {
-//  	  					perm.setCode(null)
-//  	  						.setDescr(null)
-//  	  					    .setEntRole(ent);
-//  	  	  			}
-//  				}
-//  				
-  				put(ent);
+  				//Special case
+  				if (ent.isNew()) {
+  					for (EntRolePermission perm : ent.getPermissions()) {
+  	  					perm.setId(null)
+  	  						.setCode(null)
+  	  						.setDescr(null)
+  	  					    .setEntRole(ent);
+  	  	  			}
+  				}
+  				
+  				dao.put(ent);
   				
   				if (ent.isDelete()) {
   					continue;
@@ -157,8 +159,8 @@ public class SrvRole extends BaseSrv {
   				for (EntRolePermission perm : ent.getPermissions()) {
   					perm.setCode(null)
   						.setDescr(null)
-  						.setRoleId(ent.getId());
-  					put(perm);
+  						.setEntRole(ent);
+  					dao.put(perm);
   	  			}	
   			}
   			
@@ -170,35 +172,7 @@ public class SrvRole extends BaseSrv {
   		return new JsonRes().setData(ids);
   	}  
 
-    /**
-     * Process the entity
-     * @param <T>
-     * @param ent
-     * @return
-     * @throws Exception
-     */
-    private <T extends BaseEnt<T>> T put (T ent) throws Exception {
-    	
-    	if (ent.isNew() && ent.isDelete()) {
-    		return ent;
-    	}
-    	
-    	if (ent.isDelete()) {
-			dao.deleteEntity(ent);
-		}
-		else if (ent.isValidId()) {
-			dao.merge(ent);
-		}
-		else if (ent.isNew()){
-			Long id = ent.getId();
-			ent.setId(null);
-			ent = dao.persist(ent);
-			ent.setTempId(id);
-		}
-    	
-    	return ent;
-    }
-    
+
     /**
 	 * Export roles to excel
 	 * @return
