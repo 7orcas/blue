@@ -1,7 +1,6 @@
 package com.sevenorcas.blue.system.role.ent;
 
-import java.util.ArrayList;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.role.json.JsonRole;
 import com.sevenorcas.blue.system.role.json.JsonRolePermission;
 
 /**
@@ -65,10 +63,11 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	
 	public JsonRolePermission toJSon() {
 		JsonRolePermission j = super.toJSon(new JsonRolePermission());
-		j.permission_id = permissionId;
+		j.permissionId = permissionId;
 		if (entPermission != null) {
 			j.code = entPermission.getCode();
 			j.descr = entPermission.getDescr();
+			j.orgNr = entPermission.getOrgNr();
 			j.crud = entPermission.getCrud();
 		}
 		return j;
@@ -91,6 +90,15 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 //		return this;
 //	}
 
+	
+	public final EntRole getEntRole() {
+		return entRole;
+	}
+	public final EntRolePermission setEntRole(EntRole entRole) {
+		this.entRole = entRole;
+		return this;
+	}
+	
 	public Long getRoleId() {
 		return role_id;
 	}

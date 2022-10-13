@@ -10,12 +10,14 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
+import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.field.validationDEL.Validation;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.role.ent.ExcelRole;
 import com.sevenorcas.blue.system.role.json.JsonRole;
 import com.sevenorcas.blue.system.sql.SqlParm;
@@ -132,30 +134,71 @@ public class SrvRole extends BaseSrv {
 		
   		try {
   			for (EntRole ent : list) {
+//  				if (ent.isNew()) {
+//  					for (EntRolePermission perm : ent.getPermissions()) {
+//  	  					perm.setCode(null)
+//  	  						.setDescr(null)
+//  	  					    .setEntRole(ent);
+//  	  	  			}
+//  				}
+//  				
+  				put(ent);
   				
   				if (ent.isDelete()) {
-  					dao.deleteRole(ent.getId());
+  					continue;
   				}
-  				else if (ent.isValidId()) {
-  					dao.mergeRole (ent);
-  				}
-  				else if (ent.isNew()){
-  					Long[] id = new Long[2];
+  				if (ent.getTempId() != null) {
+  					Long id[] = {ent.getTempId(), ent.getId()};
   					ids.add(id);
-  					id[0] = ent.getId();
-  					ent.setId(null);
-  					id[1] = dao.persistRole(ent);
+  					continue;
   				}
+  				
+  				//Children
+  				for (EntRolePermission perm : ent.getPermissions()) {
+  					perm.setCode(null)
+  						.setDescr(null)
+  						.setRoleId(ent.getId());
+  					put(perm);
+  	  			}	
   			}
   			
   		} catch (Exception e) {
-  			log.equals(e);
+  			log.error(e);
   			throw e;
   		}
   		
   		return new JsonRes().setData(ids);
   	}  
-   
+
+    /**
+     * Process the entity
+     * @param <T>
+     * @param ent
+     * @return
+     * @throws Exception
+     */
+    private <T extends BaseEnt<T>> T put (T ent) throws Exception {
+    	
+    	if (ent.isNew() && ent.isDelete()) {
+    		return ent;
+    	}
+    	
+    	if (ent.isDelete()) {
+			dao.deleteEntity(ent);
+		}
+		else if (ent.isValidId()) {
+			dao.merge(ent);
+		}
+		else if (ent.isNew()){
+			Long id = ent.getId();
+			ent.setId(null);
+			ent = dao.persist(ent);
+			ent.setTempId(id);
+		}
+    	
+    	return ent;
+    }
+    
     /**
 	 * Export roles to excel
 	 * @return

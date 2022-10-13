@@ -77,7 +77,7 @@ public class DaoOrg extends BaseDao {
      * @return new id
      */
     public Long persistOrg (EntOrg org) throws Exception {
-    	return persist(org);
+    	return persist(org).getId();
 	}
     
     /**

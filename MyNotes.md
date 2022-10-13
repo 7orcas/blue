@@ -119,7 +119,7 @@ React
 -----
 Used npm to install React (created tutorial via npx create-react-app react-task-tracker - took 2 goes as it timed out)
 run npm i react-router-dom -S
-
+run npm install react-draggable
 
 
 Run dev server: [Cmd+~] npm start

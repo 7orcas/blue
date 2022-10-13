@@ -35,7 +35,7 @@ public class EntRole extends BaseEnt<EntRole>{
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="role_id_seq")
 	private Long id;
 
-	@OneToMany(cascade={CascadeType.ALL},mappedBy="entRole")
+	@OneToMany(cascade={CascadeType.ALL}, mappedBy="entRole")
 	private List <EntRolePermission> permissions = new ArrayList<>(); 
 
 	
@@ -58,7 +58,7 @@ public class EntRole extends BaseEnt<EntRole>{
 	 * @return
 	 */
 	protected void validate (Validation validation) { }
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,7 +66,7 @@ public class EntRole extends BaseEnt<EntRole>{
 		this.id = id;
 		return this;
 	}
-	
+		
     public final List<EntRolePermission> getPermissions() {
 		return permissions;
 	}

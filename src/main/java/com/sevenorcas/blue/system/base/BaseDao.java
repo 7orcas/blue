@@ -88,16 +88,25 @@ public class BaseDao extends BaseUtil {
 	}
 	
 	/**
+     * Return the entity 
+     * @param entity id
+     * @return
+     */
+    public <T extends BaseEnt<T>> T find (T ent) throws Exception {
+    	return em.find(ent.getEntClass(), ent.getId());
+	}
+	
+	/**
      * Persist the entity 
      * @param entity
      * @return
      */
-    public <T extends BaseEnt<T>> Long persist (T ent) throws Exception {
+    public <T extends BaseEnt<T>> T persist (T ent) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
     	ent.setUpdated(Timestamp.valueOf(d));
     	em.persist(ent);
     	em.flush();
-    	return ent.getId();
+    	return ent;
 	}
 	
     /**
@@ -110,6 +119,18 @@ public class BaseDao extends BaseUtil {
     	ent.setUpdated(Timestamp.valueOf(d));
 	}
 	
+    /**
+     * Delete an entity 
+     * @param entity
+     * @return
+     */
+    public <T extends BaseEnt<T>> void deleteEntity (T ent) throws Exception {
+    	T entX = em.find(ent.getEntClass(), ent.getId());
+    	em.remove(entX);
+	}
+	
+	
+    
 	/**
 	 * Clients creating new objects must have unique negative ids
 	 * @return
@@ -149,7 +170,6 @@ public class BaseDao extends BaseUtil {
 		
 		return null;
     }
-	
 	
 	/**
 	 * Ensure a valid SQL Parameter object is used

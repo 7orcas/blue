@@ -76,7 +76,7 @@ public class DaoPermission extends BaseDao {
      * @return new id
      */
     public Long persistPermission (EntPermission ent) throws Exception {
-    	return persist(ent);
+    	return persist(ent).getId();
 	}
     
     /**

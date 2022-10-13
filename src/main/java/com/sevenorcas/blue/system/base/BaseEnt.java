@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.base;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -22,6 +23,12 @@ import com.sevenorcas.blue.system.field.validationDEL.ValidationI;
 @SuppressWarnings("serial")
 @MappedSuperclass
 abstract public class BaseEnt <T> implements Serializable, ValidationI {
+	
+	@Transient
+	private Class<T> clazz;
+	
+	@Transient
+    private Long tempId;
 	
 	@Field(unique = true, min = 1)
 	@Column(name = "org_nr", nullable = false)
@@ -92,7 +99,13 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 		return j;
 	}
    
-    public BaseEnt () {
+    @SuppressWarnings("unchecked")
+	public BaseEnt () {
+    	clazz = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+    }
+    
+    public Class<T> getEntClass() {
+    	return clazz;
     }
     
 	abstract public Long getId();
@@ -105,6 +118,16 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 		return getId() != null & getId() < 0L;
 	}
 	
+	
+	public Long getTempId() {
+		return tempId;
+	}
+	@SuppressWarnings("unchecked")
+	public T setTempId(Long tempId) {
+		this.tempId = tempId;
+		return (T)this;
+	}
+
 	public Integer getOrgNr() {
 		return orgNr;
 	}

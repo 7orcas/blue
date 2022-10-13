@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -86,60 +87,40 @@ public class DaoRole extends BaseDao {
 		return hashtableToList(list);
     }
 	
-	
-	/**
-     * Return the <code>EntRole</code> entity 
-     * @param entity id
-     * @return
-     */
-    public EntRole getRole (
-    		Long id) throws Exception {
-    	return em.find(EntRole.class, id);
-	}
-	
-    
-    /**
-     * Persist the <code>EntRole</code> entity 
-     * @param entity to persist
-     * @return new id
-     */
-    public Long persistRole (EntRole ent) throws Exception {
-    	return persist(ent);
-	}
     
     /**
      * Merge selected fields and return the <code>EntRole</code> entity 
      * @param entity
      * @return
      */
-    public EntRole mergeRole (
-    		EntRole ent) throws Exception {
+    public <T extends BaseEnt<T>> T merge(T ent) throws Exception {
     	
-    	EntRole mergedEnt = getRole(ent.getId()); 
-    	
-    	mergedEnt.setCode(ent.getCode())
-    			 .setDescr(ent.getDescr())
-    			 .setActive(ent.isActive());
+    	T mergedEnt = find(ent); 
     
+    	if (mergedEnt instanceof EntRole) {
+    		mergedEnt.setCode(ent.getCode())
+			 		 .setDescr(ent.getDescr());
+    	}
+
+    	mergedEnt.setActive(ent.isActive());
     	update(mergedEnt);
     	
     	return mergedEnt;
 	}
     
-    
-    /**
-     * Delete the <code>EntRole</code> entity 
-     * @param entity id
-     * @return
-     */
-    public void deleteRole (
-    		Long id) throws Exception {
-    	
-    	//Remove child records
-    	
-    	
-    	EntRole ent = getRole(id);
-    	em.remove(ent);
-	}
+//    /**
+//     * Merge selected fields and return the <code>EntRolePermission</code> entity 
+//     * @param entity
+//     * @return
+//     */
+//    public EntRolePermission merge(EntRolePermission ent) throws Exception {
+//    	
+//    	EntRolePermission mergedEnt = find(ent); 
+//    	mergedEnt.setActive(ent.isActive());
+//    	update(mergedEnt);
+//    	
+//    	return mergedEnt;
+//	}
+   
     
 }
