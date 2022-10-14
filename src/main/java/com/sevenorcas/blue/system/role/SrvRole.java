@@ -13,6 +13,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -110,29 +111,34 @@ public class SrvRole extends BaseSrv {
 	 * @param entities to do CrUD on
 	 * @throws Exception
 	 */
-
     public JsonRes putRoles(
     		CallObject callObj,
     		List<EntRole> list) throws Exception {
 		
-//		List<Validation> vals = new ArrayList<>();
-		List<Long []> ids = new ArrayList<>();
 		
 		EntityConfig roleConfig = configSrv.getConfig(callObj, EntRole.class);
 		EntityConfig permConfig = configSrv.getConfig(callObj, EntRolePermission.class);
 		
 		//Validation
-//		for (EntRole ent : list) {
-//			if (!ent.isValidEntity()) {
-//				vals.add(ent.getValidation());
-//			}
-//		}
-//		
-//		//Errors
-//		if (vals.size() > 0) {
-//			return new JsonRes().setError("invlist").setData(vals);
-//		}
+		ValidationErrors vals = new ValidationErrors();
+		for (EntRole ent : list) {
+			dao.compareTimeStamp(ent, roleConfig, vals);
+//			dao.validate(ent, roleConfig, vals);
+//			
+//			for (EntRolePermission perm : ent.getPermissions()) {
+//				dao.validate(perm, permConfig, vals);
+//  		}
+		}
+
+		//Validation Errors
+		if (vals.hasErrors()) {
+			return new JsonRes()
+					.setError("invlist")
+					.setReturnCode(JS_VALIDATION_ERRORS)
+					.setData(vals);
+		}
 		
+		List<Long []> ids = new ArrayList<>();
   		try {
   			for (EntRole ent : list) {
   				//Special case

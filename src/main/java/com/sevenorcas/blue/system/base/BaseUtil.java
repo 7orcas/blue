@@ -5,9 +5,12 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.persistence.Table;
+
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
 /**
@@ -36,6 +39,22 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
 	public boolean isNotEmpty (String s) {
 		return s != null && !s.isEmpty();
 	}
+	
+	/**
+	 * Return the entities database table name
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	protected String tableName (Class<?> clazz, String suffix) throws Exception {
+		suffix = suffix == null? "" : suffix;
+		if (clazz.isAnnotationPresent(Table.class)) {
+			Table table = clazz.getAnnotation(Table.class);
+			return table.schema() + "." + table.name() + suffix;
+		}
+		throw new RedException (LK_UNKNOWN_ERROR, "Invalid table annonation on class : " + clazz.getCanonicalName());
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public <T>Hashtable<String, T> listToHashtableCode (List<? extends IdCodeI> list) throws Exception {

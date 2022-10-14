@@ -44,7 +44,7 @@ public class SqlExecute {
     		conn = ds.getConnection();
     		
     		//No parameters so normal sql
-    		if (sqlParms.parameters == null) {
+    		if (sqlParms != null && sqlParms.parameters == null) {
     			stmt = conn.createStatement();
     			rs = stmt.executeQuery(sql);
     		}
@@ -52,7 +52,7 @@ public class SqlExecute {
     		    		
 	    		stmtP = conn.prepareStatement(sql);
 	    	
-	    		for (int i=0; i<sqlParms.parameters.size(); i++) {
+	    		for (int i=0; sqlParms!=null && i<sqlParms.parameters.size(); i++) {
 	    			switch (sqlParms.parameters.get(i).getClass().getSimpleName()) {
 	    			
 	    				case "String":

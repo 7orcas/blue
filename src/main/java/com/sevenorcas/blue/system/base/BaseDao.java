@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Hashtable;
 
 import javax.interceptor.Interceptors;
 import javax.naming.InitialContext;
@@ -17,8 +18,12 @@ import javax.sql.DataSource;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.ValidationErrors;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
+import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
@@ -37,10 +42,11 @@ public class BaseDao extends BaseUtil {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	/** standard fields in tables **/
-	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,updated,active ";
+	final static protected String UPDATED_FIELD = "updated";
+	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,active," + UPDATED_FIELD + " ";
 	
 	/** standard fields in tables **/
-	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,updated,encoded,encoded_flag,active ";
+	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,encoded,encoded_flag,active," + UPDATED_FIELD + " ";
 	
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
@@ -175,6 +181,38 @@ public class BaseDao extends BaseUtil {
     	return mergedEnt;
 	}
     
+    /**
+     * If the entities time-stamp is different to the database record then it's already been changed
+     * @param entity
+     * @param entity configuration
+     * @param object to load errors into
+     * @throws Exception
+     */
+    public <T extends BaseEnt<T>> void compareTimeStamp(T ent, EntityConfig config, ValidationErrors vals) throws Exception {
+    	if (ent.isNew()){
+    		return;
+    	}
+    	
+    	String sql = "SELECT " + UPDATED_FIELD + " "
+			+ "FROM " + config.tableName + " "
+			+ "WHERE id = " + ent.getId();	
+    	
+    	SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
+    	
+    	if (r.size() != 1) {
+    		vals.add(ent.getId(), ent.getCode(), LK_VAL_ERROR_NO_RECORD);
+    		return;
+    	}
+    	
+    	Timestamp updated = r.getTimestamp(0, UPDATED_FIELD);
+    	
+    	if (updated.compareTo(ent.getUpdated()) != 0) {
+    		vals.add(ent.getId(), ent.getCode(), LK_VAL_ERROR_NO_RECORD);
+    		return;	
+    	}
+    	
+		
+    }
     
 	/**
 	 * Clients creating new objects must have unique negative ids
@@ -283,21 +321,5 @@ public class BaseDao extends BaseUtil {
 		String p = prefix != null? prefix + "_" : "";
 		return p + field;
 	}
-	
-	/**
-	 * Return the entities database table name
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	static protected String tableName (Class<?> clazz, String suffix) throws Exception {
-		suffix = suffix == null? "" : suffix;
-		if (clazz.isAnnotationPresent(Table.class)) {
-			Table table = clazz.getAnnotation(Table.class);
-			return table.schema() + "." + table.name() + suffix;
-		}
-		throw new RedException (LK_UNKNOWN_ERROR, "Invalid table annonation on class : " + clazz.getCanonicalName());
-	}
-	
 	
 }

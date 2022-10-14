@@ -51,6 +51,15 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	@Transient
 	private EntPermission entPermission;
 	
+	/**
+	 * Override field configurations
+	 */
+	static public EntityConfig getConfig (EntOrg org) {
+		return BaseEnt.getConfig(org)
+				.put(new FieldConfig("code").unused())
+				.put(new FieldConfig("descr").unused());
+	}
+	
 	public EntRolePermission () {
 		super();
 	}
@@ -74,15 +83,6 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 		}
 		return j;
 	}
-	
-	/**
-     * Override field configurations
-     */
-	static public EntityConfig getConfig (EntOrg org) {
-		return BaseEnt.getConfig(org)
-    	    .put(new FieldConfig("code").unused())
-    	    .put(new FieldConfig("descr").unused());
-    }
 	
 	public EntRole getEntRole() {
 		return entRole;

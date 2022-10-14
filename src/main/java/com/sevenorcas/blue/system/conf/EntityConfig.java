@@ -3,6 +3,8 @@ package com.sevenorcas.blue.system.conf;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.base.JsonRes;
 
@@ -16,6 +18,9 @@ import com.sevenorcas.blue.system.base.JsonRes;
 
 public class EntityConfig extends BaseUtil {
 
+	@JsonbTransient
+	public String tableName;
+	
 	public Hashtable<String, FieldConfig > fields;
 	
 	public EntityConfig () {

@@ -8,6 +8,7 @@ import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntRole;
 
 /**
  * Configuration Module service bean.
@@ -70,7 +71,9 @@ public class SrvConfig extends BaseSrv {
 			Class<?> clazz) throws Exception {
 		
 		Method m = clazz.getMethod("getConfig", EntOrg.class);
-		return (EntityConfig)m.invoke(null, callObj.getOrg());
+		EntityConfig c = (EntityConfig)m.invoke(null, callObj.getOrg());
+		c.tableName = tableName(clazz, "");
+		return c;
     }
 	
 	
