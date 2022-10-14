@@ -83,7 +83,7 @@ public class DaoRole extends BaseDao {
 			}
 		}
 		
-		return hashtableToList(list);
+		return hashtableToListId(list);
     }
     
 }

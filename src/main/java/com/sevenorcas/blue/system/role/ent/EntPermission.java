@@ -8,7 +8,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.FieldConfig;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.json.JsonPermission;
 
 /**
@@ -34,6 +36,15 @@ public class EntPermission extends BaseEnt<EntPermission> {
 	
 	private String crud;
 	
+	/**
+     * Override field configurations
+     */
+	static public EntityConfig getConfig (EntOrg org) {
+		return BaseEnt.getConfig(org)
+    	    .put(new FieldConfig("crud").nonNull().max(4));
+    }
+	
+	
 	public EntPermission () {
 		super();
 	}
@@ -45,13 +56,7 @@ public class EntPermission extends BaseEnt<EntPermission> {
 		this.id = id;
 		return this;
 	}
-	
-	/**
-     * Is <b>this</b> a valid entity?
-     * @return
-     */
-    protected void validate (Validation validation) { }
-	
+		
     /**
      * Format the CRUD string
      */

@@ -7,9 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.Validation;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.FieldConfig;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
  * User-Role join entity 
@@ -36,6 +39,15 @@ public class EntUserRole extends BaseEnt<EntUserRole>{
 	private Long userId;
 	@Column(name="role_id")
 	private Long roleId;
+	
+	/**
+     * Override field configurations
+     */
+	static public EntityConfig getConfig (EntOrg org) {
+		return BaseEnt.getConfig(org)
+    	    .put(new FieldConfig("code").unused())
+    	    .put(new FieldConfig("descr").unused());
+    }
 	
 	public EntUserRole () {
 	}

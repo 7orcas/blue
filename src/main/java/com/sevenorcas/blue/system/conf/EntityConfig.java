@@ -1,7 +1,10 @@
 package com.sevenorcas.blue.system.conf;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+
+import com.sevenorcas.blue.system.base.BaseUtil;
+import com.sevenorcas.blue.system.base.JsonRes;
 
 /**
  * Configuration for an entity.
@@ -11,11 +14,34 @@ import java.util.List;
  * @author John Stewart
  */
 
-public class EntityConfig {
+public class EntityConfig extends BaseUtil {
 
-	public List <FieldConfig >fields;
+	public Hashtable<String, FieldConfig > fields;
 	
 	public EntityConfig () {
-		fields = new ArrayList<FieldConfig>();
+		fields = new Hashtable<>();
+	}
+	
+	public EntityConfig put (FieldConfig fc) {
+		fields.put(fc.name, fc);
+		return this;
+	}
+	
+	/**
+	 * Is the field unused?
+	 * @param field
+	 * @return
+	 */
+	public boolean isUnused (String field) {
+		FieldConfig c = fields.get(field);
+		return c != null && c.isUnused();
+	}
+	
+	public JsonRes toJSon() throws Exception {
+		return new JsonRes().setData(list());
+	}
+	
+	public List<FieldConfig> list() throws Exception {
+		return hashtableToListCode(fields);
 	}
 }

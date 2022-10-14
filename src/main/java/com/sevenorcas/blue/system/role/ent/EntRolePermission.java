@@ -1,7 +1,5 @@
 package com.sevenorcas.blue.system.role.ent;
 
-import java.lang.reflect.Field;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.FieldConfig;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.json.JsonRolePermission;
 
 /**
@@ -62,15 +63,6 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 		return this;
 	}
 	
-	@Override
-	public String getNullBaseFields() throws Exception {
-		StringBuffer sb = new StringBuffer();
-		sb.append(getClass().getDeclaredField(orgNr).getName());
-		sb.append(getClass().getDeclaredField(code).getName());
-		sb.append(getClass().getDeclaredField(descr).getName());
-		return "orgNr,code,descr";
-	}
-	
 	public JsonRolePermission toJSon() {
 		JsonRolePermission j = super.toJSon(new JsonRolePermission());
 		j.permissionId = permissionId;
@@ -83,28 +75,19 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 		return j;
 	}
 	
+	/**
+     * Override field configurations
+     */
+	static public EntityConfig getConfig (EntOrg org) {
+		return BaseEnt.getConfig(org)
+    	    .put(new FieldConfig("code").unused())
+    	    .put(new FieldConfig("descr").unused());
+    }
 	
-//	
-//	/**
-//     * Is <b>this</b> a valid entity?
-//     * @return
-//     */
-//    protected void validate (Validation validationx) { }
-
-
-//	public EntRole getEntRole() {
-//		return entRole;
-//	}
-//	public EntRolePermission setEntRole(EntRole entRole) {
-//		this.entRole = entRole;
-//		return this;
-//	}
-
-	
-	public final EntRole getEntRole() {
+	public EntRole getEntRole() {
 		return entRole;
 	}
-	public final EntRolePermission setEntRole(EntRole entRole) {
+	public EntRolePermission setEntRole(EntRole entRole) {
 		this.entRole = entRole;
 		return this;
 	}

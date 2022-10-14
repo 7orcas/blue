@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface Field {
+public @interface Field_DEL {
 	
 	/**
 	 * Field must be unique in record set.

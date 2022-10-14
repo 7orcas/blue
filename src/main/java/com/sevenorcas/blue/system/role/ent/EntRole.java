@@ -13,7 +13,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
 import com.sevenorcas.blue.system.role.json.JsonRole;
 
 /**
@@ -52,13 +51,7 @@ public class EntRole extends BaseEnt<EntRole>{
 		}		
 		return j;
 	}
-	
-	/**
-	 * Is <b>this</b> a valid entity?
-	 * @return
-	 */
-	protected void validate (Validation validation) { }
-	
+		
 	public Long getId() {
 		return id;
 	}
@@ -67,10 +60,10 @@ public class EntRole extends BaseEnt<EntRole>{
 		return this;
 	}
 		
-    public final List<EntRolePermission> getPermissions() {
+    public List<EntRolePermission> getPermissions() {
 		return permissions;
 	}
-    public final EntRole setPermissions(List<EntRolePermission> permissions) {
+    public EntRole setPermissions(List<EntRolePermission> permissions) {
 		this.permissions = permissions;
 		return this;
 	}

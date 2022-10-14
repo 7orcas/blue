@@ -10,10 +10,9 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -116,35 +115,36 @@ public class SrvRole extends BaseSrv {
     		CallObject callObj,
     		List<EntRole> list) throws Exception {
 		
-		List<Validation> vals = new ArrayList<>();
+//		List<Validation> vals = new ArrayList<>();
 		List<Long []> ids = new ArrayList<>();
 		
+		EntityConfig roleConfig = configSrv.getConfig(callObj, EntRole.class);
+		EntityConfig permConfig = configSrv.getConfig(callObj, EntRolePermission.class);
 		
-//		//Validation
+		//Validation
 //		for (EntRole ent : list) {
 //			if (!ent.isValidEntity()) {
 //				vals.add(ent.getValidation());
 //			}
 //		}
-		
-		//Errors
-		if (vals.size() > 0) {
-			return new JsonRes().setError("invlist").setData(vals);
-		}
+//		
+//		//Errors
+//		if (vals.size() > 0) {
+//			return new JsonRes().setError("invlist").setData(vals);
+//		}
 		
   		try {
   			for (EntRole ent : list) {
   				//Special case
   				if (ent.isNew()) {
   					for (EntRolePermission perm : ent.getPermissions()) {
+  						nullBaseFields(perm, permConfig);
   	  					perm.setId(null)
-  	  						.setCode(null)
-  	  						.setDescr(null)
   	  					    .setEntRole(ent);
   	  	  			}
   				}
   				
-  				dao.put(ent);
+  				dao.put(ent, roleConfig);
   				
   				if (ent.isDelete()) {
   					continue;
@@ -157,10 +157,8 @@ public class SrvRole extends BaseSrv {
   				
   				//Children
   				for (EntRolePermission perm : ent.getPermissions()) {
-  					perm.setCode(null)
-  						.setDescr(null)
-  						.setEntRole(ent);
-  					dao.put(perm);
+  					perm.setEntRole(ent);
+  					dao.put(perm, permConfig);
   	  			}	
   			}
   			

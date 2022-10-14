@@ -8,9 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import com.sevenorcas.blue.system.annotation.Field;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
-import com.sevenorcas.blue.system.field.validationDEL.ValidationI;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.FieldConfig;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
 * Base Entity Object for actual entities to extend
@@ -22,7 +22,7 @@ import com.sevenorcas.blue.system.field.validationDEL.ValidationI;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-abstract public class BaseEnt <T> implements Serializable, ValidationI {
+abstract public class BaseEnt <T> implements Serializable {
 	
 	@Transient
 	private Class<T> clazz;
@@ -30,15 +30,11 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
 	@Transient
     private Long tempId;
 	
-	@Field(unique = true, min = 1)
-	@Column(name = "org_nr", nullable = false)
+	@Column(name = "org_nr")
 	protected Integer orgNr;
 	
-	@Field(unique = true)
-	@Column(nullable = false, length = 30)
-    protected String code;
+	protected String code;
 	
-	@Column(length = 80)
 	protected String descr;
 	
 	protected Timestamp updated;
@@ -53,38 +49,20 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     
     @Transient
     private Boolean valid;
-    @Transient
-    private Validation validation;
     
-//    /**
-//     * Override for field configurations.
-//     * Implementing class needs to override this method
-//     */
-//    public void getConfigOverride (Integer orgNr, EntityConfig config) {}
+    /**
+     * Entity / Field configurations.
+     * Implementing class can override this method
+     */
+    static public EntityConfig getConfig (EntOrg org) {
+    	return new EntityConfig()
+    	    .put(new FieldConfig("orgNr").nonNull().min(1)) 
+    	    .put(new FieldConfig("code").nonNull().max(20).uniqueOrg())
+	    	.put(new FieldConfig("descr").max(30))
+    	    .put(new FieldConfig("active").nonNull());
+    }
     
-//    
-//    /**
-//     * Implementing class can attach invalid fields
-//     * @param validation
-//     */
-//abstract protected void validate(Validation validation);
-//    
-//    /**
-// * Is <b>this</b> a valid entity?
-// * @return
-// */
-//public boolean isValidEntity () {
-//	validation = new Validation(getId());
-//	if (orgNr == null) validation.add("orgNr", NON_NULL_FIELD);
-//if (code == null) validation.add("code", NON_NULL_FIELD);
-//	validate(validation);
-//	return validation.isValid();
-//}
-//
-//public Validation getValidation() {
-//	return validation;
-//}
-
+	
 	/**
      * Set standard fields in JSon object
      * @param j
@@ -108,13 +86,6 @@ abstract public class BaseEnt <T> implements Serializable, ValidationI {
     	return clazz;
     }
     
-    /**
-     * List of fields that must be <code>nulled</code> before persistence
-     * Implementing Class to override
-     */
-    public String getNullBaseFields() throws Exception {
-    	return null;
-    }
     
 	abstract public Long getId();
 	abstract public T setId(Long id);

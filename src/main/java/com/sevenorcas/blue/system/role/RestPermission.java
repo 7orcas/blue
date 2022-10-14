@@ -70,26 +70,6 @@ public class RestPermission extends BaseRest {
 		}
 		return service.putPermissions(callObj, list);
     }
-
-	/**
-	 * Return an entity's configuration
-	 * 
-	 * @param callObj
-	 * @param org id
-	 * @return
-	 * @throws Exception
-	 */
-	@GET
-	@Path("config")
-    public JsonRes getConfig(
-    		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("entity") String entity) throws Exception {
-		if (entity == null) {
-			return new JsonRes().setError(LK_UNKNOWN_ERROR, "Invalid entity");
-		}
-		return serviceConf.getConfigJson(callObj, entity);
-    }
-	
 	
 	/**
 	 * Return a new permission object (uncommitted)

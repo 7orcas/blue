@@ -10,7 +10,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
+import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.FieldConfig;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
  * User entity 
@@ -45,6 +47,14 @@ public class EntUser extends BaseEnt<EntUser> {
 	private Integer attempts;
 	
 	/**
+	 * Override field configurations
+	 */
+	static public EntityConfig getConfig (EntOrg org) {
+		return BaseEnt.getConfig(org)
+				.put(new FieldConfig("password").nonNull().max(20));
+	}
+	
+	/**
 	 * To be valid, correct password and org and attempts < max
 	 */
 	@Transient
@@ -57,12 +67,6 @@ public class EntUser extends BaseEnt<EntUser> {
 	public EntUser () {
 		
 	}
-	
-	/**
-     * Is <b>this</b> a valid entity?
-     * @return
-     */
-    protected void validate (Validation validation) { }
 	
     public Long getId() {
 		return id;

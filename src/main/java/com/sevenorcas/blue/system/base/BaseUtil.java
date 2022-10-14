@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
+import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
 /**
@@ -54,7 +55,7 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
         return t;
 	}
 	
-	public <T>List<T> hashtableToList(Hashtable<Long,T> hashTable) throws Exception {
+	public <T>List<T> hashtableToListId(Hashtable<Long,T> hashTable) throws Exception {
 		Enumeration<Long>keys = hashTable.keys();
 		List<T> list = new ArrayList<>();
 		while(keys.hasMoreElements()) {
@@ -63,5 +64,29 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
 		}
 		return list;
 	}
+	
+	public <T>List<T> hashtableToListCode(Hashtable<String,T> hashTable) throws Exception {
+		Enumeration<String>keys = hashTable.keys();
+		List<T> list = new ArrayList<>();
+		while(keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			list.add(hashTable.get(key));			
+		}
+		return list;
+	}
+	
+	/**
+     * Null base fields using entity configuration (if required)
+     * @param entity
+     * @param entity configuration
+     * @return
+     */
+    public <T extends BaseEnt<T>> void nullBaseFields(T ent, EntityConfig config) throws Exception {
+    	if (config.isUnused("orgNr")) ent.setOrgNr(null);
+    	if (config.isUnused("code")) ent.setCode(null);
+    	if (config.isUnused("descr")) ent.setDescr(null);
+    	if (config.isUnused("active")) ent.setActive(null);
+    }
+
 }
 

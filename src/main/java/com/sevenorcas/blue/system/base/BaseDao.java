@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
 
+import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
 import com.sevenorcas.blue.system.sql.SqlExecute;
@@ -131,11 +132,12 @@ public class BaseDao extends BaseUtil {
 	
     /**
      * Process the entity, CrUD operations
-     * @param ent
+     * @param entity
+     * @param entities configuration
      * @return
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> T put (T ent) throws Exception {
+    public <T extends BaseEnt<T>> T put (T ent, EntityConfig config) throws Exception {
     	
     	if (ent.isNew() && ent.isDelete()) {
     		return ent;
@@ -145,11 +147,12 @@ public class BaseDao extends BaseUtil {
 			deleteEntity(ent);
 		}
 		else if (ent.isValidId()) {
-			merge(ent);
+			merge(ent, config);
 		}
 		else if (ent.isNew()){
 			Long id = ent.getId();
 			ent.setId(null);
+			nullBaseFields(ent, config);
 			ent = persist(ent);
 			ent.setTempId(id);
 		}
@@ -162,21 +165,13 @@ public class BaseDao extends BaseUtil {
      * @param entity
      * @return
      */
-    public <T extends BaseEnt<T>> T merge(T ent) throws Exception {
-    	
+    public <T extends BaseEnt<T>> T merge(T ent, EntityConfig config) throws Exception {
     	T mergedEnt = find(ent); 
-    
-    	//Set relevant fields
-    	String nullFields = ent.getNullBaseFields();
-    	nullFields = nullFields != null? nullFields : ""; 
-    	
-    	if (!nullFields.contains("orgNr")) mergedEnt.setOrgNr(ent.getOrgNr());
-    	if (!nullFields.contains("code")) mergedEnt.setCode(ent.getCode());
-    	if (!nullFields.contains("descr")) mergedEnt.setDescr(ent.getDescr());
-    	if (!nullFields.contains("active")) mergedEnt.setActive(ent.isActive());
-    	
+    	if (!config.isUnused("orgNr")) mergedEnt.setOrgNr(ent.getOrgNr());
+    	if (!config.isUnused("code")) mergedEnt.setCode(ent.getCode());
+    	if (!config.isUnused("descr")) mergedEnt.setDescr(ent.getDescr());
+    	if (!config.isUnused("active")) mergedEnt.setActive(ent.isActive());
     	update(mergedEnt);
-    	
     	return mergedEnt;
 	}
     

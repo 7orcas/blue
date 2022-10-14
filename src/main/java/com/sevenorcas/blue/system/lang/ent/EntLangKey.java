@@ -8,7 +8,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.field.validationDEL.Validation;
 
 /**
 * Created July '22
@@ -41,11 +40,5 @@ public class EntLangKey extends BaseEnt<EntLangKey> {
 		this.id = id;
 		return this;
 	}
-
-	/**
-     * Is <b>this</b> a valid entity?
-     * @return
-     */
-    protected void validate (Validation validation) { }
 	
 }

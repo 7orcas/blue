@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.conf.FieldConfig;
 import com.sevenorcas.blue.system.conf.SrvConfig;
@@ -36,11 +35,11 @@ public class SrvConfigTest extends BaseTest {
 		try {
 			EntityConfig conf = service.getConfig (getCallObject(), "system.org.ent.EntOrg");
 			
-			for (FieldConfig f : conf.fields) {
+			for (FieldConfig f : conf.list()) {
 				System.out.println(f.name 
 						+ " f.min=" + f.min
 						+ " f.max=" + f.max
-						+ " f.nonNull=" + f.nonNull
+						+ " f.nonNull=" + f.nullState
 						+ " f.unique=" + f.unique
 						);
 			}
