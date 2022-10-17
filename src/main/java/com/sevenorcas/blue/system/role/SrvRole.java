@@ -150,7 +150,7 @@ public class SrvRole extends BaseSrv {
   	  	  			}
   				}
   				
-  				dao.put(ent, roleConfig);
+  				dao.put(ent, roleConfig, callObj);
   				
   				if (ent.isDelete()) {
   					continue;
@@ -164,7 +164,7 @@ public class SrvRole extends BaseSrv {
   				//Children
   				for (EntRolePermission perm : ent.getPermissions()) {
   					perm.setEntRole(ent);
-  					dao.put(perm, permConfig);
+  					dao.put(perm, permConfig, callObj);
   	  			}	
   			}
   			

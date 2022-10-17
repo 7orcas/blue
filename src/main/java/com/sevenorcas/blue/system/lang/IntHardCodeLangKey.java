@@ -15,5 +15,6 @@ public interface IntHardCodeLangKey {
 	
 	final static String LK_VAL_ERROR_NO_RECORD = "valErr1";
 	final static String LK_VAL_ERROR_TS_DIFF = "valErr2";
+	final static String LK_VAL_ERROR_RELOAD = "valErrA1";
 
 }

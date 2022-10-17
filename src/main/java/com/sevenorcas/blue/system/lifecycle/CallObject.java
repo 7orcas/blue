@@ -52,5 +52,11 @@ public class CallObject {
 		return ses.getLang() != null? ses.getLang() : "en";
 	}
 	
-	
+	/**
+	 * Convenience method to get the user id
+	 * @return
+	 */
+	public Long getUserId() {
+		return ses.getUserId();
+	}
 }

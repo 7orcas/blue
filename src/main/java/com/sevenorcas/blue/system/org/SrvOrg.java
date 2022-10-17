@@ -13,6 +13,7 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.DtoOrg;
@@ -131,8 +132,8 @@ public class SrvOrg extends BaseSrv {
     		CallObject callObj,
     		List<EntOrg> list) throws Exception {
 		
+		EntityConfig config = configSrv.getConfig(callObj, EntOrg.class);
 		List<Validation> vals = new ArrayList<>();
-		List<Long []> ids = new ArrayList<>();
 	
 //		//Validation
 //		for (EntOrg ent : list) {
@@ -146,25 +147,19 @@ public class SrvOrg extends BaseSrv {
 			return new JsonRes().setError("invlist").setData(vals);
 		}
 		
+		List<Long []> ids = new ArrayList<>();
   		try {
   			for (EntOrg ent : list) {
-  				if (ent.isDelete()) {
-  					dao.deleteOrg(ent.getId());
-  				}
-  				else if (ent.isValidId()) {
-  					dao.mergeOrg (ent);
-  				}
-  				else if (ent.isNew()){
-  					Long[] id = new Long[2];
+  				dao.put(ent, config, callObj);
+  				
+  				if (ent.getTempId() != null) {
+  					Long id[] = {ent.getTempId(), ent.getId()};
   					ids.add(id);
-  					id[0] = ent.getId();
-  					ent.setId(null);
-  					id[1] = dao.persistOrg(ent);
   				}
   			}
   			
   		} catch (Exception e) {
-  			log.equals(e);
+  			log.error(e);
   			throw e;
   		}
   		

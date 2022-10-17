@@ -1,32 +1,30 @@
 package com.sevenorcas.blue.system.base;
 
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Hashtable;
 
 import javax.interceptor.Interceptors;
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Table;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.ValidationError;
 import com.sevenorcas.blue.system.conf.ValidationErrors;
-import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
-import com.sevenorcas.blue.system.role.ent.EntPermission;
-import com.sevenorcas.blue.system.role.ent.EntRole;
-import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
+import com.sevenorcas.blue.system.user.EntUser;
 
 /**
 * TODO Module Description
@@ -43,6 +41,7 @@ public class BaseDao extends BaseUtil {
 	
 	/** standard fields in tables **/
 	final static protected String UPDATED_FIELD = "updated";
+	final static protected String UPDATED_USERID = "updated_userid";
 	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,active," + UPDATED_FIELD + " ";
 	
 	/** standard fields in tables **/
@@ -100,15 +99,16 @@ public class BaseDao extends BaseUtil {
      * @return
      */
     public <T extends BaseEnt<T>> T find (T ent) throws Exception {
-    	return em.find(ent.getEntClass(), ent.getId());
+    	return em.find(ent.entClass(), ent.getId());
 	}
 	
 	/**
      * Persist the entity 
      * @param entity
+     * @param user id causing the action
      * @return
      */
-    public <T extends BaseEnt<T>> T persist (T ent) throws Exception {
+    public <T extends BaseEnt<T>> T persist (T ent, Long userId) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
     	ent.setUpdated(Timestamp.valueOf(d));
     	em.persist(ent);
@@ -117,13 +117,15 @@ public class BaseDao extends BaseUtil {
 	}
 	
     /**
-     * Update the entities <code>update</code> field 
+     * Update the entities <code>update</code> fields 
      * @param entity
+     * @param user id causing the action
      * @return
      */
-    public <T extends BaseEnt<T>> void update (T ent) throws Exception {
+    public <T extends BaseEnt<T>> void update (T ent, Long userId) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
-    	ent.setUpdated(Timestamp.valueOf(d));
+    	ent.setUpdated(Timestamp.valueOf(d))
+    	   .setUpdatedUserId(userId);
 	}
 	
     /**
@@ -132,7 +134,7 @@ public class BaseDao extends BaseUtil {
      * @return
      */
     public <T extends BaseEnt<T>> void deleteEntity (T ent) throws Exception {
-    	T entX = em.find(ent.getEntClass(), ent.getId());
+    	T entX = em.find(ent.entClass(), ent.getId());
     	em.remove(entX);
 	}
 	
@@ -140,45 +142,59 @@ public class BaseDao extends BaseUtil {
      * Process the entity, CrUD operations
      * @param entity
      * @param entities configuration
+     * @param call object
      * @return
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> T put (T ent, EntityConfig config) throws Exception {
-    	
-    	if (ent.isNew() && ent.isDelete()) {
-    		return ent;
-    	}
-    	
-    	if (ent.isDelete()) {
-			deleteEntity(ent);
-		}
-		else if (ent.isValidId()) {
-			merge(ent, config);
-		}
-		else if (ent.isNew()){
-			Long id = ent.getId();
-			ent.setId(null);
-			nullBaseFields(ent, config);
-			ent = persist(ent);
-			ent.setTempId(id);
-		}
-    	
-    	return ent;
+    public <T extends BaseEnt<T>> T put (T ent, EntityConfig config, CallObject callObj) throws Exception {
+    	try {
+	    	if (ent.isNew() && ent.isDelete()) {
+	    		return ent;
+	    	}
+	    	
+	    	if (ent.isDelete()) {
+				deleteEntity(ent);
+			}
+			else if (ent.isValidId()) {
+				merge(ent, config, callObj);
+			}
+			else if (ent.isNew()){
+				Long id = ent.getId();
+				ent.setId(null);
+				nullBaseFields(ent, config);
+				ent = persist(ent, callObj.getUserId());
+				ent.setTempId(id);
+			}
+	    	
+	    	return ent;
+	    	
+    	} catch (Exception e) {
+  			log.error(e);
+  			throw e;
+  		}
     }
     
     /**
      * Merge selected fields and return the <code>Entity</code>  
      * @param entity
+     * @param entities configuration
+     * @param call object
      * @return
      */
-    public <T extends BaseEnt<T>> T merge(T ent, EntityConfig config) throws Exception {
-    	T mergedEnt = find(ent); 
-    	if (!config.isUnused("orgNr")) mergedEnt.setOrgNr(ent.getOrgNr());
-    	if (!config.isUnused("code")) mergedEnt.setCode(ent.getCode());
-    	if (!config.isUnused("descr")) mergedEnt.setDescr(ent.getDescr());
-    	if (!config.isUnused("active")) mergedEnt.setActive(ent.isActive());
-    	update(mergedEnt);
-    	return mergedEnt;
+    public <T extends BaseEnt<T>> T merge(T ent, EntityConfig config, CallObject callObj) throws Exception {
+    	try {
+	    	T mergedEnt = find(ent); 
+	    	if (!config.isUnused("orgNr")) mergedEnt.setOrgNr(ent.getOrgNr());
+	    	if (!config.isUnused("code")) mergedEnt.setCode(ent.getCode());
+	    	if (!config.isUnused("descr")) mergedEnt.setDescr(ent.getDescr());
+	    	if (!config.isUnused("active")) mergedEnt.setActive(ent.isActive());
+	    	update(mergedEnt, callObj.getUserId());
+	    	return mergedEnt;
+    	
+    	} catch (Exception e) {
+  			log.error(e);
+  			throw e;
+  		}
 	}
     
     /**
@@ -188,29 +204,46 @@ public class BaseDao extends BaseUtil {
      * @param object to load errors into
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> void compareTimeStamp(T ent, EntityConfig config, ValidationErrors vals) throws Exception {
+    public <T extends BaseEnt<T>> void compareTimeStamp(T ent, EntityConfig config, ValidationErrors errors) throws Exception {
     	if (ent.isNew()){
     		return;
     	}
     	
-    	String sql = "SELECT " + UPDATED_FIELD + " "
-			+ "FROM " + config.tableName + " "
-			+ "WHERE id = " + ent.getId();	
-    	
-    	SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
-    	
-    	if (r.size() != 1) {
-    		vals.add(ent.getId(), ent.getCode(), LK_VAL_ERROR_NO_RECORD);
-    		return;
-    	}
-    	
-    	Timestamp updated = r.getTimestamp(0, UPDATED_FIELD);
-    	
-    	if (updated.compareTo(ent.getUpdated()) != 0) {
-    		vals.add(ent.getId(), ent.getCode(), LK_VAL_ERROR_NO_RECORD);
-    		return;	
-    	}
-    	
+    	try {
+	    	String sql = "SELECT t." + UPDATED_FIELD + ", t." + UPDATED_USERID + ", u." + EntUser.USERID + " "
+				+ "FROM " + config.tableName + " as t "
+					+ "LEFT JOIN " + tableName(EntUser.class, " AS u ON t." + UPDATED_USERID + " = u.id ")
+				+ "WHERE t.id = " + ent.getId();	
+	    	
+	    	SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
+	    	
+	    	if (r.size() != 1) {
+	    		errors.add(new ValidationError()
+	    			.setEntityId(ent.getId())
+	    			.setCode(ent.getCode())	
+	    			.setErrorLangKey(LK_VAL_ERROR_NO_RECORD)
+	    			.setActionLangKey(LK_VAL_ERROR_RELOAD)
+	    			);
+	    		return;
+	    	}
+	    	
+	    	Timestamp updated = r.getTimestamp(0, UPDATED_FIELD);
+	    	
+	    	if (updated.compareTo(ent.getUpdated()) != 0) {
+	    		errors.add(new ValidationError()
+	    			.setEntityId(ent.getId())
+	    			.setUpdatedUserId(r.getLong(0, UPDATED_USERID))
+	    			.setUpdatedUser(r.getString(0, EntUser.USERID))
+	    			.setCode(ent.getCode())	
+	    			.setErrorLangKey(LK_VAL_ERROR_TS_DIFF)
+	    			.setActionLangKey(LK_VAL_ERROR_RELOAD)
+	    			);
+	    		return;	
+	    	}
+    	} catch (Exception e) {
+  			log.error(e);
+  			throw e;
+  		}
 		
     }
     

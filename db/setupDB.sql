@@ -25,6 +25,7 @@ create table sys.base
     code varchar,
     descr varchar,
     updated timestamp without time zone,
+    updated_userid bigint,
     encoded varchar,
     encoded_flag integer,
     active boolean default true

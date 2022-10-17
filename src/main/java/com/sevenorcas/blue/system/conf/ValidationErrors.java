@@ -14,8 +14,8 @@ public class ValidationErrors {
 		return list.size()>0;
 	}
 	
-	public ValidationErrors add(Long id, String code, String error) {
-		list.add(new ValidationError(id, code, error));
+	public ValidationErrors add(ValidationError error) {
+		list.add(error);
 		return this;
 	}
 }

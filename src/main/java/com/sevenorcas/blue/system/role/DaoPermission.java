@@ -70,46 +70,47 @@ public class DaoPermission extends BaseDao {
 	}
 	
     
-    /**
-     * Persist the <code>EntPermission</code> entity 
-     * @param entity to persist
-     * @return new id
-     */
-    public Long persistPermission (EntPermission ent) throws Exception {
-    	return persist(ent).getId();
-	}
-    
-    /**
-     * Merge selected fields and return the <code>EntPermission</code> entity 
-     * @param entity
-     * @return
-     */
-    public EntPermission mergePermission (
-    		EntPermission ent) throws Exception {
-    	
-    	EntPermission mergedEnt = getPermission(ent.getId()); 
-    	
-    	mergedEnt
-    		.setCode(ent.getCode())
-    		.setDescr(ent.getDescr())
-    		.setActive(ent.isActive())
-    		.setCrud(ent.getCrud());
-    
-    	update(mergedEnt);
-    	
-    	return mergedEnt;
-	}
-    
-    
-    /**
-     * Delete the <code>EntPermission</code> entity 
-     * @param entity id
-     * @return
-     */
-    public void deletePermission (
-    		Long id) throws Exception {
-    	EntPermission ent = getPermission(id);
-    	em.remove(ent);
-	}
+//DELETE   
+//    /**
+//     * Persist the <code>EntPermission</code> entity 
+//     * @param entity to persist
+//     * @return new id
+//     */
+//    public Long persistPermission (EntPermission ent) throws Exception {
+//    	return persist(ent).getId();
+//	}
+//    
+//    /**
+//     * Merge selected fields and return the <code>EntPermission</code> entity 
+//     * @param entity
+//     * @return
+//     */
+//    public EntPermission mergePermission (
+//    		EntPermission ent) throws Exception {
+//    	
+//    	EntPermission mergedEnt = getPermission(ent.getId()); 
+//    	
+//    	mergedEnt
+//    		.setCode(ent.getCode())
+//    		.setDescr(ent.getDescr())
+//    		.setActive(ent.isActive())
+//    		.setCrud(ent.getCrud());
+//    
+//    	update(mergedEnt);
+//    	
+//    	return mergedEnt;
+//	}
+//    
+//    
+//    /**
+//     * Delete the <code>EntPermission</code> entity 
+//     * @param entity id
+//     * @return
+//     */
+//    public void deletePermission (
+//    		Long id) throws Exception {
+//    	EntPermission ent = getPermission(id);
+//    	em.remove(ent);
+//	}
     
 }

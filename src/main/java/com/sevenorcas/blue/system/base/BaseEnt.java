@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import org.json.JSONPropertyIgnore;
+
 import com.sevenorcas.blue.system.conf.EntityConfig;
 import com.sevenorcas.blue.system.conf.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -25,9 +27,6 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 abstract public class BaseEnt <T> implements Serializable {
 	
 	@Transient
-	private Class<T> clazz;
-	
-	@Transient
     private Long tempId;
 	
 	@Column(name = "org_nr")
@@ -38,6 +37,9 @@ abstract public class BaseEnt <T> implements Serializable {
 	protected String descr;
 	
 	protected Timestamp updated;
+	
+	@Column(name = "updated_userid")
+	protected Long updatedUserId;
     
 	protected String encoded;
     @Column(name = "encoded_flag")
@@ -77,13 +79,13 @@ abstract public class BaseEnt <T> implements Serializable {
 		return j;
 	}
    
-    @SuppressWarnings("unchecked")
 	public BaseEnt () {
-    	clazz = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
     
-    public Class<T> getEntClass() {
-    	return clazz;
+    @JSONPropertyIgnore
+    @SuppressWarnings("unchecked")
+    public Class<T> entClass() {
+    	return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
     
     
@@ -143,6 +145,15 @@ abstract public class BaseEnt <T> implements Serializable {
 		return (T)this;
 	}
 	
+	public Long getUpdatedUserId() {
+		return updatedUserId;
+	}
+	@SuppressWarnings("unchecked")
+	public T setUpdatedUserId(Long updatedUserId) {
+		this.updatedUserId = updatedUserId;
+		return (T)this;
+	}
+
 	public String getEncoded() {
 		return encoded;
 	}

@@ -1,7 +1,5 @@
 package com.sevenorcas.blue.app.login;
 
-import java.util.Hashtable;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +44,6 @@ public class RestLogin2 extends BaseRest {
 	 * @param httpRequest
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@GET
 	@Path("init-web")
     public JsonRes login2Web(@Context HttpServletRequest httpRequest,
@@ -57,7 +54,7 @@ public class RestLogin2 extends BaseRest {
 			HttpSession httpSes = httpRequest.getSession(true);
 			
 			//Get user sessions or create a new list (if new login)
-			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
+//			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
 			ClientSession cs = callObj.getClientSession();
 			
 			//Get User configuration, eg roles

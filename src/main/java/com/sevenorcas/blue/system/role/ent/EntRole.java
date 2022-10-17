@@ -27,6 +27,7 @@ import com.sevenorcas.blue.system.role.json.JsonRole;
 @Entity
 @Table(name="role", schema="cntrl")
 public class EntRole extends BaseEnt<EntRole>{
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id  

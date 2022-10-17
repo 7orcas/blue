@@ -15,6 +15,7 @@ import com.sevenorcas.blue.system.org.json.JsonOrg;
 /**
 * Organisation Entity
 * 
+* 
 * [Licence]
 * Created 14.09.22
 * @author John Stewart
@@ -31,11 +32,9 @@ public class EntOrg extends BaseEnt<EntOrg> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="org_id_seq")
 	private Long id;
 	
-	
 	private Boolean dvalue;
 	
 	public EntOrg () {
-		super();
 	}
 
 	public Long getId() {
@@ -46,7 +45,6 @@ public class EntOrg extends BaseEnt<EntOrg> {
 		return this;
 	}
 	
-
 	/**
      * Override field configurations
      */

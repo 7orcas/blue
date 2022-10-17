@@ -33,13 +33,14 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 public class EntUser extends BaseEnt<EntUser> {
 
 	private static final long serialVersionUID = 1L;
+	public static final String USERID = "xxx";
 	
 	@Id  
 	@SequenceGenerator(name="zzz_id_seq", sequenceName="cntrl.zzz_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz_id_seq")
 	private Long id;
 	
-	@Column(name="xxx")
+	@Column(name=USERID)
 	private String userId;
 	@Column(name="yyy")
 	private String password;
