@@ -19,6 +19,7 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 	
 	public Long entityId;
 	public String code;
+	public String field;
 
 	public Timestamp updated;
 	
@@ -69,6 +70,13 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 		return j;
 	}
 	
+	public String toString() {
+		return "code='" + code + "'"
+			+ " field='" + field + "'"
+			+ " error='" + error + "'"
+			;
+	}
+	
 	public ValidationError setAction(String action) {
 		this.action = action;
 		return this;
@@ -76,6 +84,11 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 
 	public ValidationError setCode(String code) {
 		this.code = code;
+		return this;
+	}
+	
+	public ValidationError setField(String field) {
+		this.field = field;
 		return this;
 	}
 

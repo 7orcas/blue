@@ -61,8 +61,15 @@ public class SrvConfig extends BaseSrv implements ConfigurationI {
 			CallObject callObj,
 			String entity) throws Exception {
 		
-		//Derive entity's class
-		Class<?> clazz = Class.forName(CLASS_PATH_PREFIX + entity);
+		Class<?> clazz = null;
+		try {
+			//Derive entity's class
+			clazz = Class.forName(CLASS_PATH_PREFIX + entity);
+			
+		} catch (Exception e) {
+			//Full path
+			clazz = Class.forName(entity);
+		}
 		return getConfig(callObj, clazz);
     }
 
@@ -95,24 +102,98 @@ public class SrvConfig extends BaseSrv implements ConfigurationI {
     	if (ent.isDelete()) {
 			return;
 		}
+    	validate(ent, config, errors, ent.entClass());
+    }
+	
+	
+	/**
+     * Validate the entity according to it's configuration
+     * @param entity
+     * @param entity configuration
+     * @param object to load errors into
+     * @throws Exception
+     */
+    private <T extends BaseEnt<T>> void validate(T ent, EntityConfig config, ValidationErrors errors, Class<?> clazz) throws Exception {
     	
     	try {
+    		if (clazz.getName().equals("java.lang.Object")) {
+    			return;
+    		}
+    		
+    		if (clazz.getSuperclass() != null) {
+    			validate(ent, config, errors, clazz.getSuperclass());
+    		}
     		
     		for (FieldConfig fc : config.list()) {
 
     			if (fc.isUnused()) continue;
-    				
-    			Field field = ent.entClass().getField(fc.name);
-    			Object value = field.get(ent);
     			
-    			if (fc.isNonNull() && value == null) {
-    				errors.add(new ValidationError(VAL_ERROR_NO_RECORD)
-    		    			.setEntityId(ent.getId())
-    		    			.setCode(ent.getCode())	
-    		    			);
+    			Object value = null;
+    			try {
+    				Field field = clazz.getDeclaredField(fc.name);
+    				field.setAccessible(true);
+    				value = field.get(ent);
+    			} catch ( NoSuchFieldException ex) {
+    			    // field doesn't exist
+    				continue;
+    			}
+    			Integer errorType = null;
+    			
+    			
+    			if (value == null) {
+    				if (fc.isNonNull()) errorType = VAL_ERROR_NULL_VALUE;
+    				else if (fc.isMin()) errorType = VAL_ERROR_MIN_VALUE;
+    				
+    			}
+    			else {
+    				if (fc.isMin()) {
+    					
+    					if (value instanceof String && value.toString().length() < fc.getMinInteger()) {
+    						errorType = VAL_ERROR_MIN_VALUE;    						
+    					}
+    					if (value instanceof Integer && (Integer)value < fc.getMinInteger()) {
+    						errorType = VAL_ERROR_MIN_VALUE;    						
+    					}
+    					if (value instanceof Double && (Double)value < fc.getMin()) {
+    						errorType = VAL_ERROR_MIN_VALUE;    						
+    					}
+    				}
+    				
+    				if (fc.isMax()) {
+    					
+    					if (value instanceof String && value.toString().length() > fc.getMaxInteger()) {
+    						errorType = VAL_ERROR_MAX_VALUE;    						
+    					}
+    					if (value instanceof Integer && (Integer)value > fc.getMaxInteger()) {
+    						errorType = VAL_ERROR_MAX_VALUE;    						
+    					}
+    					if (value instanceof Double && (Double)value > fc.getMax()) {
+    						errorType = VAL_ERROR_MAX_VALUE;    						
+    					}
+    				}
+	    		}
+    			
+    			//Validate uniqueness
+    			if (errorType == null && fc.isUnique()) {
+    				Integer orgNr = null;
+    				
+    				if (fc.isUniqueOrg()) {
+    					orgNr = ent.getOrgNr();	
+    				}
+    				
+    				
+    				
     			}
     			
     			
+    			
+    			if (errorType != null) {
+	    			errors.add(new ValidationError(errorType)
+			    			.setEntityId(ent.getId())
+			    			.setCode(ent.getCode())	
+			    			.setField(fc.name)
+			    			);
+    			}
     		}
     			    	
     	} catch (Exception e) {
@@ -123,7 +204,7 @@ public class SrvConfig extends BaseSrv implements ConfigurationI {
     }
 	
     
-    
+
     
 	
 //	/**

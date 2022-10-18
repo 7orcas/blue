@@ -20,5 +20,7 @@ public interface ConfigurationI {
 	final static public int VAL_ERROR_NO_RECORD   = 1;
 	final static public int VAL_ERROR_TS_DIFF     = 2;
 	final static public int VAL_ERROR_NULL_VALUE  = 3;
+	final static public int VAL_ERROR_MIN_VALUE   = 4;
+	final static public int VAL_ERROR_MAX_VALUE   = 5;
 	
 }

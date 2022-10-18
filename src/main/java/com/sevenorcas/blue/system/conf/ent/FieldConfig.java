@@ -15,8 +15,10 @@ import com.sevenorcas.blue.system.conf.ConfigurationI;
 public class FieldConfig implements ConfigurationI {
 	
 	public String name;
-	public Double max = -1D;
-	public Double min = -1D;
+	/** For String, Integer, Double fields */
+	public Double max = null; 
+	/** For String, Integer, Double fields */
+	public Double min = null; 
 	public Integer nullState = NULLABLE;
 	public Integer unique = NON_UNIQUE;
 
@@ -50,20 +52,55 @@ public class FieldConfig implements ConfigurationI {
 		return this;
 	}
 
+	public boolean isUnique() {
+		return unique != null && unique != NON_UNIQUE;
+	}
+	
+	public boolean isUniqueOrg() {
+		return unique != null && unique == ORG_UNIQUE;
+	}
+	
 	public FieldConfig uniqueDB() {
 		unique = DB_UNIQUE;	
 		return this;
 	}
 
+	public boolean isUniqueDB() {
+		return unique != null && unique == DB_UNIQUE;
+	}
 	
+	public boolean isMin() {
+		return min != null;
+	}
+	
+	public Integer getMinInteger() {
+		return min.intValue();
+	}
+	
+	public Double getMin() {
+		return min;
+	}
+
 	public FieldConfig min(Integer min) {
 		this.min = min != null? Double.parseDouble(min.toString()) : -1D;
 		return this;
 	}
 
 	public FieldConfig min(Double min) {
-		this.min = min != null? min : -1D;
+		this.min = min;
 		return this;
+	}
+
+	public boolean isMax() {
+		return max != null;
+	}
+
+	public Integer getMaxInteger() {
+		return max.intValue();
+	}
+	
+	public Double getMax() {
+		return max;
 	}
 
 	public FieldConfig max(Integer max) {
@@ -73,7 +110,7 @@ public class FieldConfig implements ConfigurationI {
 
 
 	public FieldConfig max(Double max) {
-		this.max = max != null? max : -1D;
+		this.max = max;
 		return this;
 	}
 }

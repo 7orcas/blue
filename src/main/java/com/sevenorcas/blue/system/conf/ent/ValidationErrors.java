@@ -43,6 +43,9 @@ public class ValidationErrors implements JsonResponseI {
 			.setData(j)
 			.setReturnCode(JS_VALIDATION_ERRORS);
 	}
-	
+
+	public final List<ValidationError> getErrors() {
+		return errors;
+	}
 	
 }
