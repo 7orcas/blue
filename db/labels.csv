@@ -28,6 +28,7 @@ clear,sys,0,Clear,Leeren
 close,sys,0,Close,Schliessen
 delete,sys,0,Delete,Löschen
 desc,sys,0,Description,Bezeichnung
+action,,0,Action,
 help,sys,0,Help,Hilfe
 invalid,,0,Invalid,Ungültig
 std,,0,Standard,Standard
@@ -100,6 +101,10 @@ url,,0,URL,
 url-c,,0,Code (URL),
 crud,,0,CRUD,
 addsels,,0,Add Selections,
-valErr1,,0,Record not found,
-valErr2,,0,Record has changed,
-valErrA1,,0,Reload the page,
+valErr1,valerr,0,Record not found,
+valErr2,valerr,0,Record has changed,
+valErrA1,valerr,0,Reload the page,
+valErrT,valerr,0,Can't save changes due to the following problem(s),
+lastupby,,0,Last updated by,
+lastup,,0,Last update,
+problem,,0,Problem,

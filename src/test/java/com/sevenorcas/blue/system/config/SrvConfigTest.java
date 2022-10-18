@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.EntityConfig;
-import com.sevenorcas.blue.system.conf.FieldConfig;
 import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 
 /**
  * Configuration Module service bean test.

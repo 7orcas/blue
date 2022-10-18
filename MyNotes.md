@@ -139,7 +139,8 @@ Tutorial 01
 run npx json-server -p 3500 -w data/db.json (npx won't install as a dependency for the project - this is better, p=port w=watch)
 localStorage.getItem('shoppingList')) - local storage on the browser could be useful
 
-run npm i data-fns   installs date functions
+run npm i data-fns   installs date functions ?? don't think this is installed
+npm install --save moment     date functions
 npm i axios    better then fetch  (use with axios.get('some api url', {withCredentials: true}); for CORS)
 npm i easy-peasy     a lightweight utility over Redux
 

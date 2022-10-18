@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.conf;
+package com.sevenorcas.blue.system.conf.ent;
 
 import java.util.Hashtable;
 import java.util.List;

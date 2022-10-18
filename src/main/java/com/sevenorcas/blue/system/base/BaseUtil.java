@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.AppProperties;
 import com.sevenorcas.blue.system.ApplicationI;
-import com.sevenorcas.blue.system.conf.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 

@@ -12,8 +12,8 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.EntityConfig;
-import com.sevenorcas.blue.system.conf.ValidationErrors;
+import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -123,19 +123,17 @@ public class SrvRole extends BaseSrv {
 		ValidationErrors vals = new ValidationErrors();
 		for (EntRole ent : list) {
 			dao.compareTimeStamp(ent, roleConfig, vals);
-//			dao.validate(ent, roleConfig, vals);
-//			
-//			for (EntRolePermission perm : ent.getPermissions()) {
-//				dao.validate(perm, permConfig, vals);
-//  		}
+			configSrv.validate(ent, roleConfig, vals);
+			for (EntRolePermission perm : ent.getPermissions()) {
+				configSrv.validate(perm, permConfig, vals);
+			}
 		}
 
 		//Validation Errors
 		if (vals.hasErrors()) {
-			return new JsonRes()
-					.setError("invlist")
-					.setReturnCode(JS_VALIDATION_ERRORS)
-					.setData(vals);
+			UtilLabel u = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
+			vals.setLabels(u);
+			return vals.toJSon();
 		}
 		
 		List<Long []> ids = new ArrayList<>();

@@ -1,7 +1,6 @@
 package com.sevenorcas.blue.system.base;
 
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -16,9 +15,10 @@ import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.conf.EntityConfig;
-import com.sevenorcas.blue.system.conf.ValidationError;
-import com.sevenorcas.blue.system.conf.ValidationErrors;
+import com.sevenorcas.blue.system.conf.ConfigurationI;
+import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.ValidationError;
+import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
 import com.sevenorcas.blue.system.sql.SqlExecute;
@@ -35,7 +35,7 @@ import com.sevenorcas.blue.system.user.EntUser;
 */
 
 @Interceptors({DaoAroundInvoke.class})
-public class BaseDao extends BaseUtil {
+public class BaseDao extends BaseUtil implements ConfigurationI {
 	
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
@@ -122,7 +122,7 @@ public class BaseDao extends BaseUtil {
      * @param user id causing the action
      * @return
      */
-    public <T extends BaseEnt<T>> void update (T ent, Long userId) throws Exception {
+    public <T extends BaseEnt<T>> void updateTimestampUserid (T ent, Long userId) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
     	ent.setUpdated(Timestamp.valueOf(d))
     	   .setUpdatedUserId(userId);
@@ -188,7 +188,7 @@ public class BaseDao extends BaseUtil {
 	    	if (!config.isUnused("code")) mergedEnt.setCode(ent.getCode());
 	    	if (!config.isUnused("descr")) mergedEnt.setDescr(ent.getDescr());
 	    	if (!config.isUnused("active")) mergedEnt.setActive(ent.isActive());
-	    	update(mergedEnt, callObj.getUserId());
+	    	updateTimestampUserid(mergedEnt, callObj.getUserId());
 	    	return mergedEnt;
     	
     	} catch (Exception e) {
@@ -218,11 +218,9 @@ public class BaseDao extends BaseUtil {
 	    	SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
 	    	
 	    	if (r.size() != 1) {
-	    		errors.add(new ValidationError()
+	    		errors.add(new ValidationError(VAL_ERROR_NO_RECORD)
 	    			.setEntityId(ent.getId())
 	    			.setCode(ent.getCode())	
-	    			.setErrorLangKey(LK_VAL_ERROR_NO_RECORD)
-	    			.setActionLangKey(LK_VAL_ERROR_RELOAD)
 	    			);
 	    		return;
 	    	}
@@ -230,13 +228,12 @@ public class BaseDao extends BaseUtil {
 	    	Timestamp updated = r.getTimestamp(0, UPDATED_FIELD);
 	    	
 	    	if (updated.compareTo(ent.getUpdated()) != 0) {
-	    		errors.add(new ValidationError()
+	    		errors.add(new ValidationError(VAL_ERROR_TS_DIFF)
 	    			.setEntityId(ent.getId())
 	    			.setUpdatedUserId(r.getLong(0, UPDATED_USERID))
 	    			.setUpdatedUser(r.getString(0, EntUser.USERID))
+	    			.setUpdated(updated)
 	    			.setCode(ent.getCode())	
-	    			.setErrorLangKey(LK_VAL_ERROR_TS_DIFF)
-	    			.setActionLangKey(LK_VAL_ERROR_RELOAD)
 	    			);
 	    		return;	
 	    	}
@@ -246,8 +243,9 @@ public class BaseDao extends BaseUtil {
   		}
 		
     }
+   
     
-	/**
+    /**
 	 * Clients creating new objects must have unique negative ids
 	 * @return
 	 * @throws Exception

@@ -1,6 +1,8 @@
-package com.sevenorcas.blue.system.conf;
+package com.sevenorcas.blue.system.conf.ent;
 
 import javax.json.bind.annotation.JsonbTransient;
+
+import com.sevenorcas.blue.system.conf.ConfigurationI;
 
 /**
  * Configuration for a field.
@@ -39,6 +41,10 @@ public class FieldConfig implements ConfigurationI {
 		return this;
 	}
 
+	public boolean isNonNull() {
+		return nullState != null && nullState != NULLABLE;
+	}
+	
 	public FieldConfig uniqueOrg() {
 		unique = ORG_UNIQUE;	
 		return this;
