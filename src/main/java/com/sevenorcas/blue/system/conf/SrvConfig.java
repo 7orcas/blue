@@ -1,20 +1,13 @@
 package com.sevenorcas.blue.system.conf;
 
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.jboss.logging.Logger;
-
-import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
-import com.sevenorcas.blue.system.conf.ent.FieldConfig;
-import com.sevenorcas.blue.system.conf.ent.ValidationError;
-import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
@@ -29,9 +22,10 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 @Stateless
 public class SrvConfig extends BaseSrv implements ConfigurationI {
 
-	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+//	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-//	final static private String STRING_CLASS = "java.lang.String"; 
+	@EJB
+	private DaoValidation dao;
 	
 	
 	/**
@@ -91,121 +85,6 @@ public class SrvConfig extends BaseSrv implements ConfigurationI {
 		return c;
     }
 	
-	/**
-     * Validate the entity according to it's configuration
-     * @param entity
-     * @param entity configuration
-     * @param object to load errors into
-     * @throws Exception
-     */
-    public <T extends BaseEnt<T>> void validate(T ent, EntityConfig config, ValidationErrors errors) throws Exception {
-    	if (ent.isDelete()) {
-			return;
-		}
-    	validate(ent, config, errors, ent.entClass());
-    }
-	
-	
-	/**
-     * Validate the entity according to it's configuration
-     * @param entity
-     * @param entity configuration
-     * @param object to load errors into
-     * @throws Exception
-     */
-    private <T extends BaseEnt<T>> void validate(T ent, EntityConfig config, ValidationErrors errors, Class<?> clazz) throws Exception {
-    	
-    	try {
-    		if (clazz.getName().equals("java.lang.Object")) {
-    			return;
-    		}
-    		
-    		if (clazz.getSuperclass() != null) {
-    			validate(ent, config, errors, clazz.getSuperclass());
-    		}
-    		
-    		for (FieldConfig fc : config.list()) {
-
-    			if (fc.isUnused()) continue;
-    			
-    			Object value = null;
-    			try {
-    				Field field = clazz.getDeclaredField(fc.name);
-    				field.setAccessible(true);
-    				value = field.get(ent);
-    			} catch ( NoSuchFieldException ex) {
-    			    // field doesn't exist
-    				continue;
-    			}
-    			Integer errorType = null;
-    			
-    			
-    			if (value == null) {
-    				if (fc.isNonNull()) errorType = VAL_ERROR_NULL_VALUE;
-    				else if (fc.isMin()) errorType = VAL_ERROR_MIN_VALUE;
-    				
-    			}
-    			else {
-    				if (fc.isMin()) {
-    					
-    					if (value instanceof String && value.toString().length() < fc.getMinInteger()) {
-    						errorType = VAL_ERROR_MIN_VALUE;    						
-    					}
-    					if (value instanceof Integer && (Integer)value < fc.getMinInteger()) {
-    						errorType = VAL_ERROR_MIN_VALUE;    						
-    					}
-    					if (value instanceof Double && (Double)value < fc.getMin()) {
-    						errorType = VAL_ERROR_MIN_VALUE;    						
-    					}
-    				}
-    				
-    				if (fc.isMax()) {
-    					
-    					if (value instanceof String && value.toString().length() > fc.getMaxInteger()) {
-    						errorType = VAL_ERROR_MAX_VALUE;    						
-    					}
-    					if (value instanceof Integer && (Integer)value > fc.getMaxInteger()) {
-    						errorType = VAL_ERROR_MAX_VALUE;    						
-    					}
-    					if (value instanceof Double && (Double)value > fc.getMax()) {
-    						errorType = VAL_ERROR_MAX_VALUE;    						
-    					}
-    				}
-	    		}
-    			
-    			//Validate uniqueness
-    			if (errorType == null && fc.isUnique()) {
-    				Integer orgNr = null;
-    				
-    				if (fc.isUniqueOrg()) {
-    					orgNr = ent.getOrgNr();	
-    				}
-    				
-    				
-    				
-    			}
-    			
-    			
-    			
-    			if (errorType != null) {
-	    			errors.add(new ValidationError(errorType)
-			    			.setEntityId(ent.getId())
-			    			.setCode(ent.getCode())	
-			    			.setField(fc.name)
-			    			);
-    			}
-    		}
-    			    	
-    	} catch (Exception e) {
-  			log.error(e);
-  			throw e;
-  		}
-		
-    }
-	
-    
-
-    
 	
 //	/**
 //	 * Return an classes configuration - recursive

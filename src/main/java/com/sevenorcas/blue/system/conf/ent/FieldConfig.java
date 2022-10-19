@@ -20,7 +20,11 @@ public class FieldConfig implements ConfigurationI {
 	/** For String, Integer, Double fields */
 	public Double min = null; 
 	public Integer nullState = NULLABLE;
-	public Integer unique = NON_UNIQUE;
+	/** unique field constraint */
+	public String unique = null;
+	
+	@JsonbTransient
+	public Boolean uniqueIgnoreOrgNr = null;
 
 	@JsonbTransient
 	public Boolean unused = false;
@@ -47,28 +51,33 @@ public class FieldConfig implements ConfigurationI {
 		return nullState != null && nullState != NULLABLE;
 	}
 	
-	public FieldConfig uniqueOrg() {
-		unique = ORG_UNIQUE;	
+	/**
+	 * Sets the field as unique according to constraint fields ("" == unique in database)
+	 * @param constraint
+	 * @return
+	 */
+	public FieldConfig unique(String constraint) {
+		unique = constraint;	
 		return this;
 	}
-
 	public boolean isUnique() {
-		return unique != null && unique != NON_UNIQUE;
+		return unique != null;
 	}
-	
-	public boolean isUniqueOrg() {
-		return unique != null && unique == ORG_UNIQUE;
+	public String getUnique() {
+		return unique;
 	}
-	
-	public FieldConfig uniqueDB() {
-		unique = DB_UNIQUE;	
+
+	public boolean isUniqueIgnoreOrgNr() {
+		return uniqueIgnoreOrgNr != null && uniqueIgnoreOrgNr;
+	}
+
+	public FieldConfig uniqueIgnoreOrgNr() {
+		unique = "";
+		uniqueIgnoreOrgNr = true;
+		nullState = NON_NULL;
 		return this;
 	}
 
-	public boolean isUniqueDB() {
-		return unique != null && unique == DB_UNIQUE;
-	}
-	
 	public boolean isMin() {
 		return min != null;
 	}

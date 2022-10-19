@@ -41,6 +41,8 @@ public class EntPermission extends BaseEnt<EntPermission> {
      */
 	static public EntityConfig getConfig (EntOrg org) {
 		return BaseEnt.getConfig(org)
+			.put(new FieldConfig("org_nr").min(0))
+			.put(new FieldConfig("code").uniqueIgnoreOrgNr())
     	    .put(new FieldConfig("crud").nonNull().max(4));
     }
 	

@@ -114,28 +114,26 @@ public class SrvRole extends BaseSrv {
     public JsonRes putRoles(
     		CallObject callObj,
     		List<EntRole> list) throws Exception {
-		
-		
-		EntityConfig roleConfig = configSrv.getConfig(callObj, EntRole.class);
-		EntityConfig permConfig = configSrv.getConfig(callObj, EntRolePermission.class);
-		
-		//Validation
-		ValidationErrors vals = new ValidationErrors();
+				
+		//Set configurations
+    	EntityConfig roleConfig = configSrv.getConfig(callObj, EntRole.class);
+    	EntityConfig permConfig = configSrv.getConfig(callObj, EntRolePermission.class);
 		for (EntRole ent : list) {
-			dao.compareTimeStamp(ent, roleConfig, vals);
-			configSrv.validate(ent, roleConfig, vals);
+			ent.setConfig(roleConfig);
 			for (EntRolePermission perm : ent.getPermissions()) {
-				configSrv.validate(perm, permConfig, vals);
+				perm.setConfig(permConfig);
 			}
 		}
 
-		//Validation Errors
+		//Check validation errors
+		ValidationErrors vals = validateSrv.validate(list);
 		if (vals.hasErrors()) {
 			UtilLabel u = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
 			vals.setLabels(u);
 			return vals.toJSon();
 		}
-		
+
+		//Make changes
 		List<Long []> ids = new ArrayList<>();
   		try {
   			for (EntRole ent : list) {

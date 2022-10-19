@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.SrvValidate;
 import com.sevenorcas.blue.system.excel.SrvExcel;
 import com.sevenorcas.blue.system.file.SrvFile;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
@@ -37,6 +38,9 @@ public class BaseSrv extends BaseUtil implements IntHardCodeLangKey, JsonRespons
 
 	@EJB
 	protected SrvConfig configSrv;
+	
+	@EJB
+	protected SrvValidate validateSrv;
 
 	public String cleanParam (String s) {
 		return s == null? "" : s;

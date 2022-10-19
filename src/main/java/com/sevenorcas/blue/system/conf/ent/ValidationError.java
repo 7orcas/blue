@@ -45,14 +45,31 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 				e = LK_VAL_ERROR_TS_DIFF;
 				a = LK_VAL_ERROR_RELOAD;
 				break;
-			
+
+			case VAL_ERROR_NULL_VALUE:
+				e = LK_VAL_ERROR_FIELD_NULL;
+				a = LK_VAL_ENTER_VALUE;
+				break;
+				
+			case VAL_ERROR_MIN_VALUE:
+			case VAL_ERROR_MAX_VALUE:
+				e = LK_VAL_ERROR_FIELD_VALUE;
+				a = LK_VAL_ENTER_VALUE;
+				break;
+				
+			case VAL_ERROR_NON_UNIQUE_NEW:
+			case VAL_ERROR_NON_UNIQUE_DB:
+				e = LK_VAL_ERROR_FIELD_UNIQUE;
+				a = LK_VAL_ENTER_VALUE;
+				break;
+				
 			default:
 				e = "?";
 				a = LK_UNKNOWN_ERROR;	
 		}
 
-		setError(util.getLabel(e));
-		setAction(util.getLabel(a));
+		setError(util != null? util.getLabel(e) : e);
+		setAction(util != null? util.getLabel(a) : a);
 		
 		return this;
 	}
@@ -71,7 +88,8 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 	}
 	
 	public String toString() {
-		return "code='" + code + "'"
+		return "type=" + type 
+			+ " code='" + code + "'"
 			+ " field='" + field + "'"
 			+ " error='" + error + "'"
 			;
