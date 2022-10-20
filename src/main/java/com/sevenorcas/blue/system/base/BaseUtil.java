@@ -41,6 +41,15 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
 	}
 	
 	/**
+	 * Is this a new ID?
+	 * @param id
+	 * @return
+	 */
+	public boolean isNewId (Long id) {
+		return id == null || id < 0;
+	}
+	
+	/**
 	 * Return the entities database table name
 	 * @param clazz
 	 * @return

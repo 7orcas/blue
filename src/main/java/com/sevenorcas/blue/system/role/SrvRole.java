@@ -12,6 +12,8 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseSrv;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.SrvValidate;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
@@ -35,8 +37,10 @@ public class SrvRole extends BaseSrv {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@EJB
-	private DaoRole dao;
+	@EJB private DaoRole dao;
+	@EJB private SrvValidate validateSrv;
+	@EJB private SrvConfig configSrv;
+	
 	
 	/**
 	 * List of role objects
@@ -118,15 +122,12 @@ public class SrvRole extends BaseSrv {
 		//Set configurations
     	EntityConfig roleConfig = configSrv.getConfig(callObj, EntRole.class);
     	EntityConfig permConfig = configSrv.getConfig(callObj, EntRolePermission.class);
-		for (EntRole ent : list) {
-			ent.setConfig(roleConfig);
-			for (EntRolePermission perm : ent.getPermissions()) {
-				perm.setConfig(permConfig);
-			}
-		}
 
 		//Check validation errors
-		ValidationErrors vals = validateSrv.validate(list);
+		ValidationErrors vals = validateSrv.validate(list, roleConfig);
+		for (EntRole ent : list) {
+			validateSrv.validate(ent.getPermissions(), ent.getId(), permConfig, vals);
+		}
 		if (vals.hasErrors()) {
 			UtilLabel u = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
 			vals.setLabels(u);

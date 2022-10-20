@@ -46,7 +46,7 @@ public class RestConfig extends BaseRest {
 		if (entity == null) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR, "Invalid entity");
 		}
-		return serviceConf.getConfigJson(callObj, entity);
+		return service.getConfigJson(callObj, entity);
     }
 		
 }

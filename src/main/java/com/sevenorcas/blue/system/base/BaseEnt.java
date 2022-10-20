@@ -52,9 +52,6 @@ abstract public class BaseEnt <T> implements Serializable {
     @Transient
     private Boolean valid;
     
-    @Transient
-    private EntityConfig config;
-    
     /**
      * Entity / Field configurations.
      * Implementing class can override this method
@@ -62,7 +59,7 @@ abstract public class BaseEnt <T> implements Serializable {
     static public EntityConfig getConfig (EntOrg org) {
     	return new EntityConfig()
     	    .put(new FieldConfig("orgNr").min(1)) 
-    	    .put(new FieldConfig("code").max(20).unique("org_nr"))
+    	    .put(new FieldConfig("code").max(20).uniqueInOrg())
 	    	.put(new FieldConfig("descr").max(30))
     	    .put(new FieldConfig("active").nonNull());
     }
@@ -207,16 +204,5 @@ abstract public class BaseEnt <T> implements Serializable {
 		this.valid = valid;
 		return (T)this;
 	}
-
-	public EntityConfig getConfig() {
-		return config;
-	}
-	@SuppressWarnings("unchecked")
-	public T setConfig(EntityConfig config) {
-		this.config = config;
-		return (T)this;
-	}
-	
-	
 	
 }

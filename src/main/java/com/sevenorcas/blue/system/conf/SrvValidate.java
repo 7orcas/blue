@@ -1,8 +1,8 @@
 package com.sevenorcas.blue.system.conf;
 
+import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -18,13 +18,10 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.base.BaseSrv;
-import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
-import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
  * Entity Validation Module service bean.
@@ -46,18 +43,29 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
 	/**
      * Validate the entities according to their configuration
      * @param List of entities
-     * @param object to load errors into
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> ValidationErrors validate(List<T> list) throws Exception {
-
+    public <T extends BaseEnt<T>> ValidationErrors validate(List<T> list, EntityConfig config) throws Exception {
     	ValidationErrors errors = new ValidationErrors();
-    	EntityConfig config = null;
+    	validate(list, null, config, errors);
+    	return errors;
+    }
+	
+	/**
+     * Validate the entities (who have parents) according to their configuration
+     * @param List of entities
+     * @param Entity Configuration object
+     * @param Parent id 
+     * @param Validation error object
+     * @throws Exception
+     */
+    public <T extends BaseEnt<T>> void validate(List<T> list, Long parentId, EntityConfig config, ValidationErrors errors) throws Exception {
+
     	Hashtable<String, List<FieldX>> uniqueFields = new Hashtable<>();
     	
     	//Test timestamp conflicts
     	for (T ent : list) {
-    		dao.compareTimeStamp(ent, ent.getConfig(), errors);
+    		dao.compareTimeStamp(ent, config, errors);
     	}
     	
     	//Test fields
@@ -65,7 +73,6 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
 	    	if (ent.isDelete()) {
 				continue;
 			}
-	    	config = ent.getConfig();
 	    	validateFields(ent, config, ent.entClass(), errors, uniqueFields);
     	}
     	
@@ -74,8 +81,12 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
     	while (fields.hasMoreElements()) {
     		String field = fields.nextElement();
     		List<FieldX> values = uniqueFields.get(field);
+    		
     		FieldConfig fc = values.get(0).fieldConfig;
     		BaseEnt<?> ent = values.get(0).ent;
+    		String parentColumn = values.get(0).parentColumn;
+    		String columnName = values.get(0).columnName;
+    		columnName = columnName != null? columnName : field;
     		
     		List<Object> valuesX = new ArrayList<>();
     		List<Object> valuesU = new ArrayList<>();
@@ -88,14 +99,19 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
     		findDuplicates (field, valuesX.toArray(), errors, VAL_ERROR_NON_UNIQUE_NEW);
 
             //Test database values
-            List<Object> dbFields = dao.fields(field, fc.isUniqueIgnoreOrgNr()? null : ent.getOrgNr(), fc.getUnique(), ent.entClass());
-            for (Object f : dbFields) {
-    			valuesU.add(f);
-    		}            
-            findDuplicates (field, valuesU.toArray(), errors, VAL_ERROR_NON_UNIQUE_DB);            
+    		if (parentColumn == null || !isNewId(parentId)) {
+	            List<Object> dbFields = dao.fields(
+	            		columnName, 
+	            		fc.isUniqueIgnoreOrgNr()? null : ent.getOrgNr(), 
+	            		parentColumn, 
+	            		parentId,
+	            		ent.entClass());
+	            for (Object f : dbFields) {
+	    			valuesU.add(f);
+	    		}            
+	            findDuplicates (field, valuesU.toArray(), errors, VAL_ERROR_NON_UNIQUE_DB);            
+    		}
     	}
-    	
-    	return errors;
     }
 	
 	
@@ -124,6 +140,7 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
     		
     		for (FieldConfig fc : config.list()) {
 
+    			
     			if (fc.isUnused()) continue;
 
     			Object value = null;
@@ -136,7 +153,6 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
     				continue;
     			}
     			Integer errorType = null;
-    			
     			
     			if (value == null) {
     				if (fc.isNonNull()) errorType = VAL_ERROR_NULL_VALUE;
@@ -172,12 +188,21 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
 
     				//Accumulate uniqueness fields
     				if (fc.isUnique()) {
+    					FieldX fieldX = new FieldX();
+    					
     					List<FieldX> fields = uniqueFields.get(fc.name);
     					if (fields == null) {
     						fields = new ArrayList<>();
     						uniqueFields.put(fc.name, fields);
+    						
+    						//Populate first element with constants
+    						fieldX.ent = ent;
+    						fieldX.fieldConfig = fc;	
+    						fieldX.columnName = getAnnotationColumnName(clazz);
+    						fieldX.parentColumn = getAnnotationJoinColumnName(clazz);
     					}
-    					fields.add(new FieldX(ent, value, fc));
+    					fieldX.value = value;
+    					fields.add(fieldX);
     				}
 	    		}
     			
@@ -229,12 +254,69 @@ public class SrvValidate extends BaseSrv implements ConfigurationI {
     	public BaseEnt<?> ent;
     	public Object value;
     	public FieldConfig fieldConfig;
-		public FieldX(BaseEnt<?> ent, Object value, FieldConfig fieldConfig) {
-			this.ent = ent;
-			this.value = value;
-			this.fieldConfig = fieldConfig;
-		}
+    	public String columnName;
+    	public String parentColumn;
     }
+    
+    
+    private String getAnnotationColumnName(Class<?> clazz) throws Exception {
+    	return getAnnotationColumnName(clazz, null);
+    }
+    
+    private String getAnnotationColumnName(
+			Class<?> clazz,
+			String name) throws Exception {
+			
+		if (name != null) {
+			return name;
+		}
+    	
+		if (clazz.getSuperclass() != null) {
+			name = getAnnotationColumnName(clazz.getSuperclass(), name);
+		}
+		
+		//Get configurations as per annotated fields 
+		for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
+			for (Annotation anno : f.getDeclaredAnnotations()) {
+				if (anno instanceof javax.persistence.Column) {
+					javax.persistence.Column a = (javax.persistence.Column)anno;
+					name = a.name();
+				}
+			}
+		}
+		return name;
+    }
+    
+    private String getAnnotationJoinColumnName(Class<?> clazz) throws Exception {
+    	return getAnnotationJoinColumnName(clazz, null);
+    }
+    
+    private String getAnnotationJoinColumnName(
+			Class<?> clazz,
+			String name) throws Exception {
+			
+		if (name != null) {
+			return name;
+		}
+    	
+		if (clazz.getSuperclass() != null) {
+			name = getAnnotationColumnName(clazz.getSuperclass(), name);
+		}
+		
+		//Get configurations as per annotated fields 
+		for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
+			for (Annotation anno : f.getDeclaredAnnotations()) {
+				if (anno instanceof javax.persistence.JoinColumn) {
+					javax.persistence.JoinColumn a = (javax.persistence.JoinColumn)anno;
+					name = a.name();
+				}
+			}
+		}
+		return name;
+    }
+    
+  
+    
     
 	
 //	/**

@@ -17,7 +17,11 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
+import com.sevenorcas.blue.system.lang.SrvLang;
+import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
+import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 
 /**
  * Configuration Module service bean test.
@@ -32,17 +36,79 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 
 	private SrvConfig configSrv;
 	private SrvValidate valSrv;
+	private SrvLang langSrv;	
+	private UtilLabel util;
 	
 	@Before
 	public void setup() throws Exception {
+		super.setup();
 		configSrv = new SrvConfig();
 		setupEJBs(configSrv);
 		valSrv = new SrvValidate();
 		setupEJBs(valSrv);
+		langSrv = new SrvLang();
+		setupEJBs(langSrv);
+		util = langSrv.getLabelUtil(callObject.getOrgNr(), null, callObject.getLang(), null);
 	}
 	
 	@Test
-	public void validate () {
+	public void validateUniqueInList () {
+		try {
+			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
+	    	
+	    	EntRole ent = configNewEnt(new EntRole());
+	    	
+			List<EntRolePermission> list = new ArrayList<>();
+			for (int i=0;i<3;i++) {
+				EntRolePermission perm = configNewEnt(new EntRolePermission());
+				perm.setRoleId(ent.getId())
+				    .setPermissionId(1L);
+				list.add(perm);
+			}
+			
+			ValidationErrors errors = new ValidationErrors();
+			valSrv.validate (list, ent.getId(), permConfig, errors);
+			checkErrors("EntRolePermission in List", errors);
+			boolean result = hasError(errors, "permissionId", VAL_ERROR_NON_UNIQUE_NEW);
+			assertTrue(result);
+			
+		} catch (Exception e) {
+			System.out.println("EX:" + e);
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void validateUniqueInDB () {
+		try {
+			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
+	    	
+	    	EntRole ent = configNewEnt(new EntRole());
+	    	ent.setId(1L)
+	    	   .setOrgNr(0);
+	    	
+			List<EntRolePermission> list = new ArrayList<>();
+			EntRolePermission perm = configNewEnt(new EntRolePermission());
+			perm.setRoleId(ent.getId())
+				.setOrgNr(ent.getOrgNr())
+			    .setPermissionId(1L);
+			list.add(perm);
+
+			ValidationErrors errors = new ValidationErrors();			
+			valSrv.validate (list, ent.getId(), permConfig, errors);
+			checkErrors("EntRolePermission in DB", errors);
+			boolean result = hasError(errors, "permissionId", VAL_ERROR_NON_UNIQUE_DB);
+			assertTrue(result);
+			
+		} catch (Exception e) {
+			System.out.println("EX:" + e);
+			fail(e.getMessage());
+		}
+	}
+
+	
+//	@Test
+	public void validatePermission () {
 		try {
 			EntityConfig conf = configSrv.getConfig (getCallObject(), EntPermission.class.getCanonicalName());
 			
@@ -60,7 +126,6 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 			list.add(ent);
 			ent.setCode("123456789012345678901234567890")
 			   .setDescr("12345")
-			   .setConfig(conf)
 			   .setOrgNr(0)
 			   .setId(-1L);
 			
@@ -71,7 +136,6 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 				ent.setCode("duplicate")
 				   .setDescr("1234567890")
 				   .setEncoded("abc")
-				   .setConfig(conf)
 				   .setOrgNr(0)
 				   .setId(-1L);
 			}
@@ -81,42 +145,53 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 			ent.setCode("lang") //Existing record in database
 			   .setDescr("1234567890")
 			   .setEncoded("abc")
-			   .setConfig(conf)
 			   .setOrgNr(0)
 			   .setId(-1L);
 			
-			ValidationErrors errors = valSrv.validate (list, errors);
-			errors.setLabels(null); //Sets the error codes
-			
-			boolean errorNull = false,
-					errorMin = false,
-					errorMinNull = false,
-					errorMax = false,
-					errorUniqueNew = false;
-			
-			for (ValidationError err : errors.getErrors()) {
-				System.out.println(err.toString());
-				if (err.field.equals("crud") && err.type == VAL_ERROR_NULL_VALUE) errorNull = true;
-				if (err.field.equals("code") && err.type == VAL_ERROR_MAX_VALUE) errorMax = true;
-				if (err.field.equals("code") && err.type == VAL_ERROR_NON_UNIQUE_NEW) errorUniqueNew = true;
-				if (err.field.equals("descr") && err.type == VAL_ERROR_MIN_VALUE) errorMin = true;
-				if (err.field.equals("encoded") && err.type == VAL_ERROR_MIN_VALUE) errorMinNull = true;
-			}
-			
-			System.out.println("Null=" + errorNull + " "
-					+ "Max=" + errorMax + " "
-					+ "Min=" + errorMin + " "
-					+ "MinNull=" + errorMinNull + " "
-					+ "UniqueNew=" + errorUniqueNew + " "
-					);
-			
-			assertTrue(errorNull && errorMin && errorMinNull && errorMax && errorUniqueNew);
+			ValidationErrors errors = valSrv.validate (list, conf);
+			boolean result = checkErrors("EntPermission", errors);
+			assertTrue(result);
 			
 		} catch (Exception e) {
 			System.out.println("EX:" + e);
 			fail(e.getMessage());
 		}
+	}
+	
+	private boolean hasError(ValidationErrors errors, String field, int type) {
+		for (ValidationError err : errors.getErrors()) {
+			if (err.field.equals(field) && err.type == type) return true;
+		}	
+		return false;
+	}
+	
+	private boolean checkErrors(String ent, ValidationErrors errors) {
 		
+		errors.setLabels(util); //Sets the error codes
+		
+		boolean errorNull = false,
+				errorMin = false,
+				errorMinNull = false,
+				errorMax = false,
+				errorUniqueNew = false;
+		
+		System.out.println("Errors for " + ent);
+		for (ValidationError err : errors.getErrors()) {
+			System.out.println(err.toString());
+			if (err.field.equals("crud") && err.type == VAL_ERROR_NULL_VALUE) errorNull = true;
+			if (err.field.equals("code") && err.type == VAL_ERROR_MAX_VALUE) errorMax = true;
+			if (err.field.equals("code") && err.type == VAL_ERROR_NON_UNIQUE_NEW) errorUniqueNew = true;
+			if (err.field.equals("descr") && err.type == VAL_ERROR_MIN_VALUE) errorMin = true;
+			if (err.field.equals("encoded") && err.type == VAL_ERROR_MIN_VALUE) errorMinNull = true;
+		}
+		
+		System.out.println("Null=" + errorNull + " "
+				+ "Max=" + errorMax + " "
+				+ "Min=" + errorMin + " "
+				+ "MinNull=" + errorMinNull + " "
+				+ "UniqueNew=" + errorUniqueNew + " "
+				);
+		return errorNull && errorMin && errorMinNull && errorMax && errorUniqueNew;
 	}
 	
 }

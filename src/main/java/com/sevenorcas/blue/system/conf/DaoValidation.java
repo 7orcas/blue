@@ -30,7 +30,8 @@ public class DaoValidation extends BaseDao {
 	public List<Object> fields(
     		String field,
     		Integer orgNr,
-    		String constraint,
+    		String parentColumn,
+    		Long parentId,
     		Class<?> clazz) throws Exception {
 		
 		SqlParm parms = validateParms(null);
@@ -42,10 +43,10 @@ public class DaoValidation extends BaseDao {
 		if (orgNr != null) {
 			sql += "WHERE org_nr = " + orgNr + " ";
 		}
-		if (!constraint.isEmpty()) {
-			sql += "GROUP BY " + field + "," + constraint + " ";	
+		if (parentColumn != null) {
+			sql += "AND " + parentColumn + " = " + parentId + " ";	
 		}
-		
+System.out.println(sql);		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<Object> fields = new ArrayList<>();
 		

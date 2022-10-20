@@ -13,10 +13,12 @@ import javax.naming.InitialContext;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
+import com.sevenorcas.blue.system.base.BaseEnt;
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.login.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class BaseTest extends BaseUtil {
@@ -25,7 +27,14 @@ public class BaseTest extends BaseUtil {
 	static final String DB_URL = "jdbc:postgresql://localhost/blue";
 	static final String USER = "postgres";
 	static final String PASS = "7o";
+	static final String LANG = "en";
 	static final Integer ORG_NR = 1;
+	
+	public CallObject callObject;
+	
+	public void setup() throws Exception {
+		callObject = getCallObject();
+	}
 	
 	Hashtable<String, Object> ejbs = new Hashtable<>();
 
@@ -61,12 +70,12 @@ public class BaseTest extends BaseUtil {
 		for (Field field : entity.getClass().getDeclaredFields()) {
 			if (field.isAnnotationPresent(EJB.class)) {
 				field.setAccessible(true);
-				if (ejbs.containsKey(field.getName())) {
-					field.set(entity, ejbs.get(field.getName()));	
+				if (ejbs.containsKey(field.getType().getCanonicalName())) {
+					field.set(entity, ejbs.get(field.getType().getCanonicalName()));	
 				}
 				else {
 					Object x = field.getType().newInstance();
-					ejbs.put(field.getName(), x);
+					ejbs.put(field.getType().getCanonicalName(), x);
 					field.set(entity, x);
 					setupEJBs(x); //recursive
 				}
@@ -79,7 +88,19 @@ public class BaseTest extends BaseUtil {
 		EntOrg org = new EntOrg();
 		org.setOrgNr(ORG_NR);
 		CallObject o = new CallObject("").setOrg(org);
+		
+		ClientSession session = new ClientSession(1L);
+		o.setClientSession(session);
+		session.setLang(LANG);
+		
 		return o;
+	}
+	
+	public <T extends BaseEnt<T>> T configNewEnt (T ent) {
+		ent.setId(-1L)
+		   .setActive()
+		   .setOrgNr(ORG_NR);
+		return ent;
 	}
 	
 	/**

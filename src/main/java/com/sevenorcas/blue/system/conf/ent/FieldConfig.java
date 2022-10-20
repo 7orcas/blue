@@ -20,9 +20,13 @@ public class FieldConfig implements ConfigurationI {
 	/** For String, Integer, Double fields */
 	public Double min = null; 
 	public Integer nullState = NULLABLE;
-	/** unique field constraint */
-	public String unique = null;
 	
+	/** unique field within org_nr */
+	public Boolean uniqueOrgNr = null;
+
+	/** unique field within parent */
+	public Boolean uniqueParent = null;
+
 	@JsonbTransient
 	public Boolean uniqueIgnoreOrgNr = null;
 
@@ -51,31 +55,47 @@ public class FieldConfig implements ConfigurationI {
 		return nullState != null && nullState != NULLABLE;
 	}
 	
+	public boolean isUnique() {
+		return isUniqueInOrg()
+			|| isUniqueInParent()
+			|| isUniqueIgnoreOrgNr();
+	}
+	
 	/**
-	 * Sets the field as unique according to constraint fields ("" == unique in database)
-	 * @param constraint
-	 * @return
+	 * Sets the field as unique within the org_nr
 	 */
-	public FieldConfig unique(String constraint) {
-		unique = constraint;	
+	public FieldConfig uniqueInOrg() {
+		uniqueOrgNr = true;	
+		nullState = NON_NULL;
 		return this;
 	}
-	public boolean isUnique() {
-		return unique != null;
-	}
-	public String getUnique() {
-		return unique;
+	public boolean isUniqueInOrg() {
+		return uniqueOrgNr != null && uniqueOrgNr;
 	}
 
-	public boolean isUniqueIgnoreOrgNr() {
-		return uniqueIgnoreOrgNr != null && uniqueIgnoreOrgNr;
+	/**
+	 * Sets the field as unique within the parent
+	 */
+	public FieldConfig uniqueInParent() {
+		uniqueParent = true;	
+		nullState = NON_NULL;
+		return this;
+	}
+	public boolean isUniqueInParent() {
+		return uniqueParent != null;
 	}
 
+	/**
+	 * Sets the field as unique within the database
+	 */
 	public FieldConfig uniqueIgnoreOrgNr() {
-		unique = "";
 		uniqueIgnoreOrgNr = true;
 		nullState = NON_NULL;
 		return this;
+	}
+	
+	public boolean isUniqueIgnoreOrgNr() {
+		return uniqueIgnoreOrgNr != null && uniqueIgnoreOrgNr;
 	}
 
 	public boolean isMin() {
