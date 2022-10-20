@@ -32,7 +32,7 @@ import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
  */
 
 @Stateless
-public class SrvValidate extends BaseSrv implements ConfigurationI {
+public class SrvValidate extends BaseSrv {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
