@@ -6,10 +6,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
-import com.sevenorcas.blue.system.excel.SrvExcel;
-import com.sevenorcas.blue.system.file.SrvFile;
+import com.sevenorcas.blue.system.excel.SExcel;
+import com.sevenorcas.blue.system.file.SFile;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
-import com.sevenorcas.blue.system.lang.SrvLang;
+import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
 import com.sevenorcas.blue.system.util.JsonResponseI;
 
@@ -27,13 +27,13 @@ public class BaseService extends BaseUtil implements IntHardCodeLangKey, JsonRes
 	protected EntityManager em;
 	
 	@EJB
-	protected SrvExcel excelSrv;
+	protected SExcel excelSrv;
 
 	@EJB
-	protected SrvFile fileSrv;
+	protected SFile fileSrv;
 
 	@EJB
-	protected SrvLang langSrv;
+	protected SLang langSrv;
 	
 	public String cleanParam (String s) {
 		return s == null? "" : s;

@@ -23,17 +23,15 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
-* Created July '22
-* 
-* Data access methods to the Language Module
-* TODO Expand Module Description
-* 
-* [Licence]
-* @author John Stewart
-*/
-
+ * Data access methods to the Language Module
+ * TODO Expand Module Description
+ * 
+ * Created July '22
+ * [Licence]
+ * @author John Stewart
+ */
 @Stateless
-public class DaoLang extends BaseTransfer {
+public class TLangImp extends BaseTransfer implements TLang {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		

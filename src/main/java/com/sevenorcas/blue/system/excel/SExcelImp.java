@@ -29,7 +29,7 @@ import com.sevenorcas.blue.system.excel.ent.ExcelI;
 import com.sevenorcas.blue.system.excel.ent.ExcelImport;
 import com.sevenorcas.blue.system.excel.ent.ExportListI;
 import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.file.SrvFile;
+import com.sevenorcas.blue.system.file.SFile;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**
@@ -40,10 +40,10 @@ import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 * @author John Stewart
 */
 @Stateless
-public class SrvExcel extends BaseService {
+public class SExcelImp extends BaseService implements SExcel {
 	
 	@EJB
-	private SrvFile fileSrv;
+	private SFile fileSrv;
 	
 	public String createListFile(
 			String filename,
@@ -222,3 +222,4 @@ public class SrvExcel extends BaseService {
     }
 	
 }
+

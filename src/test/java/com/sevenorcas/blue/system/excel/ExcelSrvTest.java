@@ -3,35 +3,30 @@ package com.sevenorcas.blue.system.excel;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
 import com.sevenorcas.blue.system.excel.ent.ExcelImport;
-import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.field.Encode;
-import com.sevenorcas.blue.system.lang.SrvLang;
+import com.sevenorcas.blue.system.lang.SLangImp;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.ExcelLabel;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
-import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 public class ExcelSrvTest extends BaseTest {
 
-	private SrvExcel excelSrv;
-	private SrvLang langSrv;
+	private SExcelImp excelSrv;
+	private SLangImp langSrv;
 	private UtilLabel labels;
 	private List<DtoLabel> list;
 	
 	@Before
 	public void setup() throws Exception {
-		excelSrv = new SrvExcel();
+		excelSrv = new SExcelImp();
 		setupEJBs(excelSrv);
-		langSrv = new SrvLang();
+		langSrv = new SLangImp();
 		setupEJBs(langSrv);
 		
 		list = langSrv.langPackage(1, null, "en", null);

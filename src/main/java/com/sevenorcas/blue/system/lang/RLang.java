@@ -33,12 +33,12 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 @Path("/lang")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestLang extends BaseRest {
+public class RLang extends BaseRest {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB
-	private SrvLang service;
+	private SLang service;
 	
 	@GET
 	@Path("pack")

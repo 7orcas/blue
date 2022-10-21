@@ -10,14 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.SConfig;
-import com.sevenorcas.blue.system.conf.SValidate;
+import com.sevenorcas.blue.system.conf.SConfigImp;
+import com.sevenorcas.blue.system.conf.SValidateImp;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
-import com.sevenorcas.blue.system.lang.SrvLang;
+import com.sevenorcas.blue.system.lang.SLangImp;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -32,21 +32,21 @@ import com.sevenorcas.blue.system.role.ent.EntRolePermission;
  */
 
 
-public class SrvValidateTest extends BaseTest implements ConfigurationI {
+public class SValidateTest extends BaseTest implements ConfigurationI {
 
-	private SConfig configSrv;
-	private SValidate valSrv;
-	private SrvLang langSrv;	
+	private SConfigImp configSrv;
+	private SValidateImp valSrv;
+	private SLangImp langSrv;	
 	private UtilLabel util;
 	
 	@Before
 	public void setup() throws Exception {
 		super.setup();
-		configSrv = new SConfig();
+		configSrv = new SConfigImp();
 		setupEJBs(configSrv);
-		valSrv = new SValidate();
+		valSrv = new SValidateImp();
 		setupEJBs(valSrv);
-		langSrv = new SrvLang();
+		langSrv = new SLangImp();
 		setupEJBs(langSrv);
 		util = langSrv.getLabelUtil(callObject.getOrgNr(), null, callObject.getLang(), null);
 	}
@@ -57,6 +57,7 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
 	    	
 	    	EntRole ent = configNewEnt(new EntRole());
+	    	ent.setCode("x");
 	    	
 			List<EntRolePermission> list = new ArrayList<>();
 			for (int i=0;i<3;i++) {
@@ -67,7 +68,7 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 			}
 			
 			ValidationErrors errors = new ValidationErrors();
-			valSrv.validate (list, ent.getId(), permConfig, errors);
+			valSrv.validate (list, ent.getCode(), ent.getId(), permConfig, errors);
 			checkErrors("EntRolePermission in List", errors);
 			boolean result = hasError(errors, "permissionId", VAL_ERROR_NON_UNIQUE_NEW);
 			assertTrue(result);
@@ -85,6 +86,7 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 	    	
 	    	EntRole ent = configNewEnt(new EntRole());
 	    	ent.setId(1L)
+	    	   .setCode("x")
 	    	   .setOrgNr(0);
 	    	
 			List<EntRolePermission> list = new ArrayList<>();
@@ -95,7 +97,7 @@ public class SrvValidateTest extends BaseTest implements ConfigurationI {
 			list.add(perm);
 
 			ValidationErrors errors = new ValidationErrors();			
-			valSrv.validate (list, ent.getId(), permConfig, errors);
+			valSrv.validate (list, ent.getCode(), ent.getId(), permConfig, errors);
 			checkErrors("EntRolePermission in DB", errors);
 			boolean result = hasError(errors, "permissionId", VAL_ERROR_NON_UNIQUE_DB);
 			assertTrue(result);

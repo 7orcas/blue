@@ -11,11 +11,11 @@ import com.sevenorcas.blue.system.base.JsonRes;
 
 public class SrvLangTest extends BaseTest {
 
-	private SrvLang langSrv;
+	private SLangImp langSrv;
 	
 	@Before
 	public void setup() throws Exception {
-		langSrv = new SrvLang();
+		langSrv = new SLangImp();
 		setupEJBs(langSrv);
 	}
 	

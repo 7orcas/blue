@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.base.BaseService;
 */
 
 @Stateless
-public class SrvFile extends BaseService {
+public class SFileImp extends BaseService implements SFile {
 	
 	/**
 	 * Temporary directories are by org number
@@ -124,3 +124,4 @@ public class SrvFile extends BaseService {
     }
 	
 }
+

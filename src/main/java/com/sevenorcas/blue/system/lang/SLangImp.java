@@ -24,19 +24,17 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
-* Created July '22
-* 
-* TODO Module Description
-* 
-* [Licence]
-* @author John Stewart
-*/
-
+ * TODO Module Description
+ * 
+ * Created July '22
+ * [Licence]
+ * @author John Stewart
+ */
 @Stateless
-public class SrvLang extends BaseService {
+public class SLangImp extends BaseService implements SLang {
 
 	@EJB
-	private DaoLang dao;
+	private TLang dao;
 	
 	
 	public JsonRes languagesJson(
