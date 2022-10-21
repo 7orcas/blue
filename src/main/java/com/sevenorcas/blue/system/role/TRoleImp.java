@@ -18,16 +18,15 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
-* 
-* Data access methods for role data
-* 
-* Created 05.10.22
-* [Licence]
-* @author John Stewart
-*/
+ * Data access methods for role data
+ * 
+ * Created 05.10.22
+ * [Licence]
+ * @author John Stewart
+ */
 
 @Stateless
-public class DaoRole extends BaseTransfer {
+public class TRoleImp extends BaseTransfer implements TRole {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	

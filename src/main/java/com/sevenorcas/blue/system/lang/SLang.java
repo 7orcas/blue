@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ws.rs.core.Response;
 
+import com.sevenorcas.blue.system.base.BaseServiceI;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.EntLangLabel;
@@ -20,7 +21,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
  */
 
 @Local
-public interface SLang {
+public interface SLang extends BaseServiceI {
 	public JsonRes languagesJson(CallObject callObj) throws Exception;
 	public List<DtoLabel> langPackage(Integer orgNr, String pack, String lang, String loadFlag) throws Exception;
 	public JsonRes langPackageJson(Integer orgNr, String pack, String lang, String loadFlag) throws Exception;

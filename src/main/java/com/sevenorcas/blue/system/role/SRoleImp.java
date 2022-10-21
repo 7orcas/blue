@@ -33,11 +33,11 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class SrvRole extends BaseService {
+public class SRoleImp extends BaseService implements SRole {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@EJB private DaoRole dao;
+	@EJB private TRole dao;
 	@EJB private SValidate validateSrv;
 	@EJB private SConfig configSrv;
 	

@@ -23,11 +23,11 @@ import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 
 public class SrvRoleTest extends BaseTest {
 
-	private SrvRole service;
+	private SRoleImp service;
 	
 	@Before
 	public void setup() throws Exception {
-		service = new SrvRole();
+		service = new SRoleImp();
 		setupEJBs(service);
 	}
 	

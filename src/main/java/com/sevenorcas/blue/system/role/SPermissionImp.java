@@ -31,12 +31,12 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class SrvPermission extends BaseService {
+public class SPermissionImp extends BaseService implements SPermission {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB
-	private DaoPermission dao;
+	private TPermission dao;
 	
 	@EJB
 	protected SConfig configSrv;

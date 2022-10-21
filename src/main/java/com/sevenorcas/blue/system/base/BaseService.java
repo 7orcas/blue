@@ -5,13 +5,10 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.excel.SExcel;
 import com.sevenorcas.blue.system.file.SFile;
-import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
-import com.sevenorcas.blue.system.util.JsonResponseI;
 
 /**
 * TODO Module Description
@@ -21,7 +18,7 @@ import com.sevenorcas.blue.system.util.JsonResponseI;
 */
 
 @Interceptors({SrvAroundInvoke.class})
-public class BaseService extends BaseUtil implements IntHardCodeLangKey, JsonResponseI, ConfigurationI {
+public class BaseService extends BaseUtil implements BaseServiceI {
 
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;

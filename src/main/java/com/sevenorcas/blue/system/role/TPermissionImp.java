@@ -16,7 +16,6 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
-* 
 * Data access methods for permission data
 * 
 * Created 05.10.22
@@ -25,7 +24,7 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class DaoPermission extends BaseTransfer {
+public class TPermissionImp extends BaseTransfer implements TPermission {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	

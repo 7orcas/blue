@@ -30,10 +30,10 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Path("/permission")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestPermission extends BaseRest {
+public class RPermission extends BaseRest {
 
 	@EJB
-	private SrvPermission service;
+	private SPermission service;
 
 	
 	/**

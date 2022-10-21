@@ -31,9 +31,9 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Path("/role")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestRole extends BaseRest {
+public class RRole extends BaseRest {
 
-	@EJB private SrvRole service;
+	@EJB private SRole service;
 	@EJB private SConfig serviceConf;
 	
 	/**

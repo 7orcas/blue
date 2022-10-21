@@ -5,6 +5,8 @@ import java.nio.file.Path;
 import javax.ejb.Local;
 import javax.ws.rs.core.Response;
 
+import com.sevenorcas.blue.system.base.BaseServiceI;
+
 /**
 * File and directory utilities interface
 * [Licence]
@@ -12,7 +14,7 @@ import javax.ws.rs.core.Response;
 * @author John Stewart
 */
 @Local
-public interface SFile {
+public interface SFile extends BaseServiceI {
 	public Path getTempDirectory(Integer orgNr) throws Exception;
 	public String getFilename (String filename, String ext) throws Exception;
 	public Response getFile(String path, String filename, boolean delete) throws Exception;
