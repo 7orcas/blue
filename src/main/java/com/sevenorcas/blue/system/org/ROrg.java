@@ -32,10 +32,10 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Path("/org")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestOrg extends BaseRest {
+public class ROrg extends BaseRest {
 
 	@EJB
-	private SrvOrg service;
+	private SOrg service;
 
 	
 	/**

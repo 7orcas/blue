@@ -17,16 +17,14 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
-* Created July '22
-* 
 * Data access methods for organisation data
 * 
+* Created July '22
 * [Licence]
 * @author John Stewart
 */
-
 @Stateless
-public class DaoOrg extends BaseTransfer {
+public class TOrgImp extends BaseTransfer implements TOrg {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
@@ -69,47 +67,5 @@ public class DaoOrg extends BaseTransfer {
     		Long orgId) throws Exception {
     	return em.find(EntOrg.class, orgId);
 	}
-	
-    
-//DELETE    
-//    /**
-//     * Persist the <code>OrgEnt</code> entity 
-//     * @param org entity
-//     * @return new id
-//     */
-//    public Long persistOrg (EntOrg org) throws Exception {
-//    	return persist(org).getId();
-//	}
-//    
-//    /**
-//     * Merge selected fields and return the <code>OrgEnt</code> entity 
-//     * @param org entity
-//     * @return
-//     */
-//    public EntOrg mergeOrg (
-//    		EntOrg org) throws Exception {
-//    	
-//    	EntOrg ent = getOrg(org.getId()); 
-//    	
-//    	ent.setCode(org.getCode())
-//    	   .setActive(org.isActive())
-//    	   .setDvalue(org.getDvalue());
-//    
-//    	update(ent);
-//    	
-//    	return ent;
-//	}
-//    
-//    
-//    /**
-//     * Delete the <code>OrgEnt</code> entity 
-//     * @param org entity id
-//     * @return
-//     */
-//    public void deleteOrg (
-//    		Long id) throws Exception {
-//    	EntOrg ent = getOrg(id);
-//    	em.remove(ent);
-//	}
     
 }

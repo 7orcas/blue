@@ -24,21 +24,20 @@ import com.sevenorcas.blue.system.org.json.JsonOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
-* Create 22 July 2022
-* 
 * Organisation Module service bean.
-* * 
+*  
+* Create 22 July 2022
 * [Licence]
 * @author John Stewart
 */
 
 @Stateless
-public class SrvOrg extends BaseService {
+public class SOrgImp extends BaseService implements SOrg {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB
-	private DaoOrg dao;
+	private TOrg dao;
 	
 	@EJB
 	private SConfig configSrv;
