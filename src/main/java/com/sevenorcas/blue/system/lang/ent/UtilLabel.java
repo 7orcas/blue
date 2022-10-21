@@ -3,6 +3,8 @@ package com.sevenorcas.blue.system.lang.ent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import com.sevenorcas.blue.system.lang.LangLabelI;
+
 /**
 * Label utility file for use inside java objects 
 * 
@@ -10,7 +12,7 @@ import java.util.Hashtable;
 * Created 03.09.22
 * @author John Stewart
 */
-public class UtilLabel {
+public class UtilLabel implements LangLabelI {
 
 	private Integer orgNr;
 	private String lang;
@@ -36,6 +38,20 @@ public class UtilLabel {
 		
 	}
 
+	public String stripLabelAppend(String langKey) {
+		if (langKey == null) return langKey;
+		int i = langKey.indexOf(LABEL_APPEND);
+		if (i == -1) return langKey;
+		return langKey.substring(0, i);
+	}
+
+	private String getLabelAppend(String langKey) {
+		if (langKey == null) return null;
+		int i = langKey.indexOf(LABEL_APPEND);
+		if (i == -1) return null;
+		return langKey.substring(i+1);
+	}
+
 	
 	public Integer getOrgNr() {
 		return orgNr;
@@ -50,8 +66,19 @@ public class UtilLabel {
 	}
 	
 	public String getLabel(String langKey, boolean ignoreMissing) {
-		DtoLabel l = labels.get(langKey);
-		return l != null? l.getLabel() : langKey + (ignoreMissing?"":"?");
+		String key = stripLabelAppend(langKey);
+		
+		DtoLabel l = labels.get(key);
+		String label = l != null? l.getLabel() : key + (ignoreMissing?"":"?");
+		
+		String appends = getLabelAppend(langKey);
+		if (appends != null) {
+			String [] s1 = appends.split(",");
+			for (int i=0;i<s1.length;i++) {
+				label = label.replace("%" + (i+1), s1[i]);		
+			}
+		}
+		return label;
 	}
 	
 	/**

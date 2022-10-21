@@ -12,10 +12,10 @@ import javax.persistence.Transient;
 import com.sevenorcas.blue.system.base.BaseEnt;
 
 /**
-* Created July '22
 * Language label entity
 * The LangKey entity is the parent reference for this entity 
 * 
+* Created July '22
 * [Licence]
 * @author John Stewart
 */

@@ -126,7 +126,7 @@ public class SrvRole extends BaseSrv {
 		//Check validation errors
 		ValidationErrors vals = validateSrv.validate(list, roleConfig);
 		for (EntRole ent : list) {
-			validateSrv.validate(ent.getPermissions(), ent.getId(), permConfig, vals);
+			validateSrv.validate(ent.getPermissions(), ent.getCode(), ent.getId(), permConfig, vals);
 		}
 		if (vals.hasErrors()) {
 			UtilLabel u = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);

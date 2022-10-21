@@ -13,6 +13,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.FieldConfig;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.json.JsonRole;
 
 /**
@@ -38,6 +41,14 @@ public class EntRole extends BaseEnt<EntRole>{
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entRole")
 	private List <EntRolePermission> permissions = new ArrayList<>(); 
 
+	/**
+	 * Override field configurations
+	 */
+	static public EntityConfig getConfig (EntOrg org) {
+		return BaseEnt.getConfig(org)
+				.put(new FieldConfig("orgNr").min(0))
+				;
+	}
 	
 	public EntRole () {
 	}

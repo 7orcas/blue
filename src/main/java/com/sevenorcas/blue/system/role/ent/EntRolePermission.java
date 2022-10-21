@@ -56,6 +56,7 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	 */
 	static public EntityConfig getConfig (EntOrg org) {
 		return BaseEnt.getConfig(org)
+				.put(new FieldConfig("orgNr").min(0))
 				.put(new FieldConfig("code").unused())
 				.put(new FieldConfig("descr").unused())
 				.put(new FieldConfig("permissionId").uniqueInParent())

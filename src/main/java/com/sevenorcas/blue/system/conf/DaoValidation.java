@@ -32,6 +32,7 @@ public class DaoValidation extends BaseDao {
     		Integer orgNr,
     		String parentColumn,
     		Long parentId,
+    		Long entityId,
     		Class<?> clazz) throws Exception {
 		
 		SqlParm parms = validateParms(null);
@@ -46,6 +47,10 @@ public class DaoValidation extends BaseDao {
 		if (parentColumn != null) {
 			sql += "AND " + parentColumn + " = " + parentId + " ";	
 		}
+		if (!isNewId(entityId)) {
+			sql += "AND id <> " + entityId + " ";	
+		}
+		
 System.out.println(sql);		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<Object> fields = new ArrayList<>();

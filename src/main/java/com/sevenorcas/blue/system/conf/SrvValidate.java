@@ -36,8 +36,7 @@ public class SrvValidate extends BaseSrv {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@EJB
-	private DaoValidation dao;
+	@EJB private DaoValidation dao;
 	
 	
 	/**
@@ -47,7 +46,7 @@ public class SrvValidate extends BaseSrv {
      */
     public <T extends BaseEnt<T>> ValidationErrors validate(List<T> list, EntityConfig config) throws Exception {
     	ValidationErrors errors = new ValidationErrors();
-    	validate(list, null, config, errors);
+    	validate(list, null, null, config, errors);
     	return errors;
     }
 	
@@ -55,15 +54,16 @@ public class SrvValidate extends BaseSrv {
      * Validate the entities (who have parents) according to their configuration
      * @param List of entities
      * @param Entity Configuration object
+     * @param Parent code
      * @param Parent id 
      * @param Validation error object
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> void validate(List<T> list, Long parentId, EntityConfig config, ValidationErrors errors) throws Exception {
+    public <T extends BaseEnt<T>> void validate(List<T> list, String parentCode, Long parentId, EntityConfig config, ValidationErrors errors) throws Exception {
 
     	Hashtable<String, List<FieldX>> uniqueFields = new Hashtable<>();
     	
-    	//Test timestamp conflicts
+    	//Test time stamp conflicts
     	for (T ent : list) {
     		dao.compareTimeStamp(ent, config, errors);
     	}
@@ -96,7 +96,7 @@ public class SrvValidate extends BaseSrv {
     		}
     		
     		//Test values in list
-    		findDuplicates (field, valuesX.toArray(), errors, VAL_ERROR_NON_UNIQUE_NEW);
+    		findDuplicates (field, parentCode, valuesX.toArray(), errors, VAL_ERROR_NON_UNIQUE_NEW);
 
             //Test database values
     		if (parentColumn == null || !isNewId(parentId)) {
@@ -105,11 +105,12 @@ public class SrvValidate extends BaseSrv {
 	            		fc.isUniqueIgnoreOrgNr()? null : ent.getOrgNr(), 
 	            		parentColumn, 
 	            		parentId,
+	            		ent.getId(),
 	            		ent.entClass());
 	            for (Object f : dbFields) {
 	    			valuesU.add(f);
 	    		}            
-	            findDuplicates (field, valuesU.toArray(), errors, VAL_ERROR_NON_UNIQUE_DB);            
+	            findDuplicates (field, parentCode, valuesU.toArray(), errors, VAL_ERROR_NON_UNIQUE_DB);            
     		}
     	}
     }
@@ -198,7 +199,7 @@ public class SrvValidate extends BaseSrv {
     						//Populate first element with constants
     						fieldX.ent = ent;
     						fieldX.fieldConfig = fc;	
-    						fieldX.columnName = getAnnotationColumnName(clazz);
+    						fieldX.columnName = getAnnotationColumnName(clazz, fc.name);
     						fieldX.parentColumn = getAnnotationJoinColumnName(clazz);
     					}
     					fieldX.value = value;
@@ -225,7 +226,7 @@ public class SrvValidate extends BaseSrv {
     /**
      * Find duplicate values and add to errors
      */
-    private void findDuplicates (String field, Object[] values, ValidationErrors errors, int errorType) throws Exception {
+    private void findDuplicates (String field, String parentCode, Object[] values, ValidationErrors errors, int errorType) throws Exception {
     
     	Set<String> dupL = new HashSet<String>();
 		
@@ -239,8 +240,9 @@ public class SrvValidate extends BaseSrv {
 		
 		Iterator<String> v = dupL.iterator();
         while (v.hasNext()) {
+        	String c = v.next();
         	errors.add(new ValidationError(errorType)
-        			.setCode(v.next())	
+        			.setCode(parentCode != null? parentCode : c)	
         			.setField(field)
         			);
         }
@@ -259,12 +261,13 @@ public class SrvValidate extends BaseSrv {
     }
     
     
-    private String getAnnotationColumnName(Class<?> clazz) throws Exception {
-    	return getAnnotationColumnName(clazz, null);
+    private String getAnnotationColumnName(Class<?> clazz, String field) throws Exception {
+    	return getAnnotationColumnName(clazz, field, null);
     }
     
     private String getAnnotationColumnName(
 			Class<?> clazz,
+			String field,
 			String name) throws Exception {
 			
 		if (name != null) {
@@ -272,15 +275,17 @@ public class SrvValidate extends BaseSrv {
 		}
     	
 		if (clazz.getSuperclass() != null) {
-			name = getAnnotationColumnName(clazz.getSuperclass(), name);
+			name = getAnnotationColumnName(clazz.getSuperclass(), field, name);
 		}
 		
 		//Get configurations as per annotated fields 
 		for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
-			for (Annotation anno : f.getDeclaredAnnotations()) {
-				if (anno instanceof javax.persistence.Column) {
-					javax.persistence.Column a = (javax.persistence.Column)anno;
-					name = a.name();
+			if (f.getName().equals(field)) {
+				for (Annotation anno : f.getDeclaredAnnotations()) {
+					if (anno instanceof javax.persistence.Column) {
+						javax.persistence.Column a = (javax.persistence.Column)anno;
+						name = a.name();
+					}
 				}
 			}
 		}
@@ -314,86 +319,5 @@ public class SrvValidate extends BaseSrv {
 		}
 		return name;
     }
-    
-  
-    
-    
-	
-//	/**
-//	 * Return an classes configuration - recursive
-//	 * Note @Field annotation overwrites @Column 
-//	 * 
-//	 * @param organisation number
-//	 * @param class
-//	 * @param configuration object
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	private void getListOfFields(
-//			EntOrg org,
-//			Class<?> clazz,
-//			EntityConfig config) throws Exception {
-//			
-//		
-//		if (clazz.getSuperclass() != null) {
-//			getConfig(org, clazz.getSuperclass(), config);
-//		}
-//		
-//		//Get configurations as per annotated fields 
-//		for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
-//			FieldConfig fc = null;
-//
-//			for (Annotation anno : f.getDeclaredAnnotations()) {
-//				if (anno instanceof javax.persistence.Column) {
-//					javax.persistence.Column a = (javax.persistence.Column)anno;
-//					fc = fieldConfig(fc, f);
-//					fc.nonNull = !a.nullable();
-//					
-//					if (isSameNonNull(f.getType().getCanonicalName(), STRING_CLASS)
-//							&& (fc.max == null || fc.max == -1D)) {
-//						fc.max = Double.parseDouble("" + a.length());	
-//					}
-//					
-//				}
-//				if (anno instanceof com.sevenorcas.blue.system.annotation.Field_DEL) {
-//					com.sevenorcas.blue.system.annotation.Field_DEL a = (com.sevenorcas.blue.system.annotation.Field_DEL)anno;
-//					fc = fieldConfig(fc, f);
-//					fc.min = Double.parseDouble("" + a.min());
-//					fc.max = Double.parseDouble("" + a.max());
-//				}
-//				
-//			}
-//
-//			if (fc != null) {
-//				config.fields.add(fc);
-//			}
-//		}
-//
-//		
-//		//Get configurations as per the <code>getConfigOverride</code> method
-//		for (Method m : clazz.getDeclaredMethods()) {
-//			for (Annotation anno : m.getDeclaredAnnotations()) {
-//				if (anno instanceof FieldOverride_DEL) {
-//					try {
-//						m.invoke(null, org, config);
-//					} catch (Exception e) {
-//						log.error(e);
-//					}
-//					
-//				}
-//			}			
-//		}
-//		
-//
-//    }
-//	
-//	private FieldConfig fieldConfig (FieldConfig f, java.lang.reflect.Field field) {
-//		if (f == null) {
-//			f = new FieldConfig();
-//			f.name = field.getName();
-//		}
-//		return f;
-//	}
-	
-	
+ 	
 }

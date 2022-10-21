@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import com.sevenorcas.blue.system.conf.ConfigurationI;
 import com.sevenorcas.blue.system.conf.json.JsonValError;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
+import com.sevenorcas.blue.system.lang.LangLabelI;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**
@@ -14,7 +15,7 @@ import com.sevenorcas.blue.system.lang.ent.UtilLabel;
  * Created July '22
  * @author John Stewart
  */
-public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
+public class ValidationError implements ConfigurationI, IntHardCodeLangKey, LangLabelI {
 	public int type;
 	
 	public Long entityId;
@@ -68,8 +69,8 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 				a = LK_UNKNOWN_ERROR;	
 		}
 
-		setError(util != null? util.getLabel(e) : e);
-		setAction(util != null? util.getLabel(a) : a);
+		setError(util != null? util.getLabel(e + LABEL_APPEND + field) : e);
+		setAction(util != null? util.getLabel(a + LABEL_APPEND + field) : a);
 		
 		return this;
 	}
