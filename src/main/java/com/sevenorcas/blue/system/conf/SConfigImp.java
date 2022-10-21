@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -19,12 +19,12 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  * @author John Stewart
  */
 @Stateless
-public class SrvConfigImp extends BaseSrv implements SrvConfig {
+public class SConfigImp extends BaseService implements SConfig {
 
 //	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB
-	private DaoValidation dao;
+	private TValidation dao;
 	
 	
 	/**

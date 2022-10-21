@@ -24,10 +24,10 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 @Path("/config")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestConfig extends BaseRest {
+public class RConfig extends BaseRest {
 
 	@EJB
-	private SrvConfig service;
+	private SConfig service;
 
 	
 	/**

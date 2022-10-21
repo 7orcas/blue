@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 
 /**
 * Language label entity
@@ -23,7 +23,7 @@ import com.sevenorcas.blue.system.base.BaseEnt;
 @Entity
 @Table(name="lang_label", schema="cntrl")
 @SequenceGenerator(name="lang_label_id_seq", sequenceName="lang_label_id_seq", allocationSize=1)
-public class EntLangLabel extends BaseEnt<EntLangLabel> {
+public class EntLangLabel extends BaseEntity<EntLangLabel> {
 
 	private static final long serialVersionUID = 1L;
 

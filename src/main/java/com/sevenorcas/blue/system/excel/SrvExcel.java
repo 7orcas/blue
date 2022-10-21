@@ -23,7 +23,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
+import com.sevenorcas.blue.system.excel.ent.Column;
+import com.sevenorcas.blue.system.excel.ent.ExcelI;
+import com.sevenorcas.blue.system.excel.ent.ExcelImport;
+import com.sevenorcas.blue.system.excel.ent.ExportListI;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.file.SrvFile;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
@@ -36,7 +40,7 @@ import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 * @author John Stewart
 */
 @Stateless
-public class SrvExcel extends BaseSrv {
+public class SrvExcel extends BaseService {
 	
 	@EJB
 	private SrvFile fileSrv;

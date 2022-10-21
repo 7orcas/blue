@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.json.JsonOrg;
@@ -23,7 +23,7 @@ import com.sevenorcas.blue.system.org.json.JsonOrg;
 
 @Entity
 @Table(name="org", schema="cntrl")
-public class EntOrg extends BaseEnt<EntOrg> {
+public class EntOrg extends BaseEntity<EntOrg> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class EntOrg extends BaseEnt<EntOrg> {
      * Override field configurations
      */
 	static public EntityConfig getConfig (EntOrg org) {
-		return BaseEnt.getConfig(org)
+		return BaseEntity.getConfig(org)
     	    .put(new FieldConfig("code").max(21));
     }
 	

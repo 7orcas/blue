@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 
 /**
 * Created July '22
@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.base.BaseEnt;
 
 @Entity
 @Table(name="lang_key", schema="cntrl")
-public class EntLangKey extends BaseEnt<EntLangKey> {
+public class EntLangKey extends BaseEntity<EntLangKey> {
 
 	private static final long serialVersionUID = 1L;
 

@@ -18,7 +18,7 @@ public class BaseJsonRes {
 	public Boolean active;
 	public Timestamp updated;
 	
-	public void initialise (BaseEnt<?> ent) {
+	public void initialise (BaseEntity<?> ent) {
 		id = ent.getId();
 		code = ent.getCode();
 		descr = ent.getDescr();

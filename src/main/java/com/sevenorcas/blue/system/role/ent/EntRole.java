@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -29,7 +29,7 @@ import com.sevenorcas.blue.system.role.json.JsonRole;
 
 @Entity
 @Table(name="role", schema="cntrl")
-public class EntRole extends BaseEnt<EntRole>{
+public class EntRole extends BaseEntity<EntRole>{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -45,7 +45,7 @@ public class EntRole extends BaseEnt<EntRole>{
 	 * Override field configurations
 	 */
 	static public EntityConfig getConfig (EntOrg org) {
-		return BaseEnt.getConfig(org)
+		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("orgNr").min(0))
 				;
 	}

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import com.sevenorcas.blue.system.excel.BaseExcel;
-import com.sevenorcas.blue.system.excel.Column;
-import com.sevenorcas.blue.system.excel.ExcelImport;
-import com.sevenorcas.blue.system.excel.ExportListI;
+import com.sevenorcas.blue.system.excel.ent.BaseExcel;
+import com.sevenorcas.blue.system.excel.ent.Column;
+import com.sevenorcas.blue.system.excel.ent.ExcelImport;
+import com.sevenorcas.blue.system.excel.ent.ExportListI;
 import com.sevenorcas.blue.system.exception.RedException;
 
 /**

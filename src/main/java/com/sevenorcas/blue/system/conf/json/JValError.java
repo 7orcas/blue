@@ -10,7 +10,7 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class JsonValError extends BaseJsonRes{
+public class JValError extends BaseJsonRes{
 	public Long entityId;
 	public String action;
 	public String updatedUser;

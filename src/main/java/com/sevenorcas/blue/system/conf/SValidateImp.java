@@ -16,8 +16,8 @@ import javax.ejb.Stateless;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseEntity;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
@@ -32,11 +32,11 @@ import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
  */
 
 @Stateless
-public class SrvValidateImp extends BaseSrv implements SrvValidate {
+public class SValidateImp extends BaseService implements SValidate {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@EJB private DaoValidation dao;
+	@EJB private TValidation dao;
 	
 	
 	/**
@@ -44,7 +44,7 @@ public class SrvValidateImp extends BaseSrv implements SrvValidate {
      * @param List of entities
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> ValidationErrors validate(List<T> list, EntityConfig config) throws Exception {
+    public <T extends BaseEntity<T>> ValidationErrors validate(List<T> list, EntityConfig config) throws Exception {
     	ValidationErrors errors = new ValidationErrors();
     	validate(list, null, null, config, errors);
     	return errors;
@@ -59,7 +59,7 @@ public class SrvValidateImp extends BaseSrv implements SrvValidate {
      * @param Validation error object
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> void validate(List<T> list, String parentCode, Long parentId, EntityConfig config, ValidationErrors errors) throws Exception {
+    public <T extends BaseEntity<T>> void validate(List<T> list, String parentCode, Long parentId, EntityConfig config, ValidationErrors errors) throws Exception {
 
     	Hashtable<String, List<FieldX>> uniqueFields = new Hashtable<>();
     	
@@ -83,7 +83,7 @@ public class SrvValidateImp extends BaseSrv implements SrvValidate {
     		List<FieldX> values = uniqueFields.get(field);
     		
     		FieldConfig fc = values.get(0).fieldConfig;
-    		BaseEnt<?> ent = values.get(0).ent;
+    		BaseEntity<?> ent = values.get(0).ent;
     		String parentColumn = values.get(0).parentColumn;
     		String columnName = values.get(0).columnName;
     		columnName = columnName != null? columnName : field;
@@ -124,7 +124,7 @@ public class SrvValidateImp extends BaseSrv implements SrvValidate {
      * @param list of unique field values to test later
      * @throws Exception
      */
-    private <T extends BaseEnt<T>> void validateFields(T ent, 
+    private <T extends BaseEntity<T>> void validateFields(T ent, 
     		EntityConfig config, 
     		Class<?> clazz, 
     		ValidationErrors errors, 
@@ -253,7 +253,7 @@ public class SrvValidateImp extends BaseSrv implements SrvValidate {
      * Store unique values with ids to be tested
      */
     private class FieldX {
-    	public BaseEnt<?> ent;
+    	public BaseEntity<?> ent;
     	public Object value;
     	public FieldConfig fieldConfig;
     	public String columnName;

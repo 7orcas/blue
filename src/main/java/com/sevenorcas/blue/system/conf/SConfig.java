@@ -14,7 +14,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
  * @author John Stewart
  */
 @Local
-public interface SrvConfig {
+public interface SConfig {
 	public JsonRes getConfigJson(CallObject callObj, String entity) throws Exception;
 	public EntityConfig getConfig(CallObject callObj, String entity) throws Exception;
 	public EntityConfig getConfig(CallObject callObj, Class<?> clazz) throws Exception;

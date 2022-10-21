@@ -3,9 +3,9 @@ package com.sevenorcas.blue.system.role.ent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sevenorcas.blue.system.excel.BaseExcel;
-import com.sevenorcas.blue.system.excel.Column;
-import com.sevenorcas.blue.system.excel.ExportListI;
+import com.sevenorcas.blue.system.excel.ent.BaseExcel;
+import com.sevenorcas.blue.system.excel.ent.Column;
+import com.sevenorcas.blue.system.excel.ent.ExportListI;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**

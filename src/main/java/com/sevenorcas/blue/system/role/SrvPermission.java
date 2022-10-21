@@ -11,9 +11,9 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -31,7 +31,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class SrvPermission extends BaseSrv {
+public class SrvPermission extends BaseService {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
@@ -39,7 +39,7 @@ public class SrvPermission extends BaseSrv {
 	private DaoPermission dao;
 	
 	@EJB
-	protected SrvConfig configSrv;
+	protected SConfig configSrv;
 		
 	/**
 	 * List of permission objects

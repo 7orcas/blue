@@ -24,7 +24,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-abstract public class BaseEnt <T> implements Serializable {
+abstract public class BaseEntity <T> implements Serializable {
 	
 	@Transient
     private Long tempId;
@@ -79,7 +79,7 @@ abstract public class BaseEnt <T> implements Serializable {
 		return j;
 	}
    
-	public BaseEnt () {
+	public BaseEntity () {
     }
     
     @JSONPropertyIgnore

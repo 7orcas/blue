@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;

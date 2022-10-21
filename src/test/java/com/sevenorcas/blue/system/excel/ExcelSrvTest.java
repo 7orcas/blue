@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
+import com.sevenorcas.blue.system.excel.ent.ExcelImport;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.SrvLang;

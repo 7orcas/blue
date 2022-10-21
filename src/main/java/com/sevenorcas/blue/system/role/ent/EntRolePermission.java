@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -27,7 +27,7 @@ import com.sevenorcas.blue.system.role.json.JsonRolePermission;
 
 @Entity
 @Table(name="role_permission", schema="cntrl")
-public class EntRolePermission extends BaseEnt<EntRolePermission> {
+public class EntRolePermission extends BaseEntity<EntRolePermission> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,7 +55,7 @@ public class EntRolePermission extends BaseEnt<EntRolePermission> {
 	 * Override field configurations
 	 */
 	static public EntityConfig getConfig (EntOrg org) {
-		return BaseEnt.getConfig(org)
+		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("orgNr").min(0))
 				.put(new FieldConfig("code").unused())
 				.put(new FieldConfig("descr").unused())

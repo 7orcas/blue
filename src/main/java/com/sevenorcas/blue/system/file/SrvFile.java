@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 
 /**
 * File and directory utilities
@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.base.BaseSrv;
 */
 
 @Stateless
-public class SrvFile extends BaseSrv {
+public class SrvFile extends BaseService {
 	
 	/**
 	 * Temporary directories are by org number

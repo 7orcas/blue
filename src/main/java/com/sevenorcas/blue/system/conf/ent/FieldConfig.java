@@ -2,8 +2,6 @@ package com.sevenorcas.blue.system.conf.ent;
 
 import javax.json.bind.annotation.JsonbTransient;
 
-import com.sevenorcas.blue.system.conf.ConfigurationI;
-
 /**
  * Configuration for a field.
  * 

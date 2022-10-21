@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.ConfigurationI;
-import com.sevenorcas.blue.system.conf.SrvConfig;
-import com.sevenorcas.blue.system.conf.SrvValidate;
+import com.sevenorcas.blue.system.conf.SConfig;
+import com.sevenorcas.blue.system.conf.SValidate;
+import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
@@ -34,17 +34,17 @@ import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 
 public class SrvValidateTest extends BaseTest implements ConfigurationI {
 
-	private SrvConfig configSrv;
-	private SrvValidate valSrv;
+	private SConfig configSrv;
+	private SValidate valSrv;
 	private SrvLang langSrv;	
 	private UtilLabel util;
 	
 	@Before
 	public void setup() throws Exception {
 		super.setup();
-		configSrv = new SrvConfig();
+		configSrv = new SConfig();
 		setupEJBs(configSrv);
-		valSrv = new SrvValidate();
+		valSrv = new SValidate();
 		setupEJBs(valSrv);
 		langSrv = new SrvLang();
 		setupEJBs(langSrv);

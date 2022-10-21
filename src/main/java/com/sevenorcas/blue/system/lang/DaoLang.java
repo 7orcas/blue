@@ -13,7 +13,7 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.DtoLang;
 import com.sevenorcas.blue.system.lang.ent.EntLangKey;
@@ -33,7 +33,7 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class DaoLang extends BaseDao {
+public class DaoLang extends BaseTransfer {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		

@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.ConfigurationI;
-import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.SConfig;
+import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -24,11 +24,11 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class SrvConfigTest extends BaseTest implements ConfigurationI {
 
-	private SrvConfig service;
+	private SConfig service;
 	
 	@Before
 	public void setup() throws Exception {
-		service = new SrvConfig();
+		service = new SConfig();
 		setupEJBs(service);
 	}
 	

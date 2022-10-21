@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.Validation;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -25,7 +25,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 @Entity
 @Table(name="zzz_role", schema="cntrl")
-public class EntUserRole extends BaseEnt<EntUserRole>{
+public class EntUserRole extends BaseEntity<EntUserRole>{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class EntUserRole extends BaseEnt<EntUserRole>{
      * Override field configurations
      */
 	static public EntityConfig getConfig (EntOrg org) {
-		return BaseEnt.getConfig(org)
+		return BaseEntity.getConfig(org)
     	    .put(new FieldConfig("code").unused())
     	    .put(new FieldConfig("descr").unused());
     }

@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.excel;
+package com.sevenorcas.blue.system.excel.ent;
 
 /**
 * Standard interface for excel files 

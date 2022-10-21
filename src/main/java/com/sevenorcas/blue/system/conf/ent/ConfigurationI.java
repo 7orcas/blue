@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.conf;
+package com.sevenorcas.blue.system.conf.ent;
 
 /**
 * Entity and Field configuration Interface

@@ -109,7 +109,7 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
      * @param entity configuration
      * @return
      */
-    public <T extends BaseEnt<T>> void nullBaseFields(T ent, EntityConfig config) throws Exception {
+    public <T extends BaseEntity<T>> void nullBaseFields(T ent, EntityConfig config) throws Exception {
     	if (config.isUnused("orgNr")) ent.setOrgNr(null);
     	if (config.isUnused("code")) ent.setCode(null);
     	if (config.isUnused("descr")) ent.setDescr(null);

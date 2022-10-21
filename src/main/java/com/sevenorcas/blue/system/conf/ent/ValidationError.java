@@ -2,8 +2,7 @@ package com.sevenorcas.blue.system.conf.ent;
 
 import java.sql.Timestamp;
 
-import com.sevenorcas.blue.system.conf.ConfigurationI;
-import com.sevenorcas.blue.system.conf.json.JsonValError;
+import com.sevenorcas.blue.system.conf.json.JValError;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.lang.LangLabelI;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
@@ -76,8 +75,8 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 	}
 
 	
-	public JsonValError toJSon(Long id) {
-		JsonValError j = new JsonValError();
+	public JValError toJSon(Long id) {
+		JValError j = new JValError();
 		j.id = id;
 		j.entityId = entityId;
 		j.code = code;

@@ -12,6 +12,6 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class JsonValErrors {
-	public List<JsonValError> errors;
+public class JValErrors {
+	public List<JValError> errors;
 }

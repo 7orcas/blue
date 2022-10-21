@@ -13,7 +13,7 @@ import javax.naming.InitialContext;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
@@ -96,7 +96,7 @@ public class BaseTest extends BaseUtil {
 		return o;
 	}
 	
-	public <T extends BaseEnt<T>> T configNewEnt (T ent) {
+	public <T extends BaseEntity<T>> T configNewEnt (T ent) {
 		ent.setId(-1L)
 		   .setActive()
 		   .setOrgNr(ORG_NR);

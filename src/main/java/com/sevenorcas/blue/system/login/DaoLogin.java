@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
@@ -30,7 +30,7 @@ import com.sevenorcas.blue.system.user.EntUserRole;
 */
 
 @Stateless
-public class DaoLogin extends BaseDao {
+public class DaoLogin extends BaseTransfer {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		

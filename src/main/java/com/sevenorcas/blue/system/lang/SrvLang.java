@@ -7,9 +7,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.excel.ExcelImport;
+import com.sevenorcas.blue.system.excel.ent.ExcelImport;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.DtoLang;
@@ -33,7 +33,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class SrvLang extends BaseSrv {
+public class SrvLang extends BaseService {
 
 	@EJB
 	private DaoLang dao;

@@ -11,9 +11,9 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SrvConfig;
+import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -33,7 +33,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class SrvOrg extends BaseSrv {
+public class SrvOrg extends BaseService {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
@@ -41,7 +41,7 @@ public class SrvOrg extends BaseSrv {
 	private DaoOrg dao;
 	
 	@EJB
-	private SrvConfig configSrv;
+	private SConfig configSrv;
 	
 	
 	

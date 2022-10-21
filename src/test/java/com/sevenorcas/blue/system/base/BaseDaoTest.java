@@ -19,11 +19,11 @@ import com.sevenorcas.blue.BaseTest;
 
 public class BaseDaoTest extends BaseTest {
 
-	private BaseDao dao;
+	private BaseTransfer dao;
 	
 	@Before
 	public void setup() throws Exception {
-		dao = new BaseDao();
+		dao = new BaseTransfer();
 	}
 	
 	@Test

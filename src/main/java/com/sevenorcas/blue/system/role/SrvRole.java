@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SrvConfig;
-import com.sevenorcas.blue.system.conf.SrvValidate;
+import com.sevenorcas.blue.system.conf.SConfig;
+import com.sevenorcas.blue.system.conf.SValidate;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
@@ -33,13 +33,13 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 */
 
 @Stateless
-public class SrvRole extends BaseSrv {
+public class SrvRole extends BaseService {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB private DaoRole dao;
-	@EJB private SrvValidate validateSrv;
-	@EJB private SrvConfig configSrv;
+	@EJB private SValidate validateSrv;
+	@EJB private SConfig configSrv;
 	
 	
 	/**

@@ -8,14 +8,14 @@ import javax.ejb.Stateless;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
 * 
-* Data access methods for validation
+* Data transfer methods for validation
 * 
 * Created 19.10.22
 * [Licence]
@@ -23,7 +23,7 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class DaoValidation extends BaseDao {
+public class TValidation extends BaseTransfer {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	

@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseDao;
+import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlExecute;
@@ -25,7 +25,7 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class DaoPermission extends BaseDao {
+public class DaoPermission extends BaseTransfer {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	

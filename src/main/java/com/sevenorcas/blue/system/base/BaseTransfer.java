@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.conf.ConfigurationI;
+import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
@@ -35,7 +35,7 @@ import com.sevenorcas.blue.system.user.EntUser;
 */
 
 @Interceptors({DaoAroundInvoke.class})
-public class BaseDao extends BaseUtil implements ConfigurationI {
+public class BaseTransfer extends BaseUtil implements ConfigurationI {
 	
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
@@ -98,7 +98,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @param entity id
      * @return
      */
-    public <T extends BaseEnt<T>> T find (T ent) throws Exception {
+    public <T extends BaseEntity<T>> T find (T ent) throws Exception {
     	return em.find(ent.entClass(), ent.getId());
 	}
 	
@@ -108,7 +108,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @param user id causing the action
      * @return
      */
-    public <T extends BaseEnt<T>> T persist (T ent, Long userId) throws Exception {
+    public <T extends BaseEntity<T>> T persist (T ent, Long userId) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
     	ent.setUpdated(Timestamp.valueOf(d));
     	em.persist(ent);
@@ -122,7 +122,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @param user id causing the action
      * @return
      */
-    public <T extends BaseEnt<T>> void updateTimestampUserid (T ent, Long userId) throws Exception {
+    public <T extends BaseEntity<T>> void updateTimestampUserid (T ent, Long userId) throws Exception {
     	LocalDateTime d = LocalDateTime.now();
     	ent.setUpdated(Timestamp.valueOf(d))
     	   .setUpdatedUserId(userId);
@@ -133,7 +133,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @param entity
      * @return
      */
-    public <T extends BaseEnt<T>> void deleteEntity (T ent) throws Exception {
+    public <T extends BaseEntity<T>> void deleteEntity (T ent) throws Exception {
     	T entX = em.find(ent.entClass(), ent.getId());
     	em.remove(entX);
 	}
@@ -146,7 +146,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @return
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> T put (T ent, EntityConfig config, CallObject callObj) throws Exception {
+    public <T extends BaseEntity<T>> T put (T ent, EntityConfig config, CallObject callObj) throws Exception {
     	try {
 	    	if (ent.isNew() && ent.isDelete()) {
 	    		return ent;
@@ -181,7 +181,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @param call object
      * @return
      */
-    public <T extends BaseEnt<T>> T merge(T ent, EntityConfig config, CallObject callObj) throws Exception {
+    public <T extends BaseEntity<T>> T merge(T ent, EntityConfig config, CallObject callObj) throws Exception {
     	try {
 	    	T mergedEnt = find(ent); 
 	    	if (!config.isUnused("orgNr")) mergedEnt.setOrgNr(ent.getOrgNr());
@@ -204,7 +204,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
      * @param object to load errors into
      * @throws Exception
      */
-    public <T extends BaseEnt<T>> void compareTimeStamp(T ent, EntityConfig config, ValidationErrors errors) throws Exception {
+    public <T extends BaseEntity<T>> void compareTimeStamp(T ent, EntityConfig config, ValidationErrors errors) throws Exception {
     	if (ent.isNew()){
     		return;
     	}
@@ -321,7 +321,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
 	 * @param result set
 	 * @throws Exception
 	 */
-	static protected <T extends BaseEnt<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r) throws Exception {
+	static protected <T extends BaseEntity<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r) throws Exception {
 		addBaseListFields(ent, index, r, null);
 	}
 	
@@ -333,7 +333,7 @@ public class BaseDao extends BaseUtil implements ConfigurationI {
 	 * @param table prefix
 	 * @throws Exception
 	 */
-	static protected <T extends BaseEnt<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r, String prefix) throws Exception {
+	static protected <T extends BaseEntity<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r, String prefix) throws Exception {
 		ent.setId(r.getLong(index, prefixField(prefix, "id"))) 
 		   .setOrgNr(r.getInteger(index, prefixField(prefix, "org_nr"))) 
 		   .setCode(r.getString(index, prefixField(prefix, "code")))

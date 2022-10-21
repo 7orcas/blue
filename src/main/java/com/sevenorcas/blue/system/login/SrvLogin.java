@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.sevenorcas.blue.system.base.BaseSrv;
+import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.EntUser;
 
@@ -19,7 +19,7 @@ import com.sevenorcas.blue.system.user.EntUser;
 */
 
 @Stateless
-public class SrvLogin extends BaseSrv {
+public class SrvLogin extends BaseService {
 
 	@EJB
 	private DaoLogin dao;

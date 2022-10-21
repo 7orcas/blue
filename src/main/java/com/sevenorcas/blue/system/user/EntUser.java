@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.sevenorcas.blue.system.base.BaseEnt;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -30,7 +30,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 @Entity
 @Table(name="zzz", schema="cntrl")
-public class EntUser extends BaseEnt<EntUser> {
+public class EntUser extends BaseEntity<EntUser> {
 
 	private static final long serialVersionUID = 1L;
 	public static final String USERID = "xxx";
@@ -51,7 +51,7 @@ public class EntUser extends BaseEnt<EntUser> {
 	 * Override field configurations
 	 */
 	static public EntityConfig getConfig (EntOrg org) {
-		return BaseEnt.getConfig(org)
+		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("password").nonNull().max(20));
 	}
 	

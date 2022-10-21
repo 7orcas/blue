@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.json.JsonValErrors;
+import com.sevenorcas.blue.system.conf.json.JValErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.util.JsonResponseI;
 
@@ -32,7 +32,7 @@ public class ValidationErrors implements JsonResponseI {
 	}
 	
 	public JsonRes toJSon() {
-		JsonValErrors j = new JsonValErrors();
+		JValErrors j = new JValErrors();
 		j.errors = new ArrayList<>();
 		for (int i=0;i<errors.size();i++) {
 			ValidationError e = errors.get(i);
