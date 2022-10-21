@@ -18,7 +18,6 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  * [Licence]
  * @author John Stewart
  */
-
 @Stateless
 public class SrvConfigImp extends BaseSrv implements SrvConfig {
 
