@@ -17,7 +17,7 @@ import javax.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.ApplicationI;
-import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 
 /**
  * Inject the <code>ClientSession</code> object into a @RequestScoped object

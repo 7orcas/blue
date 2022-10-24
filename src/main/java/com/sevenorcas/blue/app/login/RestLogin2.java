@@ -14,9 +14,9 @@ import javax.ws.rs.core.Context;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.login.CacheLogin_Dev;
-import com.sevenorcas.blue.system.login.ClientSession;
-import com.sevenorcas.blue.system.login.SrvLogin;
+import com.sevenorcas.blue.system.login.SLoginI;
+import com.sevenorcas.blue.system.login.ent.CacheLogin_Dev;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 
 /**
  * Once a user is logged in, then initialise their session
@@ -32,7 +32,7 @@ import com.sevenorcas.blue.system.login.SrvLogin;
 public class RestLogin2 extends BaseRest {
 
 	@EJB
-	private SrvLogin service;
+	private SLoginI service;
 	
 	//NOT TO BE USED IN PRODUCTION
 	@EJB

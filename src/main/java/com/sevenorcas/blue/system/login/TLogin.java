@@ -20,17 +20,14 @@ import com.sevenorcas.blue.system.user.EntUser;
 import com.sevenorcas.blue.system.user.EntUserRole;
 
 /**
-* Created July '22
-* 
 * Data access methods to the Login Module
-* TODO Expand Module Description
 * 
+* Created July '22
 * [Licence]
 * @author John Stewart
 */
-
 @Stateless
-public class DaoLogin extends BaseTransfer {
+public class TLogin extends BaseTransfer implements TLoginI {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		

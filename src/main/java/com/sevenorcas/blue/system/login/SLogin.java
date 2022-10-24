@@ -10,19 +10,18 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.EntUser;
 
 /**
+* Initial Login module
+* 
 * Created July '22
-* 
-* TODO Module Description
-* 
 * [Licence]
 * @author John Stewart
 */
 
 @Stateless
-public class SrvLogin extends BaseService {
+public class SLogin extends BaseService implements SLoginI {
 
 	@EJB
-	private DaoLogin dao;
+	private TLoginI dao;
 	
 	/**
 	 * Test the given parameters to return a valid user object (assuming they are valid).

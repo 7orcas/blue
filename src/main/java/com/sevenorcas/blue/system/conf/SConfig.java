@@ -23,8 +23,7 @@ public class SConfig extends BaseService implements SConfigI {
 
 //	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@EJB
-	private TValidationI dao;
+	@EJB private TValidationI dao;
 	
 	
 	/**

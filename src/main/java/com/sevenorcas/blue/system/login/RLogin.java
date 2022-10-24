@@ -15,6 +15,9 @@ import javax.ws.rs.core.Context;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
+import com.sevenorcas.blue.system.login.json.JReqLogin;
+import com.sevenorcas.blue.system.login.json.JResLogin;
 import com.sevenorcas.blue.system.user.EntUser;
 
 /**
@@ -32,10 +35,10 @@ import com.sevenorcas.blue.system.user.EntUser;
 @Path("/login")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestLogin extends BaseRest{
+public class RLogin extends BaseRest{
 	
 	@EJB
-	private SrvLogin service;
+	private SLoginI service;
 	
 	@SkipAuthorisation
 	@POST

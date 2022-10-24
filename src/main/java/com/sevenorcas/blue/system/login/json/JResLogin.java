@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.login;
+package com.sevenorcas.blue.system.login.json;
 
 public class JResLogin {
 	public String baseUrl;

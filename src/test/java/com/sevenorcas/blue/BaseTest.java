@@ -18,10 +18,11 @@ import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
+import com.sevenorcas.blue.system.sql.SqlUpdate;
 
 public class BaseTest extends BaseUtil {
 
@@ -76,8 +77,11 @@ public class BaseTest extends BaseUtil {
 				if (ejbs.containsKey(field.getType().getCanonicalName())) {
 					field.set(entity, ejbs.get(field.getType().getCanonicalName()));	
 				}
-				else {					
-					Object x = field.getType().newInstance();
+				else {	
+					String f = field.getType().getCanonicalName();
+					if (f.endsWith("I")) f = f.substring(0, f.length()-1);
+					Class<?> clazz = Class.forName(f);
+					Object x = clazz.newInstance();
 					ejbs.put(field.getType().getCanonicalName(), x);
 					field.set(entity, x);
 					setupEJBs(x); //recursive
@@ -117,9 +121,12 @@ public class BaseTest extends BaseUtil {
 				+ "VALUES (" + ORG_NR + ", 'TestOrg', " + ORG_NR + ", current_timestamp, 1)";
 //		SqlExecute.executeQuery(null, sql, null);
 		
+		sql = "DELETE FROM " + BaseUtil.tableName(EntRole.class, null) + " WHERE code = 'TestRole' ";  
+		SqlUpdate.executeQuery(null, sql, null);
+		
 		sql = "INSERT INTO " + BaseUtil.tableName(EntRole.class, null) + " (id, code, org_nr, updated, updated_userid) "
 				+ "VALUES (1111, 'TestRole', " + ORG_NR + ", current_timestamp, 1)";
-		SqlExecute.executeQuery(null, sql, null);
+		SqlUpdate.executeQuery(null, sql, null);
 	}
 	
 	

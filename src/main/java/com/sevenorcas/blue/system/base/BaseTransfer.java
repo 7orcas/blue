@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
@@ -36,7 +35,7 @@ import com.sevenorcas.blue.system.user.EntUser;
 */
 
 @Interceptors({DaoAroundInvoke.class})
-public class BaseTransfer extends BaseUtil implements ConfigurationI {
+public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	

@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.login;
+package com.sevenorcas.blue.system.login.ent;
 
 import com.sevenorcas.blue.system.ApplicationI;
 

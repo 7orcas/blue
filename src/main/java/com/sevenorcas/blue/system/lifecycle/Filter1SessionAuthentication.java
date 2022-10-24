@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.AppProperties;
-import com.sevenorcas.blue.system.login.CacheLogin_Dev;
+import com.sevenorcas.blue.system.login.ent.CacheLogin_Dev;
 
 /**
  * Calls need to have a valid http session, otherwise they are not allowed into the system.

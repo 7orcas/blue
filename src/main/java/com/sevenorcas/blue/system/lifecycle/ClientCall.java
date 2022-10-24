@@ -2,7 +2,7 @@ package com.sevenorcas.blue.system.lifecycle;
 
 import javax.enterprise.context.RequestScoped;
 
-import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 
 /**
  * Object to pass on the <code>CLIENT_SESSION</code> in a call

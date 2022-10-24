@@ -28,7 +28,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.base.BaseServlet;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.lifecycle.Filter2UrlRedirect;
-import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.util.JsonResponseI;
 
 /**

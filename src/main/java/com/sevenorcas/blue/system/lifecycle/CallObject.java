@@ -2,7 +2,7 @@ package com.sevenorcas.blue.system.lifecycle;
 
 import java.util.Hashtable;
 
-import com.sevenorcas.blue.system.login.ClientSession;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class CallObject {
