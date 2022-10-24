@@ -23,7 +23,7 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 */
 
 @Stateless
-public class TValidation extends BaseTransfer {
+public class TValidation extends BaseTransfer implements TValidationI {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	

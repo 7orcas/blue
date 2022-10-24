@@ -10,23 +10,23 @@ import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
 import com.sevenorcas.blue.system.excel.ent.ExcelImport;
-import com.sevenorcas.blue.system.lang.SLangImp;
+import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.ExcelLabel;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 public class ExcelSrvTest extends BaseTest {
 
-	private SExcelImp excelSrv;
-	private SLangImp langSrv;
+	private SExcel excelSrv;
+	private SLang langSrv;
 	private UtilLabel labels;
 	private List<DtoLabel> list;
 	
 	@Before
 	public void setup() throws Exception {
-		excelSrv = new SExcelImp();
+		excelSrv = new SExcel();
 		setupEJBs(excelSrv);
-		langSrv = new SLangImp();
+		langSrv = new SLang();
 		setupEJBs(langSrv);
 		
 		list = langSrv.langPackage(1, null, "en", null);

@@ -10,14 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.SConfigImp;
-import com.sevenorcas.blue.system.conf.SValidateImp;
+import com.sevenorcas.blue.system.conf.SConfig;
+import com.sevenorcas.blue.system.conf.SValidate;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
-import com.sevenorcas.blue.system.lang.SLangImp;
+import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -34,19 +34,19 @@ import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 
 public class SValidateTest extends BaseTest implements ConfigurationI {
 
-	private SConfigImp configSrv;
-	private SValidateImp valSrv;
-	private SLangImp langSrv;	
+	private SConfig configSrv;
+	private SValidate valSrv;
+	private SLang langSrv;	
 	private UtilLabel util;
 	
 	@Before
 	public void setup() throws Exception {
 		super.setup();
-		configSrv = new SConfigImp();
+		configSrv = new SConfig();
 		setupEJBs(configSrv);
-		valSrv = new SValidateImp();
+		valSrv = new SValidate();
 		setupEJBs(valSrv);
-		langSrv = new SLangImp();
+		langSrv = new SLang();
 		setupEJBs(langSrv);
 		util = langSrv.getLabelUtil(callObject.getOrgNr(), null, callObject.getLang(), null);
 	}

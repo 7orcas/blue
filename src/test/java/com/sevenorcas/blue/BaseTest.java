@@ -20,16 +20,19 @@ import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.sql.SqlExecute;
 
 public class BaseTest extends BaseUtil {
 
-	static final String DB_NAME = "blue";
-	static final String DB_URL = "jdbc:postgresql://localhost/blue";
-	static final String USER = "postgres";
-	static final String PASS = "7o";
-	static final String LANG = "en";
-	static final Integer ORG_NR = 1;
-	
+	static final public String DB_NAME = "blue";
+	static final public String DB_URL = "jdbc:postgresql://localhost/blue";
+	static final public String USER = "postgres";
+	static final public String PASS = "7o";
+	static final public String LANG = "en";
+	static final public Integer ORG_NR = 99;
+
+	public String dataSource;
 	public CallObject callObject;
 	
 	public void setup() throws Exception {
@@ -66,14 +69,14 @@ public class BaseTest extends BaseUtil {
 	}
 
 	
-	public void setupEJBs(Object entity) throws Exception {
+	public <T>T setupEJBs(T entity) throws Exception {
 		for (Field field : entity.getClass().getDeclaredFields()) {
 			if (field.isAnnotationPresent(EJB.class)) {
 				field.setAccessible(true);
 				if (ejbs.containsKey(field.getType().getCanonicalName())) {
 					field.set(entity, ejbs.get(field.getType().getCanonicalName()));	
 				}
-				else {
+				else {					
 					Object x = field.getType().newInstance();
 					ejbs.put(field.getType().getCanonicalName(), x);
 					field.set(entity, x);
@@ -81,7 +84,8 @@ public class BaseTest extends BaseUtil {
 				}
 			}
 		}
-		setupDataSource();
+		if (dataSource == null) dataSource = setupDataSource();
+		return entity;
 	}
 	
 	public CallObject getCallObject() {
@@ -102,6 +106,22 @@ public class BaseTest extends BaseUtil {
 		   .setOrgNr(ORG_NR);
 		return ent;
 	}
+	
+	/**
+	 * Predefined test records
+	 */
+	public void setTestData() throws Exception {
+		if (dataSource == null) dataSource = setupDataSource();
+		
+		String sql = "INSERT INTO " + BaseUtil.tableName(EntOrg.class, null) + " (id, code, org_nr, updated, updated_userid) "
+				+ "VALUES (" + ORG_NR + ", 'TestOrg', " + ORG_NR + ", current_timestamp, 1)";
+//		SqlExecute.executeQuery(null, sql, null);
+		
+		sql = "INSERT INTO " + BaseUtil.tableName(EntRole.class, null) + " (id, code, org_nr, updated, updated_userid) "
+				+ "VALUES (1111, 'TestRole', " + ORG_NR + ", current_timestamp, 1)";
+		SqlExecute.executeQuery(null, sql, null);
+	}
+	
 	
 	/**
 	 * Setup data source 

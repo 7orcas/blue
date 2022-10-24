@@ -9,21 +9,19 @@ import org.junit.Test;
 import com.sevenorcas.blue.BaseTest;
 
 /**
- * Base DAO bean test.
- * 
+ * Base data transfer bean test.
  * Created 07.10.2022
  * [Licence]
  * @author John Stewart
  */
-
-
-public class BaseDaoTest extends BaseTest {
+public class BaseTransferTest extends BaseTest {
 
 	private BaseTransfer dao;
 	
 	@Before
 	public void setup() throws Exception {
 		dao = new BaseTransfer();
+		setupEJBs(dao);
 	}
 	
 	@Test

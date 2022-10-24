@@ -27,7 +27,8 @@ import com.sevenorcas.blue.system.sql.SqlResultSet;
 import com.sevenorcas.blue.system.user.EntUser;
 
 /**
-* TODO Module Description
+* Base data transfer object (sometimes referred to as Dao - Data Access Object).
+* Contains common attributes and methods used by transfer objects.
 * 
 * [Licence]
 * Created Jul '22

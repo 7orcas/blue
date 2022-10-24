@@ -33,7 +33,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 public class RPermission extends BaseRest {
 
 	@EJB
-	private SPermission service;
+	private SPermissionI service;
 
 	
 	/**

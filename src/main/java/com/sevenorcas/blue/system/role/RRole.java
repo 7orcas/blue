@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SConfig;
+import com.sevenorcas.blue.system.conf.SConfigI;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlParm;
@@ -33,8 +33,8 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Consumes({"application/json"})
 public class RRole extends BaseRest {
 
-	@EJB private SRole service;
-	@EJB private SConfig serviceConf;
+	@EJB private SRoleI service;
+	@EJB private SConfigI serviceConf;
 	
 	/**
 	 * Return roles list

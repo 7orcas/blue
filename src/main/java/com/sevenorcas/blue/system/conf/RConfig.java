@@ -26,9 +26,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 @Consumes({"application/json"})
 public class RConfig extends BaseRest {
 
-	@EJB
-	private SConfig service;
-
+	@EJB private SConfigI service;
 	
 	/**
 	 * Return an entity's configuration

@@ -55,7 +55,7 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
 	 * @return
 	 * @throws Exception
 	 */
-	protected String tableName (Class<?> clazz, String suffix) throws Exception {
+	static public String tableName (Class<?> clazz, String suffix) throws Exception {
 		suffix = suffix == null? "" : suffix;
 		if (clazz.isAnnotationPresent(Table.class)) {
 			Table table = clazz.getAnnotation(Table.class);

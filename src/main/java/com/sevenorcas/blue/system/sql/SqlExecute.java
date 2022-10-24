@@ -38,7 +38,7 @@ public class SqlExecute {
     	SqlResultSet r = null;
     	
 		try {
-			log.info(sql);    		
+			if (log != null) log.info(sql);    		
 			
     		DataSource ds = (DataSource) new InitialContext().lookup(DS);
     		conn = ds.getConnection();
@@ -94,7 +94,7 @@ public class SqlExecute {
 			}
            
     	} catch (Exception x) {
-    		log.error(x);
+    		if (log != null) log.error(x);
     		x.printStackTrace();
     		
     	} finally {

@@ -38,7 +38,7 @@ public class RLang extends BaseRest {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB
-	private SLang service;
+	private SLangI service;
 	
 	@GET
 	@Path("pack")

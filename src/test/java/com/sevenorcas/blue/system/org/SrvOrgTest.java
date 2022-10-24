@@ -20,11 +20,11 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class SrvOrgTest extends BaseTest {
 
-	private SOrgImp service;
+	private SOrg service;
 	
 	@Before
 	public void setup() throws Exception {
-		service = new SOrgImp();
+		service = new SOrg();
 		setupEJBs(service);
 	}
 	

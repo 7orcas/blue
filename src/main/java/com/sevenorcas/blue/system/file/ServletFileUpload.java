@@ -120,7 +120,7 @@ public class ServletFileUpload extends BaseServlet implements IntHardCodeLangKey
 	                                
 	                filename = importFileDirX + filename;
 	                //If file exists then increment
-	                filename = SFileImp.filenameIncrement(filename);
+	                filename = SFile.filenameIncrement(filename);
                 	
                 	//Save file
                 	inputStream = item.getInputStream();

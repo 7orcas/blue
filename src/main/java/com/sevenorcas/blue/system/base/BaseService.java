@@ -5,9 +5,9 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.sevenorcas.blue.system.excel.SExcel;
-import com.sevenorcas.blue.system.file.SFile;
-import com.sevenorcas.blue.system.lang.SLang;
+import com.sevenorcas.blue.system.excel.SExcelI;
+import com.sevenorcas.blue.system.file.SFileI;
+import com.sevenorcas.blue.system.lang.SLangI;
 import com.sevenorcas.blue.system.lifecycle.SrvAroundInvoke;
 
 /**
@@ -24,13 +24,13 @@ public class BaseService extends BaseUtil implements BaseServiceI {
 	protected EntityManager em;
 	
 	@EJB
-	protected SExcel excelSrv;
+	protected SExcelI excelSrv;
 
 	@EJB
-	protected SFile fileSrv;
+	protected SFileI fileSrv;
 
 	@EJB
-	protected SLang langSrv;
+	protected SLangI langSrv;
 	
 	public String cleanParam (String s) {
 		return s == null? "" : s;
