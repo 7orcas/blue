@@ -94,10 +94,18 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		}
 	}
 
-	
 	public <T>T setupEJBs(T entity) throws Exception {
-		setupDataSource();
-		for (Field field : entity.getClass().getDeclaredFields()) {
+		setupEJBsX(entity, entity.getClass());	
+		return entity;
+	}
+	
+	private void setupEJBsX(Object entity, Class<?>clazz) throws Exception {
+		
+		if (clazz.getSuperclass() != null) {
+			setupEJBsX(entity, clazz.getSuperclass());
+		}
+		
+		for (Field field : clazz.getDeclaredFields()) {
 			field.setAccessible(true);
 
 			if (field.isAnnotationPresent(EJB.class)) {
@@ -107,8 +115,8 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 				else {	
 					String f = field.getType().getCanonicalName();
 					if (f.endsWith("I")) f = f.substring(0, f.length()-1);
-					Class<?> clazz = Class.forName(f);
-					Object x = clazz.newInstance();
+					Class<?> clazzX = Class.forName(f);
+					Object x = clazzX.newInstance();
 					ejbs.put(field.getType().getCanonicalName(), x);
 					field.set(entity, x);
 					setupEJBs(x); //recursive
@@ -119,7 +127,6 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 				field.set(entity, new EntityManagerTest());	
 			}
 		}
-		return entity;
 	}
 	
 	public CallObject getCallObject() {

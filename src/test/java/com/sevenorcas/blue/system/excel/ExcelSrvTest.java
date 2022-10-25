@@ -13,31 +13,24 @@ import com.sevenorcas.blue.system.excel.ent.ExcelImport;
 import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.ExcelLabel;
-import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 public class ExcelSrvTest extends BaseTest {
 
 	private SExcel excelSrv;
-	private SLang langSrv;
-	private UtilLabel labels;
 	private List<DtoLabel> list;
 	
 	@Before
 	public void setup() throws Exception {
-		excelSrv = new SExcel();
-		setupEJBs(excelSrv);
-		langSrv = new SLang();
-		setupEJBs(langSrv);
-		
+		excelSrv = setupEJBs(new SExcel());
+		langSrv = setupEJBs(new SLang());
 		list = langSrv.langPackage(1, null, "en", null);
-		labels = new UtilLabel(1, "en", listToHashtableCode (list));
 	}
 	
 	@Test
 	public void writeListFile() {
 		try {
 			//Read in file
-			ExcelLabel excel = new ExcelLabel(labels, list);
+			ExcelLabel excel = new ExcelLabel(util, list);
 			String fn = excelSrv.createListFile("LabelListTest", 1, excel);
 			System.out.println("File Name: " + fn);		
 			assertTrue(fn.length()>0);
@@ -51,8 +44,8 @@ public class ExcelSrvTest extends BaseTest {
 	public void writeListFileFailDuplicateSheet() {
 		try {
 			//Read in file
-			ExcelLabel excel = new ExcelLabel(labels, list);
-			excel.addSheet(1, "Labels");
+			ExcelLabel excel = new ExcelLabel(util, list);
+			excel.addSheet(1, ExcelLabel.SHEET_LANGKEY);
 			fail("Should not get here");
 		} catch (Exception x) {
 			assertTrue(true);
@@ -64,7 +57,7 @@ public class ExcelSrvTest extends BaseTest {
 	public void readListFile() {
 		try {
 			//Read in file
-			ExcelImport excel = excelSrv.readListFile("/media/jarvisting/Jarvis/blue/import/1/LabelList.xlsx", labels);
+			ExcelImport excel = excelSrv.readListFile("/media/jarvisting/Jarvis/blue/import/1/LabelList.xlsx", util);
 			
 			for (int s=0;s<excel.getSheetCount(); s++) {
 				System.out.println("Sheet: " + excel.getSheetName(s));

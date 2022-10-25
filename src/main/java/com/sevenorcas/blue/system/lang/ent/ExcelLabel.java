@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.exception.RedException;
 */
 public class ExcelLabel extends BaseExcel implements ExportListI {
 
-	final private static String SHEET_LANGKEY = "labels";
+	final public static String SHEET_LANGKEY = "labels";
 	private List<DtoLabel> table;
 	private int sheet;
 	

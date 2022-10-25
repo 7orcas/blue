@@ -15,8 +15,7 @@ public class SrvLangTest extends BaseTest {
 	
 	@Before
 	public void setup() throws Exception {
-		langSrv = new SLang();
-		setupEJBs(langSrv);
+		langSrv = setupEJBs(new SLang());
 	}
 	
 	@Test

@@ -10,15 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.conf.SValidate;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
-import com.sevenorcas.blue.system.lang.SLang;
-import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
@@ -34,36 +31,30 @@ import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 
 public class SValidateTest extends BaseTest implements ConfigurationI {
 
-	private SConfig configSrv;
 	private SValidate valSrv;
-	private SLang langSrv;	
-	private UtilLabel util;
+	private EntityConfig permConfig;
 	
 	@Before
 	public void setup() throws Exception {
-		configSrv = new SConfig();
-		setupEJBs(configSrv);
-		valSrv = new SValidate();
-		setupEJBs(valSrv);
-		langSrv = new SLang();
-		setupEJBs(langSrv);
-		util = langSrv.getLabelUtil(callObject.getOrgNr(), null, callObject.getLang(), null);
+		valSrv = setupEJBs(new SValidate());
+		permConfig = configSrv.getConfig(callObject, EntRolePermission.class.getCanonicalName());	
 	}
 	
+	/**
+	 * Create duplicate entities and test for validation errors
+	 */
 	@Test
 	public void validateUniqueInList () {
 		try {
-			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
 	    	
 	    	EntRole ent = configEntNew(new EntRole());
 	    	ent.setCode("x");
 	    	
 			List<EntRolePermission> list = new ArrayList<>();
 			for (int i=0;i<3;i++) {
-				EntRolePermission perm = configEntNew(new EntRolePermission());
-				perm.setRoleId(ent.getId())
-				    .setPermissionId(1L);
-				list.add(perm);
+				list.add(configEntNew(new EntRolePermission())
+				    .setRoleId(ent.getId())
+				    .setPermissionId(1L));
 			}
 			
 			ValidationErrors errors = new ValidationErrors();
@@ -78,10 +69,12 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 		}
 	}
 
+	/**
+	 * Create duplicate entities and test for validation errors
+	 */
 	@Test
 	public void validateUniqueInDB () {
 		try {
-			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
 	    	
 	    	EntRole ent = configEntNew(new EntRole());
 	    	ent.setId(1L)
@@ -108,7 +101,7 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 	}
 
 	
-//	@Test
+	@Test
 	public void validatePermission () {
 		try {
 			EntityConfig conf = configSrv.getConfig (getCallObject(), EntPermission.class.getCanonicalName());
@@ -151,7 +144,7 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 			
 			ValidationErrors errors = valSrv.validate (list, conf);
 			boolean result = checkErrors("EntPermission", errors);
-			assertTrue(result);
+			assertTrue(!result);
 			
 		} catch (Exception e) {
 			System.out.println("EX:" + e);
