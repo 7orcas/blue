@@ -2,17 +2,11 @@ package com.sevenorcas.blue.system.base;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
-import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
-import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.role.TRole;
+import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 
 /**
@@ -21,45 +15,40 @@ import com.sevenorcas.blue.system.role.ent.EntRole;
  * [Licence]
  * @author John Stewart
  */
-public class BaseTransfer_put extends BaseTest {
+public class BaseTransfer_put extends BaseTransfer_ {
 
-	private BaseTransfer dao;
-	private SConfig configSrv;
-	private EntityConfig config;
-	private CallObject callObject;
-	private TRole roleT;
-	
 	@Before
 	public void setup() throws Exception {
-		dao = setupEJBs(new BaseTransfer());
-		roleT = setupEJBs(new TRole());
-		configSrv = setupEJBs(new SConfig());
-		config = configSrv.getConfig(getCallObject(), EntRole.class.getCanonicalName());
-		callObject = getCallObject();
-		setTestData();
+		super.setup();
 	}
 	
 	@Test
-	public void put_newAndDelete () throws Exception {
-		EntRole ent = configNewEnt(new EntRole())
+	public void put_NewAndDelete () throws Exception {
+		EntRole ent = configEntNew(new EntRole())
 		   .setDelete();
-		dao.put(ent, config, callObject);
+		baseTransfer.put(ent, config, callObject);
 		assertTrue(true);
 	}
 	
+	@Test
+	public void put_Delete () throws Exception {
+		EntRole ent = getRole(ROLE_DELETE)
+		   .setDelete();
+		ent = baseTransfer.put(ent, config, callObject);
+		assertTrue(ent.getCode().endsWith("-remove"));
+	}
 	
-	
-	/**
-	 * Predefined test records
-	 */
-	public EntRole getRole() throws Exception {
-		List<EntRole> list = roleT.roleList(getCallObject(), null);
-		for (int i=0;i<list.size();i++) {
-			if (list.get(i).code.equals("TestRole")) {
-				return list.get(i);
-			}
-		}
-		return null;
+	@Test
+	public void put_Merge () throws Exception {
+		EntRole ent = getRole(ROLE);
+		EntityConfig configX = configSrv.getConfig(getCallObject(), EntRole.class.getCanonicalName());
+		configX.put(new FieldConfig ("descr").unused());
+		ent.setCode("123")
+		   .setDescr("456");
+		
+		ent = baseTransfer.put(ent, configX, callObject);
+		assertTrue(ent.getCode().equals("123"));
+		assertTrue(ent.getDescr() == null);
 	}
 	
 	

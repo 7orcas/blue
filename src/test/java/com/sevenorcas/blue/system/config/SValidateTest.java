@@ -41,7 +41,6 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 	
 	@Before
 	public void setup() throws Exception {
-		super.setup();
 		configSrv = new SConfig();
 		setupEJBs(configSrv);
 		valSrv = new SValidate();
@@ -56,12 +55,12 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 		try {
 			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
 	    	
-	    	EntRole ent = configNewEnt(new EntRole());
+	    	EntRole ent = configEntNew(new EntRole());
 	    	ent.setCode("x");
 	    	
 			List<EntRolePermission> list = new ArrayList<>();
 			for (int i=0;i<3;i++) {
-				EntRolePermission perm = configNewEnt(new EntRolePermission());
+				EntRolePermission perm = configEntNew(new EntRolePermission());
 				perm.setRoleId(ent.getId())
 				    .setPermissionId(1L);
 				list.add(perm);
@@ -84,13 +83,13 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 		try {
 			EntityConfig permConfig = configSrv.getConfig(getCallObject(), EntRolePermission.class.getCanonicalName());	
 	    	
-	    	EntRole ent = configNewEnt(new EntRole());
+	    	EntRole ent = configEntNew(new EntRole());
 	    	ent.setId(1L)
 	    	   .setCode("x")
 	    	   .setOrgNr(0);
 	    	
 			List<EntRolePermission> list = new ArrayList<>();
-			EntRolePermission perm = configNewEnt(new EntRolePermission());
+			EntRolePermission perm = configEntNew(new EntRolePermission());
 			perm.setRoleId(ent.getId())
 				.setOrgNr(ent.getOrgNr())
 			    .setPermissionId(1L);

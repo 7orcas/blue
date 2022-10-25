@@ -40,12 +40,12 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	/** standard fields in tables **/
-	final static protected String UPDATED_FIELD = "updated";
-	final static protected String UPDATED_USERID = "updated_userid";
-	final static protected String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,active," + UPDATED_FIELD + " ";
+	final static public String UPDATED_FIELD = "updated";
+	final static public String UPDATED_USERID = "updated_userid";
+	final static public String BASE_LIST_FIELDS_SQL = " id,org_nr,code,descr,active," + UPDATED_FIELD + " ";
 	
 	/** standard fields in tables **/
-	final static protected String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,encoded,encoded_flag,active," + UPDATED_FIELD + " ";
+	final static public String BASE_ENTITY_FIELDS_SQL = " id,org_nr,code,descr,encoded,encoded_flag,active," + UPDATED_FIELD + " ";
 	
 	@PersistenceContext(unitName="blue")
 	protected EntityManager em;
@@ -131,11 +131,12 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
     /**
      * Delete an entity 
      * @param entity
-     * @return
+     * @return entity (used in testing)
      */
-    public <T extends BaseEntity<T>> void deleteEntity (T ent) throws Exception {
+    public <T extends BaseEntity<T>> T deleteEntity (T ent) throws Exception {
     	T entX = em.find(ent.entClass(), ent.getId());
     	em.remove(entX);
+    	return entX;    	
 	}
 	
     /**
@@ -153,10 +154,10 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	    	}
 	    	
 	    	if (ent.isDelete()) {
-				deleteEntity(ent);
+				ent = deleteEntity(ent);
 			}
 			else if (ent.isValidId()) {
-				merge(ent, config, callObj);
+				ent = merge(ent, config, callObj);
 			}
 			else if (ent.isNew()){
 				Long id = ent.getId();
@@ -290,7 +291,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	 * @param parms
 	 * @return
 	 */
-	static protected SqlParm validateParms (SqlParm parms) {
+	static public SqlParm validateParms (SqlParm parms) {
 		if (parms == null) {
 			return new SqlParm ();
 		}
@@ -304,7 +305,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	 * @param result set
 	 * @throws Exception
 	 */
-	static protected <T extends BaseDto<T>> void addBaseListFields(T dto, Integer index, SqlResultSet r) throws Exception {
+	static public <T extends BaseDto<T>> void addBaseListFields(T dto, Integer index, SqlResultSet r) throws Exception {
 		dto.setId(r.getLong(index, "id")) 
 		   .setOrgNr(r.getInteger(index, "org_nr")) 
 		   .setCode(r.getString(index, "code"))
@@ -321,7 +322,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	 * @param result set
 	 * @throws Exception
 	 */
-	static protected <T extends BaseEntity<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r) throws Exception {
+	static public <T extends BaseEntity<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r) throws Exception {
 		addBaseListFields(ent, index, r, null);
 	}
 	
@@ -333,7 +334,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	 * @param table prefix
 	 * @throws Exception
 	 */
-	static protected <T extends BaseEntity<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r, String prefix) throws Exception {
+	static public <T extends BaseEntity<T>> void addBaseListFields(T ent, Integer index, SqlResultSet r, String prefix) throws Exception {
 		ent.setId(r.getLong(index, prefixField(prefix, "id"))) 
 		   .setOrgNr(r.getInteger(index, prefixField(prefix, "org_nr"))) 
 		   .setCode(r.getString(index, prefixField(prefix, "code")))

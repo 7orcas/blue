@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import org.postgresql.ds.PGPoolingDataSource;
 
 import com.sevenorcas.blue.system.base.BaseEntity;
+import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.exception.BaseException;
@@ -22,20 +23,33 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
+/**
+ * Base test object 
+ * Created July '22
+ * [Licence]
+ * @author John Stewart
+ */
 public class BaseTest extends BaseUtil implements ConfigurationI {
 
 	static final public String DB_NAME = "blue";
-	static final public String DB_URL = "jdbc:postgresql://localhost/blue";
-	static final public String USER = "postgres";
-	static final public String PASS = "7o";
-	static final public String LANG = "en";
+	static final public String DB_URL  = "jdbc:postgresql://localhost/blue";
+	static final public String USER    = "postgres";
+	static final public String PASS    = "7o";
+	static final public String LANG    = "en";
 	static final public Integer ORG_NR = 99;
 
+	public BaseTransfer baseTransfer;
 	public String dataSource;
 	public CallObject callObject;
 	
-	public void setup() throws Exception {
+	public BaseTest() {
+		setupDataSource();
 		callObject = getCallObject();
+		try {
+			baseTransfer = setupEJBs(new BaseTransfer());
+		} catch (Exception x) {
+			System.out.println("Instanate baseTransfer ex: " + x.getMessage());
+		}
 	}
 	
 	Hashtable<String, Object> ejbs = new Hashtable<>();
@@ -71,8 +85,9 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	public <T>T setupEJBs(T entity) throws Exception {
 		setupDataSource();
 		for (Field field : entity.getClass().getDeclaredFields()) {
+			field.setAccessible(true);
+
 			if (field.isAnnotationPresent(EJB.class)) {
-				field.setAccessible(true);
 				if (ejbs.containsKey(field.getType().getCanonicalName())) {
 					field.set(entity, ejbs.get(field.getType().getCanonicalName()));	
 				}
@@ -85,6 +100,10 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 					field.set(entity, x);
 					setupEJBs(x); //recursive
 				}
+			}
+			
+			if (field.getType().getName().equals("javax.persistence.EntityManager")) {
+				field.set(entity, new EntityManagerTest());	
 			}
 		}
 		return entity;
@@ -102,8 +121,15 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		return o;
 	}
 	
-	public <T extends BaseEntity<T>> T configNewEnt (T ent) {
+	public <T extends BaseEntity<T>> T configEntNew (T ent) {
 		ent.setId(-1L)
+		   .setActive()
+		   .setOrgNr(ORG_NR);
+		return ent;
+	}
+	
+	public <T extends BaseEntity<T>> T configEnt (T ent) throws Exception {
+		ent.setId(nextTempId())
 		   .setActive()
 		   .setOrgNr(ORG_NR);
 		return ent;
@@ -113,7 +139,7 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	 * Predefined test records
 	 */
 	public void setTestData() throws Exception {
-		setupDataSource();
+		
 		
 		String sql = "INSERT INTO " + BaseUtil.tableName(EntOrg.class, null) + " (id, code, org_nr, updated, updated_userid) "
 				+ "VALUES (" + ORG_NR + ", 'TestOrg', " + ORG_NR + ", current_timestamp, 1)";
@@ -122,6 +148,9 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		
 	}
 	
+	public Long nextTempId() throws Exception {
+		return baseTransfer.nextTempId();
+	}
 	
 	/**
 	 * Setup data source 
