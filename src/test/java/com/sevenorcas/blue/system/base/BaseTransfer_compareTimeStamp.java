@@ -42,7 +42,15 @@ public class BaseTransfer_compareTimeStamp extends BaseTest {
 	public void compareTimeStamp_unchanged () throws Exception {
 		ValidationErrors errors = new ValidationErrors();
 		EntRole ent = getRole();
-System.out.println("id=" + ent.getId());		
+		dao.compareTimeStamp(getRole(), config, errors);
+		assertTrue(!errors.hasErrors());
+	}
+	
+	@Test
+	public void compareTimeStamp_changed () throws Exception {
+		ValidationErrors errors = new ValidationErrors();
+		EntRole ent = getRole();
+		dao.updateTimestampUserid(ent, 1L);
 		dao.compareTimeStamp(getRole(), config, errors);
 		assertTrue(!errors.hasErrors());
 	}

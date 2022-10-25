@@ -21,7 +21,6 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
-import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlUpdate;
 
 public class BaseTest extends BaseUtil {
