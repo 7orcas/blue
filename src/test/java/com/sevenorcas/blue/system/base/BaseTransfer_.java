@@ -20,14 +20,11 @@ public class BaseTransfer_ extends BaseTest {
 	static public String ROLE = "TestRole";
 	static public String ROLE_DELETE = "TestRoleDelete";
 	
-	public SConfig configSrv;
-	public EntityConfig config;
+	
 	public TRole roleT;
 	
 	public void setup() throws Exception {
 		roleT = setupEJBs(new TRole());
-		configSrv = setupEJBs(new SConfig());
-		config = configSrv.getConfig(getCallObject(), EntRole.class.getCanonicalName());
 		setTestData();
 	}
 	

@@ -3,15 +3,14 @@ package com.sevenorcas.blue.system.config;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
-import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 
 /**
  * Configuration Module service bean test.
@@ -24,18 +23,15 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 public class SConfigTest extends BaseTest implements ConfigurationI {
 
-	private SConfig service;
-	
-	@Before
-	public void setup() throws Exception {
-		service = new SConfig();
-		setupEJBs(service);
-	}
-	
 	@Test
 	public void getConfig () {
 		try {
-			EntityConfig conf = service.getConfig (getCallObject(), EntOrg.class.getCanonicalName());
+			EntityConfig conf = configSrv.getConfig (getCallObject(), EntRolePermission.class.getCanonicalName());
+			assertTrue(conf.isUnused("code"));
+			assertTrue(conf.isUniqueParent("permissionId"));
+			
+			conf = configSrv.getConfig (getCallObject(), EntOrg.class.getCanonicalName());
+			assertTrue(conf.isUniqueIgnoreOrgNr("code"));
 			
 			for (FieldConfig f : conf.list()) {
 				System.out.println(f.name 

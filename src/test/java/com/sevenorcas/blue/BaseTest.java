@@ -16,12 +16,17 @@ import org.postgresql.ds.PGPoolingDataSource;
 import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.base.BaseUtil;
+import com.sevenorcas.blue.system.conf.SConfig;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
+import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lang.SLang;
+import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntRole;
 
 /**
  * Base test object 
@@ -38,6 +43,10 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	static final public String LANG    = "en";
 	static final public Integer ORG_NR = 99;
 
+	public SLang langSrv;	
+	public UtilLabel util;
+	public SConfig configSrv;
+	public EntityConfig config;
 	public BaseTransfer baseTransfer;
 	public String dataSource;
 	public CallObject callObject;
@@ -47,8 +56,12 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		callObject = getCallObject();
 		try {
 			baseTransfer = setupEJBs(new BaseTransfer());
+			configSrv = setupEJBs(new SConfig());
+			config = configSrv.getConfig(getCallObject(), EntRole.class.getCanonicalName());
+			langSrv = setupEJBs(new SLang());
+			util = langSrv.getLabelUtil(callObject.getOrgNr(), null, callObject.getLang(), null);
 		} catch (Exception x) {
-			System.out.println("Instanate baseTransfer ex: " + x.getMessage());
+			System.out.println("Instantiate BaseTest ex: " + x.getMessage());
 		}
 	}
 	

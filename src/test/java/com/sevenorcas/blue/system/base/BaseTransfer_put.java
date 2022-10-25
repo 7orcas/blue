@@ -48,7 +48,7 @@ public class BaseTransfer_put extends BaseTransfer_ {
 		
 		ent = baseTransfer.put(ent, configX, callObject);
 		assertTrue(ent.getCode().equals("123"));
-		assertTrue(ent.getDescr() == null);
+		assertTrue(ent.getDescr().isEmpty());
 	}
 	
 	

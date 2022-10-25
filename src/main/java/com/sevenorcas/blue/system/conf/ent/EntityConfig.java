@@ -42,6 +42,16 @@ public class EntityConfig extends BaseUtil {
 		return c != null && c.isUnused();
 	}
 	
+	public boolean isUniqueParent (String field) {
+		FieldConfig c = fields.get(field);
+		return c != null && c.isUniqueInParent();
+	}
+	
+	public boolean isUniqueIgnoreOrgNr (String field) {
+		FieldConfig c = fields.get(field);
+		return c != null && c.isUniqueIgnoreOrgNr();
+	}
+	
 	public JsonRes toJSon() throws Exception {
 		return new JsonRes().setData(list());
 	}

@@ -92,7 +92,9 @@ public class SValidate extends BaseService implements SValidateI {
     		List<Object> valuesU = new ArrayList<>();
     		for (FieldX f : values) {
     			valuesX.add(f.value);
-    			if (!valuesU.contains(f.value)) valuesU.add(f.value);
+    			if (f.ent.isNew() && !valuesU.contains(f.value)) {
+    				valuesU.add(f.value);
+    			}
     		}
     		
     		//Test values in list
@@ -197,11 +199,11 @@ public class SValidate extends BaseService implements SValidateI {
     						uniqueFields.put(fc.name, fields);
     						
     						//Populate first element with constants
-    						fieldX.ent = ent;
     						fieldX.fieldConfig = fc;	
     						fieldX.columnName = getAnnotationColumnName(clazz, fc.name);
     						fieldX.parentColumn = getAnnotationJoinColumnName(clazz);
     					}
+    					fieldX.ent = ent;
     					fieldX.value = value;
     					fields.add(fieldX);
     				}

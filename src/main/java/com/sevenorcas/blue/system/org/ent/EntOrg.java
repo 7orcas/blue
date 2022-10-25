@@ -50,7 +50,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
      */
 	static public EntityConfig getConfig (EntOrg org) {
 		return BaseEntity.getConfig(org)
-    	    .put(new FieldConfig("code").max(21));
+    	    .put(new FieldConfig("code").max(20).uniqueIgnoreOrgNr());
     }
 	
 	public JsonOrg toJSon() {
