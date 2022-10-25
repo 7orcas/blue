@@ -187,6 +187,9 @@ abstract public class BaseEntity <T> implements Serializable {
 	public Boolean isDelete() {
 		return delete != null && delete;
 	}
+	public T setDelete() {
+		return setDelete(true);
+	}
 	@SuppressWarnings("unchecked")
 	public T setDelete(Boolean delete) {
 		this.delete = delete;

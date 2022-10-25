@@ -14,14 +14,13 @@ import com.sevenorcas.blue.BaseTest;
  * [Licence]
  * @author John Stewart
  */
-public class BaseTransferTest extends BaseTest {
+public class BaseTransfer_prefix extends BaseTest {
 
 	private BaseTransfer dao;
 	
 	@Before
 	public void setup() throws Exception {
-		dao = new BaseTransfer();
-		setupEJBs(dao);
+		dao = setupEJBs(new BaseTransfer());
 	}
 	
 	@Test

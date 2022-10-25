@@ -15,15 +15,14 @@ import org.postgresql.ds.PGPoolingDataSource;
 
 import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.base.BaseUtil;
+import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
-import com.sevenorcas.blue.system.role.ent.EntRole;
-import com.sevenorcas.blue.system.sql.SqlUpdate;
 
-public class BaseTest extends BaseUtil {
+public class BaseTest extends BaseUtil implements ConfigurationI {
 
 	static final public String DB_NAME = "blue";
 	static final public String DB_URL = "jdbc:postgresql://localhost/blue";
@@ -70,6 +69,7 @@ public class BaseTest extends BaseUtil {
 
 	
 	public <T>T setupEJBs(T entity) throws Exception {
+		setupDataSource();
 		for (Field field : entity.getClass().getDeclaredFields()) {
 			if (field.isAnnotationPresent(EJB.class)) {
 				field.setAccessible(true);
@@ -87,7 +87,6 @@ public class BaseTest extends BaseUtil {
 				}
 			}
 		}
-		if (dataSource == null) dataSource = setupDataSource();
 		return entity;
 	}
 	
@@ -114,18 +113,13 @@ public class BaseTest extends BaseUtil {
 	 * Predefined test records
 	 */
 	public void setTestData() throws Exception {
-		if (dataSource == null) dataSource = setupDataSource();
+		setupDataSource();
 		
 		String sql = "INSERT INTO " + BaseUtil.tableName(EntOrg.class, null) + " (id, code, org_nr, updated, updated_userid) "
 				+ "VALUES (" + ORG_NR + ", 'TestOrg', " + ORG_NR + ", current_timestamp, 1)";
 //		SqlExecute.executeQuery(null, sql, null);
 		
-		sql = "DELETE FROM " + BaseUtil.tableName(EntRole.class, null) + " WHERE code = 'TestRole' ";  
-		SqlUpdate.executeQuery(null, sql, null);
 		
-		sql = "INSERT INTO " + BaseUtil.tableName(EntRole.class, null) + " (id, code, org_nr, updated, updated_userid) "
-				+ "VALUES (1111, 'TestRole', " + ORG_NR + ", current_timestamp, 1)";
-		SqlUpdate.executeQuery(null, sql, null);
 	}
 	
 	
@@ -133,13 +127,16 @@ public class BaseTest extends BaseUtil {
 	 * Setup data source 
 	 * @return datasource name
 	 */
-	public String setupDataSource(){
-		String ds = "java:jboss/datasources/blueDS";
+	public void setupDataSource(){
+		if (dataSource != null) return; 
+		
+		dataSource = "java:jboss/datasources/blueDS";
 		
 		try {
 		    InitialContext ctx = new InitialContext();
-		    ctx.lookup(ds);
-		    return ds;
+		    ctx.lookup(dataSource);
+		    return;
+//		    return ds;
 		} catch (Exception e) {
 		}
 		
@@ -160,12 +157,12 @@ public class BaseTest extends BaseUtil {
 			ic.createSubcontext("java:");
             ic.createSubcontext("java:jboss");
             ic.createSubcontext("java:jboss/datasources");
-			ic.bind(ds, source);
+			ic.bind(dataSource, source);
 			
-			return ds;
+//			return ds;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+//			return null;
 		}
 			
 	}

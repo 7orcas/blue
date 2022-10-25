@@ -13,9 +13,16 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.role.TRole;
 import com.sevenorcas.blue.system.role.ent.EntRole;
-
+import com.sevenorcas.blue.system.sql.SqlUpdate;
+/**
+ * Base data transfer bean test - compare time stamps.
+ * Created 25.10.2022
+ * [Licence]
+ * @author John Stewart
+ */
 public class BaseTransfer_compareTimeStamp extends BaseTest {
 
+	static private String ROLE = "TestRole";
 	private BaseTransfer dao;
 	private SConfig configSrv;
 	private EntityConfig config;
@@ -41,7 +48,6 @@ public class BaseTransfer_compareTimeStamp extends BaseTest {
 	@Test
 	public void compareTimeStamp_unchanged () throws Exception {
 		ValidationErrors errors = new ValidationErrors();
-		EntRole ent = getRole();
 		dao.compareTimeStamp(getRole(), config, errors);
 		assertTrue(!errors.hasErrors());
 	}
@@ -51,8 +57,23 @@ public class BaseTransfer_compareTimeStamp extends BaseTest {
 		ValidationErrors errors = new ValidationErrors();
 		EntRole ent = getRole();
 		dao.updateTimestampUserid(ent, 1L);
-		dao.compareTimeStamp(getRole(), config, errors);
-		assertTrue(!errors.hasErrors());
+		dao.compareTimeStamp(ent, config, errors);
+		assertTrue(errors.getErrors().get(0).type == VAL_ERROR_TS_DIFF);
+	}
+	
+	/**
+	 * Predefined test records
+	 */
+	public void setTestData() throws Exception {
+		setupDataSource();
+		
+		String sql = "DELETE FROM " + BaseUtil.tableName(EntRole.class, null) + " WHERE code = '" +  ROLE + "' AND org_nr = " + ORG_NR;  
+		SqlUpdate.executeQuery(null, sql, null);
+		
+		Long id = dao.nextTempId();
+		sql = "INSERT INTO " + BaseUtil.tableName(EntRole.class, null) + " (id, code, org_nr, updated, updated_userid) "
+				+ "VALUES (" + id + ", '" +  ROLE + "', " + ORG_NR + ", current_timestamp, 1)";
+		SqlUpdate.executeQuery(null, sql, null);
 	}
 	
 	/**
@@ -61,7 +82,7 @@ public class BaseTransfer_compareTimeStamp extends BaseTest {
 	public EntRole getRole() throws Exception {
 		List<EntRole> list = roleT.roleList(getCallObject(), null);
 		for (int i=0;i<list.size();i++) {
-			if (list.get(i).code.equals("TestRole")) {
+			if (list.get(i).code.equals(ROLE)) {
 				return list.get(i);
 			}
 		}
