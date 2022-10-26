@@ -42,7 +42,6 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 	
 	@Override
 	public void filter(final ContainerRequestContext req) throws IOException {
-		log.debug("req url=" + req.getUriInfo().getPath());
 
 		HttpSession ses = httpRequest.getSession(false);
 		

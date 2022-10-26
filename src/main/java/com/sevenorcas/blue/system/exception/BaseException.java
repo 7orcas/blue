@@ -17,19 +17,31 @@ abstract public class BaseException extends Exception{
 	private boolean logMe = true;
 	private boolean notifyMe = false;
 	private StackTraceElement[] stack;
+	private Exception exception;
 	
 	public BaseException (String message, String detail) {
 		super (message);
 		this.detail = detail;
 	}
 
+	public BaseException (String message, String detail, Exception ex) {
+		super (message);
+		this.detail = detail;
+		this.exception = ex;
+	}
+	
 	public BaseException logMe() {
 		logMe = true;
 		return this;
 	}
 
 	public BaseException notifyMe() {
-		notifyMe = true;
+		notifyMe(true);
+		return this;
+	}
+	
+	public BaseException notifyMe(boolean notifyMe) {
+		this.notifyMe = notifyMe;
 		return this;
 	}
 	
@@ -40,6 +52,10 @@ abstract public class BaseException extends Exception{
 	
 	public String getDetail() {
 		return detail;
+	}
+
+	public Exception getOriginalException() {
+		return exception;
 	}
 
 	public boolean isLog() {

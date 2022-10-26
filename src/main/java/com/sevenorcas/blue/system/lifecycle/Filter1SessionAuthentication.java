@@ -52,15 +52,13 @@ public class Filter1SessionAuthentication implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.debug("called");
-
+		
 		boolean proceed = false;
 
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			
 			String url = req.getRequestURL().toString();
-			log.debug("req url=" + url);			
 			
 			//Check if url is excluded from check
 			for (String u : excludedUrls) {
@@ -83,9 +81,7 @@ public class Filter1SessionAuthentication implements Filter{
 			if (ses != null) {
 				proceed = true;
 			}
-
 		}
-
 		
 		if (proceed) {
 			chain.doFilter(request, response);

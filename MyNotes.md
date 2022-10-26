@@ -52,6 +52,7 @@ EMail
 -----
 Configure in standalone-full.xml
 refer http://www.mastertheboss.com/jbossas/jboss-configuration/jboss-mail-service-configuration/
+Also https://zenidas.wordpress.com/recipes/email-service-configuration-in-wildfly/
 
 
 Web Client

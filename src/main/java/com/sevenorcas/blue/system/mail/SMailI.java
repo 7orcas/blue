@@ -11,4 +11,5 @@ import javax.ejb.Local;
 @Local
 public interface SMailI {
 	public void send(String addresses, String subject, String text);
+	public void send(Exception ex);
 }

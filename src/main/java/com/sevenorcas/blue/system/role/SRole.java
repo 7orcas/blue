@@ -56,11 +56,9 @@ public class SRole extends BaseService implements SRoleI {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-mailSrv.send("js@7orcas.com", "First email", "Blah blah");		
-		
-int x1 = 4 / 0;
-System.out.println("x=" + x1);
-		
+//mailSrv.send("js@7orcas.com", "First email", "Blah blah");		
+int xx = 1 / 0;
+
 		List<EntRole> x = roleList(callObj, parms);
 		List<JsonRole> y = new ArrayList<>();
 		for (EntRole d : x) {

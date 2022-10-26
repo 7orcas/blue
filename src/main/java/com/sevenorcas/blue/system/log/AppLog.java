@@ -2,9 +2,13 @@ package com.sevenorcas.blue.system.log;
 
 import java.lang.invoke.MethodHandles;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.exception.BaseException;
+import com.sevenorcas.blue.system.mail.SMailI;
 
 /**
  * Application log wrapper
@@ -14,7 +18,6 @@ import com.sevenorcas.blue.system.exception.BaseException;
  * [Licence]
  * @author John Stewart
  */
-
 public class AppLog {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -32,6 +35,12 @@ public class AppLog {
 	}
 	
 	static public void exception (String message, Exception e) {
+		BaseException x = null;
+		if (e instanceof BaseException) {
+			x = (BaseException)e;
+			e = x.getOriginalException();
+		}
+		
 		String detail = e.getMessage();
 		if (detail == null) {
 			detail = e.getClass().getCanonicalName();
@@ -39,9 +48,13 @@ public class AppLog {
 		log.error("App Exception:" + detail + (message != null? " message:" + message : ""));
 		log.error(e.getMessage(), e);
 		
-		if (e instanceof BaseException) {
-			BaseException x = (BaseException)e;
-			if (x.isNotifiable()) {
+		if (x != null && x.isNotifiable()) {
+			try {
+				Context initialContext = new InitialContext();
+				SMailI mail = (SMailI)initialContext.lookup("java:module/SMail"); //java:module/SMail!com.sevenorcas.blue.system.mail.SMailI
+				mail.send(x);
+				
+			} catch (Exception xx) {
 				
 			}
 		}

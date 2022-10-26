@@ -8,6 +8,8 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.exception.BaseException;
+import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.log.AppLog;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
@@ -31,17 +33,13 @@ public class RestAroundInvoke {
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
 		
-		log.debug("called method=" + ctx.getMethod().getName());
-
 		boolean proceed = false;
 		try {
 
 			SkipAuthorisation anno = ctx.getMethod().getAnnotation(SkipAuthorisation.class);
 			if (anno != null) {
-				log.debug("SkipAuthorisation annotation");
 				proceed = true;
 			}
-			
 			
 			//Inject Call Object
 			else if (clientCall.getClientSession() != null) {
@@ -58,7 +56,6 @@ public class RestAroundInvoke {
 						break;
 					}
 				}
-				log.debug("added CallObject");
 			}
 			
 			
@@ -70,10 +67,19 @@ public class RestAroundInvoke {
 			return null;
 			
 		} catch (Exception e) {
+			Exception orgEx = e;
+			if (!(e instanceof BaseException)) {
+				e = new RedException("Rest", e);
+			}
+			else {
+				orgEx = ((BaseException)e).getOriginalException();
+			}
 			AppLog.exception("Rest", e);
-			String detail = e.getMessage();
+			
+			
+			String detail = orgEx.getMessage();
 			if (detail == null) {
-				detail = e.getClass().getCanonicalName();
+				detail = orgEx.getClass().getCanonicalName();
 			}
 			return new JsonRes().setError("errunk", detail);
 		}

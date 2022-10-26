@@ -3,6 +3,8 @@ package com.sevenorcas.blue.system.lifecycle;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import com.sevenorcas.blue.system.exception.BaseException;
+import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.log.AppLog;
 
 /**
@@ -20,6 +22,9 @@ public class SrvAroundInvoke {
 		try {
 			return ctx.proceed();
 		} catch (Exception e) {
+			if (!(e instanceof BaseException)) {
+				e = new RedException("Service", e);
+			}
 			AppLog.exception("Service", e);
 			throw e;
 		}
