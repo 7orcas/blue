@@ -3,6 +3,8 @@ package com.sevenorcas.blue.system.lifecycle;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import com.sevenorcas.blue.system.log.AppLog;
+
 /**
  *  
  * [Licence]
@@ -15,13 +17,10 @@ public class DaoAroundInvoke {
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) throws Exception {
-
 		try {
 			return ctx.proceed();
-
 		} catch (Exception e) {
-			
-System.out.println("DaoAroundInvoke Exception:" + e.getMessage());
+			AppLog.exception("Dao", e);
 			throw e;
 		}
     }

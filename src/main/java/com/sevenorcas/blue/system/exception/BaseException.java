@@ -3,8 +3,9 @@ package com.sevenorcas.blue.system.exception;
 import java.util.ArrayList;
 
 /**
-* TODO Module Description
+* Application exception object to manager actions once an exception is thrown
 * 
+* Created July '22
 * [Licence]
 * @author John Stewart
 */
@@ -13,7 +14,7 @@ abstract public class BaseException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 	private String detail;
-	private boolean logMe = false;
+	private boolean logMe = true;
 	private boolean notifyMe = false;
 	private StackTraceElement[] stack;
 	

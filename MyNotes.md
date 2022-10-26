@@ -48,6 +48,11 @@ Use mvn clean test -Parq-wildfly-managed
 to run as managed (ie a container is created at test time). 
 Can't get remote to work atm.
 
+EMail
+-----
+Configure in standalone-full.xml
+refer http://www.mastertheboss.com/jbossas/jboss-configuration/jboss-mail-service-configuration/
+
 
 Web Client
 =========

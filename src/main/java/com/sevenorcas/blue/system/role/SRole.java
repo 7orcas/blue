@@ -18,6 +18,7 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.role.ent.ExcelRole;
@@ -40,7 +41,7 @@ public class SRole extends BaseService implements SRoleI {
 	@EJB private TRoleI dao;
 	@EJB private SValidateI validateSrv;
 	@EJB private SConfigI configSrv;
-	
+	@EJB private SMailI mailSrv;
 	
 	/**
 	 * List of role objects
@@ -54,6 +55,11 @@ public class SRole extends BaseService implements SRoleI {
 	public JsonRes roleListJson(
 			CallObject callObj,
     		SqlParm parms) throws Exception{
+		
+mailSrv.send("js@7orcas.com", "First email", "Blah blah");		
+		
+int x1 = 4 / 0;
+System.out.println("x=" + x1);
 		
 		List<EntRole> x = roleList(callObj, parms);
 		List<JsonRole> y = new ArrayList<>();

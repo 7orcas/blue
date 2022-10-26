@@ -8,6 +8,7 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.log.AppLog;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
@@ -69,12 +70,11 @@ public class RestAroundInvoke {
 			return null;
 			
 		} catch (Exception e) {
+			AppLog.exception("Rest", e);
 			String detail = e.getMessage();
 			if (detail == null) {
 				detail = e.getClass().getCanonicalName();
 			}
-			
-			log.error("Exception:" + detail);
 			return new JsonRes().setError("errunk", detail);
 		}
     }
