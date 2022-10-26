@@ -14,7 +14,7 @@ import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.ExcelLabel;
 
-public class ExcelSrvTest extends BaseTest {
+public class SExcelTest extends BaseTest {
 
 	private SExcel excelSrv;
 	private List<DtoLabel> list;

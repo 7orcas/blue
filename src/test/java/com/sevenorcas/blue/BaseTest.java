@@ -36,12 +36,13 @@ import com.sevenorcas.blue.system.role.ent.EntRole;
  */
 public class BaseTest extends BaseUtil implements ConfigurationI {
 
-	static final public String DB_NAME = "blue";
-	static final public String DB_URL  = "jdbc:postgresql://localhost/blue";
-	static final public String USER    = "postgres";
-	static final public String PASS    = "7o";
-	static final public String LANG    = "en";
-	static final public Integer ORG_NR = 99;
+	static final public String DB_NAME      = "blue";
+	static final public String DB_URL       = "jdbc:postgresql://localhost/blue";
+	static final public String USER         = "postgres";
+	static final public String PASS         = "7o";
+	static final public String LANG         = "en";
+	static final public Integer ORG_NR      = 99;
+	static final public Integer ORG_NR_TEMP = 999; //create and delete for each test
 
 	public SLang langSrv;	
 	public UtilLabel util;
@@ -67,13 +68,14 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	
 	Hashtable<String, Object> ejbs = new Hashtable<>();
 
-	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(DB_URL, USER, PASS);
-	}
-	
-	public Statement getStatement() throws SQLException {
-		return DriverManager.getConnection(DB_URL, USER, PASS).createStatement();
-	}
+	//Don't do this
+//	public Connection getConnection() throws SQLException {
+//		return DriverManager.getConnection(DB_URL, USER, PASS);
+//	}
+//	
+//	public Statement getStatement() throws SQLException {
+//		return DriverManager.getConnection(DB_URL, USER, PASS).createStatement();
+//	}
 	  
 	public void showException (Exception e) {
 		
@@ -171,7 +173,7 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	public Long nextTempId() throws Exception {
 		return baseTransfer.nextTempId();
 	}
-	
+		
 	/**
 	 * Setup data source 
 	 * @return datasource name

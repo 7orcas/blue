@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.sevenorcas.blue.BaseTest;
 import com.sevenorcas.blue.system.base.JsonRes;
 
-public class SrvLangTest extends BaseTest {
+public class SLangTest extends BaseTest {
 
 	private SLang langSrv;
 	

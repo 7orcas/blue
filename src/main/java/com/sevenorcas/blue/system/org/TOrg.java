@@ -58,14 +58,14 @@ public class TOrg extends BaseTransfer implements TOrgI {
     }
 	
 	
-	/**
-     * Return the <code>OrgEnt</code> entity 
-     * @param orgId
-     * @return
-     */
-    public EntOrg getOrg (
-    		Long orgId) throws Exception {
-    	return em.find(EntOrg.class, orgId);
-	}
+//	/**
+//     * Return the <code>OrgEnt</code> entity 
+//     * @param orgId
+//     * @return
+//     */
+//    public EntOrg getOrg (
+//    		Long orgId) throws Exception {
+//    	return em.find(EntOrg.class, orgId);
+//	}
     
 }

@@ -130,7 +130,7 @@ public class Encode {
 	 * @param flag
 	 * @return
 	 */
-	protected Encode setEncodeFlag(int flag) {
+	public Encode setEncodeFlag(int flag) {
 		encodeFlag = flag;
 		return this;
 	}

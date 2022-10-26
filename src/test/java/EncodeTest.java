@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.field;
+
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -13,6 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
+import com.sevenorcas.blue.system.field.Compare;
+import com.sevenorcas.blue.system.field.Encode;
+import com.sevenorcas.blue.system.field.ForeignKeyField;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
@@ -160,8 +163,8 @@ public class EncodeTest extends BaseTest {
 
 		SqlResultSet rs = SqlExecute.executeQuery(null, "SELECT * FROM " + tableName(EntOrg.class, "") + " WHERE id=" + ORG_NR_TEMP, null);
 		
-		Encode x = new Encode();
-    	x.decode(rs.getString(0, "encoded"))
+		Encode x = new Encode()
+    	 .decode(rs.getString(0, "encoded"))
     	 .setEncodeFlag(rs.getInteger(0, "encoded_flag"));
     	
     	Enumeration<String>keys = d.keys();

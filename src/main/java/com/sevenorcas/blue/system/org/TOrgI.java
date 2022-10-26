@@ -21,5 +21,4 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Local
 public interface TOrgI extends BaseTransferI {
 	public List<DtoOrg> orgList(CallObject callObj, SqlParm parms) throws Exception;
-    public EntOrg getOrg (Long orgId) throws Exception;
 }

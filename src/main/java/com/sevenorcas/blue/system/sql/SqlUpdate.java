@@ -22,6 +22,10 @@ import com.sevenorcas.blue.system.exception.RedException;
 */
 public class SqlUpdate {
 
+	static public void executeQuery(String sql) throws Exception {
+		executeQuery(null, sql, null);	
+	}
+	
 	static public void executeQuery(
     		SqlParm sqlParms,
     		String sql,

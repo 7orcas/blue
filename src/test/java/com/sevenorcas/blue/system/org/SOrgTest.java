@@ -18,20 +18,19 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  */
 
 
-public class SrvOrgTest extends BaseTest {
+public class SOrgTest extends BaseTest {
 
-	private SOrg service;
+	private SOrg orgSrv;
 	
 	@Before
 	public void setup() throws Exception {
-		service = new SOrg();
-		setupEJBs(service);
+		orgSrv = setupEJBs(new SOrg());
 	}
 	
 	@Test
 	public void newOrg () {
 		try {
-			EntOrg o = service.newOrg(getCallObject());
+			EntOrg o = orgSrv.newOrg(getCallObject());
 			System.out.println("id=" + o.getId() 
 					+ " active=" + o.isActive()
 					+ " dvalue=" + o.getDvalue()

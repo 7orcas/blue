@@ -92,7 +92,7 @@ public class SOrg extends BaseService implements SOrgI {
 	 * @throws Exception
 	 */
     public EntOrg getOrg(Long orgId) throws Exception {
-    	return dao.getOrg(orgId);
+    	return dao.find(EntOrg.class, orgId);
     }
   
     

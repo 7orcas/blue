@@ -20,6 +20,7 @@ import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
@@ -95,11 +96,21 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	
 	/**
      * Return the entity 
+     * @param class
      * @param entity id
      * @return
      */
-    public <T extends BaseEntity<T>> T find (T ent) throws Exception {
-    	return em.find(ent.entClass(), ent.getId());
+    public <T extends BaseEntity<T>> T find(Class<T> clazz, Long id) throws Exception {
+    	return em.find(clazz, id);
+	}
+    
+	/**
+     * Return the entity 
+     * @param entity id
+     * @return
+     */
+    public <T extends BaseEntity<T>> T find(T ent) throws Exception {
+    	return find(ent.entClass(), ent.getId());
 	}
 	
 	/**
