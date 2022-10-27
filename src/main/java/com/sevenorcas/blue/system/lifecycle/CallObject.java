@@ -5,6 +5,13 @@ import java.util.Hashtable;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
+/**
+ * Wrapper object for a client call
+ *  
+ * Create July '22
+ * [Licence]
+ * @author John Stewart
+ */
 public class CallObject {
 
 	private ClientSession ses;

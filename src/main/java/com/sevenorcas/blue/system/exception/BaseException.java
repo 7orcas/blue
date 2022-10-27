@@ -1,9 +1,13 @@
 package com.sevenorcas.blue.system.exception;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import com.sevenorcas.blue.system.lifecycle.CallObject;
+
 /**
-* Application exception object to manager actions once an exception is thrown
+* Application exception object to hold various parameters once an exception is thrown
 * 
 * Created July '22
 * [Licence]
@@ -15,61 +19,78 @@ abstract public class BaseException extends Exception{
 	private static final long serialVersionUID = 1L;
 	private String detail;
 	private boolean logMe = true;
-	private boolean notifyMe = false;
+	private boolean emailMe = false;
+	private CallObject callObject;
 	private StackTraceElement[] stack;
-	private Exception exception;
+	private Exception orginalException;
+	private Timestamp timestamp;
 	
-	public BaseException (String message, String detail) {
+	public BaseException (String message) {
 		super (message);
+		LocalDateTime d = LocalDateTime.now();
+		timestamp = Timestamp.valueOf(d);
+	}
+	
+	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-
-	public BaseException (String message, String detail, Exception ex) {
-		super (message);
-		this.detail = detail;
-		this.exception = ex;
-	}
 	
-	public BaseException logMe() {
-		logMe = true;
-		return this;
+	public void logMe() {
+		logMe(true);
 	}
 
-	public BaseException notifyMe() {
-		notifyMe(true);
-		return this;
+	public void logMe(boolean logMe) {
+		this.logMe = logMe;
 	}
 	
-	public BaseException notifyMe(boolean notifyMe) {
-		this.notifyMe = notifyMe;
-		return this;
+	public void emailMe() {
+		emailMe(true);
 	}
 	
-	protected BaseException stackTrace(StackTraceElement[] s) { 
+	public void emailMe(boolean email) {
+		this.emailMe = email;
+	}
+
+	public void setCallObject(CallObject callObject) {
+		this.callObject = callObject;
+	}
+	
+	protected void stackTrace(StackTraceElement[] s) { 
 		stack = s;
-		return this;	
 	}
 	
 	public String getDetail() {
 		return detail;
 	}
 
-	public Exception getOriginalException() {
-		return exception;
+	public void setOrginalException(Exception orginalException) {
+		this.orginalException = orginalException;
 	}
 
 	public boolean isLog() {
 		return logMe;
 	}
 	
-	public boolean isNotifiable() {
-		return notifyMe;
+	public boolean isEmail() {
+		return emailMe;
 	}
 	
 	public boolean isStackTrace() {
 		return stack != null;
 	}
 	
+	public CallObject getCallObject() {
+		return callObject;
+	}
+
+	public Exception getOriginalException() {
+		return orginalException;
+	}
+	
+	public final Timestamp getTimestamp() {
+		return timestamp;
+	}
+
 	/**
 	 * Return the stack trace at the third line (ignores the Thread and Exception Constructor)
 	 * @return

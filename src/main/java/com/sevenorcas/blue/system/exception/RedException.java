@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.exception;
 
+import com.sevenorcas.blue.system.lifecycle.CallObject;
+
 /**
 * TODO Module Description
 * 
@@ -11,17 +13,21 @@ public class RedException extends BaseException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public RedException (String detail, Exception ex) {
-		super(ex.getMessage(), detail, ex);
+	public RedException (String detail, Exception ex, CallObject c) {
+		super(ex.getMessage());
+		setDetail(detail);
+		setOrginalException(ex);
+		setCallObject(c);
 		logMe();
-		notifyMe();
+		emailMe();
 		stackTrace(Thread.currentThread().getStackTrace());
 	}
 	
 	public RedException (String message, String detail) {
-		super(message, detail);
+		super(message);
+		setDetail(detail);
 		logMe();
-		notifyMe();
+		emailMe();
 		stackTrace(Thread.currentThread().getStackTrace());
 	}
 	

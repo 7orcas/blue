@@ -21,7 +21,6 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 * [Licence]
 * @author John Stewart
 */
-
 @SuppressWarnings("serial")
 @MappedSuperclass
 abstract public class BaseEntity <T> implements Serializable {

@@ -5,6 +5,7 @@ import com.sevenorcas.blue.system.ApplicationI;
 /**
  * Client session object to store settings (for the session)
  * 
+ * Created August '22
  * [Licence]
  * @author John Stewart
  */
@@ -15,34 +16,34 @@ public class ClientSession implements ApplicationI {
 	private Integer sessionNr;
 	private Integer orgNr;
 	private String lang;
+	private String user;
 
-	public ClientSession (Long userId) {
+	public ClientSession (Long userId, String user, Integer orgNr, String lang) {
 		this.userId = userId;
+		this.user = user;
+		this.orgNr = orgNr;
+		this.lang = lang;
 	}
 	
-	public Long getUserId() {
-		return userId;
-	}
-	public Integer getSessionNr() {
-		return sessionNr;
-	}
 	public ClientSession setSessionNr(Integer sessionNr) {
 		this.sessionNr = sessionNr;
 		return this;
 	}
+
+	public Long getUserId() {
+		return userId;
+	}
+	public String getUser() {
+		return user;
+	}
+	public Integer getSessionNr() {
+		return sessionNr;
+	}
 	public Integer getOrgNr() {
 		return orgNr;
 	}
-	public ClientSession setOrgNr(Integer orgNr) {
-		this.orgNr = orgNr;
-		return this;
-	}
 	public String getLang() {
 		return lang;
-	}
-	public ClientSession setLang(String lang) {
-		this.lang = lang;
-		return this;
 	}
 	
 	public String getUrlSegment() {

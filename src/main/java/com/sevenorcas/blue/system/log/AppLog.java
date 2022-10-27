@@ -41,19 +41,25 @@ public class AppLog {
 			e = x.getOriginalException();
 		}
 		
-		String detail = e.getMessage();
-		if (detail == null) {
-			detail = e.getClass().getCanonicalName();
+		//Log
+		if (x == null || x.isLog()) {
+			String detail = e.getMessage();
+			if (detail == null) {
+				detail = e.getClass().getCanonicalName();
+			}
+			
+			log.error("App Exception:" + detail + (message != null? " message:" + message : ""));
+			log.error(e.getMessage(), e);
+			x.logMe(false);
 		}
-		log.error("App Exception:" + detail + (message != null? " message:" + message : ""));
-		log.error(e.getMessage(), e);
 		
-		if (x != null && x.isNotifiable()) {
+		//Email
+		if (x != null && x.isEmail()) {
 			try {
 				Context initialContext = new InitialContext();
 				SMailI mail = (SMailI)initialContext.lookup("java:module/SMail"); //java:module/SMail!com.sevenorcas.blue.system.mail.SMailI
 				mail.send(x);
-				
+				x.emailMe(false);
 			} catch (Exception xx) {
 				
 			}

@@ -80,9 +80,7 @@ public class RLogin extends BaseRest{
 			clientSessions = new Hashtable<>();
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 		}
-		ClientSession cs = new ClientSession(user.getId())
-				.setOrgNr(user.getOrgNr())
-				.setLang(lang);
+		ClientSession cs = new ClientSession(user.getId(), req.u, user.getOrgNr(), lang);
 		
 		Integer nextSes = clientSessions.size();
 		clientSessions.put(nextSes, cs.setSessionNr(nextSes));

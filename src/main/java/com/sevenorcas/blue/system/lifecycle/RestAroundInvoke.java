@@ -34,6 +34,7 @@ public class RestAroundInvoke {
     public Object invocation(InvocationContext ctx) {
 		
 		boolean proceed = false;
+		CallObject callObj = null;
 		try {
 
 			SkipAuthorisation anno = ctx.getMethod().getAnnotation(SkipAuthorisation.class);
@@ -43,7 +44,7 @@ public class RestAroundInvoke {
 			
 			//Inject Call Object
 			else if (clientCall.getClientSession() != null) {
-				CallObject callObj = new CallObject("");
+				callObj = new CallObject("");
 				proceed = true;
 				callObj.setClientSession(clientCall.getClientSession());
 				
@@ -69,7 +70,7 @@ public class RestAroundInvoke {
 		} catch (Exception e) {
 			Exception orgEx = e;
 			if (!(e instanceof BaseException)) {
-				e = new RedException("Rest", e);
+				e = new RedException("Rest", e, callObj);
 			}
 			else {
 				orgEx = ((BaseException)e).getOriginalException();
