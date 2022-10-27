@@ -53,6 +53,7 @@ EMail
 Configure in standalone-full.xml
 refer http://www.mastertheboss.com/jbossas/jboss-configuration/jboss-mail-service-configuration/
 Also https://zenidas.wordpress.com/recipes/email-service-configuration-in-wildfly/
+To secure the passwords: http://www.mastertheboss.com/jbossas/jboss-security/using-credential-stores-to-store-your-passwords-in-wildfly-11/
 
 
 Web Client

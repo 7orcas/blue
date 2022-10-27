@@ -33,7 +33,7 @@ public class SMail extends BaseService implements SMailI {
 	private Session session;
 	
 	@Resource(name = "DefaultManagedExecutorService")
-	ManagedExecutorService executor;
+	private ManagedExecutorService executor;
 	
 	/**
 	 * Send a message via email 
@@ -59,7 +59,7 @@ public class SMail extends BaseService implements SMailI {
 			final Message message = new MimeMessage(session);
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appProperties.get("EmailExceptionTo")));
 			message.setSubject("Exception : " + ex.getMessage());
-			
+						
 			BaseException x = null;
 			StringBuffer sb = new StringBuffer();
 			if (ex instanceof BaseException) {
