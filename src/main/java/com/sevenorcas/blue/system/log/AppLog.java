@@ -57,7 +57,7 @@ public class AppLog {
 		if (x != null && x.isEmail()) {
 			try {
 				Context initialContext = new InitialContext();
-				SMailI mail = (SMailI)initialContext.lookup("java:module/SMail"); //java:module/SMail!com.sevenorcas.blue.system.mail.SMailI
+				SMailI mail = (SMailI)initialContext.lookup("java:module/SMail"); 
 				mail.send(x);
 				x.emailMe(false);
 			} catch (Exception xx) {
