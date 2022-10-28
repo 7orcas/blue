@@ -15,12 +15,14 @@ import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.SConfigI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.DtoOrg;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.org.ent.ExcelOrg;
 import com.sevenorcas.blue.system.org.json.JsonOrg;
+import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -36,14 +38,8 @@ public class SOrg extends BaseService implements SOrgI {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	@EJB
-	private TOrgI dao;
-	
-	@EJB
-	private SConfigI configSrv;
-	
-	
-	
+	@EJB private TOrgI dao;
+		
 	/**
 	 * List of organisation objects
 	 * These are not the full entity
@@ -138,28 +134,30 @@ public class SOrg extends BaseService implements SOrgI {
     		List<EntOrg> list) throws Exception {
 		
 		EntityConfig config = configSrv.getConfig(callObj, EntOrg.class);
-		List<Validation> vals = new ArrayList<>();
-	
-//		//Validation
-//		for (EntOrg ent : list) {
-//			if (!ent.isValidEntity()) {
-//				vals.add(ent.getValidation());
-//			}
-//		}
 		
-		//Errors
-		if (vals.size() > 0) {
-			return new JsonRes().setError("invlist").setData(vals);
+		//Check validation errors
+		ValidationErrors vals = validateSrv.validate(list, config);
+		if (vals.hasErrors()) {
+			UtilLabel u = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
+			vals.setLabels(u);
+			return vals.toJSon();
 		}
+		
+		//Set default value
+		setDvalue(list);
 		
 		List<Long []> ids = new ArrayList<>();
   		try {
   			for (EntOrg ent : list) {
-  				dao.put(ent, config, callObj);
+  				EntOrg mergedEnt = dao.put(ent, config, callObj);
   				
   				if (ent.getTempId() != null) {
   					Long id[] = {ent.getTempId(), ent.getId()};
   					ids.add(id);
+  				}
+  				//Merge non base fields
+  				else if (!ent.isDelete()){
+  					mergedEnt.setDvalue(ent.isDvalue());
   				}
   			}
   			
@@ -171,6 +169,34 @@ public class SOrg extends BaseService implements SOrgI {
   		return new JsonRes().setData(ids);
   	}  
    
+    /**
+     * Set a unique default value
+     * Use first occurance
+     * @param list
+     */
+    private void setDvalue(List<EntOrg> list) throws Exception {
+    	boolean found = false;
+
+    	for (int i=0;i<list.size();i++) {
+    		EntOrg ent = list.get(i); 		
+    		if (!ent.isDelete() && ent.isDvalue()) {
+    			found = true;
+
+    			for (int j=i+1;j<list.size();j++) {
+    				ent = list.get(j);
+    				ent.setDvalue(false);
+    			}
+    			break;
+			}
+    	}
+
+    	if (found) {
+    		dao.resetDvalues();
+    	}
+    	
+    }
+    
+    
     /**
 	 * Export organisations to excel
 	 * @return

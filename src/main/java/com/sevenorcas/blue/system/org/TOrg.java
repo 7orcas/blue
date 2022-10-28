@@ -15,6 +15,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
+import com.sevenorcas.blue.system.sql.SqlUpdate;
 
 /**
 * Data access methods for organisation data
@@ -57,15 +58,14 @@ public class TOrg extends BaseTransfer implements TOrgI {
 		return list;
     }
 	
-	
-//	/**
-//     * Return the <code>OrgEnt</code> entity 
-//     * @param orgId
-//     * @return
-//     */
-//    public EntOrg getOrg (
-//    		Long orgId) throws Exception {
-//    	return em.find(EntOrg.class, orgId);
-//	}
-    
+	/**
+	 * Reset dvalues
+	 * @throws Exception
+	 */
+	public void resetDvalues() throws Exception {
+		String sql = "UPDATE " 
+				+ tableName(EntOrg.class, " ") 
+				+ "SET dvalue = false";
+		SqlUpdate.executeQuery(null, sql, log);	
+	}
 }

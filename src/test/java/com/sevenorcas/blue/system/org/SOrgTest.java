@@ -33,7 +33,7 @@ public class SOrgTest extends BaseTest {
 			EntOrg o = orgSrv.newOrg(getCallObject());
 			System.out.println("id=" + o.getId() 
 					+ " active=" + o.isActive()
-					+ " dvalue=" + o.getDvalue()
+					+ " dvalue=" + o.isDvalue()
 					);
 			
 			assertTrue(true);

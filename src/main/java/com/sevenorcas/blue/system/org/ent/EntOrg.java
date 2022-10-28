@@ -50,6 +50,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
      */
 	static public EntityConfig getConfig (EntOrg org) {
 		return BaseEntity.getConfig(org)
+			.put(new FieldConfig("orgNr").min(1).uniqueIgnoreOrgNr())
     	    .put(new FieldConfig("code").max(20).uniqueIgnoreOrgNr());
     }
 	
@@ -59,8 +60,8 @@ public class EntOrg extends BaseEntity<EntOrg> {
 		return j;
 	}
 	
-	public Boolean getDvalue() {
-		return dvalue;
+	public boolean isDvalue() {
+		return dvalue != null && dvalue;
 	}
 	public EntOrg setDvalue(Boolean dvalue) {
 		this.dvalue = dvalue;

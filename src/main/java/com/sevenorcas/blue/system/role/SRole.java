@@ -12,13 +12,10 @@ import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SConfigI;
-import com.sevenorcas.blue.system.conf.SValidateI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.role.ent.ExcelRole;
@@ -39,9 +36,6 @@ public class SRole extends BaseService implements SRoleI {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB private TRoleI dao;
-	@EJB private SValidateI validateSrv;
-	@EJB private SConfigI configSrv;
-	@EJB private SMailI mailSrv;
 	
 	/**
 	 * List of role objects

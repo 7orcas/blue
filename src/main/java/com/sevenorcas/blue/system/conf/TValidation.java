@@ -41,16 +41,19 @@ public class TValidation extends BaseTransfer implements TValidationI {
 					+ field + " AS x "
 				+ "FROM " + tableName(clazz, " ");
 		
+		String sqlx = "";
+		
 		if (orgNr != null) {
-			sql += "WHERE org_nr = " + orgNr + " ";
+			sqlx += (sqlx.length()>0?"AND":"WHERE") + " org_nr = " + orgNr + " ";
 		}
 		if (parentColumn != null) {
-			sql += "AND " + parentColumn + " = " + parentId + " ";	
+			sqlx += (sqlx.length()>0?"AND":"WHERE") + " " + parentColumn + " = " + parentId + " ";	
 		}
 		if (!isNewId(entityId)) {
-			sql += "AND id <> " + entityId + " ";	
+			sqlx += (sqlx.length()>0?"AND":"WHERE") + " id <> " + entityId + " ";	
 		}
-		
+		sql += sqlx;
+				
 System.out.println(sql);		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<Object> fields = new ArrayList<>();
