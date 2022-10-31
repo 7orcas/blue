@@ -69,12 +69,13 @@ abstract public class BaseEntity <T> implements Serializable {
      * @param j
      */
     protected <J extends BaseJsonRes> J toJSon(J j) {
-		j.id = getId();
-		j.code = code;
-		j.descr = descr;
-		j.orgNr = orgNr;
-		j.updated = updated;
-		j.active = active;
+    	j.initialise(this);
+//		j.id = getId();
+//		j.code = code;
+//		j.descr = descr;
+//		j.orgNr = orgNr;
+//		j.updated = updated;
+//		j.active = active;
 		return j;
 	}
    
