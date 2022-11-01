@@ -31,8 +31,8 @@ INSERT INTO cntrl.zzz (id, xxx, yyy, orgs, attempts, updated, active) VALUES (3,
 INSERT INTO cntrl.zzz (id, xxx, yyy, orgs, attempts, updated, active) VALUES (4, '333',           '333', '1', 0, current_timestamp, false);
 INSERT INTO cntrl.zzz (id, xxx, yyy, orgs, attempts, updated, active) VALUES (5, '444',           '444', '1', 4, current_timestamp, true);
 
---INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (1, 1, 1, current_timestamp);
---INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (2, 1, 3, current_timestamp);
---INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (3, 1, 4, current_timestamp);
---INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (4, 2, 2, current_timestamp);
---INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (5, 2, 4, current_timestamp);
+INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (1, 1, 1, current_timestamp);
+INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (2, 1, 3, current_timestamp);
+INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (3, 1, 4, current_timestamp);
+INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (4, 2, 2, current_timestamp);
+INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (5, 2, 4, current_timestamp);

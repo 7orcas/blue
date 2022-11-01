@@ -13,5 +13,9 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class JsonUser extends BaseJsonRes{
+	public String password;
+	public String orgs;
+	public Integer attempts;
 	public List<JsonUserRole> roles;
+	
 }

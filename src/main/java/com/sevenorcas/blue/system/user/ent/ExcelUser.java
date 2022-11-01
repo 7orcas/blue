@@ -38,7 +38,7 @@ public class ExcelUser extends BaseExcel implements ExportListI {
 		List<Column> cols = new ArrayList<>();
 		cols.add(addColumn(-1, "id", 1500, LONG));
 		cols.add(addColumn(-1, "orgnr-s", 2000, INTEGER));
-		cols.add(addColumn(-1, "role", 3000, STRING));
+		cols.add(addColumn(-1, "user", 3000, STRING));
 		setColumns(0, cols);
 	}
 		

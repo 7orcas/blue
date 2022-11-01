@@ -14,6 +14,8 @@ import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
+import com.sevenorcas.blue.system.user.ent.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUserRole;
 
 /**
  * Data access methods for user data
@@ -38,9 +40,9 @@ public class TUser extends BaseTransfer implements TUserI {
 					+ prefixAs("t1", BASE_LIST_FIELDS_SQL) 
 					+ "," + prefixAs("t2", BASE_LIST_FIELDS_SQL)
 					+ "," + prefixAs("t3", BASE_LIST_FIELDS_SQL)
-					+ ", role_id "
+					+ ", " + EntUser.USERID + ", " + EntUser.PASSWORD + ", orgs, attempts, role_id "
 				+ "FROM " + tableName(EntUser.class, " AS t1 ")
-				+ "LEFT JOIN " + tableName(EntUserRole.class, " AS t2 ON p.zzz_id = t1.id ")
+				+ "LEFT JOIN " + tableName(EntUserRole.class, " AS t2 ON t2.zzz_id = t1.id ")
 				+ "LEFT JOIN " + tableName(EntRole.class, " AS t3 ON t3.id = t2.role_id ")
 				;
 		
@@ -64,6 +66,10 @@ public class TUser extends BaseTransfer implements TUserI {
 				ent = new EntUser();	
 				addBaseListFields(ent, i, r, "t1");
 				list.put(user_id, ent);
+				ent.setUserName(r.getString(i, EntUser.USERID))
+				   .setPassword(r.getString(i, EntUser.PASSWORD))
+				   .setOrgs(r.getString(i, "orgs"))
+				   .setAttempts(r.getInteger(i, "attempts"));
 			}
 			
 			Long userrole_id = r.getLong(i, prefixField("t2", "id"));
@@ -71,7 +77,8 @@ public class TUser extends BaseTransfer implements TUserI {
 				EntUserRole p = new EntUserRole();
 				ent.add(p);
 				addBaseListFields(p, i, r, "t2");
-				p.setRoleId(r.getLong(i, "role_id"));
+				p.setRoleId(r.getLong(i, "role_id"))
+				 .setUserId(user_id);
 				
 				EntRole m = new EntRole();
 				p.setEntRole(m);

@@ -1,9 +1,6 @@
 package com.sevenorcas.blue.system.base;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 /**
 * Base JSON Object for actual module JSON classes to extend
@@ -12,7 +9,6 @@ import java.time.ZonedDateTime;
 * [Licence]
 * @author John Stewart
 */
-
 public class BaseJsonRes {
 	public Long id;
 	public String code;
@@ -20,7 +16,6 @@ public class BaseJsonRes {
 	public Integer orgNr;
 	public Boolean active;
 	public Timestamp updated;
-	public Long updatedX;
 	
 	public void initialise (BaseEntity<?> ent) {
 		id = ent.getId();
@@ -29,10 +24,6 @@ public class BaseJsonRes {
 		orgNr = ent.getOrgNr();
 		active = ent.isActive();
 		updated = ent.getUpdated();
-		
-		LocalDateTime d = ent.getUpdated().toLocalDateTime();
-		ZonedDateTime zdt = ZonedDateTime.of(d, ZoneId.systemDefault());
-		updatedX = zdt.toInstant().toEpochMilli();
 	}
 	
 }

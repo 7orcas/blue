@@ -38,8 +38,9 @@ import com.sevenorcas.blue.system.user.json.JsonUser;
 @Table(name="zzz", schema="cntrl")
 public class EntUser extends BaseEntity<EntUser> {
 
-	private static final long serialVersionUID = 1L;
-	public static final String USERID = "xxx";
+	static final private long serialVersionUID = 1L;
+	static final public String USERID = "xxx";
+	static final public String PASSWORD = "yyy";
 	
 	@Id  
 	@SequenceGenerator(name="zzz_id_seq", sequenceName="cntrl.zzz_id_seq", allocationSize=1)
@@ -47,8 +48,8 @@ public class EntUser extends BaseEntity<EntUser> {
 	private Long id;
 	
 	@Column(name=USERID)
-	private String userId;
-	@Column(name="yyy")
+	private String userName;
+	@Column(name=PASSWORD)
 	private String password;
 	private String orgs;
 	private Integer attempts;
@@ -62,6 +63,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	 */
 	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
+				.put(new FieldConfig("code").max(30).uniqueIgnoreOrgNr())
 				.put(new FieldConfig("password").nonNull().max(20));
 	}
 	
@@ -79,6 +81,10 @@ public class EntUser extends BaseEntity<EntUser> {
 	
 	public JsonUser toJSon() {
 		JsonUser j = super.toJSon(new JsonUser());
+		j.code = userName;
+		j.password = password;
+		j.orgs = orgs;
+		j.attempts = attempts;
 		if (roles != null) {
 			j.roles = new ArrayList<>();
 			for (EntUserRole p : roles) {
@@ -96,24 +102,27 @@ public class EntUser extends BaseEntity<EntUser> {
 		return this;
 	}
 	
-	public String getUserId() {
-		return userId;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public EntUser setUserName(String userName) {
+		this.userName = userName;
+		return this;
 	}
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public EntUser setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 	
 	public String getOrgs() {
 		return orgs;
 	}
-	public void setOrgs(String orgs) {
+	public EntUser setOrgs(String orgs) {
 		this.orgs = orgs;
+		return this;
 	}
 	public boolean containsOrg(Integer org) {
 		String [] s = orgs != null? orgs.split(",") : new String [] {""};
@@ -136,8 +145,9 @@ public class EntUser extends BaseEntity<EntUser> {
 	public Integer getAttempts() {
 		return attempts;
 	}
-	public void setAttempts(Integer attempts) {
+	public EntUser setAttempts(Integer attempts) {
 		this.attempts = attempts;
+		return this;
 	}
 	public EntUser incrementAttempts() {
 		attempts++;

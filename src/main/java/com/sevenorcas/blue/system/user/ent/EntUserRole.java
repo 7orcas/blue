@@ -108,14 +108,16 @@ public class EntUserRole extends BaseEntity<EntUserRole>{
 	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(Long userId) {
+	public EntUserRole setUserId(Long userId) {
 		this.userId = userId;
+		return this;
 	}
 	public Long getRoleId() {
 		return roleId;
 	}
-	public void setRoleId(Long roleId) {
+	public EntUserRole setRoleId(Long roleId) {
 		this.roleId = roleId;
+		return this;
 	}
 
 	public EntRole getEntRole() {

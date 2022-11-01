@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
@@ -16,6 +17,9 @@ import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.user.ent.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUserRole;
+import com.sevenorcas.blue.system.user.ent.ExcelUser;
 import com.sevenorcas.blue.system.user.json.JsonUser;
 
 /**
@@ -165,19 +169,19 @@ public class SUser extends BaseService implements SUserI {
   	}  
 
 
-//    /**
-//	 * Export users to excel
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public Response excelExport(CallObject callObj) throws Exception {
-//		
-//		List<EntUser> x = dao.userList(callObj, null);
-//		UtilLabel labels = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
-//		ExcelUser excel = new ExcelUser(labels, x);
-//		
-//		String fn = excelSrv.createListFile("UserList", callObj.getOrgNr(), excel);
-//		return fileSrv.getFile(fn, "UserList.xlsx", false);
-//    }
+    /**
+	 * Export users to excel
+	 * @return
+	 * @throws Exception
+	 */
+	public Response excelExport(CallObject callObj) throws Exception {
+		
+		List<EntUser> x = dao.userList(callObj, null);
+		UtilLabel labels = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
+		ExcelUser excel = new ExcelUser(labels, x);
+		
+		String fn = excelSrv.createListFile("UserList", callObj.getOrgNr(), excel);
+		return fileSrv.getFile(fn, "UserList.xlsx", false);
+    }
     
 }
