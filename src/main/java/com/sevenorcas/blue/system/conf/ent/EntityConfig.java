@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.conf.ent;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class EntityConfig extends BaseUtil {
 	}
 	
 	public EntityConfig put (FieldConfig fc) {
-		fields.put(fc.name, fc);
+		fields.put(fc.field, fc);
 		return this;
 	}
 	
@@ -50,6 +52,28 @@ public class EntityConfig extends BaseUtil {
 	public boolean isUniqueIgnoreOrgNr (String field) {
 		FieldConfig c = fields.get(field);
 		return c != null && c.isUniqueIgnoreOrgNr();
+	}
+	
+	public boolean containsForeignKey() {
+		Enumeration<String> keys = fields.keys();
+		while (keys.hasMoreElements()) {	
+			if (fields.get(keys.nextElement()).isForeignKey()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public List<ForeignKey> getForeignKeys() {
+		List<ForeignKey> foreignKeys = new ArrayList<>();
+		Enumeration<String> keys = fields.keys();
+		while (keys.hasMoreElements()) {
+			FieldConfig c = fields.get(keys.nextElement());
+			if (c.isForeignKey()) {
+				foreignKeys.addAll(c.getForeignKeys());
+			}
+		}
+		return foreignKeys;
 	}
 	
 	public JsonRes toJSon() throws Exception {

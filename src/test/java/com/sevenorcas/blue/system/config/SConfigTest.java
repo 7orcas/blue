@@ -34,7 +34,7 @@ public class SConfigTest extends BaseTest implements ConfigurationI {
 			assertTrue(conf.isUniqueIgnoreOrgNr("code"));
 			
 			for (FieldConfig f : conf.list()) {
-				System.out.println(f.name 
+				System.out.println(f.field 
 						+ " f.min=" + f.min
 						+ " f.max=" + f.max
 						+ " f.nonNull=" + f.nullState

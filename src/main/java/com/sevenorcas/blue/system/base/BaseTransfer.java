@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.interceptor.Interceptors;
 import javax.naming.InitialContext;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.ForeignKey;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -255,6 +257,44 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 		
     }
    
+    
+    /**
+     * Test that the entity can be deleted, ie no foreign keys exist
+     * @param entity
+     * @param entity configuration
+     * @param object to load errors into
+     * @throws Exception
+     */
+    public <T extends BaseEntity<T>> void canDelete(T ent, EntityConfig config, ValidationErrors errors) throws Exception {
+    	if (ent.isNew() || ent.isDelete()){
+    		return;
+    	}
+    	
+    	try {
+    		List<ForeignKey> foreignKeys = config.getForeignKeys();
+    		
+    		for (int i=0;i<foreignKeys.size();i++) {
+    			ForeignKey fk = foreignKeys.get(i);
+    			
+    			String sql = "SELECT count(*) FROM " + fk.tableName + " "
+    					+ "WHERE " + fk.foreignKey + " = " + ent.getId();	
+    			
+    			SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
+    			if ((long)r.getObject (0, 0) > 0) {
+    				errors.add(new ValidationError(VAL_ERROR_CANT_DELETE)
+    						.setEntityId(ent.getId())
+    						.setCode(ent.getCode())	
+    						.addErrorLangKeyParams(fk.errorLangKey)
+    						);
+    			}
+    		}
+    		
+    	} catch (Exception e) {
+  			log.error(e);
+  			throw e;
+  		}
+		
+    }
     
     /**
 	 * Clients creating new objects must have unique negative ids

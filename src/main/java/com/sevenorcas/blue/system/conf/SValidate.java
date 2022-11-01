@@ -67,6 +67,10 @@ public class SValidate extends BaseService implements SValidateI {
     	for (T ent : list) {
     		dao.compareTimeStamp(ent, config, errors);
     	}
+
+    	if (config.containsForeignKey()) {
+    		
+    	}
     	
     	//Test fields
     	for (T ent : list) {
@@ -148,7 +152,7 @@ public class SValidate extends BaseService implements SValidateI {
 
     			Object value = null;
     			try {
-    				Field field = clazz.getDeclaredField(fc.name);
+    				Field field = clazz.getDeclaredField(fc.field);
     				field.setAccessible(true);
     				value = field.get(ent);
     			} catch ( NoSuchFieldException ex) {
@@ -188,24 +192,31 @@ public class SValidate extends BaseService implements SValidateI {
     						errorType = VAL_ERROR_MAX_VALUE;    						
     					}
     				}
-
+    				
     				//Accumulate uniqueness fields
     				if (fc.isUnique()) {
     					FieldX fieldX = new FieldX();
     					
-    					List<FieldX> fields = uniqueFields.get(fc.name);
+    					List<FieldX> fields = uniqueFields.get(fc.field);
     					if (fields == null) {
     						fields = new ArrayList<>();
-    						uniqueFields.put(fc.name, fields);
+    						uniqueFields.put(fc.field, fields);
     						
     						//Populate first element with constants
     						fieldX.fieldConfig = fc;	
-    						fieldX.columnName = getAnnotationColumnName(clazz, fc.name);
+    						fieldX.columnName = getAnnotationColumnName(clazz, fc.field);
     						fieldX.parentColumn = getAnnotationJoinColumnName(clazz);
     					}
     					fieldX.ent = ent;
     					fieldX.value = value;
     					fields.add(fieldX);
+    				}
+    				
+    				if (fc.isCallback()) {
+    					ValidationError err = fc.getCallback().validate(ent);
+    					if (err != null) {
+    		    			errors.add(err);
+    	    			}		
     				}
 	    		}
     			
@@ -213,7 +224,7 @@ public class SValidate extends BaseService implements SValidateI {
 	    			errors.add(new ValidationError(errorType)
 			    			.setEntityId(ent.getId())
 			    			.setCode(ent.getCode())	
-			    			.setField(fc.name)
+			    			.setField(fc.field)
 			    			);
     			}
     		}

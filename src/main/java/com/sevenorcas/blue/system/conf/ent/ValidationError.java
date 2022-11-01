@@ -1,6 +1,8 @@
 package com.sevenorcas.blue.system.conf.ent;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sevenorcas.blue.system.conf.json.JValError;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
@@ -20,21 +22,30 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 	public Long entityId;
 	public String code;
 	public String field;
-
+	
 	public Timestamp updated;
 	
 	public Long updatedUserId;
 	public String updatedUser;
 	
 	public String error;
+	public List<String> errorLangKeyParams;
 	public String action;
 	
 	public ValidationError(int type) {
 		this.type = type;
 	}
 
+	/**
+	 * Apply langKeys to errors and actions.
+	 * - The field name is always encoded as %1 in the language label
+	 * - Subsequent codes are encoded as %n in the language label
+	 * 
+	 * @param util
+	 * @return
+	 */
 	public ValidationError setLabels(UtilLabel util) {
-		String e, a;
+		String e, a, e2 = "";
 		switch (type) {
 			case VAL_ERROR_NO_RECORD:
 				e = LK_VAL_ERROR_NO_RECORD;
@@ -53,9 +64,18 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 				
 			case VAL_ERROR_MIN_VALUE:
 			case VAL_ERROR_MAX_VALUE:
+			case VAL_ERROR_INVALID_VALUE:
 				e = LK_VAL_ERROR_FIELD_VALUE;
 				a = LK_VAL_ENTER_VALUE;
 				break;
+				
+			case VAL_ERROR_CANT_DELETE:
+				e = LK_VAL_ERROR_CANT_DELETE;
+				if (errorLangKeyParams != null) {
+					e2 = errorLangKeyParams.get(0);
+				}
+				a = "";
+				break;		
 				
 			case VAL_ERROR_NON_UNIQUE_NEW:
 			case VAL_ERROR_NON_UNIQUE_DB:
@@ -68,8 +88,16 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 				a = LK_UNKNOWN_ERROR;	
 		}
 
-		setError(util != null? util.getLabel(e + LABEL_APPEND + field) : e);
-		setAction(util != null? util.getLabel(a + LABEL_APPEND + field) : a);
+		if (util != null) {
+			e = util.getLabel(e + LABEL_APPEND + field);
+			if (e2 != null) {
+				e = e.replace("%2", e2);
+			}
+			a = util.getLabel(a + LABEL_APPEND + field);
+		}
+		
+		setError(e);
+		setAction(a);
 		
 		return this;
 	}
@@ -134,6 +162,14 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 		this.error = error;
 		return this;
 	}
+	
+	public ValidationError addErrorLangKeyParams(String param) {
+		if (errorLangKeyParams == null) {
+			errorLangKeyParams = new ArrayList<>();
+		}
+		errorLangKeyParams.add(param);
+		return this;
+	} 
 	
 	
 	

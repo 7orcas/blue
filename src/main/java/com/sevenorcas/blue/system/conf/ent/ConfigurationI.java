@@ -20,5 +20,6 @@ public interface ConfigurationI {
 	final static public int VAL_ERROR_MAX_VALUE      = 5;
 	final static public int VAL_ERROR_NON_UNIQUE_NEW = 6;
 	final static public int VAL_ERROR_NON_UNIQUE_DB  = 7;
-	
+	final static public int VAL_ERROR_INVALID_VALUE  = 8;
+	final static public int VAL_ERROR_CANT_DELETE    = 9;
 }

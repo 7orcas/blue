@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 
 import org.json.JSONPropertyIgnore;
 
+import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -23,7 +24,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 */
 @SuppressWarnings("serial")
 @MappedSuperclass
-abstract public class BaseEntity <T> implements Serializable {
+abstract public class BaseEntity <T> implements Serializable, ConfigurationI {
 	
 	@Transient
     private Long tempId;
@@ -55,7 +56,7 @@ abstract public class BaseEntity <T> implements Serializable {
      * Entity / Field configurations.
      * Implementing class can override this method
      */
-    static public EntityConfig getConfig (EntOrg org) {
+    static public EntityConfig getConfig (EntOrg org) throws Exception {
     	return new EntityConfig()
     	    .put(new FieldConfig("orgNr").min(1)) 
     	    .put(new FieldConfig("code").max(20).uniqueInOrg())
@@ -63,19 +64,23 @@ abstract public class BaseEntity <T> implements Serializable {
     	    .put(new FieldConfig("active").nonNull());
     }
     
-	
+    /**
+	 * Return the entities database table name
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	static public String tableName (Class<?> clazz) throws Exception {
+		return BaseUtil.tableName(clazz, "");
+	}
+    
+    
 	/**
      * Set standard fields in JSon object
      * @param j
      */
     protected <J extends BaseJsonRes> J toJSon(J j) {
     	j.initialise(this);
-//		j.id = getId();
-//		j.code = code;
-//		j.descr = descr;
-//		j.orgNr = orgNr;
-//		j.updated = updated;
-//		j.active = active;
 		return j;
 	}
    

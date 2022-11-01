@@ -8,8 +8,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEntity;
+import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
+import com.sevenorcas.blue.system.conf.ent.ForeignKey;
+import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
+import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.json.JsonPermission;
 
@@ -39,11 +43,28 @@ public class EntPermission extends BaseEntity<EntPermission> {
 	/**
      * Override field configurations
      */
-	static public EntityConfig getConfig (EntOrg org) {
+	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
-			.put(new FieldConfig("org_nr").min(0))
-			.put(new FieldConfig("code").uniqueIgnoreOrgNr())
-    	    .put(new FieldConfig("crud").nonNull().max(4));
+			.put(new FieldConfig("orgNr").min(0))
+			.put(new FieldConfig("code").nonNull().max(30))
+			.put(new FieldConfig("id").add(new ForeignKey(tableName(EntRolePermission.class), "permission_id", "role")))
+			.put(new FieldConfig("crud").nonNull().max(4)
+    	    		.callback(new ValidationCallbackI() {
+						@Override
+						public <T extends BaseEntity<T>> ValidationError validate(T ent) throws Exception {
+							EntPermission p = (EntPermission)ent;
+							for (int i = 0; p.crud != null && i < p.crud.length(); i++) {
+								char ch = p.crud.toUpperCase().charAt(i);
+								if (ch != '*' && ch != 'C' && ch != 'R' && ch != 'U' && ch != 'D') {
+									return new ValidationError(VAL_ERROR_INVALID_VALUE)
+							    			.setEntityId(ent.getId())
+							    			.setCode(ent.getCode())	
+							    			.setField("crud");
+								}
+							}
+							return null;
+						}
+    	    		}));
     }
 	
 	

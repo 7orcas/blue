@@ -50,6 +50,16 @@ public class SqlResultSet implements IntHardCodeLangKey {
 	public Object getObject (Integer row, String column) throws Exception{
 		try {
 			Integer index = index (column);
+			Object o = getObject (row, index);
+			return o;
+		} catch (Exception e) {
+			throw new RedException(LK_UNKNOWN_ERROR, e.getMessage());
+		}
+		
+	}
+	
+	public Object getObject (Integer row, Integer index) throws Exception{
+		try {
 			Object[] o = rows.get(row);
 			return o[index-1];
 		} catch (Exception e) {

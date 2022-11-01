@@ -18,6 +18,7 @@ public interface IntHardCodeLangKey {
 	final static String LK_VAL_ERROR_FIELD_NULL   = "valErr3";
 	final static String LK_VAL_ERROR_FIELD_VALUE  = "valErr4";
 	final static String LK_VAL_ERROR_FIELD_UNIQUE = "valErr5";
+	final static String LK_VAL_ERROR_CANT_DELETE  = "valErr6";
 	
 	final static String LK_VAL_ERROR_RELOAD = "valErrA1";
 	final static String LK_VAL_ENTER_VALUE  = "valErrA2";

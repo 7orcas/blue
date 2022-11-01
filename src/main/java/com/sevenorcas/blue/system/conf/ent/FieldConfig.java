@@ -1,5 +1,8 @@
 package com.sevenorcas.blue.system.conf.ent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.json.bind.annotation.JsonbTransient;
 
 /**
@@ -12,7 +15,7 @@ import javax.json.bind.annotation.JsonbTransient;
 
 public class FieldConfig implements ConfigurationI {
 	
-	public String name;
+	public String field;
 	/** For String, Integer, Double fields */
 	public Double max = null; 
 	/** For String, Integer, Double fields */
@@ -31,8 +34,14 @@ public class FieldConfig implements ConfigurationI {
 	@JsonbTransient
 	public Boolean unused = false;
 	
-	public FieldConfig(String name) {
-		this.name = name;
+	@JsonbTransient
+	public ValidationCallbackI callback;
+	
+	@JsonbTransient
+	public List<ForeignKey> foreignKeys;
+	
+	public FieldConfig(String field) {
+		this.field = field;
 	}
 
 	public FieldConfig unused() {
@@ -134,10 +143,34 @@ public class FieldConfig implements ConfigurationI {
 		this.max = max != null? Double.parseDouble(max.toString()) : -1D;
 		return this;
 	}
-
-
 	public FieldConfig max(Double max) {
 		this.max = max;
 		return this;
 	}
+	
+	public FieldConfig callback (ValidationCallbackI callback) {
+		this.callback = callback;
+		return this;
+	}
+	public boolean isCallback() {
+		return callback != null;
+	}
+	public ValidationCallbackI getCallback() {
+		return callback;
+	}
+	
+	public FieldConfig add(ForeignKey fk) {
+		if (foreignKeys == null) {
+			foreignKeys = new ArrayList<>();
+		}
+		fk.field = this;
+		foreignKeys.add(fk);
+		return this;
+	}
+	public boolean isForeignKey() {
+		return foreignKeys != null;
+	}
+	public List<ForeignKey> getForeignKeys() {
+		return foreignKeys;
+	}	
 }

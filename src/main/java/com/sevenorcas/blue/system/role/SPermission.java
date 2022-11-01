@@ -15,8 +15,10 @@ import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.SConfigI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
+import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.ExcelPermission;
 import com.sevenorcas.blue.system.role.json.JsonPermission;
@@ -104,20 +106,15 @@ public class SPermission extends BaseService implements SPermissionI {
     		List<EntPermission> list) throws Exception {
 		
 		EntityConfig config = configSrv.getConfig(callObj, EntPermission.class);
-		List<Validation> vals = new ArrayList<>();
 		
-		
-//		//Validation
-//		for (EntPermission ent : list) {
-//			if (!ent.isValidEntity()) {
-//				vals.add(ent.getValidation());
-//			}
-//		}
-		
-		//Errors
-		if (vals.size() > 0) {
-			return new JsonRes().setError("invlist").setData(vals);
+		//Check validation errors
+		ValidationErrors vals = validateSrv.validate(list, config);
+		if (vals.hasErrors()) {
+			UtilLabel u = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
+			vals.setLabels(u);
+			return vals.toJSon();
 		}
+		
 		
 		List<Long []> ids = new ArrayList<>();
   		try {
