@@ -18,7 +18,7 @@ import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.json.JReqLogin;
 import com.sevenorcas.blue.system.login.json.JResLogin;
-import com.sevenorcas.blue.system.user.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
  * Part 1 of the login process 

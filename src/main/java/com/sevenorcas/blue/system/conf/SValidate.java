@@ -67,9 +67,11 @@ public class SValidate extends BaseService implements SValidateI {
     	for (T ent : list) {
     		dao.compareTimeStamp(ent, config, errors);
     	}
-
+    	//Test deletes
     	if (config.containsForeignKey()) {
-    		
+    		for (T ent : list) {
+    			dao.canDelete(ent, config, errors);
+    		}
     	}
     	
     	//Test fields

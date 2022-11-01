@@ -58,6 +58,9 @@ public class SqlResultSet implements IntHardCodeLangKey {
 		
 	}
 	
+	/**
+	 * Uses the Java SQL for starting columns at 1
+	 */
 	public Object getObject (Integer row, Integer index) throws Exception{
 		try {
 			Object[] o = rows.get(row);

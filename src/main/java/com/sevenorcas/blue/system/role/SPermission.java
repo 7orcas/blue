@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.validation.Validation;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
@@ -18,7 +17,6 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.ExcelPermission;
 import com.sevenorcas.blue.system.role.json.JsonPermission;
@@ -121,11 +119,15 @@ public class SPermission extends BaseService implements SPermissionI {
   			for (EntPermission ent : list) {
   				ent.formatCrud();
   				
-  				dao.put(ent, config, callObj);
+  				EntPermission mergedEnt = dao.put(ent, config, callObj);
   				
   				if (ent.getTempId() != null) {
   					Long id[] = {ent.getTempId(), ent.getId()};
   					ids.add(id);
+  				}
+  				//Merge non base fields
+  				else if (!ent.isDelete()){
+  					mergedEnt.setCrud(ent.getCrud());
   				}
   			}
   			

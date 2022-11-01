@@ -45,6 +45,7 @@ public class EntRolePermission extends BaseEntity<EntRolePermission> {
 	@Column(insertable=false,updatable=false)
 	private Long role_id;
 	
+	/** Foreign Key */
 	@Column(name="permission_id")
 	private Long permissionId;
 	
@@ -54,7 +55,7 @@ public class EntRolePermission extends BaseEntity<EntRolePermission> {
 	/**
 	 * Override field configurations
 	 */
-	static public EntityConfig getConfig (EntOrg org) {
+	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("orgNr").min(0))
 				.put(new FieldConfig("code").unused())

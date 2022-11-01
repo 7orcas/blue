@@ -16,8 +16,8 @@ import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
-import com.sevenorcas.blue.system.user.EntUser;
-import com.sevenorcas.blue.system.user.EntUserRole;
+import com.sevenorcas.blue.system.user.ent.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUserRole;
 
 /**
 * Data access methods to the Login Module

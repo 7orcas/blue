@@ -48,7 +48,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
 	/**
      * Override field configurations
      */
-	static public EntityConfig getConfig (EntOrg org) {
+	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
 			.put(new FieldConfig("orgNr").min(1).uniqueIgnoreOrgNr())
     	    .put(new FieldConfig("code").max(20).uniqueIgnoreOrgNr());

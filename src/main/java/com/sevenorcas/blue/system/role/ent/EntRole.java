@@ -44,7 +44,7 @@ public class EntRole extends BaseEntity<EntRole>{
 	/**
 	 * Override field configurations
 	 */
-	static public EntityConfig getConfig (EntOrg org) {
+	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("orgNr").min(0))
 				;

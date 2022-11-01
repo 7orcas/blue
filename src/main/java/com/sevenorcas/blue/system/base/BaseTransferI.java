@@ -26,6 +26,7 @@ public interface BaseTransferI extends ConfigurationI {
     public <T extends BaseEntity<T>> T put (T ent, EntityConfig config, CallObject callObj) throws Exception;
     public <T extends BaseEntity<T>> T merge(T ent, EntityConfig config, CallObject callObj) throws Exception;
     public <T extends BaseEntity<T>> void compareTimeStamp(T ent, EntityConfig config, ValidationErrors errors) throws Exception;
+    public <T extends BaseEntity<T>> void canDelete(T ent, EntityConfig config, ValidationErrors errors) throws Exception;
 	public Long nextTempIdNegative() throws Exception;
 	public Long nextTempId() throws Exception;
 }

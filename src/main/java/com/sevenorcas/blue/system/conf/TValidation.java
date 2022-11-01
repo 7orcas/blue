@@ -54,7 +54,6 @@ public class TValidation extends BaseTransfer implements TValidationI {
 		}
 		sql += sqlx;
 				
-System.out.println(sql);		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<Object> fields = new ArrayList<>();
 		

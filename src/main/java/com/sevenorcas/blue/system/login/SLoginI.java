@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.sevenorcas.blue.system.base.BaseServiceI;
-import com.sevenorcas.blue.system.user.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
 * Login interface

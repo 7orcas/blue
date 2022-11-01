@@ -11,6 +11,7 @@ JBoss
 =====
 Create JaxrsActivator.java  http://www.mastertheboss.com/jboss-frameworks/resteasy/resteasy-tutorial/
 export JBOSS_HOME=/opt/wildfly/  or whatever
+Kill server: pgrep -d" " -f "wildfly" | xargs kill -9;
 
 
 CORS

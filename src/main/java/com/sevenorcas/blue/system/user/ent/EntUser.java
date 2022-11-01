@@ -1,10 +1,15 @@
-package com.sevenorcas.blue.system.user;
+package com.sevenorcas.blue.system.user.ent;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -13,6 +18,7 @@ import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.user.json.JsonUser;
 
 /**
  * User entity 
@@ -23,7 +29,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  * - orgNr is transient, ie changes with each login. Potentially a user could log into multiple org's 
  *   (each login attempt uses the orgNr to store the current attempt)
  * 
- * 
+ * Created July '22 
  * [Licence]
  * @author John Stewart
  */
@@ -47,10 +53,14 @@ public class EntUser extends BaseEntity<EntUser> {
 	private String orgs;
 	private Integer attempts;
 	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="entUser")
+	private List <EntUserRole> roles = new ArrayList<>(); 
+
+	
 	/**
 	 * Override field configurations
 	 */
-	static public EntityConfig getConfig (EntOrg org) {
+	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("password").nonNull().max(20));
 	}
@@ -62,11 +72,20 @@ public class EntUser extends BaseEntity<EntUser> {
     private Boolean validUser;
 	@Transient
     private String inValidMessage;
-//	@Transient
-//    private Integer org; DELETE
-	
+
 	public EntUser () {
 		
+	}
+	
+	public JsonUser toJSon() {
+		JsonUser j = super.toJSon(new JsonUser());
+		if (roles != null) {
+			j.roles = new ArrayList<>();
+			for (EntUserRole p : roles) {
+				j.roles.add(p.toJSon());
+			}
+		}		
+		return j;
 	}
 	
     public Long getId() {
@@ -113,9 +132,6 @@ public class EntUser extends BaseEntity<EntUser> {
 		} catch (Exception x) {
 		}
 	}
-//	public Integer getOrgNr() {
-//		return org;
-//	}
 
 	public Integer getAttempts() {
 		return attempts;
@@ -144,4 +160,19 @@ public class EntUser extends BaseEntity<EntUser> {
 		return this;
 	}
 	
+	public List<EntUserRole> getRoles() {
+		return roles;
+	}
+    public EntUser setRoles(List<EntUserRole> roles) {
+		this.roles = roles;
+		return this;
+	}
+    public EntUser add(EntUserRole r) {
+		if (roles == null) {
+			roles = new ArrayList<>();
+		}
+		roles.add(r);
+		return this;
+	}	
+    
 }

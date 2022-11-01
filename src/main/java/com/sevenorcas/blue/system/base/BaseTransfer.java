@@ -25,7 +25,7 @@ import com.sevenorcas.blue.system.lifecycle.DaoAroundInvoke;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
-import com.sevenorcas.blue.system.user.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
 * Base data transfer object (sometimes referred to as Dao - Data Access Object).
@@ -266,7 +266,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
      * @throws Exception
      */
     public <T extends BaseEntity<T>> void canDelete(T ent, EntityConfig config, ValidationErrors errors) throws Exception {
-    	if (ent.isNew() || ent.isDelete()){
+    	if (ent.isNew() || !ent.isDelete()){
     		return;
     	}
     	
@@ -280,7 +280,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
     					+ "WHERE " + fk.foreignKey + " = " + ent.getId();	
     			
     			SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
-    			if ((long)r.getObject (0, 0) > 0) {
+    			if ((long)r.getObject (0, 1) > 0) {
     				errors.add(new ValidationError(VAL_ERROR_CANT_DELETE)
     						.setEntityId(ent.getId())
     						.setCode(ent.getCode())	

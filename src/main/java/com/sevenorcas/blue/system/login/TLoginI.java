@@ -6,7 +6,7 @@ import javax.ejb.Local;
 
 import com.sevenorcas.blue.system.base.BaseTransferI;
 import com.sevenorcas.blue.system.sql.SqlParm;
-import com.sevenorcas.blue.system.user.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
 * Data access methods to the Login Module interface

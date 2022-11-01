@@ -55,7 +55,7 @@ public class EntPermission extends BaseEntity<EntPermission> {
 							EntPermission p = (EntPermission)ent;
 							for (int i = 0; p.crud != null && i < p.crud.length(); i++) {
 								char ch = p.crud.toUpperCase().charAt(i);
-								if (ch != '*' && ch != 'C' && ch != 'R' && ch != 'U' && ch != 'D') {
+								if (ch != '*' && ch != 'C' && ch != 'R' && ch != 'U' && ch != 'D' && ch != '-') {
 									return new ValidationError(VAL_ERROR_INVALID_VALUE)
 							    			.setEntityId(ent.getId())
 							    			.setCode(ent.getCode())	

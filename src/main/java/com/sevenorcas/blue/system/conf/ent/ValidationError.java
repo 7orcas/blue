@@ -45,7 +45,7 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 	 * @return
 	 */
 	public ValidationError setLabels(UtilLabel util) {
-		String e, a, e2 = "";
+		String e, a, p2 = "";
 		switch (type) {
 			case VAL_ERROR_NO_RECORD:
 				e = LK_VAL_ERROR_NO_RECORD;
@@ -72,9 +72,9 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 			case VAL_ERROR_CANT_DELETE:
 				e = LK_VAL_ERROR_CANT_DELETE;
 				if (errorLangKeyParams != null) {
-					e2 = errorLangKeyParams.get(0);
+					p2 = errorLangKeyParams.get(0).toUpperCase();
 				}
-				a = "";
+				a = LK_VAL_REMOVE_FK;
 				break;		
 				
 			case VAL_ERROR_NON_UNIQUE_NEW:
@@ -89,11 +89,14 @@ public class ValidationError implements ConfigurationI, IntHardCodeLangKey, Lang
 		}
 
 		if (util != null) {
-			e = util.getLabel(e + LABEL_APPEND + field);
-			if (e2 != null) {
-				e = e.replace("%2", e2);
+			String x = field != null? field : code;
+			x = x != null? x : "";
+			e = util.getLabel(e + LABEL_APPEND + x);
+			a = util.getLabel(a + LABEL_APPEND + x);
+			if (p2 != null) {
+				e = e.replace("%2", p2);
+				a = a.replace("%2", p2);
 			}
-			a = util.getLabel(a + LABEL_APPEND + field);
 		}
 		
 		setError(e);

@@ -22,5 +22,6 @@ public interface IntHardCodeLangKey {
 	
 	final static String LK_VAL_ERROR_RELOAD = "valErrA1";
 	final static String LK_VAL_ENTER_VALUE  = "valErrA2";
+	final static String LK_VAL_REMOVE_FK    = "valErrA3";
 
 }

@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.sql.SqlParm;
-import com.sevenorcas.blue.system.user.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
 * Initial Login module
