@@ -30,6 +30,7 @@ delete,sys,0,Delete,Löschen
 desc,sys,0,Description,Bezeichnung
 action,,0,Action,
 help,sys,0,Help,Hilfe
+attempts,,0,Attempts,
 invalid,,0,Invalid,Ungültig
 std,,0,Standard,Standard
 blank,,0,Blank,Leer
@@ -98,7 +99,7 @@ addperm,,0,Add Permission,
 role,,0,Role,
 roleadmin,,0,Role Admin,
 user,,0,User,
-useradmin,,0,User Role,
+useradmin,,0,User Admin,
 url,,0,URL,
 url-c,,0,Code (URL),
 crud,,0,CRUD,

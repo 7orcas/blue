@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
 import com.sevenorcas.blue.system.user.ent.ExcelUser;
-import com.sevenorcas.blue.system.user.json.JsonUser;
+import com.sevenorcas.blue.system.user.ent.JsonUserList;
 
 /**
 * Users Module service bean.
@@ -51,7 +51,7 @@ public class SUser extends BaseService implements SUserI {
     		SqlParm parms) throws Exception{
 		
 		List<EntUser> x = userList(callObj, parms);
-		List<JsonUser> y = new ArrayList<>();
+		List<JsonUserList> y = new ArrayList<>();
 		for (EntUser d : x) {
 			y.add(d.toJSon());
 		}
@@ -74,7 +74,34 @@ public class SUser extends BaseService implements SUserI {
 		return dao.userList(callObj, parms);
     }
 	
+	/**
+	 * Return a user entity
+	 * 
+	 * @param callObj
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public JsonRes getUserJson(
+			CallObject callObj,
+			Long id) throws Exception {
+		if (id == null) {
+			return new JsonRes().setError("inv-id", "Invalid entity id");
+		}
+		EntUser e = getUser(id);
+		return new JsonRes().setData(e);
+    }
 	
+	/**
+	 * Return a user entity
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+    public EntUser getUser(Long id) throws Exception {
+    	return dao.find(EntUser.class, id);
+    }
 	
     /**
 	 * Return an uncommitted user entity
@@ -84,7 +111,7 @@ public class SUser extends BaseService implements SUserI {
 	 */
     public JsonRes newUserJson(CallObject callObj) throws Exception {
     	EntUser o = newUser(callObj);
-    	List<JsonUser> y = new ArrayList<>();
+    	List<JsonUserList> y = new ArrayList<>();
     	y.add(o.toJSon());
 		return new JsonRes().setData(y);
     }
@@ -99,8 +126,8 @@ public class SUser extends BaseService implements SUserI {
     	EntUser o = new EntUser();
     	return o.setId(dao.nextTempIdNegative())
     			.setOrgNr(BASE_ORG_NR)
-		    	.setActive()
-		    	;
+    			.setAttempts(0)
+		    	.setActive();
     }  
     
     /**

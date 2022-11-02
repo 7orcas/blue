@@ -17,7 +17,7 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
-import com.sevenorcas.blue.system.user.json.JsonUserRole;
+import com.sevenorcas.blue.system.user.jsonDELETE.JsonUserRole_DELETE;
 
 /**
  * User-Role join entity 
@@ -42,7 +42,7 @@ public class EntUserRole extends BaseEntity<EntUserRole>{
 
 	/** Header foreign key */
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="zzz_id")
 	private EntUser entUser;
 	
 	/** Parent */     
@@ -86,8 +86,8 @@ public class EntUserRole extends BaseEntity<EntUserRole>{
 		return this;
 	}
 
-	public JsonUserRole toJSon() {
-		JsonUserRole j = super.toJSon(new JsonUserRole());
+	public JsonUserRole_DELETE toJSon() {
+		JsonUserRole_DELETE j = super.toJSon(new JsonUserRole_DELETE());
 		j.roleId = roleId;
 		if (entRole != null) {
 			j.code = entRole.getCode();

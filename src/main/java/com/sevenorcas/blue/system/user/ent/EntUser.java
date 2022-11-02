@@ -18,7 +18,6 @@ import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
-import com.sevenorcas.blue.system.user.json.JsonUser;
 
 /**
  * User entity 
@@ -47,6 +46,9 @@ public class EntUser extends BaseEntity<EntUser> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz_id_seq")
 	private Long id;
 	
+	@Transient
+	private Integer orgNrLogin;
+	
 	@Column(name=USERID)
 	private String userName;
 	@Column(name=PASSWORD)
@@ -64,7 +66,11 @@ public class EntUser extends BaseEntity<EntUser> {
 	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
 				.put(new FieldConfig("code").max(30).uniqueIgnoreOrgNr())
-				.put(new FieldConfig("password").nonNull().max(20));
+				.put(new FieldConfig("password").nonNull().max(20))
+				.put(new FieldConfig("orgNr").nonNull().min(0).max(0)) //Not used
+				.put(new FieldConfig("orgs").nonNull())
+				.put(new FieldConfig("attempts").nonNull().min(0))
+				;
 	}
 	
 	/**
@@ -79,22 +85,34 @@ public class EntUser extends BaseEntity<EntUser> {
 		
 	}
 	
-	public JsonUser toJSon() {
-		JsonUser j = super.toJSon(new JsonUser());
+	public JsonUserList toJSon() {
+		JsonUserList j = super.toJSon(new JsonUserList());
 		j.code = userName;
-		j.password = password;
-		j.orgs = orgs;
 		j.attempts = attempts;
-		if (roles != null) {
-			j.roles = new ArrayList<>();
-			for (EntUserRole p : roles) {
-				j.roles.add(p.toJSon());
-			}
-		}		
+//DELETE		
+//		j.password = password;
+//		j.orgs = orgs;
+//		if (roles != null) {
+//			j.roles = new ArrayList<>();
+//			for (EntUserRole p : roles) {
+//				j.roles.add(p.toJSon());
+//			}
+//		}		
 		return j;
 	}
 	
-    public Long getId() {
+	public boolean isOrgNrLoginValid() {
+		return orgNrLogin != null && orgNrLogin != BASE_ORG_NR;
+	}
+	public Integer getOrgNrLogin() {
+		return orgNrLogin;
+	}
+	public EntUser setOrgNrLogin(Integer orgNrLogin) {
+		this.orgNrLogin = orgNrLogin;
+		return this;
+	}
+
+	public Long getId() {
 		return id;
 	}
 	public EntUser setId(Long id) {
@@ -128,7 +146,6 @@ public class EntUser extends BaseEntity<EntUser> {
 		String [] s = orgs != null? orgs.split(",") : new String [] {""};
 		for (String o : s) {
 			if (org != null && o.equals(org.toString())) {
-				this.orgNr = org;
 				return true;
 			}
 		}
@@ -137,7 +154,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	public void setDefaultOrg() {
 		try {
 			String [] s = orgs != null? orgs.split(",") : new String [] {""};
-			orgNr = Integer.parseInt(s[0]);
+			orgNrLogin = Integer.parseInt(s[0]);
 		} catch (Exception x) {
 		}
 	}

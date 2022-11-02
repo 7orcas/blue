@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 
 import org.json.JSONPropertyIgnore;
 
+import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
@@ -24,7 +25,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 */
 @SuppressWarnings("serial")
 @MappedSuperclass
-abstract public class BaseEntity <T> implements Serializable, ConfigurationI {
+abstract public class BaseEntity <T> implements Serializable, ApplicationI, ConfigurationI {
 	
 	@Transient
     private Long tempId;

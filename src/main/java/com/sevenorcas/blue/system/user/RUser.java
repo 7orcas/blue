@@ -51,6 +51,24 @@ public class RUser extends BaseRest {
 		return service.userListJson(callObj, new SqlParm());
     }
 	
+	/**
+	 * Return a user entity
+	 * 
+	 * @param callObj
+	 * @param entity id
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("get")
+    public JsonRes get(
+    		@QueryParam ("co") CallObject callObj,
+    		@QueryParam ("id") Long id) throws Exception {
+		if (id == null) {
+			return new JsonRes().setError("inv-id", "Invalid org id");
+		}
+		return service.getUserJson(callObj, id);
+    }
 	
 	/**
 	 * Update and Persist the list

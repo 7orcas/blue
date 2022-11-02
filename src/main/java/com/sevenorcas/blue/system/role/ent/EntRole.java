@@ -15,8 +15,10 @@ import javax.persistence.Table;
 import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
+import com.sevenorcas.blue.system.conf.ent.ForeignKey;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.json.JsonRole;
+import com.sevenorcas.blue.system.user.ent.EntUserRole;
 
 /**
  * Role entity 
@@ -46,6 +48,7 @@ public class EntRole extends BaseEntity<EntRole>{
 	 */
 	static public EntityConfig getConfig (EntOrg org) throws Exception {
 		return BaseEntity.getConfig(org)
+				.put(new FieldConfig("id").add(new ForeignKey(tableName(EntUserRole.class), "role_id", "user")))
 				.put(new FieldConfig("orgNr").min(0))
 				;
 	}

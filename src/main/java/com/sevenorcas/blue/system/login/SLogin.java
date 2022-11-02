@@ -60,11 +60,11 @@ public class SLogin extends BaseService implements SLoginI {
 			if (org == null) {
 				user.setDefaultOrg();
 			}
-			else {
-				user.containsOrg(org);
+			else if (user.containsOrg(org)){
+				user.setOrgNrLogin(org);
 			}
 
-			if (user.getOrgNr() == null) {
+			if (!user.isOrgNrLoginValid()) {
 				user.setInvalidMessage("invorg");
 				return user;	
 			}
