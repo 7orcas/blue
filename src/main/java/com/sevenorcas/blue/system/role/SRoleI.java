@@ -23,6 +23,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 public interface SRoleI extends BaseServiceI {
 	public JsonRes roleListJson(CallObject callObj, SqlParm parms) throws Exception;
 	public List<EntRole> roleList(CallObject callObj, SqlParm parms) throws Exception;
+	public EntRole getRole(CallObject callObj, Long id) throws Exception;
     public JsonRes newRoleJson(CallObject callObj) throws Exception;
     public EntRole newRole(CallObject callObj) throws Exception;
     public JsonRes putRoles(CallObject callObj, List<EntRole> list) throws Exception;

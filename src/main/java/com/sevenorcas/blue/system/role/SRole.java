@@ -21,6 +21,8 @@ import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.role.ent.ExcelRole;
 import com.sevenorcas.blue.system.role.json.JsonRole;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.user.ent.EntUser;
+import com.sevenorcas.blue.system.user.ent.EntUserRole;
 
 /**
 * Roles Module service bean.
@@ -74,6 +76,16 @@ public class SRole extends BaseService implements SRoleI {
 		return dao.roleList(callObj, parms);
     }
 	
+	/**
+	 * Return a role entity
+	 * @param callObj 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+    public EntRole getRole(CallObject callObj, Long id) throws Exception {
+    	return dao.find(EntRole.class, id);
+    }
 	
 	
     /**

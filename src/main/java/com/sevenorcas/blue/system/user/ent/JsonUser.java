@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.user.ent;
 
+import java.util.List;
+
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
 /**
@@ -10,6 +12,9 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class JsonUserList extends BaseJsonRes{
+public class JsonUser extends BaseJsonRes{
 	public Integer attempts;
+	public String password;
+	public String orgs;
+	public List<JsonUserRole>roles;
 }

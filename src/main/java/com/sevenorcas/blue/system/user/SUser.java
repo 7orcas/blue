@@ -16,11 +16,13 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.role.SRoleI;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
 import com.sevenorcas.blue.system.user.ent.ExcelUser;
-import com.sevenorcas.blue.system.user.ent.JsonUserList;
+import com.sevenorcas.blue.system.user.ent.JsonUser;
 
 /**
 * Users Module service bean.
@@ -36,6 +38,7 @@ public class SUser extends BaseService implements SUserI {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB private TUserI dao;
+	@EJB private SRoleI sRole;
 	
 	/**
 	 * List of user objects
@@ -51,9 +54,9 @@ public class SUser extends BaseService implements SUserI {
     		SqlParm parms) throws Exception{
 		
 		List<EntUser> x = userList(callObj, parms);
-		List<JsonUserList> y = new ArrayList<>();
+		List<JsonUser> y = new ArrayList<>();
 		for (EntUser d : x) {
-			y.add(d.toJSon());
+			y.add(d.toJSon(false));
 		}
 		
 		return new JsonRes().setData(y);
@@ -88,19 +91,24 @@ public class SUser extends BaseService implements SUserI {
 		if (id == null) {
 			return new JsonRes().setError("inv-id", "Invalid entity id");
 		}
-		EntUser e = getUser(id);
-		return new JsonRes().setData(e);
+		EntUser e = getUser(callObj, id);
+		JsonRes j = new JsonRes().setData(e.toJSon(true));
+		return j;
     }
 	
 	/**
 	 * Return a user entity
-	 * 
+	 * @param callObj 
 	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
-    public EntUser getUser(Long id) throws Exception {
-    	return dao.find(EntUser.class, id);
+    public EntUser getUser(CallObject callObj, Long id) throws Exception {
+    	EntUser ent = dao.find(EntUser.class, id);
+    	for (EntUserRole r : ent.getRoles()) {
+    		r.setEntRole(sRole.getRole(callObj, r.getRoleId()));
+    	}
+    	return ent;
     }
 	
     /**
@@ -111,8 +119,8 @@ public class SUser extends BaseService implements SUserI {
 	 */
     public JsonRes newUserJson(CallObject callObj) throws Exception {
     	EntUser o = newUser(callObj);
-    	List<JsonUserList> y = new ArrayList<>();
-    	y.add(o.toJSon());
+    	List<JsonUser> y = new ArrayList<>();
+    	y.add(o.toJSon(true));
 		return new JsonRes().setData(y);
     }
   
@@ -169,7 +177,7 @@ public class SUser extends BaseService implements SUserI {
   	  	  			}
   				}
   				
-  				dao.put(ent, userConfig, callObj);
+  				EntUser mergedEnt = dao.put(ent, userConfig, callObj);
   				
   				if (ent.isDelete()) {
   					continue;
@@ -179,6 +187,9 @@ public class SUser extends BaseService implements SUserI {
   					ids.add(id);
   					continue;
   				}
+  				
+  				//Merge non base fields
+  				mergedEnt.setAttempts(ent.getAttempts());
   				
   				//Children
   				for (EntUserRole perm : ent.getRoles()) {

@@ -38,7 +38,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 public class EntUser extends BaseEntity<EntUser> {
 
 	static final private long serialVersionUID = 1L;
-	static final public String USERID = "xxx";
+	static final public String USERNAME = "xxx";
 	static final public String PASSWORD = "yyy";
 	
 	@Id  
@@ -46,10 +46,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="zzz_id_seq")
 	private Long id;
 	
-	@Transient
-	private Integer orgNrLogin;
-	
-	@Column(name=USERID)
+	@Column(name=USERNAME)
 	private String userName;
 	@Column(name=PASSWORD)
 	private String password;
@@ -77,27 +74,32 @@ public class EntUser extends BaseEntity<EntUser> {
 	 * To be valid, correct password and org and attempts < max
 	 */
 	@Transient
+	private Integer orgNrLogin;
+	@Transient
     private Boolean validUser;
 	@Transient
     private String inValidMessage;
 
+	
 	public EntUser () {
 		
 	}
 	
-	public JsonUserList toJSon() {
-		JsonUserList j = super.toJSon(new JsonUserList());
+	public JsonUser toJSon(boolean fullEntity) {
+		JsonUser j = super.toJSon(new JsonUser());
 		j.code = userName;
 		j.attempts = attempts;
-//DELETE		
-//		j.password = password;
-//		j.orgs = orgs;
-//		if (roles != null) {
-//			j.roles = new ArrayList<>();
-//			for (EntUserRole p : roles) {
-//				j.roles.add(p.toJSon());
-//			}
-//		}		
+		
+		if (!fullEntity) return j;
+		
+		j.password = password;
+		j.orgs = orgs;
+		if (roles != null) {
+			j.roles = new ArrayList<>();
+			for (EntUserRole p : roles) {
+				j.roles.add(p.toJSon());
+			}
+		}		
 		return j;
 	}
 	

@@ -223,7 +223,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
     	}
     	
     	try {
-	    	String sql = "SELECT t." + UPDATED_FIELD + ", t." + UPDATED_USERID + ", u." + EntUser.USERID + " "
+	    	String sql = "SELECT t." + UPDATED_FIELD + ", t." + UPDATED_USERID + ", u." + EntUser.USERNAME + " "
 				+ "FROM " + config.tableName + " as t "
 					+ "LEFT JOIN " + tableName(EntUser.class, " AS u ON t." + UPDATED_USERID + " = u.id ")
 				+ "WHERE t.id = " + ent.getId();	
@@ -244,7 +244,7 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	    		errors.add(new ValidationError(VAL_ERROR_TS_DIFF)
 	    			.setEntityId(ent.getId())
 	    			.setUpdatedUserId(r.getLong(0, UPDATED_USERID))
-	    			.setUpdatedUser(r.getString(0, EntUser.USERID))
+	    			.setUpdatedUser(r.getString(0, EntUser.USERNAME))
 	    			.setUpdated(updated)
 	    			.setCode(ent.getCode())	
 	    			);

@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.user.jsonDELETE;
+package com.sevenorcas.blue.system.user.ent;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
@@ -10,6 +10,7 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * @author John Stewart
 */
 
-public class JsonUserRole_DELETE extends BaseJsonRes{
+public class JsonUserRole extends BaseJsonRes{
+	public Long userId;
 	public Long roleId;
 }
