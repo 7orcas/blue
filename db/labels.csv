@@ -1,4 +1,4 @@
-userid,login,0,User ID,Benutser ID
+userid,login,0,User Name,Benutser ID
 pw,login,0,Password,Passwort
 org,login,0,Organisation,Organisation
 login,login,0,Login,Anmeldung
@@ -69,6 +69,7 @@ context,,0,Context,Context
 detail,,0,Detail,Detail
 orgnr,excel,0,Organisation Number,Organisation Number
 orgnr-s,,0,OrgNr,Org Nr
+orgs,,0,Org Numbers,
 langkey,excel,0,Label Key,Label Key
 label,excel,0,Label,Label
 id,excel,0,ID,Record ID
@@ -98,6 +99,7 @@ permadmin,,0,Permissions Admin,
 addperm,,0,Add Permission,
 role,,0,Role,
 roleadmin,,0,Role Admin,
+addrole,,0,Add Role,
 user,,0,User,
 useradmin,,0,User Admin,
 url,,0,URL,

@@ -9,8 +9,8 @@ import com.sevenorcas.blue.BaseTest;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
  * Configuration Module service bean test.
@@ -30,7 +30,7 @@ public class SConfigTest extends BaseTest implements ConfigurationI {
 			assertTrue(conf.isUnused("code"));
 			assertTrue(conf.isUniqueParent("permissionId"));
 			
-			conf = configSrv.getConfig (getCallObject(), EntOrg.class.getCanonicalName());
+			conf = configSrv.getConfig (getCallObject(), EntUser.class.getCanonicalName());
 			assertTrue(conf.isUniqueIgnoreOrgNr("code"));
 			
 			for (FieldConfig f : conf.list()) {

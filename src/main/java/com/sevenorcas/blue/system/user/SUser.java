@@ -17,7 +17,6 @@ import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.SRoleI;
-import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
@@ -189,7 +188,8 @@ public class SUser extends BaseService implements SUserI {
   				}
   				
   				//Merge non base fields
-  				mergedEnt.setAttempts(ent.getAttempts());
+  				mergedEnt.setAttempts(ent.getAttempts()) 
+  				         .setOrgs(ent.getOrgs());
   				
   				//Children
   				for (EntUserRole perm : ent.getRoles()) {

@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
-import com.sevenorcas.blue.system.conf.SConfigI;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
@@ -34,8 +33,7 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 public class RUser extends BaseRest {
 
 	@EJB private SUserI service;
-	@EJB private SConfigI serviceConf;
-	
+		
 	/**
 	 * Return users list
 	 * 
@@ -89,24 +87,25 @@ public class RUser extends BaseRest {
 		return service.putUsers(callObj, list);
     }
 
-	/**
-	 * Return an entity's configuration
-	 * 
-	 * @param callObj
-	 * @param org id
-	 * @return
-	 * @throws Exception
-	 */
-	@GET
-	@Path("config")
-    public JsonRes getConfig(
-    		@QueryParam ("co") CallObject callObj,
-    		@QueryParam ("entity") String entity) throws Exception {
-		if (entity == null) {
-			return new JsonRes().setError(LK_UNKNOWN_ERROR, "Invalid entity");
-		}
-		return serviceConf.getConfigJson(callObj, entity);
-    }
+//DELETE	
+//	/**
+//	 * Return an entity's configuration
+//	 * 
+//	 * @param callObj
+//	 * @param org id
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@GET
+//	@Path("config")
+//    public JsonRes getConfig(
+//    		@QueryParam ("co") CallObject callObj,
+//    		@QueryParam ("entity") String entity) throws Exception {
+//		if (entity == null) {
+//			return new JsonRes().setError(LK_UNKNOWN_ERROR, "Invalid entity");
+//		}
+//		return serviceConf.getConfigJson(callObj, entity);
+//    }
 	
 	
 	/**

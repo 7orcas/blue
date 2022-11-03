@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.json.bind.annotation.JsonbTransient;
 
+import com.sevenorcas.blue.system.base.JsonRes;
+
 /**
  * Configuration for a field.
  * 
@@ -35,15 +37,26 @@ public class FieldConfig implements ConfigurationI {
 	public Boolean unused = false;
 	
 	@JsonbTransient
-	public ValidationCallbackI callback;
+	public ValidationCallbackI callback = null;
 	
 	@JsonbTransient
-	public List<ForeignKey> foreignKeys;
+	public List<ForeignKey> foreignKeys = null;
 	
 	public FieldConfig(String field) {
 		this.field = field;
 	}
 
+	public JsonFieldConfig toJSon() throws Exception {
+		JsonFieldConfig j = new JsonFieldConfig(); 
+		j.field = field;
+		j.max = max;
+		j.min = min;
+		j.nullState = isNonNull();
+		j.uniqueParent = isUniqueInParent();
+		j.uniqueOrgNr = isUniqueInOrg();
+		return j;
+	}
+	
 	public FieldConfig unused() {
 		unused = true;
 		return this;

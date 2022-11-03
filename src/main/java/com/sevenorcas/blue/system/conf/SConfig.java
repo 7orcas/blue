@@ -38,7 +38,8 @@ public class SConfig extends BaseService implements SConfigI {
 			CallObject callObj,
 			String entity) throws Exception {
 		EntityConfig e = getConfig(callObj, entity);
-		return e.toJSon();
+		JsonRes j = e.toJSon();
+		return j;
     }
    
 	/**

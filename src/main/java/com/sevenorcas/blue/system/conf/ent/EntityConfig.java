@@ -77,7 +77,12 @@ public class EntityConfig extends BaseUtil {
 	}
 	
 	public JsonRes toJSon() throws Exception {
-		return new JsonRes().setData(list());
+		List<FieldConfig> list = list();
+		List<JsonFieldConfig> fields = new ArrayList<>();
+		for (int i=0;list!=null && i<list.size();i++) {
+			fields.add(list.get(i).toJSon());
+		}
+		return new JsonRes().setData(fields);
 	}
 	
 	public List<FieldConfig> list() throws Exception {

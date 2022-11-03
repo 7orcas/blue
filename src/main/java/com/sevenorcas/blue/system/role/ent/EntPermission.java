@@ -8,7 +8,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEntity;
-import com.sevenorcas.blue.system.base.BaseUtil;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ForeignKey;

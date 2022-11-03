@@ -17,6 +17,8 @@ import javax.persistence.Transient;
 import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
+import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
+import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
@@ -65,9 +67,28 @@ public class EntUser extends BaseEntity<EntUser> {
 				.put(new FieldConfig("code").max(30).uniqueIgnoreOrgNr())
 				.put(new FieldConfig("password").nonNull().max(20))
 				.put(new FieldConfig("orgNr").nonNull().min(0).max(0)) //Not used
-				.put(new FieldConfig("orgs").nonNull())
 				.put(new FieldConfig("attempts").nonNull().min(0))
-				;
+				.put(new FieldConfig("orgs").nonNull().max(20)
+	    	    		.callback(new ValidationCallbackI() {
+							@Override
+							public <T extends BaseEntity<T>> ValidationError validate(T ent) throws Exception {
+								EntUser p = (EntUser)ent;
+								try {
+									String [] s = p.orgs.split(",");
+									for (String o : s) {
+										int x = Integer.parseInt(o);
+										if (x<=BASE_ORG_NR) throw new Exception();
+									}
+									return null;
+								} catch (Exception x) {
+									return new ValidationError(VAL_ERROR_INVALID_VALUE)
+											.setEntityId(ent.getId())
+											.setCode(ent.getCode())	
+											.setField("orgs");
+								}
+							}
+	    	    		}));
+				
 	}
 	
 	/**
