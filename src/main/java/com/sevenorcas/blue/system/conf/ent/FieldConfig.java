@@ -48,10 +48,10 @@ public class FieldConfig implements ConfigurationI {
 
 	public JsonFieldConfig toJSon() throws Exception {
 		JsonFieldConfig j = new JsonFieldConfig(); 
-		j.field = field;
+		j.name = field;
 		j.max = max;
 		j.min = min;
-		j.nullState = isNonNull();
+		j.nonNull = isNonNull();
 		j.uniqueParent = isUniqueInParent();
 		j.uniqueOrgNr = isUniqueInOrg();
 		return j;

@@ -1,7 +1,5 @@
 package com.sevenorcas.blue.system.conf.ent;
 
-import com.sevenorcas.blue.system.base.BaseJsonRes;
-
 /**
 * Field Configuration entity Json 
 * 
@@ -9,12 +7,11 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 * [Licence]
 * @author John Stewart
 */
-
-public class JsonFieldConfig extends BaseJsonRes{
-	public String field;
+public class JsonFieldConfig {
+	public String name;
 	public Double max = null; 
 	public Double min = null; 
-	public Boolean nullState = null;
+	public Boolean nonNull = null;
 	public Boolean uniqueOrgNr = null;
 	public Boolean uniqueParent = null;
 }

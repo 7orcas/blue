@@ -41,7 +41,7 @@ public class RConfig extends BaseRest {
     public JsonRes getConfig(
     		@QueryParam ("co") CallObject callObj,
     		@QueryParam ("entity") String entity) throws Exception {
-		if (entity == null) {
+		if (entity == null || entity.isEmpty()) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR, "Invalid entity");
 		}
 		return service.getConfigJson(callObj, entity);
