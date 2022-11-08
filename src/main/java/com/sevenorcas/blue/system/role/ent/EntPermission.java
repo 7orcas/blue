@@ -102,6 +102,23 @@ public class EntPermission extends BaseEntity<EntPermission> {
     			+(D?"D":"-");
     }
     
+    /**
+     * Add the passed in crud settings to <code>this</code> entity
+     * @param crud
+     */
+    public void combine(String crud) {
+    	if (this.crud.equals("*")) return;
+    	if (crud.equals("*")) {
+    		this.crud = crud;
+    		return;
+    	}
+    	if (crud.toUpperCase().contains("C")) this.crud += "C"; 
+    	if (crud.toUpperCase().contains("R")) this.crud += "R";
+    	if (crud.toUpperCase().contains("U")) this.crud += "U";
+    	if (crud.toUpperCase().contains("D")) this.crud += "D";
+    	formatCrud();
+    }
+    
 	public JsonPermission toJSon() {
 		JsonPermission j = super.toJSon(new JsonPermission());
 		j.crud = crud;

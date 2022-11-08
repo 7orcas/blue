@@ -34,7 +34,7 @@ public class EntUserRole extends BaseEntity<EntUserRole>{
 
 	private static final long serialVersionUID = 1L;
 	
-	static final public String USER_ID = "xxx";
+	static final public String USER_ID = "zzz_id";
 
 	@Id  
 	@SequenceGenerator(name="zzz_role_id_seq", sequenceName="cntrl.zzz_role_id_seq", allocationSize=1)
@@ -43,11 +43,11 @@ public class EntUserRole extends BaseEntity<EntUserRole>{
 
 	/** Header foreign key */
 	@ManyToOne
-	@JoinColumn(name="zzz_id")
+	@JoinColumn(name=USER_ID)
 	private EntUser entUser;
 	
-	/** Parent */     
-	@Column(name="zzz_id",insertable=false,updatable=false)
+	/** Parent */
+	@Column(name=USER_ID,insertable=false,updatable=false)
 	private Long userId;
 	
 	/** Foreign Key */

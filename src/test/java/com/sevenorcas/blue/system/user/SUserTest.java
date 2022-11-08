@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.sevenorcas.blue.BaseTest;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
 
@@ -43,7 +44,10 @@ public class SUserTest extends BaseTest {
 				
 				
 				for (EntUserRole p : e.getRoles()) {
-					System.out.println("                 > id= " + p.getId() + " user id=" + p.getUserId() + " role id=" + p.getRoleId());	
+					System.out.println("           role  > id= " + p.getId() + " user id=" + p.getUserId() + " role id=" + p.getRoleId());	
+				}
+				for (EntPermission p : e.getPermissions()) {
+					System.out.println("           perm  > id= " + p.getId() + " crud=" + p.getCrud());	
 				}
 			}
 			System.out.println("list size = " + list.size());
