@@ -17,7 +17,6 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ForeignKey;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
-import com.sevenorcas.blue.system.role.json.JsonRole;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
 
 /**

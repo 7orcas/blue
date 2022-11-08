@@ -15,7 +15,6 @@ import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
-import com.sevenorcas.blue.system.role.json.JsonRolePermission;
 
 /**
 * Role-Permission join entity

@@ -14,7 +14,6 @@ import com.sevenorcas.blue.system.conf.ent.ForeignKey;
 import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
-import com.sevenorcas.blue.system.role.json.JsonPermission;
 
 /**
 * Permission Entity

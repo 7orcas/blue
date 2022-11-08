@@ -31,6 +31,7 @@ desc,sys,0,Description,Bezeichnung
 action,,0,Action,
 help,sys,0,Help,Hilfe
 attempts,,0,Attempts,
+resetAtt,,0,Reset Attempts,
 invalid,,0,Invalid,Ungültig
 std,,0,Standard,Standard
 blank,,0,Blank,Leer
@@ -100,6 +101,8 @@ addperm,,0,Add Permission,
 role,,0,Role,
 roleadmin,,0,Role Admin,
 addrole,,0,Add Role,
+showperms,,0,Show Permissions,
+showroles,,0,Show Roles,
 user,,0,User,
 useradmin,,0,User Admin,
 url,,0,URL,
@@ -121,3 +124,4 @@ lastup,,0,Last update,
 problem,,0,Problem,
 dvalue,,0,Default,
 dvalue-s,,0,Dft,
+loading,,0,Loading...,

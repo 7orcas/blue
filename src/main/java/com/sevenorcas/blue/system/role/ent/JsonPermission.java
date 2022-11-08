@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.role.json;
+package com.sevenorcas.blue.system.role.ent;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 

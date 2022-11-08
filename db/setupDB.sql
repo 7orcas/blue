@@ -51,6 +51,7 @@ create table cntrl.zzz
  	constraint zzz_xxx unique (xxx)
 ) INHERITS (sys.base);
 alter table cntrl.zzz OWNER to postgres;
+alter sequence cntrl.zzz_id_seq restart with 10000;
 
 create table cntrl.permission
 (

@@ -19,7 +19,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
 import com.sevenorcas.blue.system.role.ent.ExcelRole;
-import com.sevenorcas.blue.system.role.json.JsonRole;
+import com.sevenorcas.blue.system.role.ent.JsonRole;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**

@@ -134,6 +134,7 @@ public class SUser extends BaseService implements SUserI {
     	return o.setId(dao.nextTempIdNegative())
     			.setOrgNr(BASE_ORG_NR)
     			.setAttempts(0)
+    			.setPassword("")
 		    	.setActive();
     }  
     
@@ -169,9 +170,9 @@ public class SUser extends BaseService implements SUserI {
   			for (EntUser ent : list) {
   				//Special case
   				if (ent.isNew()) {
-  					for (EntUserRole perm : ent.getRoles()) {
-  						nullBaseFields(perm, permConfig);
-  	  					perm.setId(null)
+  					for (EntUserRole child : ent.getRoles()) {
+  						nullBaseFields(child, permConfig);
+  	  					child.setId(null)
   	  					    .setEntUser(ent);
   	  	  			}
   				}
@@ -192,9 +193,9 @@ public class SUser extends BaseService implements SUserI {
   				         .setOrgs(ent.getOrgs());
   				
   				//Children
-  				for (EntUserRole perm : ent.getRoles()) {
-  					perm.setEntUser(ent);
-  					dao.put(perm, permConfig, callObj);
+  				for (EntUserRole child : ent.getRoles()) {
+  					child.setEntUser(ent);
+  					dao.put(child, permConfig, callObj);
   	  			}	
   			}
   			

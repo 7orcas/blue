@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.sevenorcas.blue.system.base.BaseTransferI;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
@@ -19,4 +20,5 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 @Local
 public interface TUserI extends BaseTransferI {
 	public List<EntUser> userList(CallObject callObj, SqlParm parms) throws Exception;
+	public List<EntPermission> permissionList(CallObject callObj, SqlParm parms, EntUser user) throws Exception;
 }

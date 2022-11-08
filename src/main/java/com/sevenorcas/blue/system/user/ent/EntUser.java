@@ -20,6 +20,7 @@ import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 
 /**
  * User entity 
@@ -58,6 +59,8 @@ public class EntUser extends BaseEntity<EntUser> {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entUser")
 	private List <EntUserRole> roles = new ArrayList<>(); 
 
+	@Transient
+	private List <EntPermission> permissions = new ArrayList<>();
 	
 	/**
 	 * Override field configurations
@@ -120,7 +123,13 @@ public class EntUser extends BaseEntity<EntUser> {
 			for (EntUserRole p : roles) {
 				j.roles.add(p.toJSon());
 			}
-		}		
+		}
+		if (permissions != null) {
+			j.permissions = new ArrayList<>();
+			for (EntPermission p : permissions) {
+				j.permissions.add(p.toJSon());
+			}
+		}
 		return j;
 	}
 	
@@ -223,6 +232,15 @@ public class EntUser extends BaseEntity<EntUser> {
 		}
 		roles.add(r);
 		return this;
+	}
+
+	public List<EntPermission> getPermissions() {
+		return permissions;
+	}
+	public EntUser setPermissions(List<EntPermission> permissions) {
+		this.permissions = permissions;
+		return this;
 	}	
+    
     
 }

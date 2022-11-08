@@ -3,6 +3,7 @@ package com.sevenorcas.blue.system.user.ent;
 import java.util.List;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
+import com.sevenorcas.blue.system.role.ent.JsonPermission;
 
 /**
 * User list entity Json 
@@ -17,4 +18,5 @@ public class JsonUser extends BaseJsonRes{
 	public String password;
 	public String orgs;
 	public List<JsonUserRole>roles;
+	public List<JsonPermission>permissions;
 }

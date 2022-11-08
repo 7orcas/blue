@@ -31,8 +31,10 @@ import com.sevenorcas.blue.system.role.ent.EntRole;
 @Entity
 @Table(name="zzz_role", schema="cntrl")
 public class EntUserRole extends BaseEntity<EntUserRole>{
-	
+
 	private static final long serialVersionUID = 1L;
+	
+	static final public String USER_ID = "xxx";
 
 	@Id  
 	@SequenceGenerator(name="zzz_role_id_seq", sequenceName="cntrl.zzz_role_id_seq", allocationSize=1)

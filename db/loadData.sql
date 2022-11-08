@@ -26,9 +26,9 @@ INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, 
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (5, 4, 4, 0, current_timestamp, 1);
 
 INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (1, 'js@7orcas.com', '123', 0, '1,2,3', 0, current_timestamp, true);
-INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (2, '111',           '111', 0, '1,2,3', 0, current_timestamp, true);
-INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (3, '222',           '222', 0, '1', 0, current_timestamp, true);
-INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (4, '333',           '333', 0, '1', 0, current_timestamp, false);
+INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (2, '111',           '111', 0, '1,2,3', 1, current_timestamp, true);
+INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (3, '222',           '222', 0, '1', 2, current_timestamp, true);
+INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (4, '333',           '333', 0, '1', 3, current_timestamp, false);
 INSERT INTO cntrl.zzz (id, xxx, yyy, org_nr, orgs, attempts, updated, active) VALUES (5, '444',           '444', 0, '1', 4, current_timestamp, true);
 
 INSERT INTO cntrl.zzz_role (id, zzz_id, role_id, updated) VALUES (1, 1, 1, current_timestamp);
