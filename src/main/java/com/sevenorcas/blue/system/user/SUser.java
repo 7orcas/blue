@@ -2,6 +2,8 @@ package com.sevenorcas.blue.system.user;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -17,7 +19,6 @@ import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.SRoleI;
-import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
@@ -103,12 +104,19 @@ public class SUser extends BaseService implements SUserI {
 	 * @return
 	 * @throws Exception
 	 */
-	//TODO_TEST
     public EntUser getUser(CallObject callObj, Long id) throws Exception {
     	EntUser ent = dao.find(EntUser.class, id);
     	for (EntUserRole r : ent.getRoles()) {
     		r.setEntRole(sRole.getRole(callObj, r.getRoleId()));
     	}
+    	
+    	//Roles need sorting
+    	Collections.sort(ent.getRoles(), new Comparator<EntUserRole>(){
+		  public int compare(EntUserRole o1, EntUserRole o2) {
+		     return compareTo(o1.getEntRole(), o2.getEntRole());
+		  }
+		});
+    	
     	//Process permissions
     	ent.setPermissions(dao.permissionList(callObj, null, ent));
     	

@@ -36,6 +36,16 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
 		return o1.equals(o2);
 	}
 	
+	public <T extends BaseEntity<T>> int compareTo (BaseEntity<T> o1, BaseEntity<T> o2) {
+		if (o1 == null && o2 == null) return 0;
+		if (o1 == null) return 1;
+		if (o2 == null) return -1;
+		if (o1.getCode() == null && o2.getCode() == null) return 0;
+		if (o1.getCode() == null) return 1;
+		if (o2.getCode() == null) return -1;
+		return o1.getCode().compareTo(o2.getCode());
+	}
+	
 	public boolean isNotEmpty (String s) {
 		return s != null && !s.isEmpty();
 	}
@@ -119,5 +129,21 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
     	if (config.isUnused("active")) ent.setActive(null);
     }
 
+    /**
+     * Find the entity by it's code
+     * @param code
+     * @param list
+     * @return
+     */
+    public  <T extends BaseEntity<T>>T findByCode (String code, List<T> list) {
+    	for (int i=0;list!=null && i<list.size();i++) {
+    		T e = list.get(i);
+    		if (e.getCode().equals(code)) {
+    			return e;
+    		}
+    	}
+    	return null;
+    }
+    
 }
 

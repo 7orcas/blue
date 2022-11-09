@@ -25,7 +25,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 */
 @SuppressWarnings("serial")
 @MappedSuperclass
-abstract public class BaseEntity <T> implements Serializable, ApplicationI, ConfigurationI {
+abstract public class BaseEntity <T> implements Serializable, ApplicationI, ConfigurationI, IdCodeI {
 	
 	@Transient
     private Long tempId;

@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.user;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.ejb.Stateless;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseTransfer;
+import com.sevenorcas.blue.system.base.IdCodeI;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
@@ -100,25 +102,26 @@ public class TUser extends BaseTransfer implements TUserI {
 						+ "ON p.id = x.permission_id "
 						+ "AND p.active = true "
 					+ "WHERE " + prefix("r", EntUserRole.USER_ID) + " = " + user.getId() + " "
-						+ "AND r.active = true ";
-		
-		sql += "ORDER BY p.code ";
+						+ "AND r.active = true "
+					+ "ORDER BY p.code ";
 
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
-		Hashtable<String, EntPermission> list = new Hashtable<>();
+		List<EntPermission> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
 			String url = r.getString(i, "code");
 			String crud = r.getString(i, "crud");
 			
-			EntPermission ent = list.get(url);
+			EntPermission ent = findByCode (url, list);
+		
 			if (ent == null) {
 				ent = new EntPermission()
 				   .setId(r.getLong(i, "id") * -1)
 				   .setCode(url)
-				   .setCrud(crud);
-				list.put(url, ent);
+				   .setCrud(crud)
+				   .setActive();
+				list.add(ent);
 			}
 			//Consolidate
 			else {
@@ -126,8 +129,7 @@ public class TUser extends BaseTransfer implements TUserI {
 			}
 		}
 		
-		return hashtableToListCode(list);
+		return list;
     }
-	
 	
 }
