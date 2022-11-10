@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
@@ -31,8 +29,8 @@ public class TLogin extends BaseTransfer implements TLoginI {
 
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 		
-	@PersistenceContext(unitName="blue")
-	protected EntityManager em;
+//	@PersistenceContext(unitName="blue")
+//	protected EntityManager em;
 	
 	/**
 	 * Return the <code>UserEnt</code> entity

@@ -1,5 +1,13 @@
-package com.sevenorcas.blue.system.login.json;
+package com.sevenorcas.blue.system.login.ent;
 
+/**
+* Json Login Response entity 
+* Part 1 of login process
+* 
+* Created July '22
+* [Licence]
+* @author John Stewart
+*/
 public class JResLogin {
 	public String baseUrl;
 	public String uploadUrl;

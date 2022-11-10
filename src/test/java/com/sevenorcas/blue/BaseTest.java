@@ -23,6 +23,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
  * Base test object 
@@ -131,8 +132,11 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		EntOrg org = new EntOrg();
 		org.setOrgNr(ORG_NR);
 		CallObject o = new CallObject("").setOrg(org);
+		EntUser user = new EntUser()
+				.setId(1L)
+				.setUserName("TestUser");
 		
-		ClientSession session = new ClientSession(1L, "TestUser", ORG_NR, "en");
+		ClientSession session = new ClientSession(user, ORG_NR, "en");
 		o.setClientSession(session);
 		return o;
 	}

@@ -18,6 +18,7 @@ public interface BaseTransferI extends ConfigurationI {
 	public String prefix (String prefix, String fields);
 	public String prefixAs (String prefix, String fields);
 	public String prefix (String prefix, String fields, boolean as);
+	public <T extends BaseEntity<T>> void detach (T ent) throws Exception;
 	public <T extends BaseEntity<T>> T find (Class<T> clazz, Long id) throws Exception;
     public <T extends BaseEntity<T>> T find (T ent) throws Exception;
     public <T extends BaseEntity<T>> T persist (T ent, Long userId) throws Exception;

@@ -96,6 +96,15 @@ public class BaseTransfer extends BaseUtil implements BaseTransferI {
 	}
 	
 	/**
+	 * Detached the entity from JPA
+	 * @param <T>
+	 * @param ent
+	 */
+	public <T extends BaseEntity<T>> void detach (T ent) throws Exception {
+		em.detach(ent);
+	}
+	
+	/**
      * Return the entity 
      * @param class
      * @param entity id

@@ -158,6 +158,15 @@ public class Encode implements IntHardCodeLangKey{
 	}
 	
 	/**
+	 * Return the value of a field passed into this object
+	 * @param key
+	 * @return
+	 */
+	public Integer getInteger(String key) {
+		return (Integer)get(key);
+	}
+	
+	/**
 	 * Return the ForeignKeyField for the passed in key
 	 * @param key
 	 * @return

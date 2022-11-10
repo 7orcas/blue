@@ -112,7 +112,7 @@ public class SMail extends BaseService implements SMailI {
 	public String callDetails (CallObject callObj) { 
 		ClientSession ses = callObj.getClientSession();
 		return "OrgNr: " + ses.getOrgNr() + "\n"
-				+ "User: " + ses.getUser() + "\n";
+				+ "User: " + ses.getUserName() + "\n";
 	}
 	
 	public String stackTraceToString(Exception ex) {

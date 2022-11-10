@@ -77,6 +77,15 @@ public class SLogin extends BaseService implements SLoginI {
 	}
 
 	/**
+	 * Detached the entity from JPA
+	 * @param EntUser
+	 * @param ent
+	 */
+	public void detach (EntUser ent) throws Exception {
+		dao.detach(ent);
+	}
+	
+	/**
 	 * Return userid for the passed in user id
 	 * @param userId
 	 * @return

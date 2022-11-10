@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.login.ent;
 
 import com.sevenorcas.blue.system.ApplicationI;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
  * Client session object to store settings (for the session)
@@ -12,14 +13,12 @@ import com.sevenorcas.blue.system.ApplicationI;
 
 public class ClientSession implements ApplicationI {
 
-	private Long userId;
+	private EntUser user;
 	private Integer sessionNr;
 	private Integer orgNr;
 	private String lang;
-	private String user;
-
-	public ClientSession (Long userId, String user, Integer orgNr, String lang) {
-		this.userId = userId;
+	
+	public ClientSession (EntUser user, Integer orgNr, String lang) {
 		this.user = user;
 		this.orgNr = orgNr;
 		this.lang = lang;
@@ -30,11 +29,14 @@ public class ClientSession implements ApplicationI {
 		return this;
 	}
 
-	public Long getUserId() {
-		return userId;
-	}
-	public String getUser() {
+	public EntUser getUser() {
 		return user;
+	}
+	public Long getUserId() {
+		return user.getId();
+	}
+	public String getUserName() {
+		return user.getUserName();
 	}
 	public Integer getSessionNr() {
 		return sessionNr;

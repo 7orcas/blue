@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.app.login;
+package com.sevenorcas.blue.system.login;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -13,14 +13,17 @@ import javax.ws.rs.core.Context;
 
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.login.SLoginI;
 import com.sevenorcas.blue.system.login.ent.CacheLogin_Dev;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
+import com.sevenorcas.blue.system.login.ent.JResLogin2;
 
 /**
+ * Part 2 of the login process
  * Once a user is logged in, then initialise their session
  *  
+ * Created July '22
  * [Licence]
  * @author John Stewart
  */
@@ -29,7 +32,7 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 @Path("/login2")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-public class RestLogin2 extends BaseRest {
+public class RLogin2 extends BaseRest {
 
 	@EJB
 	private SLoginI service;
@@ -67,6 +70,9 @@ public class RestLogin2 extends BaseRest {
 			login.orgNr = cs.getOrgNr();
 			login.lang = cs.getLang();
 			login.roles = roles;
+			
+			Encode encode = new Encode().decode(cs.getUser().getEncoded());
+			login.theme = encode.getInteger("theme");
 			
 System.out.println("NEW CLIENT sid=" + httpSes.getId() + "  passed in sid=" + sid  + "  clientNr=" + cs.getSessionNr());				
 

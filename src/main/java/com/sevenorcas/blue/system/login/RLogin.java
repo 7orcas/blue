@@ -16,8 +16,8 @@ import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
-import com.sevenorcas.blue.system.login.json.JReqLogin;
-import com.sevenorcas.blue.system.login.json.JResLogin;
+import com.sevenorcas.blue.system.login.ent.JReqLogin;
+import com.sevenorcas.blue.system.login.ent.JResLogin;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -27,6 +27,7 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
  * 
  * Note this bean doesn't implement the BaseRest so the RestAuthorisation Interceptor is not called
  * 
+ * Created July '22
  * [Licence]
  * @author John Stewart
  */
@@ -49,13 +50,19 @@ public class RLogin extends BaseRest{
 		
 		//Invalid user id
 		if (user == null) {
-			return new JsonRes().setError("invuid");			
+			return new JsonRes().setError(LK_INVALID_USERID);			
 		}
 		//Login can't be validated
 		if (!user.isValidUser()) {
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
-				
+			
+		try {
+			service.detach(user);
+		} catch (Exception x) {
+			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
+		}
+		
 		//Success! Set parameters for client to open web gui
 		HttpSession ses = httpRequest.getSession(true);
 		
@@ -80,7 +87,7 @@ public class RLogin extends BaseRest{
 			clientSessions = new Hashtable<>();
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 		}
-		ClientSession cs = new ClientSession(user.getId(), req.u, user.getOrgNr(), lang);
+		ClientSession cs = new ClientSession(user, user.getOrgNr(), lang);
 		
 		Integer nextSes = clientSessions.size();
 		clientSessions.put(nextSes, cs.setSessionNr(nextSes));
