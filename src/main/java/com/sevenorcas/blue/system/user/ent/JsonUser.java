@@ -12,7 +12,6 @@ import com.sevenorcas.blue.system.role.ent.JsonPermission;
 * [Licence]
 * @author John Stewart
 */
-
 public class JsonUser extends BaseJsonRes{
 	public Integer attempts;
 	public String password;

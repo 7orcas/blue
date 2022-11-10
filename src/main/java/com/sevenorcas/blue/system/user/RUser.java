@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -17,6 +18,7 @@ import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
+import com.sevenorcas.blue.system.user.ent.JsonUserConfig;
 
 /**
 * REST interface for Users
@@ -87,26 +89,23 @@ public class RUser extends BaseRest {
 		return service.putUsers(callObj, list);
     }
 
-//DELETE	
-//	/**
-//	 * Return an entity's configuration
-//	 * 
-//	 * @param callObj
-//	 * @param org id
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	@GET
-//	@Path("config")
-//    public JsonRes getConfig(
-//    		@QueryParam ("co") CallObject callObj,
-//    		@QueryParam ("entity") String entity) throws Exception {
-//		if (entity == null) {
-//			return new JsonRes().setError(LK_UNKNOWN_ERROR, "Invalid entity");
-//		}
-//		return serviceConf.getConfigJson(callObj, entity);
-//    }
-	
+	/**
+	 * Update the user configuration
+	 * @param callObj
+	 * @param config and value
+	 * @return
+	 * @throws Exception
+	 */
+	@PUT
+	@Path("put/config")
+    public JsonRes putConfig(
+    		@QueryParam ("co") CallObject callObj, 
+    		JsonUserConfig config)  throws Exception {
+		
+System.out.println(config.config + "=" + config.value);		
+		service.putConfig(callObj, config.config, config.value);
+		return new JsonRes().setData("ok");
+    }
 	
 	/**
 	 * Return a new user object (uncommitted)

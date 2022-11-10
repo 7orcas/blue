@@ -1,8 +1,6 @@
 package com.sevenorcas.blue.system.field;
 
 /**
- * Created 20 May 2022
- * 
  * Utility Class to encode multiple fields into a string for saving to a single database column.
  * The encoded field can then be decoded and used to populate the fields.
  * 
@@ -17,6 +15,7 @@ package com.sevenorcas.blue.system.field;
  *  1 = contains a foreign key
  *   
  * 
+ * Created 20.05.22
  * [Licence]
  * @author John Stewart
  */
@@ -25,8 +24,9 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
-public class Encode {
+public class Encode implements IntHardCodeLangKey{
 
 	static private String REF_SCHEMA = "__FKS";
 	static private String REF_TABLE = "__FKT";
@@ -48,11 +48,22 @@ public class Encode {
 	 */
 	public Encode add(String key, Object o) throws Exception {
 		if (hash.containsKey(key)) 
-			throw new RedException("errunk", "Duplicate key passed to Encode");
+			throw new RedException(LK_UNKNOWN_ERROR, "Duplicate key passed to Encode");
 		hash.put(key, o);
 		return this;
 	}
 	
+	/**
+	 * Add / Update an object to be encoded
+	 * @param key
+	 * @param object
+	 * @return
+	 * @throws Exception
+	 */
+	public Encode update(String key, Object o) throws Exception {
+		hash.put(key, o);
+		return this;
+	}
 	
 	/**
 	 * Add a foreign key object to be encoded
@@ -101,6 +112,8 @@ public class Encode {
 	 * @throws Exception
 	 */
 	public Encode decode (String s) throws Exception{
+		if (s == null) return this;
+		
 		String [] fields = s.split(";");
 		
 		long l = Long.parseLong(fields[0].substring(6));

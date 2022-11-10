@@ -27,5 +27,6 @@ public interface SUserI extends BaseServiceI {
     public JsonRes newUserJson(CallObject callObj) throws Exception;
     public EntUser newUser(CallObject callObj) throws Exception;
     public JsonRes putUsers(CallObject callObj, List<EntUser> list) throws Exception;
+    public void putConfig(CallObject callObj,String config, String value)  throws Exception;
 	public Response excelExport(CallObject callObj) throws Exception;
 }

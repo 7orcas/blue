@@ -197,7 +197,7 @@ npm install react-bootstrap bootstrap
 
 https://mui.com/   (used in @mui/x-data-grid tables - below)
 npm install @mui/material @emotion/react @emotion/styled
-
+npm install @mui/icons-material
 
 Menu
 ----

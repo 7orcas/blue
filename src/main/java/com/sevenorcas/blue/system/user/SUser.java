@@ -16,6 +16,8 @@ import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
+import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.SRoleI;
@@ -221,6 +223,32 @@ public class SUser extends BaseService implements SUserI {
   	}  
 
 
+	/**
+	 * Update the user configuration
+	 * @param callObj
+	 * @param config item
+	 * @param value
+	 * @throws Exception
+	 */
+	public void putConfig(
+    		CallObject callObj,
+    		String config,
+    		String value)  throws Exception {
+		
+		EntUser mergedEnt = dao.find(EntUser.class, callObj.getUserId());
+		Encode encode = new Encode().decode(mergedEnt.getEncoded());
+		
+		switch (config) {
+			case "theme":
+				encode.update(config, Integer.parseInt(value));
+				break;
+			
+			default: throw new RedException(LK_UNKNOWN_ERROR, "config:" + config + "=" + value);
+		}
+		mergedEnt.setEncoded(encode.encode());
+    }
+
+    
     /**
 	 * Export users to excel
 	 * @return

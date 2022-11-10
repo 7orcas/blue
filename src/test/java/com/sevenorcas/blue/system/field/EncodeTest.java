@@ -63,6 +63,24 @@ public class EncodeTest extends BaseTest {
 	}
 	
 	/**
+	 * Test update of keys 
+	 */
+	@Test
+	public void update() {
+		try {
+			Encode e = new Encode();
+			e.add("a", 1);
+			e.update("a", 2);
+			assertTrue(e.get("a").equals(2));			
+		} catch (Exception x) {
+			fail("something went wrong");
+			//Do nothing, its ok :-)
+		}
+		
+	}
+
+	
+	/**
 	 * Test Null values
 	 */
 	@Test
