@@ -6,6 +6,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.sevenorcas.blue.system.base.BaseService;
+import com.sevenorcas.blue.system.org.SOrgI;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
@@ -20,8 +22,10 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 @Stateless
 public class SLogin extends BaseService implements SLoginI {
 
-	@EJB
-	private TLoginI dao;
+	@EJB private TLoginI dao;
+	@EJB private SOrgI orgService;
+	
+	private Integer DEAULT_LOGIN_ATTEMPTS = appProperties.getInteger("DefaultLoginAttempts");
 	
 	/**
 	 * Test the given parameters to return a valid user object (assuming they are valid).
@@ -42,11 +46,19 @@ public class SLogin extends BaseService implements SLoginI {
 		//Validate user
 		if (user != null) {
 			user.incrementAttempts();
+	
+			//Test attempts has not exceed maximum
+			try {
+				EntOrg orgX = orgService.getOrg(org);
+				Integer maxAttempts = orgX.getLoginAttempts();
+				if (maxAttempts == null) maxAttempts = DEAULT_LOGIN_ATTEMPTS;
+				
+				if (maxAttempts != null && user.getAttempts() > maxAttempts) {
+					user.setInvalidMessage("maxatt");
+					return user;
+				}
+			} catch (Exception x) {}
 			
-			if (user.getAttempts() > MAX_LOGIN_ATTEMPTS) {
-				user.setInvalidMessage("maxatt");
-				return user;
-			}
 			if (!user.getPassword().equals(pw)) {
 				user.setInvalidMessage("invpw");
 				return user;	

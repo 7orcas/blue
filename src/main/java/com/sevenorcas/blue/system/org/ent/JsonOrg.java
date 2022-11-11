@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.org.json;
+package com.sevenorcas.blue.system.org.ent;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
@@ -11,4 +11,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 public class JsonOrg extends BaseJsonRes{
 	public Boolean dvalue;
+	public Integer loginAttempts;
 }

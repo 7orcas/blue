@@ -21,4 +21,5 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 public interface TOrgI extends BaseTransferI {
 	public List<DtoOrg> orgList(CallObject callObj, SqlParm parms) throws Exception;
 	public void resetDvalues() throws Exception;
+	public Long findOrgId(Integer nr) throws Exception;
 }

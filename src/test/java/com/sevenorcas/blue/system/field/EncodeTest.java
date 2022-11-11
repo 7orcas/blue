@@ -26,7 +26,7 @@ public class EncodeTest extends BaseTest {
 	public void setup() throws Exception {
 		orgTable = tableName(EntOrg.class, "");
 		SqlUpdate.executeQuery("DELETE FROM " + orgTable + " WHERE id=" + ORG_NR_TEMP);
-		SqlUpdate.executeQuery("INSERT INTO " + orgTable + "(id, code) VALUES (" + ORG_NR_TEMP + ",'UnitTest')");
+		SqlUpdate.executeQuery("INSERT INTO " + orgTable + "(id, code) VALUES (" + ORG_NR_TEMP + ",'UnitTest-Encode')");
 	}
 	
 	/**

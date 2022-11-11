@@ -21,6 +21,7 @@ public interface SOrgI {
 	public JsonRes orgListJson(CallObject callObj, SqlParm parms) throws Exception;
 	public JsonRes getOrgJson(CallObject callObj, Long orgId) throws Exception;
     public EntOrg getOrg(Long orgId) throws Exception;
+    public EntOrg getOrg(Integer nr) throws Exception;
     public JsonRes newOrgJson(CallObject callObj) throws Exception;
     public EntOrg newOrg(CallObject callObj) throws Exception;
     public JsonRes putOrgs(CallObject callObj, List<EntOrg> list) throws Exception;

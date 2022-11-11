@@ -6,11 +6,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
-import com.sevenorcas.blue.system.org.json.JsonOrg;
+import com.sevenorcas.blue.system.field.Encode;
 
 /**
 * Organisation Entity
@@ -34,6 +35,8 @@ public class EntOrg extends BaseEntity<EntOrg> {
 	
 	private Boolean dvalue;
 	
+	@Transient private Integer loginAttempts;
+	
 	public EntOrg () {
 	}
 
@@ -53,10 +56,23 @@ public class EntOrg extends BaseEntity<EntOrg> {
 			.put(new FieldConfig("orgNr").min(1).uniqueIgnoreOrgNr())
     	    .put(new FieldConfig("code").max(20).uniqueIgnoreOrgNr());
     }
+
+	/**
+	 * Decode the encoded field
+	 */
+	public void decode() throws Exception {
+		//Encoded fields
+		Encode encode = new Encode().decode(encoded);
+		loginAttempts = encode.getInteger("attempts");
+		
+	}
 	
-	public JsonOrg toJSon() {
+	public JsonOrg toJSon(EntOrg org) throws Exception {
+		decode();
 		JsonOrg j = super.toJSon(new JsonOrg());
 		j.dvalue = dvalue;
+		j.loginAttempts = loginAttempts;
+		
 		return j;
 	}
 	
@@ -67,7 +83,19 @@ public class EntOrg extends BaseEntity<EntOrg> {
 		this.dvalue = dvalue;
 		return this;
 	}
+	public final Boolean getDvalue() {
+		return dvalue;
+	}
 
+	public Integer getLoginAttempts() {
+		return loginAttempts;
+	}
+	public EntOrg setLoginAttempts(Integer loginAttempts) {
+		this.loginAttempts = loginAttempts;
+		return this;
+	}
+	
+	
 	
 	
 }

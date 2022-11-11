@@ -1,6 +1,9 @@
 package com.sevenorcas.blue;
 
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Field;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.ejb.EJB;
@@ -17,12 +20,17 @@ import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.field.Compare;
+import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
+import com.sevenorcas.blue.system.sql.SqlExecute;
+import com.sevenorcas.blue.system.sql.SqlResultSet;
+import com.sevenorcas.blue.system.sql.SqlUpdate;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -159,12 +167,13 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	 * Predefined test records
 	 */
 	public void setTestData() throws Exception {
-		
-		
-		String sql = "INSERT INTO " + BaseUtil.tableName(EntOrg.class, null) + " (id, code, org_nr, updated, updated_userid) "
-				+ "VALUES (" + ORG_NR + ", 'TestOrg', " + ORG_NR + ", current_timestamp, 1)";
-//		SqlExecute.executeQuery(null, sql, null);
-		
+
+		SqlResultSet rs = SqlExecute.executeQuery(null, "SELECT id FROM " + tableName(EntOrg.class, "") + " WHERE id=" + ORG_NR, null);
+		if (rs.size() == 0) {
+			String sql = "INSERT INTO " + BaseUtil.tableName(EntOrg.class, null) + " (id, code, org_nr, updated, updated_userid) "
+					+ "VALUES (" + ORG_NR + ", 'TestOrg', " + ORG_NR + ", current_timestamp, 1)";
+			SqlExecute.executeQuery(null, sql, null);
+		}
 		
 	}
 	

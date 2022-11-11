@@ -46,6 +46,8 @@ public class RLogin extends BaseRest{
 	@Path("web")
 	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, JReqLogin req) {
 		
+		
+		
 		EntUser user = service.getUserAndValidate(req.u, req.p, req.o);
 		
 		//Invalid user id

@@ -68,4 +68,19 @@ public class TOrg extends BaseTransfer implements TOrgI {
 				+ "SET dvalue = false";
 		SqlUpdate.executeQuery(null, sql, log);	
 	}
+	
+	/**
+	 * Find an org id
+	 */
+	public Long findOrgId(Integer nr) throws Exception {
+		String sql = "SELECT id "
+				+ "FROM " + tableName(EntOrg.class, " ")
+			    + "WHERE org_nr = " + nr;
+		
+		SqlResultSet r = SqlExecute.executeQuery(null, sql, log);
+		
+		Long id = r.getLong(0, "id");
+		return id;
+    }
+	
 }

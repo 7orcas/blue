@@ -19,7 +19,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.org.ent.DtoOrg;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.org.ent.ExcelOrg;
-import com.sevenorcas.blue.system.org.json.JsonOrg;
+import com.sevenorcas.blue.system.org.ent.JsonOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -36,6 +36,8 @@ public class SOrg extends BaseService implements SOrgI {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB private TOrgI dao;
+	
+	@EJB private CacheOrg cache;
 		
 	/**
 	 * List of organisation objects
@@ -74,7 +76,33 @@ public class SOrg extends BaseService implements SOrgI {
 			return new JsonRes().setError("inv-id", "Invalid org id");
 		}
 		EntOrg e = getOrg(orgId);
-		return new JsonRes().setData(e);
+		JsonRes j = new JsonRes().setData(e.toJSon(callObj.getOrg()));
+		return j;
+    }
+	
+	/**
+	 * Return an organisation entity via it's number
+	 * This could be a cached entity
+	 * 
+	 * @param org nr
+	 * @return
+	 * @throws Exception
+	 */
+    public EntOrg getOrg(Integer nr) throws Exception {
+    	
+    	EntOrg org = cache.get(nr);
+    	if (org != null) {
+System.out.println("Org returned from cache");    		
+			return org;
+    	}
+    	
+    	Long id = dao.findOrgId(nr);
+    	org = getOrg(id);
+    	dao.detach(org);
+    	org.decode();
+    	cache.put(org.getOrgNr(), org);
+System.out.println("Org added to cache");
+    	return org;
     }
 	
     /**
@@ -98,7 +126,7 @@ public class SOrg extends BaseService implements SOrgI {
     public JsonRes newOrgJson(CallObject callObj) throws Exception {
     	EntOrg o = newOrg(callObj);
     	List<JsonOrg> y = new ArrayList<JsonOrg>();
-    	y.add(o.toJSon());
+    	y.add(o.toJSon(callObj.getOrg()));
 		return new JsonRes().setData(y);
     }
   

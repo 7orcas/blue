@@ -1,7 +1,6 @@
 package com.sevenorcas.blue.system.org.ent;
 
 import com.sevenorcas.blue.system.base.BaseDto;
-import com.sevenorcas.blue.system.org.json.JsonOrg;
 
 /**
 * Created 22 July 2022

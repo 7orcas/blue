@@ -71,6 +71,20 @@ public class AppProperties {
 	}
 	
 	/**
+	 * Return a value listed in the application properties file
+	 * @param key
+	 * @return
+	 */
+	public Integer getInteger (String key) {
+		try {
+			return Integer.parseInt(get(key));
+		} catch (Exception x) {
+			
+		}
+		return null;
+	}
+	
+	/**
 	 * Return a value listed in the application properties file as a string array
 	 * It must be delimited by a comma
 	 * @param key
