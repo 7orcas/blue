@@ -14,6 +14,9 @@ import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
+import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.field.Encode;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
@@ -42,16 +45,15 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
 	@Column(name = "updated_userid")
 	protected Long updatedUserId;
     
-	protected String encoded;
+	private String encoded;
     @Column(name = "encoded_flag")
-    protected Integer encodedFlag;
+    private Integer encodedFlag;
     protected Boolean active;
     
-    @Transient
-    private Boolean delete;
-    
-    @Transient
-    private Boolean valid;
+    @Transient private Boolean delete;
+    @Transient private Boolean valid;
+    @Transient protected boolean decoded = false;
+    @Transient private Encode encodeObject;
     
     /**
      * Entity / Field configurations.
@@ -94,6 +96,25 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
     	return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
     
+    /**
+	 * The <code>Encode</code> object contains fields that have been encoded in the table
+	 */
+	public Encode encoder() throws Exception {
+		decoded = true;
+		encodeObject = new Encode().decode(encoded);
+		return encodeObject;
+	}
+    
+	/**
+	 * The <code>Encode</code> object contains fields that have been encoded in the table
+	 */
+	public void encode() throws Exception {
+		if (encodeObject == null) {
+			throw new RedException(IntHardCodeLangKey.LK_UNKNOWN_ERROR, "Entity has not been decoded");
+		}
+		encoded = encodeObject.encode();
+	}
+	
     
 	abstract public Long getId();
 	abstract public T setId(Long id);
@@ -160,23 +181,24 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
 		return (T)this;
 	}
 
-	public String getEncoded() {
-		return encoded;
-	}
-	@SuppressWarnings("unchecked")
-	public T setEncoded(String encoded) {
-		this.encoded = encoded;
-		return (T)this;
-	}
+//DELETE	
+//	public String getEncoded() {
+//		return encoded;
+//	}
+//	@SuppressWarnings("unchecked")
+//	public T setEncoded(String encoded) {
+//		this.encoded = encoded;
+//		return (T)this;
+//	}
 	
-	public Integer getEncodedFlag() {
-		return encodedFlag;
-	}
-	@SuppressWarnings("unchecked")
-	public T setEncodedFlag(Integer encoded_flag) {
-		this.encodedFlag = encoded_flag;
-		return (T)this;
-	}
+//	public Integer getEncodedFlag() {
+//		return encodedFlag;
+//	}
+//	@SuppressWarnings("unchecked")
+//	public T setEncodedFlag(Integer encoded_flag) {
+//		this.encodedFlag = encoded_flag;
+//		return (T)this;
+//	}
 	
 	public boolean isActive() {
 		return active != null && active;

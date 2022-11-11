@@ -36,10 +36,10 @@ public class SLogin extends BaseService implements SLoginI {
 	 *  
 	 * @param userid
 	 * @param pw
-	 * @param org
+	 * @param orgNr
 	 * @return User object with valid flag (or null if no valid user id) 
 	 */
-	public EntUser getUserAndValidate (String userid, String pw, Integer org) {
+	public EntUser getUserAndValidate (String userid, String pw, Integer orgNr) {
 		
 		EntUser user = dao.getUser (userid); 
 		
@@ -47,13 +47,23 @@ public class SLogin extends BaseService implements SLoginI {
 		if (user != null) {
 			user.incrementAttempts();
 	
+			//Determine the orgNr for this login
+			if (orgNr == null) {
+				user.setDefaultOrg();
+			}
+			else if (user.containsOrg(orgNr)){
+				user.setOrgNrLogin(orgNr);
+			}
+			
+			if (!user.isOrgNrLoginValid()) {
+				user.setInvalidMessage("invorg");
+				return user;	
+			}
+			
 			//Test attempts has not exceed maximum
 			try {
-				EntOrg orgX = orgService.getOrg(org);
-				Integer maxAttempts = orgX.getLoginAttempts();
-				if (maxAttempts == null) maxAttempts = DEAULT_LOGIN_ATTEMPTS;
-				
-				if (maxAttempts != null && user.getAttempts() > maxAttempts) {
+				EntOrg org = orgService.getOrgCache(user.getOrgNrLogin());
+				if (org.isMaxLoginAttempts(user.getAttempts())) {
 					user.setInvalidMessage("maxatt");
 					return user;
 				}
@@ -69,17 +79,6 @@ public class SLogin extends BaseService implements SLoginI {
 				return user;	
 			}
 			
-			if (org == null) {
-				user.setDefaultOrg();
-			}
-			else if (user.containsOrg(org)){
-				user.setOrgNrLogin(org);
-			}
-
-			if (!user.isOrgNrLoginValid()) {
-				user.setInvalidMessage("invorg");
-				return user;	
-			}
 			
 			user.setValidUser()
 			    .setAttempts(0);

@@ -45,9 +45,7 @@ public class RLogin extends BaseRest{
 	@POST
 	@Path("web")
 	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, JReqLogin req) {
-		
-		
-		
+				
 		EntUser user = service.getUserAndValidate(req.u, req.p, req.o);
 		
 		//Invalid user id
@@ -89,7 +87,7 @@ public class RLogin extends BaseRest{
 			clientSessions = new Hashtable<>();
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 		}
-		ClientSession cs = new ClientSession(user, user.getOrgNr(), lang);
+		ClientSession cs = new ClientSession(user, user.getOrgNrLogin(), lang);
 		
 		Integer nextSes = clientSessions.size();
 		clientSessions.put(nextSes, cs.setSessionNr(nextSes));

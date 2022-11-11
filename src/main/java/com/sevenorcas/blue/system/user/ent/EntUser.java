@@ -109,10 +109,11 @@ public class EntUser extends BaseEntity<EntUser> {
 		
 	}
 	
-	public JsonUser toJSon(boolean fullEntity) {
+	public JsonUser toJSon(EntOrg org, boolean fullEntity) throws Exception {
 		JsonUser j = super.toJSon(new JsonUser());
 		j.code = userName;
 		j.attempts = attempts;
+		j.maxAttemptsExceeded = org.isMaxLoginAttempts(attempts);
 		
 		if (!fullEntity) return j;
 		

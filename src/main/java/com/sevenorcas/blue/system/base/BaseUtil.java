@@ -145,5 +145,14 @@ public class BaseUtil implements ApplicationI, IntHardCodeLangKey {
     	return null;
     }
     
+    /**
+     * Test if integer is null, if so return 0
+     * ie guarantee non null integer
+     * @param x
+     * @return
+     */
+    static public Integer nonNull (Integer x) {
+    	return x != null? x : 0;
+    }
 }
 

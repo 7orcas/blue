@@ -71,7 +71,7 @@ public class RLogin2 extends BaseRest {
 			login.lang = cs.getLang();
 			login.roles = roles;
 			
-			Encode encode = new Encode().decode(cs.getUser().getEncoded());
+			Encode encode = cs.getUser().encoder();
 			login.theme = encode.getInteger("theme");
 			
 System.out.println("NEW CLIENT sid=" + httpSes.getId() + "  passed in sid=" + sid  + "  clientNr=" + cs.getSessionNr());				

@@ -1,5 +1,6 @@
 package com.sevenorcas.blue.system.lifecycle;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -11,10 +12,11 @@ import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.log.AppLog;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.org.SOrgI;
 
 /**
  * Inject the <code>CallObject</code> into the target rest methods (if in the method signature).
+ * The <code>CallObject</code> contains relevant objects required by a lot of methods within the call stack.
  *  
  * [Licence]
  * Created July '22
@@ -27,8 +29,8 @@ public class RestAroundInvoke {
 	
 	public RestAroundInvoke() {}
 	
-	@Inject
-	private ClientCall clientCall;
+	@Inject	private ClientCall clientCall;
+	@EJB private SOrgI orgService;
 	
 	@AroundInvoke
     public Object invocation(InvocationContext ctx) {
@@ -48,8 +50,8 @@ public class RestAroundInvoke {
 				proceed = true;
 				callObj.setClientSession(clientCall.getClientSession());
 				
-				//ToDo get org from cache
-				callObj.setOrg(new EntOrg().setOrgNr(clientCall.getClientSession().getOrgNr()));
+				//Get org entity from cache
+				callObj.setOrg(orgService.getOrgCache(clientCall.getClientSession().getOrgNr()));
 				
 				for (int i=0;i<ctx.getMethod().getParameterTypes().length;i++) {
 					if (ctx.getMethod().getParameterTypes()[i].getTypeName().equals(CallObject.class.getTypeName())) {

@@ -1,9 +1,6 @@
 package com.sevenorcas.blue;
 
-import static org.junit.Assert.fail;
-
 import java.lang.reflect.Field;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.ejb.EJB;
@@ -20,8 +17,6 @@ import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.exception.BaseException;
 import com.sevenorcas.blue.system.exception.RedException;
-import com.sevenorcas.blue.system.field.Compare;
-import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -30,7 +25,6 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
-import com.sevenorcas.blue.system.sql.SqlUpdate;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -106,6 +100,7 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		return entity;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void setupEJBsX(Object entity, Class<?>clazz) throws Exception {
 		
 		if (clazz.getSuperclass() != null) {
@@ -185,6 +180,7 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	 * Setup data source 
 	 * @return datasource name
 	 */
+	@SuppressWarnings("deprecation")
 	public void setupDataSource(){
 		if (dataSource != null) return; 
 		

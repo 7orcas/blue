@@ -11,5 +11,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 public class JsonOrg extends BaseJsonRes{
 	public Boolean dvalue;
-	public Integer loginAttempts;
+	public Integer maxLoginAttempts;
 }

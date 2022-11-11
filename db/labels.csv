@@ -23,6 +23,7 @@ stimeout,sys,0,Your session has timed-out due to inactivity. Please re-login.,Di
 relogin,sys,0,"Your access has timed out, please relogin",Sitzung abgelaufen. Bitte erneut einloggen.
 logout,sys,0,Logout,Abmelden
 loggedout,sys,0,Logged out,Abgemeldet
+maxLAttemp,,0,Max. Login Attempts,
 cancel,sys,0,Cancel,Abbrechen
 clear,sys,0,Clear,Leeren
 close,sys,0,Close,Schliessen

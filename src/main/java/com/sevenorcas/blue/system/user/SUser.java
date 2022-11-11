@@ -59,7 +59,7 @@ public class SUser extends BaseService implements SUserI {
 		List<EntUser> x = userList(callObj, parms);
 		List<JsonUser> y = new ArrayList<>();
 		for (EntUser d : x) {
-			y.add(d.toJSon(false));
+			y.add(d.toJSon(callObj.getOrg(), false));
 		}
 		
 		return new JsonRes().setData(y);
@@ -95,7 +95,7 @@ public class SUser extends BaseService implements SUserI {
 			return new JsonRes().setError("inv-id", "Invalid entity id");
 		}
 		EntUser e = getUser(callObj, id);
-		JsonRes j = new JsonRes().setData(e.toJSon(true));
+		JsonRes j = new JsonRes().setData(e.toJSon(callObj.getOrg(), true));
 		return j;
     }
 	
@@ -134,7 +134,7 @@ public class SUser extends BaseService implements SUserI {
     public JsonRes newUserJson(CallObject callObj) throws Exception {
     	EntUser o = newUser(callObj);
     	List<JsonUser> y = new ArrayList<>();
-    	y.add(o.toJSon(true));
+    	y.add(o.toJSon(callObj.getOrg(), true));
 		return new JsonRes().setData(y);
     }
   
@@ -236,7 +236,7 @@ public class SUser extends BaseService implements SUserI {
     		String value)  throws Exception {
 		
 		EntUser mergedEnt = dao.find(EntUser.class, callObj.getUserId());
-		Encode encode = new Encode().decode(mergedEnt.getEncoded());
+		Encode encode = mergedEnt.encoder();
 		
 		switch (config) {
 			case "theme":
@@ -245,7 +245,7 @@ public class SUser extends BaseService implements SUserI {
 			
 			default: throw new RedException(LK_UNKNOWN_ERROR, "config:" + config + "=" + value);
 		}
-		mergedEnt.setEncoded(encode.encode());
+		mergedEnt.encode();
     }
 
     
