@@ -5,6 +5,7 @@ login,login,0,Login,Anmeldung
 lang,login,0,Language,Sprache
 loginT,login,0,Login into Blue,(d) Login into Blue
 loginTR,,0,Re-Login into Blue,Re-Login into Blue
+lastLogin,,0,Last Login,
 maxatt,login,0,Max. Login Attempts Exceeded,(D) Max. Login Attempts Exceeded
 invorg,login,0,No Permission for Organisation,(D) No Permission for Organisation
 invpw,login,0,Invalid Password (%1 of %2 attempts),(D) Invalid Password (%1 of %2 attempts)

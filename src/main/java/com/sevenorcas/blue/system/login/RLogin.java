@@ -58,6 +58,7 @@ public class RLogin extends BaseRest{
 		}
 			
 		try {
+			user = service.persistAfterLogin(user);
 			service.detach(user);
 		} catch (Exception x) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR);	

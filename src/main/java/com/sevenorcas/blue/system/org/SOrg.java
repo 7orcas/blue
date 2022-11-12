@@ -183,7 +183,7 @@ System.out.println("Org added to cache");
   				//Merge non base fields
   				else if (!ent.isDelete()){
   					mergedEnt.encoder()
-  							 .add("attempts", ent.getMaxLoginAttempts());
+  							 .update("attempts", ent.getMaxLoginAttempts());
   					
   					mergedEnt.setDvalue(ent.isDvalue())
   							 .encode();

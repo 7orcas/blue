@@ -1,5 +1,6 @@
 package com.sevenorcas.blue.system.user.ent;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,8 @@ public class EntUser extends BaseEntity<EntUser> {
 	private String password;
 	private String orgs;
 	private Integer attempts;
+	@Column(name = "lastlogin")
+	private Timestamp lastLogin;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entUser")
 	private List <EntUserRole> roles = new ArrayList<>(); 
@@ -114,6 +117,7 @@ public class EntUser extends BaseEntity<EntUser> {
 		j.code = userName;
 		j.attempts = attempts;
 		j.maxAttemptsExceeded = org.isMaxLoginAttempts(attempts);
+		j.lastLogin = lastLogin;
 		
 		if (!fullEntity) return j;
 		
@@ -241,7 +245,16 @@ public class EntUser extends BaseEntity<EntUser> {
 	public EntUser setPermissions(List<EntPermission> permissions) {
 		this.permissions = permissions;
 		return this;
+	}
+
+	public Timestamp getLastlogin() {
+		return lastLogin;
+	}
+	public EntUser setLastlogin(Timestamp lastLogin) {
+		this.lastLogin = lastLogin;
+		return this;
 	}	
     
+	
     
 }

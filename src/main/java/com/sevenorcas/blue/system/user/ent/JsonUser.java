@@ -1,5 +1,6 @@
 package com.sevenorcas.blue.system.user.ent;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
@@ -17,6 +18,7 @@ public class JsonUser extends BaseJsonRes{
 	public Boolean maxAttemptsExceeded;
 	public String password;
 	public String orgs;
+	public Timestamp lastLogin;
 	public List<JsonUserRole>roles;
 	public List<JsonPermission>permissions;
 }

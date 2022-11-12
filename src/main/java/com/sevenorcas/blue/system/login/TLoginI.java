@@ -21,4 +21,5 @@ public interface TLoginI extends BaseTransferI {
 	public EntUser getUser (String userid);
 	public String getUserid (Long userId, SqlParm parms) throws Exception;
 	public List<String> getUserRoles (Long userId, SqlParm parms) throws Exception;	
+	public EntUser persistAfterLogin (EntUser ent) throws Exception;
 }

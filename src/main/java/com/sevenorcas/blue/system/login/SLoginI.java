@@ -22,4 +22,5 @@ public interface SLoginI extends BaseServiceI {
 	public List<String> getUserRoles (Long userId) throws Exception;
 	public String getUserRolesAsString (Long userId)  throws Exception;
 	public void detach (EntUser ent) throws Exception;
+	public EntUser persistAfterLogin (EntUser ent) throws Exception;
 }

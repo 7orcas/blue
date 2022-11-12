@@ -46,6 +46,7 @@ public class Encode implements IntHardCodeLangKey{
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public Encode add(String key, Object o) throws Exception {
 		if (hash.containsKey(key)) 
 			throw new RedException(LK_UNKNOWN_ERROR, "Duplicate key passed to Encode");

@@ -48,6 +48,7 @@ create table cntrl.zzz
  	yyy varchar,
  	orgs varchar,
  	attempts integer default 0,
+    lastlogin timestamp without time zone, 	
  	constraint zzz_xxx unique (xxx)
 ) INHERITS (sys.base);
 alter table cntrl.zzz OWNER to postgres;

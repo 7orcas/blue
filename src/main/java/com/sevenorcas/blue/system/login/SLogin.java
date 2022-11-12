@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.login;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -24,8 +26,6 @@ public class SLogin extends BaseService implements SLoginI {
 
 	@EJB private TLoginI dao;
 	@EJB private SOrgI orgService;
-	
-	private Integer DEAULT_LOGIN_ATTEMPTS = appProperties.getInteger("DefaultLoginAttempts");
 	
 	/**
 	 * Test the given parameters to return a valid user object (assuming they are valid).
@@ -79,9 +79,9 @@ public class SLogin extends BaseService implements SLoginI {
 				return user;	
 			}
 			
-			
 			user.setValidUser()
-			    .setAttempts(0);
+			    .setAttempts(0)
+			    .setLastlogin(Timestamp.valueOf(LocalDateTime.now()));
 		}
 		
 		return user;
@@ -132,5 +132,12 @@ public class SLogin extends BaseService implements SLoginI {
 		return sb.toString();
 	}
 	
-	
+	/**
+     * Persist the user entity 
+     * @param entity
+     * @return
+     */
+    public EntUser persistAfterLogin (EntUser ent) throws Exception {
+    	return dao.persistAfterLogin(ent);
+	}
 }
