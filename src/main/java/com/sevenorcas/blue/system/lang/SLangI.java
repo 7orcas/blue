@@ -9,8 +9,8 @@ import com.sevenorcas.blue.system.base.BaseServiceI;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lang.ent.DtoLabel;
 import com.sevenorcas.blue.system.lang.ent.EntLangLabel;
+import com.sevenorcas.blue.system.lang.ent.JResLangLabel;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
-import com.sevenorcas.blue.system.lang.json.JResLangLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 
 /**

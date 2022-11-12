@@ -1,7 +1,6 @@
 package com.sevenorcas.blue.system.lang.ent;
 
 import com.sevenorcas.blue.system.base.BaseDto;
-import com.sevenorcas.blue.system.lang.json.JResLabel;
 
 /**
 * Created July '22

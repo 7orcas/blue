@@ -1,7 +1,6 @@
-package com.sevenorcas.blue.system.lang.json;
+package com.sevenorcas.blue.system.lang.ent;
 
 import com.sevenorcas.blue.system.base.BaseJsonRes;
-import com.sevenorcas.blue.system.lang.ent.EntLangLabel;
 
 /**
 * Created 23 August '22

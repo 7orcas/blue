@@ -16,10 +16,10 @@ import com.sevenorcas.blue.system.lang.ent.DtoLang;
 import com.sevenorcas.blue.system.lang.ent.EntLangKey;
 import com.sevenorcas.blue.system.lang.ent.EntLangLabel;
 import com.sevenorcas.blue.system.lang.ent.ExcelLabel;
+import com.sevenorcas.blue.system.lang.ent.JResLabel;
+import com.sevenorcas.blue.system.lang.ent.JResLang;
+import com.sevenorcas.blue.system.lang.ent.JResLangLabel;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
-import com.sevenorcas.blue.system.lang.json.JResLabel;
-import com.sevenorcas.blue.system.lang.json.JResLang;
-import com.sevenorcas.blue.system.lang.json.JResLangLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 

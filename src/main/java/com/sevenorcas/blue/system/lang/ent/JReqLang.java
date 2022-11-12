@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.lang.json;
+package com.sevenorcas.blue.system.lang.ent;
 
 /**
 * Created July '22

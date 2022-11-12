@@ -1,5 +1,6 @@
 userid,login,0,User Name,Benutser ID
 pw,login,0,Password,Passwort
+pwAdmin,login,0,Admin Password,
 org,login,0,Organisation,Organisation
 login,login,0,Login,Anmeldung
 lang,login,0,Language,Sprache
