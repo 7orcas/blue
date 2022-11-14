@@ -3,7 +3,7 @@ package com.sevenorcas.blue.system.lang.ent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import com.sevenorcas.blue.system.lang.LangLabelI;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
 /**
 * Label utility file for use inside java objects 
@@ -12,7 +12,7 @@ import com.sevenorcas.blue.system.lang.LangLabelI;
 * Created 03.09.22
 * @author John Stewart
 */
-public class UtilLabel implements LangLabelI {
+public class UtilLabel implements IntHardCodeLangKey {
 
 	private Integer orgNr;
 	private String lang;
@@ -40,14 +40,14 @@ public class UtilLabel implements LangLabelI {
 
 	public String stripLabelAppend(String langKey) {
 		if (langKey == null) return langKey;
-		int i = langKey.indexOf(LABEL_APPEND);
+		int i = langKey.indexOf(LK_APPEND);
 		if (i == -1) return langKey;
 		return langKey.substring(0, i);
 	}
 
 	private String getLabelAppend(String langKey) {
 		if (langKey == null) return null;
-		int i = langKey.indexOf(LABEL_APPEND);
+		int i = langKey.indexOf(LK_APPEND);
 		if (i == -1) return null;
 		return langKey.substring(i+1);
 	}
@@ -73,7 +73,7 @@ public class UtilLabel implements LangLabelI {
 		
 		String appends = getLabelAppend(langKey);
 		if (appends != null) {
-			String [] s1 = appends.split(",");
+			String [] s1 = appends.split(LK_APPEND_SPLIT);
 			for (int i=0;i<s1.length;i++) {
 				label = label.replace("%" + (i+1), s1[i]);		
 			}

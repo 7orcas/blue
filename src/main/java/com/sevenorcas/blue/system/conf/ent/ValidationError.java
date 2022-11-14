@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.sevenorcas.blue.system.conf.json.JValError;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
-import com.sevenorcas.blue.system.lang.LangLabelI;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 
 /**
@@ -16,7 +15,7 @@ import com.sevenorcas.blue.system.lang.ent.UtilLabel;
  * Created July '22
  * @author John Stewart
  */
-public class ValidationError implements ConfigurationI, IntHardCodeLangKey, LangLabelI {
+public class ValidationError implements ConfigurationI, IntHardCodeLangKey {
 	public int type;
 	
 	public Long entityId;

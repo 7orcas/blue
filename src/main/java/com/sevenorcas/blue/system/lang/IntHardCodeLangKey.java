@@ -10,6 +10,8 @@ package com.sevenorcas.blue.system.lang;
 public interface IntHardCodeLangKey {
 	
 	final static String LK_APPEND = "|";
+	final static String LK_APPEND_SPLIT = ",";
+	
 	final static String LK_INVALID_USERID = "invuid";
 	final static String LK_INVALID_FILE = "invfile";
 	final static String LK_UNKNOWN_ERROR = "errunk";

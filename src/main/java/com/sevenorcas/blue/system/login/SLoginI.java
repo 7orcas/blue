@@ -17,7 +17,7 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 
 @Local
 public interface SLoginI extends BaseServiceI {
-	public EntUser getUserAndValidate (String userid, String pw, Integer org);
+	public EntUser getUserAndValidate (String userid, String pw, Integer org, String lang) throws Exception;
 	public String getUserid (Long userId) throws Exception;
 	public List<String> getUserRoles (Long userId) throws Exception;
 	public String getUserRolesAsString (Long userId)  throws Exception;

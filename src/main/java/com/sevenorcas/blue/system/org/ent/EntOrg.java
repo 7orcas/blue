@@ -31,7 +31,7 @@ import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 public class EntOrg extends BaseEntity<EntOrg> {
 
 	static private final long serialVersionUID = 1L;
-	static private Integer DEFAULT_LOGIN_ATTEMPTS = AppProperties.getInstance().getInteger("DefaultLoginAttempts");
+	static private Integer DEFAULT_LOGIN_ATTEMPTS = AppProperties.getInstance().getInteger("LoginAttemptsDefault");
 
 	@Id  
 	@SequenceGenerator(name="org_id_seq", sequenceName="cntrl.org_id_seq", allocationSize=1)
@@ -94,6 +94,9 @@ public class EntOrg extends BaseEntity<EntOrg> {
 	public Integer getMaxLoginAttempts() {
 		return maxLoginAttempts;
 	}
+	public Integer getMaxLoginAttemptsIncludeDefault() {
+		return maxLoginAttempts != null? maxLoginAttempts : DEFAULT_LOGIN_ATTEMPTS;
+	}
 	public EntOrg setMaxLoginAttempts(Integer loginAttempts) {
 		this.maxLoginAttempts = loginAttempts;
 		return this;
@@ -108,7 +111,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
 		}
 		
 		loginAttempts = BaseUtil.nonNull(loginAttempts);
-		Integer max = maxLoginAttempts != null? maxLoginAttempts : DEFAULT_LOGIN_ATTEMPTS;
+		Integer max = getMaxLoginAttemptsIncludeDefault();
 		return max != null && loginAttempts > max;
 	}
 	

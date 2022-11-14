@@ -101,6 +101,7 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 	}
 
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void validatePermission () {
 		try {
@@ -129,18 +130,18 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 				list.add(ent);
 				ent.setCode("duplicate")
 				   .setDescr("1234567890")
-				   .setEncoded("abc")
 				   .setOrgNr(0)
 				   .setId(-1L);
+				ent.encoder().add("abc", "x");
 			}
 			
 			ent = new EntPermission();
 			list.add(ent);
 			ent.setCode("lang") //Existing record in database
 			   .setDescr("1234567890")
-			   .setEncoded("abc")
 			   .setOrgNr(0)
 			   .setId(-1L);
+			ent.encoder().add("abc", "x");
 			
 			ValidationErrors errors = valSrv.validate (list, conf);
 			boolean result = checkErrors("EntPermission", errors);

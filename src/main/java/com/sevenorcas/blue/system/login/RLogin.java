@@ -17,6 +17,7 @@ import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JReqLogin;
+import com.sevenorcas.blue.system.login.ent.JReqReset;
 import com.sevenorcas.blue.system.login.ent.JResLogin;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
@@ -46,7 +47,14 @@ public class RLogin extends BaseRest{
 	@Path("web")
 	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, JReqLogin req) {
 				
-		EntUser user = service.getUserAndValidate(req.u, req.p, req.o);
+		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
+		EntUser user = null;
+		
+		try {
+			user = service.getUserAndValidate(req.u, req.p, req.o, lang);
+		} catch (Exception x) {
+			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
+		}
 		
 		//Invalid user id
 		if (user == null) {
@@ -79,7 +87,6 @@ public class RLogin extends BaseRest{
 			login.locationHref = appProperties.get("WebClientUrl");
 		}
 				
-		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
 		
 		//Get next client sessions
 		@SuppressWarnings("unchecked")
@@ -100,6 +107,19 @@ public class RLogin extends BaseRest{
 		return new JsonRes().setData(login);
     }
 
+	@SkipAuthorisation
+	@POST
+	@Path("forgotpw")
+	public JsonRes forgotPw(@Context HttpServletRequest httpRequest, JReqReset req) {	
+		
+		//Check valid email
+		if (req.email == null || req.email.length() == 0) {
+			return new JsonRes().setError("Invalid Email");			
+		}
+		
+		return new JsonRes().setData("Email sent");
+	}
+	
 	
 	
 }
