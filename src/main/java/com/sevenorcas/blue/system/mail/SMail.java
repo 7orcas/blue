@@ -45,7 +45,8 @@ public class SMail extends BaseService implements SMailI {
 			message.setSubject(subject);
 			message.setText(text);
 	 
-			Transport.send(message);
+			executor.execute(new EmailTask(message));
+			
 	    } catch (MessagingException e) {
 	    	AppLog.exception("Cannot send mail", e);
 	    }

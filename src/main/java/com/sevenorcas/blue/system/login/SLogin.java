@@ -165,7 +165,7 @@ public class SLogin extends BaseService implements SLoginI {
      * @param client language
      * @return
      */
-    public JsonRes resetPasswordViaEmail (String email, String lang) throws Exception {	
+    public JsonRes emailTempPassword (String email, String lang) throws Exception {	
 		
     	EntUser user = null;
     	String rtnMessage = null;
@@ -203,8 +203,8 @@ public class SLogin extends BaseService implements SLoginI {
 		
 		user.encoder()
 			.update("tempPW", newPW)
-			.update("tempPWValid", d.toString())
-			.encode();
+			.update("tempPWValid", d.toString());
+		user.encode();
 		
 		Context initialContext = new InitialContext();
 		SMailI mail = (SMailI)initialContext.lookup("java:module/SMail"); 

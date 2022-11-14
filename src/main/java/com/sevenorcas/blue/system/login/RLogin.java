@@ -111,13 +111,11 @@ public class RLogin extends BaseRest{
 	@POST
 	@Path("forgotpw")
 	public JsonRes forgotPw(@Context HttpServletRequest httpRequest, JReqReset req) {	
-		
-		//Check valid email
-		if (req.email == null || req.email.length() == 0) {
-			return new JsonRes().setError("Invalid Email");			
+		try {
+			return service.emailTempPassword(req.email, req.lang);
+		} catch (Exception x) {
+			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
 		}
-		
-		return new JsonRes().setData("Email sent");
 	}
 	
 	
