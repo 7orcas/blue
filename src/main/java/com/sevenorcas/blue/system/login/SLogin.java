@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.org.SOrgI;
@@ -78,7 +79,21 @@ public class SLogin extends BaseService implements SLoginI {
 			} catch (Exception x) {}
 			
 			if (rtnMessage == null && !user.getPassword().equals(pw)) {
-				rtnMessage = "invpw" + LK_APPEND + user.getAttempts() + LK_APPEND_SPLIT + org.getMaxLoginAttemptsIncludeDefault();
+				
+				//Test for temporary password
+				Encode encode = user.encoder();
+				String tPw = encode.getString("tempPW");
+				if (tPw != null && tPw.equals(pw)) {
+					String valid = encode.getString("tempPWValid");
+					LocalDateTime d = LocalDateTime.parse(valid);
+					if (d.isAfter(LocalDateTime.now())) {
+						user.setChangePassword();
+					}
+				}
+				
+				if (!user.isChangePassword()) {
+					rtnMessage = "invpw" + LK_APPEND + user.getAttempts() + LK_APPEND_SPLIT + org.getMaxLoginAttemptsIncludeDefault();
+				}
 			}
 			
 			if (rtnMessage == null && !user.isActive()) {
@@ -91,6 +106,12 @@ public class SLogin extends BaseService implements SLoginI {
 				user.setInvalidMessage("_" + rtnMessage);
 				return user;	
 			}
+			
+			//Remove temporary password
+//			user.encoder()
+//				.set("tempPW", null)
+//				.set("tempPWValid", null)
+//			    .encode();
 			
 			user.setValidUser()
 			    .setAttempts(0)
@@ -198,17 +219,27 @@ public class SLogin extends BaseService implements SLoginI {
 		
 		String newPW = "TestPw";
 		LocalDateTime d = LocalDateTime.now();
-//		d = d.plusHours(24L);
-		d = d.plusMinutes(5L);
+		d = d.plusHours(24L);
+//		d = d.plusMinutes(5L);
 		
 		user.encoder()
-			.update("tempPW", newPW)
-			.update("tempPWValid", d.toString());
-		user.encode();
+			.set("tempPW", newPW)
+			.set("tempPWValid", d.toString()) 
+		    .encode();
 		
 		Context initialContext = new InitialContext();
 		SMailI mail = (SMailI)initialContext.lookup("java:module/SMail"); 
-		mail.send(email, "Password Reset", newPW);
+		
+		String header = "Password Reset Request";
+		String message = "A temporary password has been requested.\n"
+				+ "If you didn't request this please contact your system administrator as soon as possible.\n"
+				+ "\n"
+				+ "The temporary password is: " + newPW + "\n" 
+				+ "This password is valid for 24 hours."
+				;
+		
+		
+		mail.send(email, header, message);
 				
 		rtnMessage = labels.getLabel("emailSent", true);
 		return new JsonRes().setData("_" + rtnMessage);

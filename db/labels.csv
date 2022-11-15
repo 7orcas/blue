@@ -24,6 +24,7 @@ passinc,sys,0,"They must include at least 1 of each of the following: upper case
 passforg,login,0,Forgot your password?,Haben Sie Ihr Passwort vergessen?
 passemail,login,0,Please check your emails for a new password (check spam filter if the email is missing),"Bitte überprüfen Sie Ihre E-Mails auf ein neues Passwort (überprüfen Sie den Spamfilter, wenn die E-Mail fehlt)"
 passreset,login,0,Password Reset,Passwort zurücksetzen
+passreset1,login,0,A temporary password will be emailed to this address (valid for 24 hours).,
 email,login,0,Email,Email
 emailInv,,0,Invalid Email,
 emailSent,,0,Email Sent,

@@ -132,7 +132,7 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 				   .setDescr("1234567890")
 				   .setOrgNr(0)
 				   .setId(-1L);
-				ent.encoder().add("abc", "x");
+				ent.encoder().set("abc", "x");
 			}
 			
 			ent = new EntPermission();
@@ -141,7 +141,7 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 			   .setDescr("1234567890")
 			   .setOrgNr(0)
 			   .setId(-1L);
-			ent.encoder().add("abc", "x");
+			ent.encoder().set("abc", "x");
 			
 			ValidationErrors errors = valSrv.validate (list, conf);
 			boolean result = checkErrors("EntPermission", errors);

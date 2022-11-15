@@ -92,7 +92,7 @@ public class SOrg extends BaseService implements SOrgI {
     	
     	EntOrg org = cache.get(nr);
     	if (org != null) {
-System.out.println("Org returned from cache");    		
+//System.out.println("Org returned from cache");    		
 			return org;
     	}
     	
@@ -183,10 +183,10 @@ System.out.println("Org added to cache");
   				//Merge non base fields
   				else if (!ent.isDelete()){
   					mergedEnt.encoder()
-  							 .update("attempts", ent.getMaxLoginAttempts());
-  					
-  					mergedEnt.setDvalue(ent.isDvalue())
+  							 .set("attempts", ent.getMaxLoginAttempts())
   							 .encode();
+  					
+  					mergedEnt.setDvalue(ent.isDvalue());
   				}
   			}
   			

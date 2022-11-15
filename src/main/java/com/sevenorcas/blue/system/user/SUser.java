@@ -240,12 +240,12 @@ public class SUser extends BaseService implements SUserI {
 		
 		switch (config) {
 			case "theme":
-				encode.update(config, Integer.parseInt(value));
+				encode.set(config, Integer.parseInt(value));
 				break;
 			
 			default: throw new RedException(LK_UNKNOWN_ERROR, "config:" + config + "=" + value);
 		}
-		mergedEnt.encode();
+		encode.encode();
     }
 
     

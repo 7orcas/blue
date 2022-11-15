@@ -22,6 +22,9 @@ import com.sevenorcas.blue.system.login.ent.JResLogin2;
 /**
  * Part 2 of the login process
  * Once a user is logged in, then initialise their session
+ * 
+ * Development Note: If using React client on 3000, a new session will be created here.
+ * Therefore transient attributes stored in the initial login http session will be erased.
  *  
  * Created July '22
  * [Licence]
@@ -70,7 +73,8 @@ public class RLogin2 extends BaseRest {
 			login.orgNr = cs.getOrgNr();
 			login.lang = cs.getLang();
 			login.roles = roles;
-			
+			login.changePW = cs.isChangePassword();
+						
 			Encode encode = cs.getUser().encoder();
 			login.theme = encode.getInteger("theme");
 			

@@ -65,6 +65,8 @@ public class EntUser extends BaseEntity<EntUser> {
 	@Transient
 	private List <EntPermission> permissions = new ArrayList<>();
 	
+	@Transient private Boolean changePassword;
+	
 	/**
 	 * Override field configurations
 	 */
@@ -252,6 +254,14 @@ public class EntUser extends BaseEntity<EntUser> {
 	}
 	public EntUser setLastlogin(Timestamp lastLogin) {
 		this.lastLogin = lastLogin;
+		return this;
+	}
+
+	public boolean isChangePassword() {
+		return is(changePassword);
+	}
+	public EntUser setChangePassword() {
+		this.changePassword = true;
 		return this;
 	}	
     

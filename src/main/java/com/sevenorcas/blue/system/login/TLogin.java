@@ -1,8 +1,6 @@
 package com.sevenorcas.blue.system.login;
 
 import java.lang.invoke.MethodHandles;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +9,6 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.base.BaseTransfer;
 import com.sevenorcas.blue.system.role.ent.EntRole;
 import com.sevenorcas.blue.system.sql.SqlExecute;

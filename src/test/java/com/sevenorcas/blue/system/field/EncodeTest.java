@@ -21,9 +21,11 @@ import com.sevenorcas.blue.system.sql.SqlUpdate;
 public class EncodeTest extends BaseTest {
 	
 	private String orgTable;
+	private EntOrg ent; //Could be any BaseEntity object
 	
 	@Before
 	public void setup() throws Exception {
+		ent = new EntOrg(); 
 		orgTable = tableName(EntOrg.class, "");
 		SqlUpdate.executeQuery("DELETE FROM " + orgTable + " WHERE id=" + ORG_NR_TEMP);
 		SqlUpdate.executeQuery("INSERT INTO " + orgTable + "(id, code) VALUES (" + ORG_NR_TEMP + ",'UnitTest-Encode')");
@@ -36,9 +38,9 @@ public class EncodeTest extends BaseTest {
 	public void testObjects() {
 		try {
 			Hashtable<String, Object> d = data();
-			Encode e = new Encode();
+			Encode e = new Encode(ent);
 			data(e, d);
-			e = saveAndRestoreObjects(e, d);
+			e = saveAndRestoreObjects(ent, e, d);
 			assertTrue(e.encodeFlag() == 0);
 		} catch (Exception x) {
 			showException(x);
@@ -46,21 +48,6 @@ public class EncodeTest extends BaseTest {
 		}
 	}
 
-	/**
-	 * Test duplicate keys throw an exception
-	 */
-	@Test
-	public void testDuplicateKeys() {
-		try {
-			Encode e = new Encode();
-			e.add("a", 1);
-			e.add("a", 2);
-			fail("Missed a duplicate key");
-		} catch (Exception x) {
-			//Do nothing, its ok :-)
-		}
-		
-	}
 	
 	/**
 	 * Test update of keys 
@@ -68,9 +55,9 @@ public class EncodeTest extends BaseTest {
 	@Test
 	public void update() {
 		try {
-			Encode e = new Encode();
-			e.add("a", 1);
-			e.update("a", 2);
+			Encode e = new Encode(ent);
+			e.set("a", 1);
+			e.set("a", 2);
 			assertTrue(e.get("a").equals(2));			
 		} catch (Exception x) {
 			fail("something went wrong");
@@ -86,8 +73,8 @@ public class EncodeTest extends BaseTest {
 	@Test
 	public void testNull() {
 		try {
-			Encode e = new Encode();
-			e.add("a", null);
+			Encode e = new Encode(ent);
+			e.set("a", null);
 			fail("Error on null");
 		} catch (Exception x) {
 			//Do nothing
@@ -111,10 +98,11 @@ public class EncodeTest extends BaseTest {
 			Hashtable<String, Object> d = new Hashtable<>();
 			d.put(f.getField(), f.getValue());
 			
-			Encode e = new Encode();
+			
+			Encode e = new Encode(ent);
 			e.addForeignKey(f);
 			
-			e = saveAndRestoreObjects(e, d);
+			e = saveAndRestoreObjects(ent, e, d);
 			assertTrue(e.encodeFlag() == 1);
 			
 			ForeignKeyField fx = e.getForeignKey(f.getField());
@@ -133,7 +121,7 @@ public class EncodeTest extends BaseTest {
 		Enumeration<String>keys = d.keys();
 		while (keys.hasMoreElements()) {
 			String k = keys.nextElement();
-			e.add(k, d.get(k));
+			e.set(k, d.get(k));
 		}
 	}
 	
@@ -172,13 +160,14 @@ public class EncodeTest extends BaseTest {
 	/**
 	 * Save and restore encoded field and test objects are the same value
 	 */
-	private Encode saveAndRestoreObjects(Encode e, Hashtable<String, Object> d) throws Exception{
-		SqlUpdate.executeQuery("UPDATE " + orgTable + " SET encoded = '" + e.encode() + "', " + 
+	private Encode saveAndRestoreObjects(EntOrg ent, Encode e, Hashtable<String, Object> d) throws Exception{
+		e.encode();
+		SqlUpdate.executeQuery("UPDATE " + orgTable + " SET encoded = '" + ent.getEncoded() + "', " + 
 				"encoded_flag = " + e.encodeFlag() + " WHERE id=" + ORG_NR_TEMP);
 
 		SqlResultSet rs = SqlExecute.executeQuery(null, "SELECT * FROM " + tableName(EntOrg.class, "") + " WHERE id=" + ORG_NR_TEMP, null);
 		
-		Encode x = new Encode();
+		Encode x = new Encode(ent);
     	x.decode(rs.getString(0, "encoded"))
     	 .setEncodeFlag(rs.getInteger(0, "encoded_flag"));
     	

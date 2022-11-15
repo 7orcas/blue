@@ -139,7 +139,7 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 				.setId(1L)
 				.setUserName("TestUser");
 		
-		ClientSession session = new ClientSession(user, ORG_NR, "en");
+		ClientSession session = new ClientSession(user, ORG_NR, "en", false);
 		o.setClientSession(session);
 		return o;
 	}

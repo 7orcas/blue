@@ -23,6 +23,7 @@ package com.sevenorcas.blue.system.field;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
@@ -35,23 +36,11 @@ public class Encode implements IntHardCodeLangKey{
 	private Hashtable<String, Object> hash;
 	private int encodeFlag = 0;
 	
-	public Encode () {
-		hash = new Hashtable<>();
-	}
+	private BaseEntity<?> parent;
 	
-	/**
-	 * Add an object to be encoded
-	 * @param key
-	 * @param object
-	 * @return
-	 * @throws Exception
-	 */
-	@Deprecated
-	public Encode add(String key, Object o) throws Exception {
-		if (hash.containsKey(key)) 
-			throw new RedException(LK_UNKNOWN_ERROR, "Duplicate key passed to Encode");
-		hash.put(key, o);
-		return this;
+	public Encode (BaseEntity<?> parent) {
+		this.parent = parent;
+		hash = new Hashtable<>();
 	}
 	
 	/**
@@ -61,8 +50,13 @@ public class Encode implements IntHardCodeLangKey{
 	 * @return
 	 * @throws Exception
 	 */
-	public Encode update(String key, Object o) throws Exception {
-		hash.put(key, o);
+	public Encode set(String key, Object o) throws Exception {
+		if (o == null) {
+			hash.remove(key);
+		}
+		else {
+			hash.put(key, o);
+		}
 		return this;
 	}
 	
@@ -91,7 +85,7 @@ public class Encode implements IntHardCodeLangKey{
 	 * @return
 	 * @throws Exception
 	 */
-	public String encode() throws Exception {
+	public void encode() throws Exception {
 		StringBuffer b = new StringBuffer();
 		
 		Enumeration<String> keys = hash.keys();
@@ -104,7 +98,8 @@ public class Encode implements IntHardCodeLangKey{
 		}
 		
 		//Insert version and field length
-		return "V0001-" + padLeftZeros("" + (b.length() + 13), 6) + ";" + b.toString();
+		String e = "V0001-" + padLeftZeros("" + (b.length() + 13), 6) + ";" + b.toString();
+		parent.setEncoded(e);
 	}
 	
 	/**
@@ -166,6 +161,26 @@ public class Encode implements IntHardCodeLangKey{
 	public Integer getInteger(String key) {
 		return (Integer)get(key);
 	}
+	
+	/**
+	 * Return the value of a field passed into this object
+	 * @param key
+	 * @return
+	 */
+	public String getString(String key) {
+		return (String)get(key);
+	}
+	
+	/**
+	 * Return the value of a field passed into this object
+	 * @param key
+	 * @return
+	 */
+	public boolean is(String key) {
+		Boolean v = (Boolean)get(key);
+		return v != null && v;
+	}
+	
 	
 	/**
 	 * Return the ForeignKeyField for the passed in key

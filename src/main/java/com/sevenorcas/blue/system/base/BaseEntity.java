@@ -14,9 +14,7 @@ import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.conf.ent.ConfigurationI;
 import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
-import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.field.Encode;
-import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
@@ -101,19 +99,20 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
 	 */
 	public Encode encoder() throws Exception {
 		decoded = true;
-		encodeObject = new Encode().decode(encoded);
+		encodeObject = new Encode(this).decode(encoded);
 		return encodeObject;
 	}
     
-	/**
-	 * The <code>Encode</code> object contains fields that have been encoded in the table
-	 */
-	public void encode() throws Exception {
-		if (encodeObject == null) {
-			throw new RedException(IntHardCodeLangKey.LK_UNKNOWN_ERROR, "Entity has not been decoded");
-		}
-		encoded = encodeObject.encode();
-	}
+//DELETE	
+//	/**
+//	 * The <code>Encode</code> object contains fields that have been encoded in the table
+//	 */
+//	public void encode() throws Exception {
+//		if (encodeObject == null) {
+//			throw new RedException(IntHardCodeLangKey.LK_UNKNOWN_ERROR, "Entity has not been decoded");
+//		}
+//		encoded = encodeObject.encode();
+//	}
 	
     
 	abstract public Long getId();
@@ -126,6 +125,14 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
 		return getId() != null & getId() < 0L;
 	}
 	
+	/**
+	 * Convience to return a boolean primitive
+	 * @param value
+	 * @return
+	 */
+	protected boolean is(Boolean value) {
+		return value != null && value;
+	}
 	
 	public Long getTempId() {
 		return tempId;
@@ -180,17 +187,18 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
 		this.updatedUserId = updatedUserId;
 		return (T)this;
 	}
-
-//DELETE	
-//	public String getEncoded() {
-//		return encoded;
-//	}
-//	@SuppressWarnings("unchecked")
-//	public T setEncoded(String encoded) {
-//		this.encoded = encoded;
-//		return (T)this;
-//	}
 	
+	public String getEncoded() {
+		return encoded;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T setEncoded(String encoded) {
+		this.encoded = encoded;
+		return (T)this;
+	}
+	
+//DELETE	
 //	public Integer getEncodedFlag() {
 //		return encodedFlag;
 //	}

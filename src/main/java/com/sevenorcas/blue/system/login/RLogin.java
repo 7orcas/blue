@@ -65,6 +65,7 @@ public class RLogin extends BaseRest{
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 			
+		boolean changePw = user.isChangePassword(); //Temporary PW used, force a change
 		try {
 			user = service.persistAfterLogin(user);
 			service.detach(user);
@@ -86,8 +87,7 @@ public class RLogin extends BaseRest{
 		else {
 			login.locationHref = appProperties.get("WebClientUrl");
 		}
-				
-		
+					
 		//Get next client sessions
 		@SuppressWarnings("unchecked")
 		Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
@@ -95,7 +95,8 @@ public class RLogin extends BaseRest{
 			clientSessions = new Hashtable<>();
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 		}
-		ClientSession cs = new ClientSession(user, user.getOrgNrLogin(), lang);
+
+		ClientSession cs = new ClientSession(user, user.getOrgNrLogin(), lang, changePw);
 		
 		Integer nextSes = clientSessions.size();
 		clientSessions.put(nextSes, cs.setSessionNr(nextSes));
