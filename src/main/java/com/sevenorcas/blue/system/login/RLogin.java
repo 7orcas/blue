@@ -47,11 +47,11 @@ public class RLogin extends BaseRest{
 	@Path("web")
 	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, JReqLogin req) {
 				
-		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
+//		String lang = isNotEmpty(req.l) ? req.l : appProperties.get("LanguageDefault");
 		EntUser user = null;
 		
 		try {
-			user = service.getUserAndValidate(req.u, req.p, req.o, lang);
+			user = service.getUserAndValidate(req.u, req.p, req.o, req.l);
 		} catch (Exception x) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
 		}
@@ -96,7 +96,7 @@ public class RLogin extends BaseRest{
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 		}
 
-		ClientSession cs = new ClientSession(user, user.getOrgNrLogin(), lang, changePw);
+		ClientSession cs = new ClientSession(user);
 		
 		Integer nextSes = clientSessions.size();
 		clientSessions.put(nextSes, cs.setSessionNr(nextSes));

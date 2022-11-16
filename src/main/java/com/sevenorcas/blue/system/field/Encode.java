@@ -163,6 +163,17 @@ public class Encode implements IntHardCodeLangKey{
 	}
 	
 	/**
+	 * Return it the field is non null
+	 * @param key
+	 * @return
+	 */
+	public boolean isString(String key) {
+		String v = (String)get(key);
+		return v != null && !v.isEmpty();
+	}
+	
+	
+	/**
 	 * Return the value of a field passed into this object
 	 * @param key
 	 * @return

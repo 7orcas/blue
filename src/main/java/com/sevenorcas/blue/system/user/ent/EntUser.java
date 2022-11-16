@@ -65,8 +65,6 @@ public class EntUser extends BaseEntity<EntUser> {
 	@Transient
 	private List <EntPermission> permissions = new ArrayList<>();
 	
-	@Transient private Boolean changePassword;
-	
 	/**
 	 * Override field configurations
 	 */
@@ -102,12 +100,12 @@ public class EntUser extends BaseEntity<EntUser> {
 	/**
 	 * To be valid, correct password and org and attempts < max
 	 */
-	@Transient
-	private Integer orgNrLogin;
-	@Transient
-    private Boolean validUser;
-	@Transient
-    private String inValidMessage;
+	@Transient private Integer orgNrLogin;
+	@Transient private Boolean validUser;
+	@Transient private String inValidMessage;
+	@Transient private String langLogin;
+	@Transient private Boolean changePassword;
+	
 
 	
 	public EntUser () {
@@ -139,6 +137,16 @@ public class EntUser extends BaseEntity<EntUser> {
 		}
 		return j;
 	}
+	
+	/**
+	 * Is this the user's password?
+	 * @param pw
+	 * @return
+	 */
+	public boolean isPassword(String pw) {
+		return pw != null && password.equals(pw);
+	}
+	
 	
 	public boolean isOrgNrLoginValid() {
 		return orgNrLogin != null && orgNrLogin != BASE_ORG_NR;
@@ -262,6 +270,14 @@ public class EntUser extends BaseEntity<EntUser> {
 	}
 	public EntUser setChangePassword() {
 		this.changePassword = true;
+		return this;
+	}
+
+	public String getLangLogin() {
+		return langLogin;
+	}
+	public EntUser setLangLogin(String lang) {
+		this.langLogin = lang;
 		return this;
 	}	
     

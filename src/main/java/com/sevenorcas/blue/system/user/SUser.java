@@ -25,6 +25,7 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
 import com.sevenorcas.blue.system.user.ent.ExcelUser;
+import com.sevenorcas.blue.system.user.ent.JsonChangePW;
 import com.sevenorcas.blue.system.user.ent.JsonUser;
 
 /**
@@ -125,6 +126,61 @@ public class SUser extends BaseService implements SUserI {
     	return ent;
     }
 	
+    /**
+	 * Change a user's password
+	 * 
+	 * @param callObj
+	 * @param current password (optional)
+	 * @param new password
+	 * @param confirm password
+	 * @return
+	 * @throws Exception
+	 */
+	public JsonRes changePW(
+			CallObject callObj,
+			String passcurr,
+			String passnew,
+			String passconf) throws Exception {
+		
+		EntUser user = getUser(callObj, callObj.getUserId());
+		String rtnMessage = null;
+		
+		//Current password may not be included
+		if (passcurr != null && !user.isPassword(passcurr)) {
+			rtnMessage = LK_PW_INVALID_CURRENT;
+			
+			log.info("Attempted password change with invalid current PW: userid " + callObj.getUserId());
+		}
+		else if (passnew == null 
+				|| passconf == null
+				|| !passnew.equals(passconf)) {
+			rtnMessage = LK_PW_INVALID_NEW;	
+		}
+		else if (!isValidPassword(passnew)) {
+			rtnMessage = LK_PW_NEW_NOT_STANDARD;	
+		}
+		else if (passcurr.equals(passnew)) {
+			rtnMessage = LK_PW_NOT_CHANGED;	
+		}
+		else {
+			user.setPassword(passnew);
+		}
+
+		UtilLabel labels = langSrv.getLabelUtil(callObj.getOrgNr(), null, callObj.getLang(), null);
+		JsonChangePW rtn = new JsonChangePW();
+		if (rtnMessage == null) {
+			rtn.result = JS_OK;
+			rtn.message = labels.getLabel(LK_PW_CHANGED);
+		}
+		else {
+			rtn.result = JS_ERROR;
+			rtn.message = labels.getLabel(rtnMessage);	
+		}
+		
+		JsonRes j = new JsonRes().setData(rtn);
+		return j;
+    }
+    
     /**
 	 * Return an uncommitted user entity
 	 * 
@@ -263,5 +319,16 @@ public class SUser extends BaseService implements SUserI {
 		String fn = excelSrv.createListFile("UserList", callObj.getOrgNr(), excel);
 		return fileSrv.getFile(fn, "UserList.xlsx", false);
     }
-    
+
+	/**
+	 * Is this a valid password?
+	 * @param pw
+	 * @return
+	 */
+	public boolean isValidPassword(String pw) throws Exception {
+		boolean x = pw != null && pw.length() > 2;
+		return x;
+	}
+	
 }
+

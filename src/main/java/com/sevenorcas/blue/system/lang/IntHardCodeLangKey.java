@@ -13,8 +13,14 @@ public interface IntHardCodeLangKey {
 	final static String LK_APPEND_SPLIT = ",";
 	
 	final static String LK_INVALID_USERID = "invuid";
-	final static String LK_INVALID_FILE = "invfile";
-	final static String LK_UNKNOWN_ERROR = "errunk";
+	final static String LK_INVALID_FILE   = "invfile";
+	final static String LK_UNKNOWN_ERROR  = "errunk";
+	
+	final static String LK_PW_INVALID_CURRENT  = "passerr1";
+	final static String LK_PW_INVALID_NEW      = "passerr2";
+	final static String LK_PW_NEW_NOT_STANDARD = "passerr3";
+	final static String LK_PW_NOT_CHANGED      = "passchgdN";
+	final static String LK_PW_CHANGED          = "passchgd";
 	
 	final static String LK_VAL_ERROR_NO_RECORD    = "valErr1";
 	final static String LK_VAL_ERROR_TS_DIFF      = "valErr2";

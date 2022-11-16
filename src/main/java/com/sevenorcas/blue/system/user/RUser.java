@@ -18,6 +18,7 @@ import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
+import com.sevenorcas.blue.system.user.ent.JsonChangePW;
 import com.sevenorcas.blue.system.user.ent.JsonUserConfig;
 
 /**
@@ -101,10 +102,23 @@ public class RUser extends BaseRest {
     public JsonRes putConfig(
     		@QueryParam ("co") CallObject callObj, 
     		JsonUserConfig config)  throws Exception {
-		
-System.out.println(config.config + "=" + config.value);		
 		service.putConfig(callObj, config.config, config.value);
 		return new JsonRes().setData("ok");
+    }
+	
+	/**
+	 * Update the user password
+	 * @param callObj
+	 * @param change of password entity
+	 * @return
+	 * @throws Exception
+	 */
+	@PUT
+	@Path("changePW")
+    public JsonRes changePW(
+    		@QueryParam ("co") CallObject callObj, 
+    		JsonChangePW pw)  throws Exception {
+		return service.changePW(callObj, pw.passcurr, pw.passnew, pw.passconf);
     }
 	
 	/**

@@ -27,6 +27,8 @@ public interface SUserI extends BaseServiceI {
     public JsonRes newUserJson(CallObject callObj) throws Exception;
     public EntUser newUser(CallObject callObj) throws Exception;
     public JsonRes putUsers(CallObject callObj, List<EntUser> list) throws Exception;
+    public JsonRes changePW(CallObject callObj, String passcurr, String passnew, String passconf) throws Exception;
+    public boolean isValidPassword(String pw) throws Exception;
     public void putConfig(CallObject callObj,String config, String value)  throws Exception;
 	public Response excelExport(CallObject callObj) throws Exception;
 }

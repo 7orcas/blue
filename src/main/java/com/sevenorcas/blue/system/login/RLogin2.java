@@ -73,7 +73,7 @@ public class RLogin2 extends BaseRest {
 			login.orgNr = cs.getOrgNr();
 			login.lang = cs.getLang();
 			login.roles = roles;
-			login.changePW = cs.isChangePassword();
+			login.changePW = cs.getUser().isChangePassword();
 						
 			Encode encode = cs.getUser().encoder();
 			login.theme = encode.getInteger("theme");

@@ -137,9 +137,11 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		CallObject o = new CallObject("").setOrg(org);
 		EntUser user = new EntUser()
 				.setId(1L)
-				.setUserName("TestUser");
+				.setUserName("TestUser")
+				.setLangLogin("en")
+				.setOrgNrLogin(ORG_NR);
 		
-		ClientSession session = new ClientSession(user, ORG_NR, "en", false);
+		ClientSession session = new ClientSession(user);
 		o.setClientSession(session);
 		return o;
 	}

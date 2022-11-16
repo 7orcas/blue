@@ -19,12 +19,18 @@ passnew,sys,0,New Password,Neues Passwort
 passchg,sys,0,Change Password,Passwort ändern
 passchgd,sys,0,Password Changed,Passwort geändert
 passconf,sys,0,Confirm New Password,Neues Passwort bestätigen
+passcurr,sys,0,Current Password,
+passhide,sys,0,Hide Password,
+passshow,sys,0,Show Password,
 passlen,sys,0,Passwords must contain a minimum of %1 characters.,Neue Passwörter müssen mindestens %1 Zeichen lang sein.
 passinc,sys,0,"They must include at least 1 of each of the following: upper case, lower case, number and special characters %1","Sie müssen folgende Bedingungen erfüllen: mindestens je einen Großbuchstaben, Kleinbuchstaben, eine Ziffer und eines dieser Sonderzeichen %1"
 passforg,login,0,Forgot your password?,Haben Sie Ihr Passwort vergessen?
 passemail,login,0,Please check your emails for a new password (check spam filter if the email is missing),"Bitte überprüfen Sie Ihre E-Mails auf ein neues Passwort (überprüfen Sie den Spamfilter, wenn die E-Mail fehlt)"
 passreset,login,0,Password Reset,Passwort zurücksetzen
-passreset1,login,0,A temporary password will be emailed to this address (valid for 24 hours).,
+passreset1,login,0,A temporary password will be emailed to this address (valid for 24 hours),
+passerr1,,0,Invalid Current Password (this attempt has been logged),
+passerr2,,0,Invalid New or Confirmed password or passwords don't match,
+passerr3,,0,New password does not meet required standard,
 email,login,0,Email,Email
 emailInv,,0,Invalid Email,
 emailSent,,0,Email Sent,

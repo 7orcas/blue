@@ -17,19 +17,15 @@ public class ClientSession implements ApplicationI {
 	private Integer sessionNr;
 	private Integer orgNr;
 	private String lang;
-	private Boolean changePw;
 	
-	public ClientSession (EntUser user, Integer orgNr, String lang, Boolean changePw) {
+	public ClientSession (EntUser user) {
 		this.user = user;
-		this.orgNr = orgNr;
-		this.lang = lang;
-		this.changePw = changePw;
-System.out.println("created client session changePW=" + changePw + " lang=" + lang);		
+		this.orgNr = user.getOrgNrLogin();
+		this.lang = user.getLangLogin();
 	}
 	
 	public ClientSession setSessionNr(Integer sessionNr) {
 		this.sessionNr = sessionNr;
-System.out.println("set sessionNr changePW=" + user.isChangePassword() + " lang=" + lang);
 		return this;
 	}
 
@@ -53,10 +49,6 @@ System.out.println("set sessionNr changePW=" + user.isChangePassword() + " lang=
 	}
 	public String getUrlSegment() {
 		return CLIENT_SESSION_NR + sessionNr + "/";
-	}
-	public boolean isChangePassword() {
-System.out.println("isChangePassword() changePW=" + user.isChangePassword() + " lang=" + lang);
-		return changePw != null && changePw;
 	}
 	
 }

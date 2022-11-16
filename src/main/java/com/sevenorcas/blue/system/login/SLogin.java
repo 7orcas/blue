@@ -45,7 +45,7 @@ public class SLogin extends BaseService implements SLoginI {
 	 * @param userid
 	 * @param pw
 	 * @param orgNr
-	 * @param language
+	 * @param language from client
 	 * @return User object with valid flag (or null if no valid user id) 
 	 */
 	public EntUser getUserAndValidate (String userid, String pw, Integer orgNr, String lang) throws Exception {
@@ -55,6 +55,7 @@ public class SLogin extends BaseService implements SLoginI {
 		
 		//Validate user
 		if (user != null) {
+			Encode encode = user.encoder();
 			user.incrementAttempts();
 	
 			//Determine the orgNr for this login
@@ -64,6 +65,19 @@ public class SLogin extends BaseService implements SLoginI {
 			else if (user.containsOrg(orgNr)){
 				user.setOrgNrLogin(orgNr);
 			}
+			
+			//Determine language
+			if (lang != null && !lang.isEmpty()) {
+				//use it
+			}
+			else if (encode.isString("lang")) {
+				lang = encode.getString("lang");
+			}
+			else {
+				lang = appProperties.get("LanguageDefault");
+			}
+			user.setLangLogin(lang);
+			
 			
 			if (rtnMessage == null && !user.isOrgNrLoginValid()) {
 				rtnMessage = "invorg";
@@ -78,10 +92,9 @@ public class SLogin extends BaseService implements SLoginI {
 				}
 			} catch (Exception x) {}
 			
-			if (rtnMessage == null && !user.getPassword().equals(pw)) {
+			if (rtnMessage == null && !user.isPassword(pw)) {
 				
 				//Test for temporary password
-				Encode encode = user.encoder();
 				String tPw = encode.getString("tempPW");
 				if (tPw != null && tPw.equals(pw)) {
 					String valid = encode.getString("tempPWValid");
@@ -108,10 +121,9 @@ public class SLogin extends BaseService implements SLoginI {
 			}
 			
 			//Remove temporary password
-//			user.encoder()
-//				.set("tempPW", null)
-//				.set("tempPWValid", null)
-//			    .encode();
+//			encode.set("tempPW", null)
+//				  .set("tempPWValid", null)
+//			user.encode();
 			
 			user.setValidUser()
 			    .setAttempts(0)
