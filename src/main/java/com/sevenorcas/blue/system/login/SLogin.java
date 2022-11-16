@@ -121,9 +121,9 @@ public class SLogin extends BaseService implements SLoginI {
 			}
 			
 			//Remove temporary password
-//			encode.set("tempPW", null)
-//				  .set("tempPWValid", null)
-//			user.encode();
+			encode.set("tempPW", null)
+				  .set("tempPWValid", null)
+			      .encode();
 			
 			user.setValidUser()
 			    .setAttempts(0)
