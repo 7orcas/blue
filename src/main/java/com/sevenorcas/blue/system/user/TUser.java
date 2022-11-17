@@ -10,7 +10,6 @@ import javax.ejb.Stateless;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseTransfer;
-import com.sevenorcas.blue.system.base.IdCodeI;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.role.ent.EntRolePermission;
@@ -81,15 +80,15 @@ public class TUser extends BaseTransfer implements TUserI {
 	 * Get a user's permission list
 	 * Process CRUD values for duplicate urls
 	 * 
-	 * @param callObj
-	 * @param User
+	 * @param callObj (optional)
+	 * @param sql parameters
+	 * @param User id
 	 * @return
 	 * @throws Exception
 	 */
 	public List<EntPermission> permissionList(
-    		CallObject callObj,
     		SqlParm parms,
-    		EntUser user) throws Exception {
+    		Long userId) throws Exception {
 		
 		parms = validateParms(parms);
 		
@@ -101,7 +100,7 @@ public class TUser extends BaseTransfer implements TUserI {
 					+ "INNER JOIN " + tableName(EntPermission.class, "p")
 						+ "ON p.id = x.permission_id "
 						+ "AND p.active = true "
-					+ "WHERE " + prefix("r", EntUserRole.USER_ID) + " = " + user.getId() + " "
+					+ "WHERE " + prefix("r", EntUserRole.USER_ID) + " = " + userId + " "
 						+ "AND r.active = true "
 					+ "ORDER BY p.code ";
 

@@ -18,6 +18,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.CacheLogin_Dev;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JResLogin2;
+import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
  * Part 2 of the login process
@@ -64,15 +65,16 @@ public class RLogin2 extends BaseRest {
 			ClientSession cs = callObj.getClientSession();
 			
 			//Get User configuration, eg roles
-			String userid = service.getUserid(cs.getUserId());
-			String roles = service.getUserRolesAsString(cs.getUserId());
+//			String userid = service.getUserid(cs.getUserId());
+//			String roles = service.getUserRolesAsString(cs.getUserId());
+			EntUser user = cs.getUser();
 			
 			//Return the base usn number for the client to use in all coms
 			JResLogin2 login = new JResLogin2();
-			login.userid = userid; 
+			login.username = user.getUserName(); 
 			login.orgNr = cs.getOrgNr();
 			login.lang = cs.getLang();
-			login.roles = roles;
+			login.permissions = user.toJsonUrlPermission(callObj.getOrg());
 			login.changePW = cs.getUser().isChangePassword();
 						
 			Encode encode = cs.getUser().encoder();

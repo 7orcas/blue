@@ -1,5 +1,7 @@
 package com.sevenorcas.blue.system.login.ent;
 
+import java.util.List;
+
 /**
 * Json Login Response entity 
 * Part 2 of login process
@@ -9,10 +11,11 @@ package com.sevenorcas.blue.system.login.ent;
 * @author John Stewart
 */
 public class JResLogin2 {
-	/** userid                */ public String userid;
+	/** userid                */ public String username;
 	/** org number            */ public Integer orgNr;
 	/** language code         */ public String lang;
 	/** client theme          */ public Integer theme;
-	/** user roles            */ public String roles;
 	/** Force a PW change     */ public Boolean changePW;
+	
+	public List<JsonUrlPermission>permissions;
 }

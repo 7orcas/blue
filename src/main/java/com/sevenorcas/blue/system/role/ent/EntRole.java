@@ -56,7 +56,7 @@ public class EntRole extends BaseEntity<EntRole>{
 	}
 
 	public JsonRole toJSon() {
-		JsonRole j = super.toJSon(new JsonRole());
+		JsonRole j = super.toJson(new JsonRole());
 		if (permissions != null) {
 			j.permissions = new ArrayList<>();
 			for (EntRolePermission p : permissions) {

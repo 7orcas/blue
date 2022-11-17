@@ -19,6 +19,7 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JReqLogin;
 import com.sevenorcas.blue.system.login.ent.JReqReset;
 import com.sevenorcas.blue.system.login.ent.JResLogin;
+import com.sevenorcas.blue.system.user.SUserI;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -39,9 +40,8 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 @Consumes({"application/json"})
 public class RLogin extends BaseRest{
 	
-	@EJB
-	private SLoginI service;
-	
+	@EJB private SLoginI service;
+		
 	@SkipAuthorisation
 	@POST
 	@Path("web")
@@ -65,13 +65,17 @@ public class RLogin extends BaseRest{
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 			
-		boolean changePw = user.isChangePassword(); //Temporary PW used, force a change
 		try {
 			user = service.persistAfterLogin(user);
 			service.detach(user);
+
+			//Permissions
+			user.setPermissions(service.permissionList(user.getId()));
+			
 		} catch (Exception x) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
 		}
+		
 		
 		//Success! Set parameters for client to open web gui
 		HttpSession ses = httpRequest.getSession(true);

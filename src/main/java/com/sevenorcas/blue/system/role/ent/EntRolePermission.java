@@ -76,7 +76,7 @@ public class EntRolePermission extends BaseEntity<EntRolePermission> {
 	}
 	
 	public JsonRolePermission toJSon() {
-		JsonRolePermission j = super.toJSon(new JsonRolePermission());
+		JsonRolePermission j = super.toJson(new JsonRolePermission());
 		j.permissionId = permissionId;
 		if (entPermission != null) {
 			j.code = entPermission.getCode();

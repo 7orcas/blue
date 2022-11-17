@@ -88,7 +88,7 @@ public class EntUserRole extends BaseEntity<EntUserRole>{
 	}
 
 	public JsonUserRole toJSon() {
-		JsonUserRole j = super.toJSon(new JsonUserRole());
+		JsonUserRole j = super.toJson(new JsonUserRole());
 		j.roleId = roleId;
 		if (entRole != null) {
 			j.code = entRole.getCode();

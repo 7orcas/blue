@@ -1,4 +1,4 @@
-userid,login,0,User Name,Benutser ID
+username,login,0,User Name,Benutser ID
 pw,login,0,Password,Passwort
 pwAdmin,login,0,Admin Password,
 org,login,0,Organisation,Organisation

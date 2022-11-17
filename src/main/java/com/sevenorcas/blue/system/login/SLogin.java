@@ -18,7 +18,9 @@ import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.org.SOrgI;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
+import com.sevenorcas.blue.system.user.TUserI;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -33,6 +35,7 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 public class SLogin extends BaseService implements SLoginI {
 
 	@EJB private TLoginI dao;
+	@EJB private TUserI userDao;
 	@EJB private SOrgI orgService;
 	
 	/**
@@ -114,7 +117,7 @@ public class SLogin extends BaseService implements SLoginI {
 			}
 
 			if (rtnMessage != null) {
-				UtilLabel labels = langSrv.getLabelUtil(orgNr, null, lang, null);	
+				UtilLabel labels = langSrv.getLabelUtil(user.getOrgNrLogin(), null, lang, null);	
 				rtnMessage = labels.getLabel(rtnMessage, true);
 				user.setInvalidMessage("_" + rtnMessage);
 				return user;	
@@ -159,6 +162,7 @@ public class SLogin extends BaseService implements SLoginI {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public List<String> getUserRoles (Long userId) throws Exception {
 		return dao.getUserRoles(userId, new SqlParm().setActiveOnly());
 	}
@@ -169,6 +173,7 @@ public class SLogin extends BaseService implements SLoginI {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public String getUserRolesAsString (Long userId)  throws Exception {
 		List<String> roles = getUserRoles(userId);
 		StringBuffer sb = new StringBuffer();
@@ -187,6 +192,20 @@ public class SLogin extends BaseService implements SLoginI {
     	return dao.persistAfterLogin(ent);
 	}
     
+    
+    /**
+	 * Get a user's permission list
+	 * Process CRUD values for duplicate urls
+	 * 
+	 * @param User ID
+	 * @return
+	 * @throws Exception
+	 */
+	public List<EntPermission> permissionList(Long userId) throws Exception {
+		return userDao.permissionList(null, userId);				
+	}
+	
+	
     
     /**
      * Send a reset password

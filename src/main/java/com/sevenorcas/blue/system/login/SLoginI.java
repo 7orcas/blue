@@ -6,6 +6,8 @@ import javax.ejb.Local;
 
 import com.sevenorcas.blue.system.base.BaseServiceI;
 import com.sevenorcas.blue.system.base.JsonRes;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -22,6 +24,7 @@ public interface SLoginI extends BaseServiceI {
 	public String getUserid (Long userId) throws Exception;
 	public List<String> getUserRoles (Long userId) throws Exception;
 	public String getUserRolesAsString (Long userId)  throws Exception;
+	public List<EntPermission> permissionList(Long userId) throws Exception;
 	public void detach (EntUser ent) throws Exception;
 	public EntUser persistAfterLogin (EntUser ent) throws Exception;
 	public JsonRes emailTempPassword (String email, String lang) throws Exception;

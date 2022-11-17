@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 import com.sevenorcas.blue.system.base.BaseServiceI;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 

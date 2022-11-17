@@ -73,7 +73,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
 	
 	public JsonOrg toJSon(EntOrg org) throws Exception {
 		decode();
-		JsonOrg j = super.toJSon(new JsonOrg());
+		JsonOrg j = super.toJson(new JsonOrg());
 		j.dvalue = dvalue;
 		j.maxLoginAttempts = maxLoginAttempts;
 		

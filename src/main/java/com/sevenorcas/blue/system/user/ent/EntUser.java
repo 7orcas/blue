@@ -20,6 +20,7 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
+import com.sevenorcas.blue.system.login.ent.JsonUrlPermission;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntPermission;
 
@@ -112,8 +113,8 @@ public class EntUser extends BaseEntity<EntUser> {
 		
 	}
 	
-	public JsonUser toJSon(EntOrg org, boolean fullEntity) throws Exception {
-		JsonUser j = super.toJSon(new JsonUser());
+	public JsonUser toJson(EntOrg org, boolean fullEntity) throws Exception {
+		JsonUser j = super.toJson(new JsonUser());
 		j.code = userName;
 		j.attempts = attempts;
 		j.maxAttemptsExceeded = org.isMaxLoginAttempts(attempts);
@@ -136,6 +137,16 @@ public class EntUser extends BaseEntity<EntUser> {
 			}
 		}
 		return j;
+	}
+	
+	public List<JsonUrlPermission> toJsonUrlPermission(EntOrg org) throws Exception {
+		List<JsonUrlPermission>list = new ArrayList<>();
+		if (permissions != null) {
+			for (EntPermission p : permissions) {
+				list.add(p.toJsonUrlPermission());
+			}
+		}
+		return list;
 	}
 	
 	/**

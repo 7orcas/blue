@@ -94,6 +94,7 @@ public class TLogin extends BaseTransfer implements TLoginI {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public List<String> getUserRoles (Long userId,
 		SqlParm parms) throws Exception {
 	

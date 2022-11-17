@@ -80,7 +80,7 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
      * Set standard fields in JSon object
      * @param j
      */
-    protected <J extends BaseJsonRes> J toJSon(J j) {
+    protected <J extends BaseJsonRes> J toJson(J j) {
     	j.initialise(this);
 		return j;
 	}

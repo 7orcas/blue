@@ -20,5 +20,5 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 @Local
 public interface TUserI extends BaseTransferI {
 	public List<EntUser> userList(CallObject callObj, SqlParm parms) throws Exception;
-	public List<EntPermission> permissionList(CallObject callObj, SqlParm parms, EntUser user) throws Exception;
+	public List<EntPermission> permissionList(SqlParm parms, Long userId) throws Exception;
 }

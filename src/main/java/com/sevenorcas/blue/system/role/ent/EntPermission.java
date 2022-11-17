@@ -13,6 +13,7 @@ import com.sevenorcas.blue.system.conf.ent.FieldConfig;
 import com.sevenorcas.blue.system.conf.ent.ForeignKey;
 import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
+import com.sevenorcas.blue.system.login.ent.JsonUrlPermission;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
@@ -120,11 +121,18 @@ public class EntPermission extends BaseEntity<EntPermission> {
     }
     
 	public JsonPermission toJSon() {
-		JsonPermission j = super.toJSon(new JsonPermission());
+		JsonPermission j = super.toJson(new JsonPermission());
 		j.crud = crud;
 		return j;
 	}
 
+	public JsonUrlPermission toJsonUrlPermission() {
+		JsonUrlPermission j = new JsonUrlPermission();
+		j.url = code; 
+		j.crud = crud;
+		return j;
+	}
+	
 	public String getCrud() {
 		return crud;
 	}
@@ -132,5 +140,14 @@ public class EntPermission extends BaseEntity<EntPermission> {
 		this.crud = crud;
 		return this;
 	}
+	
+	/**
+	 * Permission URL is stored in the <code>code</code> field
+	 * @return
+	 */
+	public String getUrl() {
+		return code;
+	}
+	
 	
 }

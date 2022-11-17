@@ -21,6 +21,7 @@ import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.role.SRoleI;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
@@ -60,7 +61,7 @@ public class SUser extends BaseService implements SUserI {
 		List<EntUser> x = userList(callObj, parms);
 		List<JsonUser> y = new ArrayList<>();
 		for (EntUser d : x) {
-			y.add(d.toJSon(callObj.getOrg(), false));
+			y.add(d.toJson(callObj.getOrg(), false));
 		}
 		
 		return new JsonRes().setData(y);
@@ -96,19 +97,20 @@ public class SUser extends BaseService implements SUserI {
 			return new JsonRes().setError("inv-id", "Invalid entity id");
 		}
 		EntUser e = getUser(callObj, id);
-		JsonRes j = new JsonRes().setData(e.toJSon(callObj.getOrg(), true));
+		JsonRes j = new JsonRes().setData(e.toJson(callObj.getOrg(), true));
 		return j;
     }
 	
 	/**
 	 * Return a user entity
-	 * @param callObj 
+	 * @param callObj
 	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
     public EntUser getUser(CallObject callObj, Long id) throws Exception {
     	EntUser ent = dao.find(EntUser.class, id);
+    	
     	for (EntUserRole r : ent.getRoles()) {
     		r.setEntRole(sRole.getRole(callObj, r.getRoleId()));
     	}
@@ -121,7 +123,7 @@ public class SUser extends BaseService implements SUserI {
 		});
     	
     	//Process permissions
-    	ent.setPermissions(dao.permissionList(callObj, null, ent));
+    	ent.setPermissions(dao.permissionList(null, ent.getId()));
     	
     	return ent;
     }
@@ -142,7 +144,8 @@ public class SUser extends BaseService implements SUserI {
 			String passnew,
 			String passconf) throws Exception {
 		
-		EntUser user = getUser(callObj, callObj.getUserId());
+		EntUser user = dao.find(EntUser.class, callObj.getUserId());
+		//EntUser user = getUser(callObj, parm, callObj.getUserId()); //DELETE
 		String rtnMessage = null;
 		
 		//Current password may not be included
@@ -190,7 +193,7 @@ public class SUser extends BaseService implements SUserI {
     public JsonRes newUserJson(CallObject callObj) throws Exception {
     	EntUser o = newUser(callObj);
     	List<JsonUser> y = new ArrayList<>();
-    	y.add(o.toJSon(callObj.getOrg(), true));
+    	y.add(o.toJson(callObj.getOrg(), true));
 		return new JsonRes().setData(y);
     }
   
@@ -303,8 +306,7 @@ public class SUser extends BaseService implements SUserI {
 		}
 		encode.encode();
     }
-
-    
+	
     /**
 	 * Export users to excel
 	 * @return
