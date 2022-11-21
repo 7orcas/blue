@@ -51,7 +51,7 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 			@SuppressWarnings("unchecked")
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
 			ClientSession cs = clientSessions.get(nr);
-			clientCall.setClientSession(cs);
+			clientCall.set(ses, cs);
 			
 			log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 		} 

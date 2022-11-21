@@ -10,11 +10,14 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
+import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.org.SOrgI;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -244,7 +247,7 @@ public class SLogin extends BaseService implements SLoginI {
 		
 		if (rtnMessage != null) {
 			rtnMessage = labels.getLabel(rtnMessage, true);
-			return new JsonRes().setData("_" + rtnMessage);
+			return new JsonRes().setData(LK_SERVER_MESSAGE + rtnMessage);
 		}
 		
 		
@@ -273,7 +276,24 @@ public class SLogin extends BaseService implements SLoginI {
 		mail.send(email, header, message);
 				
 		rtnMessage = labels.getLabel("emailSent", true);
-		return new JsonRes().setData("_" + rtnMessage);
+		return new JsonRes().setData(LK_SERVER_MESSAGE + rtnMessage);
 	}
     
+    /**
+     * Logout a user
+     * @param httpRequest
+     * @param callOb
+     * @return
+     */
+    public JsonRes logout(CallObject callOb) throws Exception {	
+    	UtilLabel labels = langSrv.getLabelUtil(
+    			callOb.getOrgNr(), 
+    			null, 
+    			callOb.getLang(),
+    			null);
+    	
+    	callOb.getHttpSession().invalidate();
+    	return new JsonRes().setData(labels.getLabel(LK_LOGOUT_MESSAGE, true));
+	}
+	
 }

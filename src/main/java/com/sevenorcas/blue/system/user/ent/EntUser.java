@@ -106,6 +106,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	@Transient private String inValidMessage;
 	@Transient private String langLogin;
 	@Transient private Boolean changePassword;
+	@Transient private Boolean loggedIn;
 	
 
 	
@@ -117,6 +118,7 @@ public class EntUser extends BaseEntity<EntUser> {
 		JsonUser j = super.toJson(new JsonUser());
 		j.code = userName;
 		j.attempts = attempts;
+		j.loggedIn = isLoggedIn();
 		j.maxAttemptsExceeded = org.isMaxLoginAttempts(attempts);
 		j.lastLogin = lastLogin;
 		
@@ -289,6 +291,14 @@ public class EntUser extends BaseEntity<EntUser> {
 	}
 	public EntUser setLangLogin(String lang) {
 		this.langLogin = lang;
+		return this;
+	}
+
+	public boolean isLoggedIn() {
+		return loggedIn != null && loggedIn;
+	}
+	public EntUser setLoggedIn(Boolean loggedIn) {
+		this.loggedIn = loggedIn;
 		return this;
 	}	
     

@@ -11,6 +11,7 @@ public interface IntHardCodeLangKey {
 	
 	final static String LK_APPEND = "|";
 	final static String LK_APPEND_SPLIT = ",";
+	final static String LK_SERVER_MESSAGE = "_";
 	
 	final static String LK_INVALID_USERID = "invuid";
 	final static String LK_INVALID_FILE   = "invfile";
@@ -33,4 +34,5 @@ public interface IntHardCodeLangKey {
 	final static String LK_VAL_ENTER_VALUE  = "valErrA2";
 	final static String LK_VAL_REMOVE_FK    = "valErrA3";
 
+	final static String LK_LOGOUT_MESSAGE   = "logoutm";
 }

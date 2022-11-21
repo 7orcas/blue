@@ -11,8 +11,8 @@ import com.sevenorcas.blue.system.log.AppLog;
 /**
  * Wrap service beans to handle exceptions
  *  
- * [Licence]
  * Created July '22
+ * [Licence]
  * @author John Stewart
  */
 //@Interceptor

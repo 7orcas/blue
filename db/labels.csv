@@ -8,6 +8,7 @@ loginT,login,0,Login into Blue,Melden Sie sich bei Blau an
 loginTR,,0,Re-Login into Blue,Re-Login into Blue
 lastLogin,,0,Last Login,
 maxatt,login,0,Max. Login Attempts Exceeded,(D) Max. Login Attempts Exceeded
+loggedIn,,0,Logged In,
 invorg,login,0,No Permission for Organisation,(D) No Permission for Organisation
 invpw,login,0,Invalid Password (%1 of %2 attempts),(D) Invalid Password (%1 of %2 attempts)
 invuid,login,0,Unknown UserID / Password,Unbekannt Benutzer/Passwort
@@ -38,6 +39,7 @@ stimeout,sys,0,Your session has timed-out due to inactivity. Please re-login.,Di
 relogin,sys,0,"Your access has timed out, please relogin",Sitzung abgelaufen. Bitte erneut einloggen.
 logout,sys,0,Logout,Abmelden
 loggedout,sys,0,Logged out,Abgemeldet
+logoutm,sys,0,Logout successful,
 maxLAttemp,,0,Max. Login Attempts,
 cancel,login,0,Cancel,Abbrechen
 commit,login,0,Commit,Verpflichten

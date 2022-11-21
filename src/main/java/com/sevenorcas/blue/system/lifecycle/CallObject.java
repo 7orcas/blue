@@ -2,6 +2,8 @@ package com.sevenorcas.blue.system.lifecycle;
 
 import java.util.Hashtable;
 
+import javax.servlet.http.HttpSession;
+
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
@@ -14,7 +16,8 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  */
 public class CallObject {
 
-	private ClientSession ses;
+	private ClientSession clientSession;
+	private HttpSession httpSession;
 	private EntOrg org;	
 	
 	Hashtable<String, Object> objects = new Hashtable<>();
@@ -26,12 +29,21 @@ public class CallObject {
 	
 	
 	public ClientSession getClientSession() {
-		return ses;
+		return clientSession;
 	}
 	public CallObject setClientSession(ClientSession ses) {
-		this.ses = ses;
+		this.clientSession = ses;
 		return this;
 	}
+
+	public HttpSession getHttpSession() {
+		return httpSession;
+	}
+	public CallObject setHttpSession(HttpSession httpSession) {
+		this.httpSession = httpSession;
+		return this;
+	}
+
 
 
 	public Integer getOrgNr() {
@@ -56,7 +68,7 @@ public class CallObject {
 
 	//TODO
 	public String getLang() {
-		return ses.getLang() != null? ses.getLang() : "en";
+		return clientSession.getLang() != null? clientSession.getLang() : "en";
 	}
 	
 	/**
@@ -64,6 +76,6 @@ public class CallObject {
 	 * @return
 	 */
 	public Long getUserId() {
-		return ses.getUserId();
+		return clientSession.getUserId();
 	}
 }

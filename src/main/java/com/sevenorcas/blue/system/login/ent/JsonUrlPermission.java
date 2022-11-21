@@ -3,7 +3,8 @@ package com.sevenorcas.blue.system.login.ent;
 import com.sevenorcas.blue.system.base.BaseJsonRes;
 
 /**
-* URL - Crud Permission entity Json 
+* Crud Permission entity Json 
+* Note that a perm maybe a url or a code used in the client
 * 
 * Created 17.11.22
 * [Licence]
@@ -11,6 +12,6 @@ import com.sevenorcas.blue.system.base.BaseJsonRes;
 */
 
 public class JsonUrlPermission extends BaseJsonRes{
-	public String url;
+	public String perm;
 	public String crud;
 }

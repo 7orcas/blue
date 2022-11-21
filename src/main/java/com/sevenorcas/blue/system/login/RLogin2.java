@@ -61,12 +61,7 @@ public class RLogin2 extends BaseRest {
 			HttpSession httpSes = httpRequest.getSession(true);
 			
 			//Get user sessions or create a new list (if new login)
-//			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)httpSes.getAttribute(CLIENT_SESSIONS);
 			ClientSession cs = callObj.getClientSession();
-			
-			//Get User configuration, eg roles
-//			String userid = service.getUserid(cs.getUserId());
-//			String roles = service.getUserRolesAsString(cs.getUserId());
 			EntUser user = cs.getUser();
 			
 			//Return the base usn number for the client to use in all coms

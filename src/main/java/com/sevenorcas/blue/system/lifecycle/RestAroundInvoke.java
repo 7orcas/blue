@@ -48,7 +48,8 @@ public class RestAroundInvoke {
 			else if (clientCall.getClientSession() != null) {
 				callObj = new CallObject("");
 				proceed = true;
-				callObj.setClientSession(clientCall.getClientSession());
+				callObj.setClientSession(clientCall.getClientSession())
+					   .setHttpSession(clientCall.getHttpSession());
 				
 				//Get org entity from cache
 				callObj.setOrg(orgService.getOrgCache(clientCall.getClientSession().getOrgNr()));

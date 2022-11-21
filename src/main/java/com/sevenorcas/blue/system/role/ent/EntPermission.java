@@ -128,8 +128,8 @@ public class EntPermission extends BaseEntity<EntPermission> {
 
 	public JsonUrlPermission toJsonUrlPermission() {
 		JsonUrlPermission j = new JsonUrlPermission();
-		j.url = code; 
-		j.crud = crud;
+		j.perm = code; 
+		j.crud = crud.replaceAll("-", "");
 		return j;
 	}
 	
@@ -140,14 +140,5 @@ public class EntPermission extends BaseEntity<EntPermission> {
 		this.crud = crud;
 		return this;
 	}
-	
-	/**
-	 * Permission URL is stored in the <code>code</code> field
-	 * @return
-	 */
-	public String getUrl() {
-		return code;
-	}
-	
 	
 }

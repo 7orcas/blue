@@ -15,6 +15,7 @@ import com.sevenorcas.blue.system.role.ent.JsonPermission;
 */
 public class JsonUser extends BaseJsonRes{
 	public Integer attempts;
+	public Boolean loggedIn;
 	public Boolean maxAttemptsExceeded;
 	public String password;
 	public String orgs;

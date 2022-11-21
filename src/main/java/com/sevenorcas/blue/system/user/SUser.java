@@ -20,8 +20,8 @@ import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.login.CacheSession;
 import com.sevenorcas.blue.system.role.SRoleI;
-import com.sevenorcas.blue.system.role.ent.EntPermission;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.EntUserRole;
@@ -44,6 +44,7 @@ public class SUser extends BaseService implements SUserI {
 	
 	@EJB private TUserI dao;
 	@EJB private SRoleI sRole;
+	@EJB private CacheSession cache;
 	
 	/**
 	 * List of user objects
@@ -79,7 +80,12 @@ public class SUser extends BaseService implements SUserI {
 	public List<EntUser> userList(
 			CallObject callObj,
     		SqlParm parms) throws Exception{
-		return dao.userList(callObj, parms);
+		List<EntUser> list = dao.userList(callObj, parms);
+		for (EntUser d : list) {
+			d.setLoggedIn(cache.contains(d.getId()));
+		}
+		
+		return list;
     }
 	
 	/**
