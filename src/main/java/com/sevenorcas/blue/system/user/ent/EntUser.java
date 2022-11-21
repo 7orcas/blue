@@ -107,6 +107,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	@Transient private String langLogin;
 	@Transient private Boolean changePassword;
 	@Transient private Boolean loggedIn;
+	@Transient private Boolean devAdmin;
 	
 
 	
@@ -299,6 +300,14 @@ public class EntUser extends BaseEntity<EntUser> {
 	}
 	public EntUser setLoggedIn(Boolean loggedIn) {
 		this.loggedIn = loggedIn;
+		return this;
+	}
+
+	public boolean isDevAdmin() {
+		return devAdmin != null && devAdmin;
+	}
+	public EntUser setDevAdmin() {
+		this.devAdmin = true;
 		return this;
 	}	
     

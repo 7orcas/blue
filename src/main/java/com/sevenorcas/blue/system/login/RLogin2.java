@@ -66,11 +66,15 @@ public class RLogin2 extends BaseRest {
 			
 			//Return the base usn number for the client to use in all coms
 			JResLogin2 login = new JResLogin2();
-			login.username = user.getUserName(); 
+			login.username = user.getUserName();
 			login.orgNr = cs.getOrgNr();
 			login.lang = cs.getLang();
 			login.permissions = user.toJsonUrlPermission(callObj.getOrg());
 			login.changePW = cs.getUser().isChangePassword();
+
+			if (user.isDevAdmin()) {
+				login.devAdmin = true;
+			}
 						
 			Encode encode = cs.getUser().encoder();
 			login.theme = encode.getInteger("theme");

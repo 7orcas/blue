@@ -48,15 +48,24 @@ public class SLogin extends BaseService implements SLoginI {
 	 * - not exceed the maximum login attempts (once exceeded the user is effectively shut out)
 	 * - they are allowed to access the passed in org (unless the passed in org is null, then the user default is used)
 	 *  
-	 * @param userid
+	 * @param username
 	 * @param pw
 	 * @param orgNr
 	 * @param language from client
 	 * @return User object with valid flag (or null if no valid user id) 
 	 */
-	public EntUser getUserAndValidate (String userid, String pw, Integer orgNr, String lang) throws Exception {
+	public EntUser getUserAndValidate (String username, String pw, String adminPw, Integer orgNr, String lang) throws Exception {
 		
-		EntUser user = dao.getUser (userid); 
+		EntUser user = dao.getUser (username); 
+		
+		//Is this devadmin?
+		if (user == null 
+				&& adminPw != null
+				&& appProperties.get("DevelopmentUsername").equals(username)
+				&& appProperties.get("DevelopmentPW").equals(adminPw)) {
+			user = createDevAdmin();
+		}
+		
 		String rtnMessage = null;
 		
 		//Validate user
@@ -68,7 +77,7 @@ public class SLogin extends BaseService implements SLoginI {
 			if (orgNr == null) {
 				user.setDefaultOrg();
 			}
-			else if (user.containsOrg(orgNr)){
+			else if (user.isDevAdmin() || user.containsOrg(orgNr)){
 				user.setOrgNrLogin(orgNr);
 			}
 			
@@ -98,7 +107,9 @@ public class SLogin extends BaseService implements SLoginI {
 				}
 			} catch (Exception x) {}
 			
-			if (rtnMessage == null && !user.isPassword(pw)) {
+			if (rtnMessage == null 
+					&& !user.isDevAdmin()
+					&& !user.isPassword(pw)) {
 				
 				//Test for temporary password
 				String tPw = encode.getString("tempPW");
@@ -139,6 +150,17 @@ public class SLogin extends BaseService implements SLoginI {
 		return user;
 	}
 
+	private EntUser createDevAdmin() {
+		EntUser ent = new EntUser();
+		ent.setId(-1L)
+		   .setUserName("DevAdmin")
+		   .setActive()
+		   .setOrgs(appProperties.get("OrgNrDefault"))
+		   .setAttempts(0)
+		   .setDevAdmin();
+		return ent;
+	}
+	
 	/**
 	 * Detached the entity from JPA
 	 * @param EntUser

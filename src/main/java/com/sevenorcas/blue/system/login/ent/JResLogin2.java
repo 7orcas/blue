@@ -16,6 +16,7 @@ public class JResLogin2 {
 	/** language code         */ public String lang;
 	/** client theme          */ public Integer theme;
 	/** Force a PW change     */ public Boolean changePW;
+	/** Development Admin     */ public Boolean devAdmin;
 	
 	public List<JsonUrlPermission>permissions;
 }

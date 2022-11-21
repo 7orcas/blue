@@ -11,6 +11,7 @@ package com.sevenorcas.blue.system.login.ent;
 public class JReqLogin {
 	public String u;
 	public String p;
+	public String a;
 	public Integer o;
 	public String l;
 }

@@ -52,7 +52,7 @@ public class RLogin extends BaseRest{
 		EntUser user = null;
 		
 		try {
-			user = service.getUserAndValidate(req.u, req.p, req.o, req.l);
+			user = service.getUserAndValidate(req.u, req.p, req.a, req.o, req.l);
 		} catch (Exception x) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
 		}
@@ -67,8 +67,10 @@ public class RLogin extends BaseRest{
 		}
 			
 		try {
-			user = service.persistAfterLogin(user);
-			service.detach(user);
+			if (!user.isDevAdmin()) {
+				user = service.persistAfterLogin(user);
+				service.detach(user);
+			}
 
 			//Permissions
 			user.setPermissions(service.permissionList(user.getId()));
