@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.login.SLoginI;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 import com.sevenorcas.blue.system.user.ent.JsonChangePW;
@@ -36,12 +37,12 @@ import com.sevenorcas.blue.system.user.ent.JsonUserConfig;
 public class RUser extends BaseRest {
 
 	@EJB private SUserI service;
+	@EJB private SLoginI loginSrv;
 		
 	/**
 	 * Return users list
 	 * 
 	 * @param callObj
-	 * @param lang
 	 * @return
 	 * @throws Exception
 	 */
@@ -50,6 +51,20 @@ public class RUser extends BaseRest {
     public JsonRes list(
     		@QueryParam ("co") CallObject callObj) throws Exception {
 		return service.userListJson(callObj, new SqlParm());
+    }
+	
+	/**
+	 * Return session cache
+	 * 
+	 * @param callObj
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("listcache")
+    public JsonRes listCache(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		return service.listCacheJson(callObj);
     }
 	
 	/**
@@ -148,5 +163,23 @@ public class RUser extends BaseRest {
     		@QueryParam ("co") CallObject callObj) throws Exception {
 		return service.excelExport(callObj);
     }
+	
+	/**
+	 * Force a logout
+	 * @param callOb
+	 * @param user id to logout
+	 * @return
+	 */
+	@PUT
+	@Path("logout")
+	public JsonRes logout(
+			@QueryParam ("co") CallObject callOb,
+			Long userId) {	
+		try {
+			return loginSrv.logout(callOb, userId);
+		} catch (Exception x) {
+			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
+		}
+	}
 	
 }

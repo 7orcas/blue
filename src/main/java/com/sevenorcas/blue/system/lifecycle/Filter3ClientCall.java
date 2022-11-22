@@ -17,6 +17,8 @@ import javax.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.ApplicationI;
+import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 
 /**
@@ -30,7 +32,7 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 
 @PreMatching //indicates (with request filter) that such filter should be applied globally on all resources in the application before the actual resource matching occurs
 @Provider
-public class Filter3ClientCall implements ContainerRequestFilter, ContainerResponseFilter, ApplicationI {
+public class Filter3ClientCall implements ContainerRequestFilter, ContainerResponseFilter, ApplicationI, IntHardCodeLangKey {
 
 	private static Logger log = Logger.getLogger(Filter3ClientCall.class.getName());
 	
@@ -51,9 +53,15 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 			@SuppressWarnings("unchecked")
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
 			ClientSession cs = clientSessions.get(nr);
-			clientCall.set(ses, cs);
 			
-			log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
+			if (cs == null || !cs.getUser().isLoggedIn()) {
+				log.debug("USER NOT LOGGED IN, client nr=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
+			}
+			else {
+				clientCall.set(ses, cs);
+				log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
+			}
+			
 		} 
 	}
 	

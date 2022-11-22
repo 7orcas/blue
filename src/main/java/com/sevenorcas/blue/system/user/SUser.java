@@ -82,10 +82,20 @@ public class SUser extends BaseService implements SUserI {
     		SqlParm parms) throws Exception{
 		List<EntUser> list = dao.userList(callObj, parms);
 		for (EntUser d : list) {
-			d.setLoggedIn(cache.contains(d.getId()));
+			d.setLoggedIn(cache.containsEntUser(d.getId()));
 		}
 		
 		return list;
+    }
+	
+	/**
+	 * Current session cache listing
+	 * @param callObj
+	 * @return
+	 * @throws Exception
+	 */
+	public JsonRes listCacheJson(CallObject callObj) throws Exception {
+		return new JsonRes().setData(cache.listJson());
     }
 	
 	/**
@@ -131,6 +141,7 @@ public class SUser extends BaseService implements SUserI {
     	//Process permissions
     	ent.setPermissions(dao.permissionList(null, ent.getId()));
     	
+    	ent.setLoggedIn(cache.containsEntUser(ent.getId()));
     	return ent;
     }
 	
@@ -337,6 +348,7 @@ public class SUser extends BaseService implements SUserI {
 		boolean x = pw != null && pw.length() > 2;
 		return x;
 	}
+
 	
 }
 

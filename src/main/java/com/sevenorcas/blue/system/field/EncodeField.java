@@ -20,13 +20,14 @@ import java.time.LocalTime;
 import java.util.Date;
 
 import com.sevenorcas.blue.system.exception.RedException;
+import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 
-public class EncodeField {
+public class EncodeField implements IntHardCodeLangKey {
 
 	static private String ENCODE = "##%%";
 	
 	static protected String encode (Object o) throws Exception {
-		if (o == null) throw new RedException("errunk", "Invalid Object passed to be encoded");
+		if (o == null) throw new RedException(LK_UNKNOWN_ERROR, "Invalid Object passed to be encoded");
 		
 		if (o instanceof String) return "S" + encodeString(o.toString());
 		if (o instanceof Integer) return "I" + o.toString();
@@ -47,7 +48,7 @@ public class EncodeField {
 			return "X" + df.format(d);
 		}
 		
-		throw new RedException("errunk", "Unknown Object passed to be encoded");
+		throw new RedException(LK_UNKNOWN_ERROR, "Unknown Object passed to be encoded");
 	}
 	
 	static protected Object decode (String s) throws Exception {
@@ -67,7 +68,7 @@ public class EncodeField {
 			return f.parse(x);
 		}
 		
-		throw new RedException("errunk", "Unknown Object passed to be decoded");
+		throw new RedException(LK_UNKNOWN_ERROR, "Unknown Object passed to be decoded");
 	}
 	
 	static private String decodeString (String s) {

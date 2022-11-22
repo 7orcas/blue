@@ -28,5 +28,5 @@ public interface SLoginI extends BaseServiceI {
 	public void detach (EntUser ent) throws Exception;
 	public EntUser persistAfterLogin (EntUser ent) throws Exception;
 	public JsonRes emailTempPassword (String email, String lang) throws Exception;
-	public JsonRes logout(CallObject callOb) throws Exception;
+	public JsonRes logout(CallObject callOb, Long userId) throws Exception;
 }

@@ -1,6 +1,7 @@
 package com.sevenorcas.blue.system.login;
 
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,6 +22,7 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JReqLogin;
 import com.sevenorcas.blue.system.login.ent.JReqReset;
 import com.sevenorcas.blue.system.login.ent.JResLogin;
+import com.sevenorcas.blue.system.login.ent.JsonSessionCache;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -66,6 +68,8 @@ public class RLogin extends BaseRest{
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 			
+		user.setLoggedIn(true);
+
 		try {
 			if (!user.isDevAdmin()) {
 				user = service.persistAfterLogin(user);
@@ -101,15 +105,22 @@ public class RLogin extends BaseRest{
 		if (clientSessions == null) {
 			clientSessions = new Hashtable<>();
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
+			cache.put(ses.getId(), ses);
 		}
+		Integer nextClientNr = (Integer)ses.getAttribute(NEXT_CLIENT_SESSION_NR);
+		nextClientNr = nextClientNr != null? nextClientNr + 1 : 0;
+		ses.setAttribute(NEXT_CLIENT_SESSION_NR, nextClientNr);
 
 		ClientSession cs = new ClientSession(user);
-		cache.put(user.getId(), ses.getId());
-		
-		Integer nextSes = clientSessions.size();
-		cs.setSessionNr(nextSes);
-		clientSessions.put(nextSes, cs);
+		cs.setSessionNr(nextClientNr);
+		clientSessions.put(nextClientNr, cs);
 
+List<JsonSessionCache> list = cache.listJson();
+System.out.println("cache list size=" + list.size());
+for (JsonSessionCache j : list) {
+	System.out.println(" session=" + j.sessionId + " clientNr=" + j.clientNr + " name=" + j.username); 
+}
+		
 		//Append client session to base url, client will use this to connect to this server
 		login.baseUrl = appProperties.get("BaseUrl") + APPLICATION_PATH + "/" + cs.getUrlSegment();
 		login.uploadUrl = appProperties.get("BaseUrl") + UPLOAD_PATH + "/" + cs.getUrlSegment();
@@ -128,11 +139,16 @@ public class RLogin extends BaseRest{
 		}
 	}
 	
+	/**
+	 * Logout the current user
+	 * @param callOb
+	 * @return
+	 */
 	@POST
 	@Path("logout")
 	public JsonRes logout(@QueryParam ("co") CallObject callOb) {	
 		try {
-			return service.logout(callOb);
+			return service.logout(callOb, callOb.getUserId());
 		} catch (Exception x) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
 		}

@@ -34,7 +34,7 @@ public class TUserTest extends BaseTest {
 	@Test
 	public void permissions () {
 		try {
-			List<EntPermission> list = userDao.permissionList(callObject, null, user);
+			List<EntPermission> list = userDao.permissionList(null, user.getId());
 			
 			for (EntPermission e : list) {
 				System.out.println(

@@ -2,6 +2,8 @@ package com.sevenorcas.blue.system.login;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -10,14 +12,13 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.org.SOrgI;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -40,6 +41,7 @@ public class SLogin extends BaseService implements SLoginI {
 	@EJB private TLoginI dao;
 	@EJB private TUserI userDao;
 	@EJB private SOrgI orgService;
+	@EJB private CacheSession cache;
 	
 	/**
 	 * Test the given parameters to return a valid user object (assuming they are valid).
@@ -305,17 +307,19 @@ public class SLogin extends BaseService implements SLoginI {
      * Logout a user
      * @param httpRequest
      * @param callOb
+     * @param user id to logout
      * @return
      */
-    public JsonRes logout(CallObject callOb) throws Exception {	
+    public JsonRes logout(CallObject callOb, Long userId) throws Exception {	
     	UtilLabel labels = langSrv.getLabelUtil(
     			callOb.getOrgNr(), 
     			null, 
     			callOb.getLang(),
     			null);
     	
-    	callOb.getHttpSession().invalidate();
+    	cache.logout(userId);
     	return new JsonRes().setData(labels.getLabel(LK_LOGOUT_MESSAGE, true));
 	}
-	
+
+    
 }

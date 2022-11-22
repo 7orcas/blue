@@ -10,6 +10,7 @@ public interface ApplicationI {
 	
 	static public String CLIENT_SESSIONS = "client-sessions";
 	static public String CLIENT_SESSION_NR = "client-nr";
+	static public String NEXT_CLIENT_SESSION_NR = "next-client-nr";
 	
 	static public Integer BASE_ORG_NR = 0;
 	
