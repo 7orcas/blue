@@ -321,5 +321,15 @@ public class SLogin extends BaseService implements SLoginI {
     	return new JsonRes().setData(labels.getLabel(LK_LOGOUT_MESSAGE, true));
 	}
 
+    /**
+	 * Current session cache listing
+	 * @param callObj
+	 * @return
+	 * @throws Exception
+	 */
+	public JsonRes listCacheJson(CallObject callObj) throws Exception {
+		return new JsonRes().setData(cache.listJson());
+    }
+	
     
 }

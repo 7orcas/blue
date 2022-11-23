@@ -54,20 +54,6 @@ public class RUser extends BaseRest {
     }
 	
 	/**
-	 * Return session cache
-	 * 
-	 * @param callObj
-	 * @return
-	 * @throws Exception
-	 */
-	@GET
-	@Path("listcache")
-    public JsonRes listCache(
-    		@QueryParam ("co") CallObject callObj) throws Exception {
-		return service.listCacheJson(callObj);
-    }
-	
-	/**
 	 * Return a user entity
 	 * 
 	 * @param callObj

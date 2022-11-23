@@ -23,7 +23,6 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 public interface SUserI extends BaseServiceI {
 	public JsonRes userListJson(CallObject callObj, SqlParm parms) throws Exception;
 	public List<EntUser> userList(CallObject callObj, SqlParm parms) throws Exception;
-	public JsonRes listCacheJson(CallObject callObj) throws Exception;
 	public JsonRes getUserJson(CallObject callObj, Long id) throws Exception;
     public EntUser getUser(CallObject callObj, Long id) throws Exception;
     public JsonRes newUserJson(CallObject callObj) throws Exception;

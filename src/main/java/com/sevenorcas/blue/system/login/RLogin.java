@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -154,5 +155,17 @@ for (JsonSessionCache j : list) {
 		}
 	}
 	
-	
+	/**
+	 * Return session cache
+	 * 
+	 * @param callObj
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("listcache")
+    public JsonRes listCache(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		return service.listCacheJson(callObj);
+    }
 }

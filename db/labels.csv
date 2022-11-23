@@ -6,6 +6,7 @@ login,login,0,Login,Anmeldung
 lang,login,0,Language,Sprache
 loginT,login,0,Login into Blue,Melden Sie sich bei Blau an
 loginTR,,0,Re-Login into Blue,Re-Login into Blue
+logins,,0,Logins,
 lastLogin,,0,Last Login,
 maxatt,login,0,Max. Login Attempts Exceeded,(D) Max. Login Attempts Exceeded
 loggedIn,,0,Logged In,
@@ -122,6 +123,7 @@ roleadmin,,0,Role Admin,
 addrole,,0,Add Role,
 showperms,,0,Show Permissions,
 showroles,,0,Show Roles,
+userid,,0,User Id,
 user,,0,User,
 useradmin,,0,User Admin,
 url,,0,URL,
@@ -145,3 +147,5 @@ dvalue,,0,Default,
 dvalue-s,,0,Dft,
 loading,,0,Loading...,
 configs,,0,Configurations,
+sessionid,,0,Session Id,
+clientnr,,0,Client Nr,

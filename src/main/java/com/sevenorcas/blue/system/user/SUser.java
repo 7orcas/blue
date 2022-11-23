@@ -88,15 +88,6 @@ public class SUser extends BaseService implements SUserI {
 		return list;
     }
 	
-	/**
-	 * Current session cache listing
-	 * @param callObj
-	 * @return
-	 * @throws Exception
-	 */
-	public JsonRes listCacheJson(CallObject callObj) throws Exception {
-		return new JsonRes().setData(cache.listJson());
-    }
 	
 	/**
 	 * Return a user entity
