@@ -1,6 +1,8 @@
 package com.sevenorcas.blue.system.lifecycle;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Hashtable;
 
 import javax.inject.Inject;
@@ -17,7 +19,6 @@ import javax.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.ApplicationI;
-import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 
@@ -58,6 +59,7 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 				log.debug("USER NOT LOGGED IN, client nr=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 			}
 			else {
+				cs.setLastActivity(Timestamp.valueOf(LocalDateTime.now()));
 				clientCall.set(ses, cs);
 				log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 			}

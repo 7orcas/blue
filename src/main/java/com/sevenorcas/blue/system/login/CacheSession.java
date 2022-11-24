@@ -61,15 +61,14 @@ public class CacheSession {
 	public void removeSession(String sessionId) {
 		cache.remove(sessionId);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public boolean containsEntUser(Long userId) {
 		CacheSet <String> ids = cache.keySet();
 		
 		for (String id : ids) {
 			HttpSession ses = cache.get(id);
-//if (ses == null) continue;
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(ApplicationI.CLIENT_SESSIONS);
-			
 			Enumeration<Integer> nrs = clientSessions.keys();
 			while (nrs.hasMoreElements()) {
 				Integer nr = nrs.nextElement();
@@ -99,6 +98,8 @@ public class CacheSession {
 				j.clientNr = cs.getSessionNr();
 				j.username = cs.getUserName();
 				j.sessionId = ses.getId();
+				j.created = cs.getCreated();
+				j.lastActivity = cs.getLastActivity();
 			}			
 		}
 		return list;

@@ -1,5 +1,8 @@
 package com.sevenorcas.blue.system.login.ent;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
@@ -17,11 +20,15 @@ public class ClientSession implements ApplicationI {
 	private Integer sessionNr;
 	private Integer orgNr;
 	private String lang;
+	private Timestamp created;
+	private Timestamp lastActivity;
 	
 	public ClientSession (EntUser user) {
 		this.user = user;
 		this.orgNr = user.getOrgNrLogin();
 		this.lang = user.getLangLogin();
+		
+		created = Timestamp.valueOf(LocalDateTime.now());
 	}
 	
 	public ClientSession setSessionNr(Integer sessionNr) {
@@ -50,5 +57,16 @@ public class ClientSession implements ApplicationI {
 	public String getUrlSegment() {
 		return CLIENT_SESSION_NR + sessionNr + "/";
 	}
+	public Timestamp getCreated() {
+		return created;
+	}
+	public final Timestamp getLastActivity() {
+		return lastActivity;
+	}
+	public ClientSession setLastActivity(Timestamp lastActivity) {
+		this.lastActivity = lastActivity;
+		return this;
+	}
+	
 	
 }

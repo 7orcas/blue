@@ -115,12 +115,6 @@ public class RLogin extends BaseRest{
 		ClientSession cs = new ClientSession(user);
 		cs.setSessionNr(nextClientNr);
 		clientSessions.put(nextClientNr, cs);
-
-List<JsonSessionCache> list = cache.listJson();
-System.out.println("cache list size=" + list.size());
-for (JsonSessionCache j : list) {
-	System.out.println(" session=" + j.sessionId + " clientNr=" + j.clientNr + " name=" + j.username); 
-}
 		
 		//Append client session to base url, client will use this to connect to this server
 		login.baseUrl = appProperties.get("BaseUrl") + APPLICATION_PATH + "/" + cs.getUrlSegment();
