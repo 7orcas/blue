@@ -1,10 +1,3 @@
-DELETE FROM cntrl.zzz_role;
-DELETE FROM cntrl.zzz;
-DELETE FROM cntrl.role_permission;
-DELETE FROM cntrl.role;
-DELETE FROM cntrl.permission;
-DELETE FROM cntrl.org;
-
 INSERT INTO cntrl.org (id, code, descr, org_nr, updated, updated_userid) VALUES (1, 'Org 1', 'Org 1 Description', 1, current_timestamp, 1);
 INSERT INTO cntrl.org (id, code, org_nr, updated, updated_userid, active) VALUES (2, 'Org 2', 2, current_timestamp, 1, false);
 INSERT INTO cntrl.org (id, code, org_nr, updated, updated_userid, dvalue) VALUES (3, 'Org 3', 3, current_timestamp, 1, true);
