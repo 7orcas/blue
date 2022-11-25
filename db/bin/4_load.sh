@@ -1,6 +1,8 @@
 echo '>>>>> load base tables'
-export PGPASSWORD='7o'; psql -h localhost -p 5432 -U postgres -W blue < /media/jarvisting/Jarvis/projects/blue/db/40_loadBase.sql
+psql -h localhost -p 5432 -U postgres -d blue < /media/jarvisting/Jarvis/projects/blue/db/40_loadBase.sql
 echo '>>>>> load labels'
-export PGPASSWORD='7o'; psql -h localhost -p 5432 -U postgres -W blue < /media/jarvisting/Jarvis/projects/blue/db/41_loadLabels.sql
-echo '>>>>> create app tables'
-export PGPASSWORD='7o'; psql -h localhost -p 5432 -U postgres -W blue < /media/jarvisting/Jarvis/projects/blue/db/45_loadApp.sql
+psql -h localhost -p 5432 -U postgres -d blue < /media/jarvisting/Jarvis/projects/blue/db/41_loadLabels.sql
+echo '>>>>> load app tables'
+psql -h localhost -p 5432 -U postgres -d blue < /media/jarvisting/Jarvis/projects/blue/db/45_loadApp.sql
+echo '>>>>> load users'
+psql -h localhost -p 5432 -U postgres -d blue < /media/jarvisting/Jarvis/projects/blue/db/48_loadUsers.sql

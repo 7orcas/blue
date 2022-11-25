@@ -1,3 +1,4 @@
+
 drop table if exists cntrl.lang_label;
 drop table if exists cntrl.lang_key;
 drop table if exists cntrl.lang;

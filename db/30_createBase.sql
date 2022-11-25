@@ -23,7 +23,7 @@ create table cntrl.org
 	constraint org_nr_i1 unique (org_nr)
 ) INHERITS (sys.base);
 alter table cntrl.org OWNER to postgres;
-alter sequence cntrl.org_id_seq restart with 10000;
+alter sequence cntrl.org_id_seq restart with 11000;
  
 create table cntrl.zzz
 (
@@ -36,7 +36,7 @@ create table cntrl.zzz
  	constraint zzz_xxx unique (xxx)
 ) INHERITS (sys.base);
 alter table cntrl.zzz OWNER to postgres;
-alter sequence cntrl.zzz_id_seq restart with 10000;
+alter sequence cntrl.zzz_id_seq restart with 11000;
 
 create table cntrl.permission
 (
@@ -44,14 +44,14 @@ create table cntrl.permission
 	crud varchar	
 ) INHERITS (sys.base);
 alter table cntrl.permission OWNER to postgres;
-alter sequence cntrl.permission_id_seq restart with 10000;
+alter sequence cntrl.permission_id_seq restart with 11000;
 
 create table cntrl.role
 (
 	id bigserial primary key
 ) INHERITS (sys.base);
 alter table cntrl.role OWNER to postgres;
-alter sequence cntrl.role_id_seq restart with 10000;
+alter sequence cntrl.role_id_seq restart with 11000;
 
 create table cntrl.role_permission
 (
@@ -61,7 +61,7 @@ create table cntrl.role_permission
     constraint role_permission_i1 unique (role_id,permission_id)
 ) INHERITS (sys.base);
 alter table cntrl.role_permission OWNER to postgres;
-alter sequence cntrl.role_permission_id_seq restart with 10000;
+alter sequence cntrl.role_permission_id_seq restart with 11000;
 
 create table cntrl.zzz_role
 (
@@ -71,14 +71,14 @@ create table cntrl.zzz_role
     constraint zzz_role_i1 unique (zzz_id,role_id)
 ) INHERITS (sys.base);
 alter table cntrl.zzz_role OWNER to postgres;
-alter sequence cntrl.zzz_role_id_seq restart with 10000;
+alter sequence cntrl.zzz_role_id_seq restart with 11000;
 
 create table cntrl.lang
 (
 	id bigserial primary key
 ) INHERITS (sys.base);
 alter table cntrl.lang OWNER to postgres;
-alter sequence cntrl.lang_id_seq restart with 10000;
+alter sequence cntrl.lang_id_seq restart with 11000;
 
 create table cntrl.lang_key
 (
@@ -86,7 +86,7 @@ create table cntrl.lang_key
 	pack varchar
 ) INHERITS (sys.base);
 alter table cntrl.lang_key OWNER to postgres;
-alter sequence cntrl.lang_key_id_seq restart with 10000;
+alter sequence cntrl.lang_key_id_seq restart with 11000;
 
 create table cntrl.lang_label
 (
@@ -95,5 +95,5 @@ create table cntrl.lang_label
     lang varchar
 ) INHERITS (sys.base);
 alter table cntrl.lang_label OWNER to postgres;
-alter sequence cntrl.lang_label_id_seq restart with 10000;
+alter sequence cntrl.lang_label_id_seq restart with 11000;
 

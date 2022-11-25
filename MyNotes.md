@@ -14,6 +14,14 @@ export JBOSS_HOME=/opt/wildfly/  or whatever
 Kill server: pgrep -d" " -f "wildfly" | xargs kill -9;
 
 
+Postgres
+========
+add .pgpass file to user home directory
+format in file is hostname:port:database:username:password (can use *)
+chmod 600 .pgpass
+
+
+
 CORS
 ----
 Development ONLY
