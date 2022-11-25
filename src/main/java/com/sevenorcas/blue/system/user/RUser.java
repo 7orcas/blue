@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.sevenorcas.blue.system.base.BaseRest;
+import com.sevenorcas.blue.system.base.JsonId;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.SLoginI;
@@ -160,9 +161,9 @@ public class RUser extends BaseRest {
 	@Path("logout")
 	public JsonRes logout(
 			@QueryParam ("co") CallObject callOb,
-			Long userId) {	
+			JsonId userId) {	
 		try {
-			return loginSrv.logout(callOb, userId);
+			return loginSrv.logout(callOb, userId.id);
 		} catch (Exception x) {
 			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
 		}

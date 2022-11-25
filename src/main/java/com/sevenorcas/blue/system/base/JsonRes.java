@@ -2,6 +2,13 @@ package com.sevenorcas.blue.system.base;
 
 import com.sevenorcas.blue.system.util.JsonResponseI;
 
+/**
+* Standard JSon response object
+* 
+* [Licence]
+* Created July '22
+* @author John Stewart
+*/
 public class JsonRes implements JsonResponseI{
 	public Object data;
 	public Integer returnCode = JS_OK;  

@@ -9,8 +9,8 @@ INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (40
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (50,  'role',      'User Roles',           '*', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (60,  'user',      'Users',                '*', 0, current_timestamp);
 
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (500,  'org ro',   'Organisations RO',     '-R--', 0, current_timestamp);
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (501,  'lang ro',  'Labels RO',            '-R--', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (500,  'org',      'Organisations RO',     '-R--', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (501,  'lang',     'Labels RO',            '-R--', 0, current_timestamp);
 
 INSERT INTO cntrl.role (id, code, org_nr, updated, updated_userid) VALUES (1, 'Admin', 0, current_timestamp, 1);
 INSERT INTO cntrl.role (id, code, org_nr, updated, updated_userid) VALUES (2, 'Org RO', 0, current_timestamp, 1);
