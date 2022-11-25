@@ -9,11 +9,14 @@ INSERT INTO cntrl.org (id, code, descr, org_nr, updated, updated_userid) VALUES 
 INSERT INTO cntrl.org (id, code, org_nr, updated, updated_userid, active) VALUES (2, 'Org 2', 2, current_timestamp, 1, false);
 INSERT INTO cntrl.org (id, code, org_nr, updated, updated_userid, dvalue) VALUES (3, 'Org 3', 3, current_timestamp, 1, true);
 
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (1,  'org',       'Full edit Organisations', '*', 0, current_timestamp);
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (2,  'role',      'Full edit Roles', '*', 0, current_timestamp);
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (3,  'permission','Full edit Permissions', '*', 0, current_timestamp);
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (4,  'user',      'Full edit Users', '*', 0, current_timestamp);
-INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (5,  'lang',      'Full edit Labels', '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (10,  'lang',      'Language Labels',      '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (20,  'logins',    'Login cache (server)', '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (30,  'org',       'Organisations',        '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (40,  'permission','Permissions',          '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (50,  'role',      'User Roles',           '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (60,  'user',      'Users',                '*', 0, current_timestamp);
+
+
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (101,'org',       'Read Only Organisations', '-R--', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (102,'plan/fix',  'Fixing Simulations', '*', 0, current_timestamp);
 
