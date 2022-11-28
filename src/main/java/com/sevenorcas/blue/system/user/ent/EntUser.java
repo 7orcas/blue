@@ -153,6 +153,34 @@ public class EntUser extends BaseEntity<EntUser> {
 	}
 	
 	/**
+	 * Find the most relevant permission for URL
+	 * @param url
+	 * @return
+	 */
+	public EntPermission findPermission(String url) { 
+		if (permissions == null 
+				|| url == null
+				|| url.length() == 0) {
+			return null;
+		}
+		
+		//find exact match
+		for (EntPermission p : permissions) {
+			if (p.getCode().equals(url)) {
+				return p;
+			}
+		}	
+		
+		//reduce specificity and search
+		int index1 = url.lastIndexOf("/");	
+		if (index1 != -1) {
+			url = url.substring(0, index1);
+			return findPermission(url);
+		}
+		return null;
+	}
+	
+	/**
 	 * Is this the user's password?
 	 * @param pw
 	 * @return

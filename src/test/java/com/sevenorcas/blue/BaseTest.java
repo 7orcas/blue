@@ -135,15 +135,19 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		EntOrg org = new EntOrg();
 		org.setOrgNr(ORG_NR);
 		CallObject o = new CallObject("").setOrg(org);
+		EntUser user = getEntUser();
+		ClientSession session = new ClientSession(user);
+		o.setClientSession(session);
+		return o;
+	}
+	
+	public EntUser getEntUser() {
 		EntUser user = new EntUser()
 				.setId(1L)
 				.setUserName("TestUser")
 				.setLangLogin("en")
 				.setOrgNrLogin(ORG_NR);
-		
-		ClientSession session = new ClientSession(user);
-		o.setClientSession(session);
-		return o;
+		return user;
 	}
 	
 	public <T extends BaseEntity<T>> T configEntNew (T ent) {

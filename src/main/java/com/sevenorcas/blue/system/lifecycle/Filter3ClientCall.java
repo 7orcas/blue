@@ -56,11 +56,14 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 			ClientSession cs = clientSessions.get(nr);
 			
 			if (cs == null || !cs.getUser().isLoggedIn()) {
+				clientCall.setLoginRedirect();
 				log.debug("USER NOT LOGGED IN, client nr=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 			}
 			else {
 				cs.setLastActivity(Timestamp.valueOf(LocalDateTime.now()));
-				clientCall.set(ses, cs);
+				clientCall.set(ses, cs)
+				          .setClientUrl((String)httpRequest.getAttribute(CLIENT_URL));
+				
 				log.debug("CLIENT_SESSION_NR=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 			}
 			

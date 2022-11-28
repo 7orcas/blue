@@ -16,7 +16,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.ApplicationI;
 
 /**
- * Calls have a user session number within their URLs.
+ * Calls have a client number within their URLs.
  * These need to be filter out and passed via a request attribute
  *   
  * [Licence]
@@ -52,6 +52,7 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 			
 			if (nr != -1) {
 				request.setAttribute(CLIENT_SESSION_NR, nr);
+				request.setAttribute(CLIENT_URL, cleanUrl(url));
 				RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/" + APPLICATION_PATH + url);
 				rd.forward(request, response);
 				log.debug("forward: " + APPLICATION_PATH + url);
@@ -94,5 +95,13 @@ public class Filter2UrlRedirect implements Filter, ApplicationI {
 		}
 	}
 	
+	
+	static public String cleanUrl(String url) {
+		int index1 = url.indexOf("?");	
+		if (index1 != -1) url = url.substring(0, index1);
+		if (url.endsWith("/")) url = url.substring(0, url.length()-1);
+		if (url.startsWith("/")) url = url.substring(1);
+		return url;
+	}
 	
 }

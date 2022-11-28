@@ -1,7 +1,7 @@
 package com.sevenorcas.blue.system.login;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
+import org.jboss.logging.Logger;
+
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
@@ -23,7 +25,6 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JReqLogin;
 import com.sevenorcas.blue.system.login.ent.JReqReset;
 import com.sevenorcas.blue.system.login.ent.JResLogin;
-import com.sevenorcas.blue.system.login.ent.JsonSessionCache;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -47,6 +48,8 @@ public class RLogin extends BaseRest{
 	@EJB private SLoginI service;
 	@EJB private CacheSession cache;
 		
+	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	
 	@SkipAuthorisation
 	@POST
 	@Path("web")
@@ -104,14 +107,28 @@ public class RLogin extends BaseRest{
 		@SuppressWarnings("unchecked")
 		Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
 		if (clientSessions == null) {
+			if (req.cn != null) {
+				log.error("Client login with relogin clientNr");
+				return new JsonRes().setError(LK_UNKNOWN_ERROR);		
+			}
 			clientSessions = new Hashtable<>();
 			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
 			cache.put(ses.getId(), ses);
 		}
-		Integer nextClientNr = (Integer)ses.getAttribute(NEXT_CLIENT_SESSION_NR);
-		nextClientNr = nextClientNr != null? nextClientNr + 1 : 0;
-		ses.setAttribute(NEXT_CLIENT_SESSION_NR, nextClientNr);
-
+				
+		Integer nextClientNr = null;
+		//Client is re-logging in
+		if (req.cn != null) {
+			nextClientNr = req.cn;	
+		}
+		//fresh login
+		else {
+			nextClientNr = (Integer)ses.getAttribute(NEXT_CLIENT_SESSION_NR);	
+			nextClientNr = nextClientNr != null? nextClientNr + 1 : 0;
+			ses.setAttribute(NEXT_CLIENT_SESSION_NR, nextClientNr);
+		}
+		login.clientNr = nextClientNr;
+		
 		ClientSession cs = new ClientSession(user);
 		cs.setSessionNr(nextClientNr);
 		clientSessions.put(nextClientNr, cs);

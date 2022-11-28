@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.ent.EntPermission;
 
 /**
  * Wrapper object for a client call
@@ -19,6 +20,7 @@ public class CallObject {
 	private ClientSession clientSession;
 	private HttpSession httpSession;
 	private EntOrg org;	
+	private EntPermission perm;
 	
 	Hashtable<String, Object> objects = new Hashtable<>();
 	
@@ -56,7 +58,14 @@ public class CallObject {
 		this.org = org;
 		return this;
 	}
-
+	
+	public EntPermission getPermission() {
+		return perm;
+	}
+	public CallObject setPermission(EntPermission perm) {
+		this.perm = perm;
+		return this;
+	}
 
 	public CallObject put (String key, Object obj) {
 		objects.put(key, obj);

@@ -14,4 +14,5 @@ public class JReqLogin {
 	public String a;
 	public Integer o;
 	public String l;
+	public Integer cn;
 }

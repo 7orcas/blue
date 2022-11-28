@@ -12,6 +12,7 @@ public class JResLogin {
 	public String baseUrl;
 	public String uploadUrl;
 	public String sessionId;
+	public Integer clientNr;
 	public String initialisationUrl;
 	public String locationHref;
 }

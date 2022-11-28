@@ -7,6 +7,7 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 
 /**
  * Object to pass on the <code>CLIENT_SESSION</code> in a call
+ * Also, if an http session is present but not valid then return a login redirect to the client
  *  
  * [Licence]
  * Created August '22
@@ -17,6 +18,8 @@ import com.sevenorcas.blue.system.login.ent.ClientSession;
 public class ClientCall {
 	private ClientSession clientSession;
 	private HttpSession httpSession;
+	private String clientUrl;
+	private Boolean loginRedirect;
 	
 	public ClientSession getClientSession() {
 		return clientSession;
@@ -26,9 +29,27 @@ public class ClientCall {
 		return httpSession;
 	}
 
-	public void set(HttpSession ses, ClientSession cs) {
+	public ClientCall set(HttpSession ses, ClientSession cs) {
 		this.httpSession = ses;
 		this.clientSession = cs;
+		return this;
 	}
+
+	public boolean isLoginRedirect() {
+		return loginRedirect != null && loginRedirect;
+	}
+	public ClientCall setLoginRedirect() {
+		this.loginRedirect = true;
+		return this;
+	}
+
+	public String getClientUrl() {
+		return clientUrl;
+	}
+	public ClientCall setClientUrl(String clientUrl) {
+		this.clientUrl = clientUrl;
+		return this;
+	}
+	
 	
 }
