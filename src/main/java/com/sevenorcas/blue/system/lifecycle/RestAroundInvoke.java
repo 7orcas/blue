@@ -45,16 +45,17 @@ public class RestAroundInvoke {
     public Object invocation(InvocationContext ctx) {
 		
 		boolean proceed = false;
+
+		SkipAuthorisation skipAuth = ctx.getMethod().getAnnotation(SkipAuthorisation.class);
+		if (skipAuth != null) {
+			proceed = true;
+		}
+		
 		CallObject callObj = null;
 		try {
-
-			SkipAuthorisation anno = ctx.getMethod().getAnnotation(SkipAuthorisation.class);
-			if (anno != null) {
-				proceed = true;
-			}
 			
 			//Redirect client to a re-login
-			else if (clientCall.isLoginRedirect()) {
+			if (clientCall.isLoginRedirect()) {
 				return new JsonRes().setReturnCode(JsonResponseI.JS_LOGIN_REDIRECT);
 			}
 			
@@ -66,7 +67,7 @@ public class RestAroundInvoke {
 				ClientSession cs = clientCall.getClientSession();
 				EntUser user = cs.getUser();
 				EntPermission perm = null;
-				if (clientCall.getClientUrl() != null) {
+				if (skipAuth == null && clientCall.getClientUrl() != null) {
 					perm = user.findPermission(clientCall.getClientUrl());
 					if (perm == null && !user.isDevAdmin()) {
 						log.error("User:" + user.getCode() + ", Url:" + clientCall.getClientUrl() + ", NO PERM");
@@ -88,7 +89,6 @@ public class RestAroundInvoke {
 					}
 				}
 			}
-			
 			
 			if (proceed) {
 				return ctx.proceed();

@@ -50,12 +50,20 @@ public class Filter3ClientCall implements ContainerRequestFilter, ContainerRespo
 		
 		if (ses != null && httpRequest.getAttribute(CLIENT_SESSION_NR) != null){
 			Integer nr = (Integer)httpRequest.getAttribute(CLIENT_SESSION_NR);
+			String url = (String)httpRequest.getAttribute(CLIENT_URL);
 			
 			@SuppressWarnings("unchecked")
 			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
 			ClientSession cs = clientSessions.get(nr);
 			
-			if (cs == null || !cs.getUser().isLoggedIn()) {
+			if (cs == null) {
+				clientCall.setLoginRedirect();
+			}
+			else if (!cs.getUser().isLoggedIn() 
+					&& url.equals(REST_LOGIN + "/" + REST_LOGIN_WEB)) {
+				//re-login - do nothing
+			}
+			else if (!cs.getUser().isLoggedIn()) {
 				clientCall.setLoginRedirect();
 				log.debug("USER NOT LOGGED IN, client nr=" + (nr==null?"null":"" + nr.toString()) + ", session id=" + ses.getId());
 			}

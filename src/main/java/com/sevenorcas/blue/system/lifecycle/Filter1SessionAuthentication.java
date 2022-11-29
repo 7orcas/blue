@@ -22,7 +22,7 @@ import com.sevenorcas.blue.system.login.ent.CacheLogin_Dev;
 
 /**
  * Calls need to have a valid http session, otherwise they are not allowed into the system.
- * Exceptions are defined in web.xml in 'excludedUrls' parameters.
+ * Exceptions are defined in web.xml in 'excludeAuthenticationUrls' parameters.
  *   
  * [Licence]
  * Created Aug '22
@@ -30,7 +30,7 @@ import com.sevenorcas.blue.system.login.ent.CacheLogin_Dev;
  */
 public class Filter1SessionAuthentication implements Filter{
 
-	private List <String> excludedUrls;
+	private List <String> excludeAuthenticationUrls;
 	
 	private AppProperties appProperties = AppProperties.getInstance();
 
@@ -42,8 +42,8 @@ public class Filter1SessionAuthentication implements Filter{
 
 	//Load the excluded URLs
 	public void init(FilterConfig conf) throws ServletException {
-		String excludePattern = conf.getInitParameter("excludedUrls");
-        excludedUrls = Arrays.asList(excludePattern.split(","));  
+		String excludePattern = conf.getInitParameter("excludeAuthenticationUrls");
+        excludeAuthenticationUrls = Arrays.asList(excludePattern.split(","));  
     }
 	
 	/**
@@ -61,7 +61,7 @@ public class Filter1SessionAuthentication implements Filter{
 			String url = req.getRequestURL().toString();
 			
 			//Check if url is excluded from check
-			for (String u : excludedUrls) {
+			for (String u : excludeAuthenticationUrls) {
 				if (url.indexOf(u) != -1) {
 					proceed = true;
 					break;

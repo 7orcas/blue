@@ -1,8 +1,8 @@
 package com.sevenorcas.blue.system.login;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -12,6 +12,10 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
@@ -19,6 +23,7 @@ import com.sevenorcas.blue.system.field.Encode;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
+import com.sevenorcas.blue.system.login.ent.JResLogin;
 import com.sevenorcas.blue.system.mail.SMailI;
 import com.sevenorcas.blue.system.org.SOrgI;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
@@ -38,10 +43,13 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 @Stateless
 public class SLogin extends BaseService implements SLoginI {
 
+	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	
 	@EJB private TLoginI dao;
 	@EJB private TUserI userDao;
 	@EJB private SOrgI orgService;
 	@EJB private CacheSession cache;
+	
 	
 	/**
 	 * Test the given parameters to return a valid user object (assuming they are valid).
@@ -152,6 +160,89 @@ public class SLogin extends BaseService implements SLoginI {
 		return user;
 	}
 
+	
+	/**
+	 * Process a web login
+	 * @param httpRequest
+	 * @param user
+	 * @param clientNr
+	 * @return
+	 */
+	public JsonRes processWebLogin(HttpServletRequest httpRequest, EntUser user, Integer clientNr) {
+		
+		user.setLoggedIn(true);
+
+		try {
+			if (!user.isDevAdmin()) {
+				user = persistAfterLogin(user);
+				detach(user);
+			}
+
+			//Permissions
+			user.setPermissions(permissionList(user.getId()));
+			
+		} catch (Exception x) {
+			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
+		}
+		
+		
+		//Success! Set parameters for client to open web gui
+		HttpSession ses = httpRequest.getSession(true);
+		
+		//Return object
+		JResLogin login = new JResLogin();
+		login.sessionId = ses.getId();
+		login.initialisationUrl = appProperties.get("WebLoginInitUrl");
+		
+		if (appProperties.is("DevelopmentMode")) {
+			login.locationHref = appProperties.get("WebClientUrl-CORS");	
+		}
+		else {
+			login.locationHref = appProperties.get("WebClientUrl");
+		}
+					
+		//Get next client sessions
+		@SuppressWarnings("unchecked")
+		Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
+		if (clientSessions == null) {
+			if (clientNr != null) {
+				log.error("Client login with relogin clientNr");
+				return new JsonRes().setError(LK_UNKNOWN_ERROR);		
+			}
+			clientSessions = new Hashtable<>();
+			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
+			cache.put(ses.getId(), ses);
+		}
+				
+		Integer nextClientNr = null;
+		//Client is re-logging in
+		if (clientNr != null) {
+			nextClientNr = clientNr;	
+		}
+		//fresh login
+		else {
+			nextClientNr = (Integer)ses.getAttribute(NEXT_CLIENT_SESSION_NR);	
+			nextClientNr = nextClientNr != null? nextClientNr + 1 : 0;
+			ses.setAttribute(NEXT_CLIENT_SESSION_NR, nextClientNr);
+		}
+		login.clientNr = nextClientNr;
+		
+		ClientSession cs = new ClientSession(user);
+		cs.setSessionNr(nextClientNr);
+		clientSessions.put(nextClientNr, cs);
+		
+		//Append client session to base url, client will use this to connect to this server
+		login.baseUrl = appProperties.get("BaseUrl") + APPLICATION_PATH + "/" + cs.getUrlSegment();
+		login.uploadUrl = appProperties.get("BaseUrl") + UPLOAD_PATH + "/" + cs.getUrlSegment();
+
+		return new JsonRes().setData(login);
+	}
+	
+	
+	/**
+	 * Create the special dev user 
+	 * @return
+	 */
 	private EntUser createDevAdmin() {
 		EntUser ent = new EntUser();
 		ent.setId(-1L)
@@ -311,14 +402,8 @@ public class SLogin extends BaseService implements SLoginI {
      * @return
      */
     public JsonRes logout(CallObject callOb, Long userId) throws Exception {	
-    	UtilLabel labels = langSrv.getLabelUtil(
-    			callOb.getOrgNr(), 
-    			null, 
-    			callOb.getLang(),
-    			null);
-    	
-    	cache.logout(userId);
-    	return new JsonRes().setData(labels.getLabel(LK_LOGOUT_MESSAGE, true));
+    	int rtn = cache.logout(userId, callOb.getHttpSession().getId());
+    	return new JsonRes().setData(rtn);
 	}
 
     /**

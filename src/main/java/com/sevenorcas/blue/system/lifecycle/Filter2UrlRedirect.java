@@ -16,7 +16,7 @@ import org.jboss.logging.Logger;
 import com.sevenorcas.blue.system.ApplicationI;
 
 /**
- * Calls have a client number within their URLs.
+ * Calls have a client number embedded in their URLs.
  * These need to be filter out and passed via a request attribute
  *   
  * [Licence]

@@ -22,6 +22,7 @@ import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.IntHardCodeLangKey;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JsonSessionCache;
+import com.sevenorcas.blue.system.util.JsonResponseI;
 
 /**
  * Session Cache
@@ -108,40 +109,42 @@ public class CacheSession {
 	/**
 	 * Logout out the user
 	 * If no remaining client sessions on user then invalidate the http session
-	 * @param userId
+	 * @param user id
+	 * @param session id
 	 */
 	@SuppressWarnings("unchecked")
-	public void logout (Long userId) throws Exception {
+	public int logout (Long userId, String sessionId) throws Exception {
 		
-System.out.println("logout userId=" + userId);		
-		
-		CacheSet <String> ids = cache.keySet();
 		boolean found = false;
-		for (String id : ids) {
-			HttpSession ses = cache.get(id);
-if (ses == null) continue;
-			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(ApplicationI.CLIENT_SESSIONS);
+		boolean valid = false;
+		HttpSession ses = cache.get(sessionId);
+		
+		if (ses != null) {
 			
+			Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(ApplicationI.CLIENT_SESSIONS);
 			Enumeration<Integer> keys = clientSessions.keys();
 			while (keys.hasMoreElements()) {
 				Integer nr = keys.nextElement();
 				ClientSession cs = clientSessions.get(nr);
 				if (cs.getUser().getId().equals(userId)) {
 					cs.getUser().setLoggedIn(false);
-					clientSessions.remove(nr);
-System.out.println("logout remove client nr=" + nr);
 					found = true;
+				}
+				if (cs.getUser().isLoggedIn()) {
+					valid = true;
 				}
 			}
 				
+			//No valid client sessions
 			//This cache will be called back to remove the http session
-			if (clientSessions.isEmpty()) {
+			if (!valid) {
 				ses.invalidate();
 			}
 		}
 		
 		if (!found) throw new RedException(IntHardCodeLangKey.LK_UNKNOWN_ERROR, "No user found to logout session");
 		
+		return valid? JsonResponseI.JS_LOGIN_REDIRECT : JsonResponseI.JS_LOGGED_OUT;
 	}
 	
 	

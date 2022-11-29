@@ -19,6 +19,8 @@ public interface JsonResponseI {
 	final static int JS_NO_PERMISSION     = -4;
 	final static int JS_NO_CHANGE         = 1;
 	final static int JS_UPLOADED          = 3;
+	
 	final static int JS_LOGIN_REDIRECT    = 4;
+	final static int JS_LOGGED_OUT        = 5;
 }
 

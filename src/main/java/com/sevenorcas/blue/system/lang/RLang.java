@@ -40,6 +40,7 @@ public class RLang extends BaseRest {
 	@EJB
 	private SLangI service;
 	
+	@SkipAuthorisation
 	@GET
 	@Path("pack")
     public JsonRes pack(

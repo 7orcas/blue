@@ -3,6 +3,7 @@ package com.sevenorcas.blue.system.login;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
 
 import com.sevenorcas.blue.system.base.BaseServiceI;
 import com.sevenorcas.blue.system.base.JsonRes;
@@ -21,6 +22,7 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
 @Local
 public interface SLoginI extends BaseServiceI {
 	public EntUser getUserAndValidate (String userid, String pw, String adminPw, Integer org, String lang) throws Exception;
+	public JsonRes processWebLogin(HttpServletRequest httpRequest, EntUser user, Integer clientNr);
 	public String getUserid (Long userId) throws Exception;
 	public List<String> getUserRoles (Long userId) throws Exception;
 	public String getUserRolesAsString (Long userId)  throws Exception;

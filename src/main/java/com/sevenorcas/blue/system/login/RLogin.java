@@ -1,12 +1,8 @@
 package com.sevenorcas.blue.system.login;
 
-import java.lang.invoke.MethodHandles;
-import java.util.Hashtable;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,16 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
-import org.jboss.logging.Logger;
-
+import com.sevenorcas.blue.system.ApplicationI;
 import com.sevenorcas.blue.system.annotation.SkipAuthorisation;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.login.ent.JReqLogin;
 import com.sevenorcas.blue.system.login.ent.JReqReset;
-import com.sevenorcas.blue.system.login.ent.JResLogin;
 import com.sevenorcas.blue.system.user.ent.EntUser;
 
 /**
@@ -40,19 +33,17 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
  */
 
 @Stateless
-@Path("/login")
+@Path("/" + ApplicationI.REST_LOGIN)
 @Produces({"application/json"})
 @Consumes({"application/json"})
 public class RLogin extends BaseRest{
 	
 	@EJB private SLoginI service;
 	@EJB private CacheSession cache;
-		
-	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@SkipAuthorisation
 	@POST
-	@Path("web")
+	@Path(ApplicationI.REST_LOGIN_WEB)
 	public JsonRes loginWeb(@Context HttpServletRequest httpRequest, JReqLogin req) {
 				
 		EntUser user = null;
@@ -72,72 +63,7 @@ public class RLogin extends BaseRest{
 			return new JsonRes().setError(user.getInvalidMessage());	
 		}
 			
-		user.setLoggedIn(true);
-
-		try {
-			if (!user.isDevAdmin()) {
-				user = service.persistAfterLogin(user);
-				service.detach(user);
-			}
-
-			//Permissions
-			user.setPermissions(service.permissionList(user.getId()));
-			
-		} catch (Exception x) {
-			return new JsonRes().setError(LK_UNKNOWN_ERROR);	
-		}
-		
-		
-		//Success! Set parameters for client to open web gui
-		HttpSession ses = httpRequest.getSession(true);
-		
-		//Return object
-		JResLogin login = new JResLogin();
-		login.sessionId = ses.getId();
-		login.initialisationUrl = appProperties.get("WebLoginInitUrl");
-		
-		if (appProperties.is("DevelopmentMode")) {
-			login.locationHref = appProperties.get("WebClientUrl-CORS");	
-		}
-		else {
-			login.locationHref = appProperties.get("WebClientUrl");
-		}
-					
-		//Get next client sessions
-		@SuppressWarnings("unchecked")
-		Hashtable<Integer, ClientSession> clientSessions = (Hashtable<Integer, ClientSession>)ses.getAttribute(CLIENT_SESSIONS);
-		if (clientSessions == null) {
-			if (req.cn != null) {
-				log.error("Client login with relogin clientNr");
-				return new JsonRes().setError(LK_UNKNOWN_ERROR);		
-			}
-			clientSessions = new Hashtable<>();
-			ses.setAttribute(CLIENT_SESSIONS, clientSessions);
-			cache.put(ses.getId(), ses);
-		}
-				
-		Integer nextClientNr = null;
-		//Client is re-logging in
-		if (req.cn != null) {
-			nextClientNr = req.cn;	
-		}
-		//fresh login
-		else {
-			nextClientNr = (Integer)ses.getAttribute(NEXT_CLIENT_SESSION_NR);	
-			nextClientNr = nextClientNr != null? nextClientNr + 1 : 0;
-			ses.setAttribute(NEXT_CLIENT_SESSION_NR, nextClientNr);
-		}
-		login.clientNr = nextClientNr;
-		
-		ClientSession cs = new ClientSession(user);
-		cs.setSessionNr(nextClientNr);
-		clientSessions.put(nextClientNr, cs);
-		
-		//Append client session to base url, client will use this to connect to this server
-		login.baseUrl = appProperties.get("BaseUrl") + APPLICATION_PATH + "/" + cs.getUrlSegment();
-		login.uploadUrl = appProperties.get("BaseUrl") + UPLOAD_PATH + "/" + cs.getUrlSegment();
-
-		return new JsonRes().setData(login);
+		return service.processWebLogin(httpRequest, user, req.cn);
     }
 
 	@SkipAuthorisation
@@ -156,6 +82,7 @@ public class RLogin extends BaseRest{
 	 * @param callOb
 	 * @return
 	 */
+	@SkipAuthorisation
 	@POST
 	@Path("logout")
 	public JsonRes logout(@QueryParam ("co") CallObject callOb) {	
