@@ -79,7 +79,7 @@ public class RLogin2 extends BaseRest {
 			}
 						
 			Encode encode = cs.getUser().encoder();
-			login.theme = encode.getInteger("theme");
+			login.theme = encode.get("theme", THEME_LIGHT);
 			
 			if (appProperties.is("DevelopmentMode")) {
 				cacheDev.put(httpRequest.getRemoteHost(), httpSes);

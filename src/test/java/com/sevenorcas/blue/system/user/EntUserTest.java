@@ -26,6 +26,7 @@ public class EntUserTest extends BaseTest {
 	private String [][] perms = {
 			{"a",     "CRUD"},
 			{"a/b",   "*"},
+			{"*/e",   "*"},
 			{"a/c",   "-R--"},
 			{"a/b/d", "C---"},
 			{"a/d",   "*"}
@@ -36,9 +37,11 @@ public class EntUserTest extends BaseTest {
 			{"b",     ""},
 			{"a",     "a"},
 			{"a/",    "a"},
-			{"a/e",   "a"},
+			{"a/z",   "a"},
+			{"ax/e",  "*/e"},
 			{"a/c",   "a/c"},
-			{"a/c/e", "a/c"},
+			{"a/c/e", "*/e"},
+			{"a/c/x", "a/c"},
 			{"b/d",   ""},
 			{"a/d",   "a/d"}
 	};
@@ -58,10 +61,10 @@ public class EntUserTest extends BaseTest {
 	}
 	
 	@Test
-	public void permissionUrl () {
+	public void findPermissionForUrl() {
 		try {
 			for (String[]url : urls) {
-				EntPermission p = userEnt.findPermission(url[0]);
+				EntPermission p = userEnt.findPermissionForUrl(url[0]);
 				System.out.println(url[0] + "=" + (p!=null?p.getCode():"null"));
 				
 				if (p == null && url[1].length() == 0)

@@ -157,7 +157,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	 * @param url
 	 * @return
 	 */
-	public EntPermission findPermission(String url) { 
+	public EntPermission findPermissionForUrl(String url) { 
 		if (permissions == null 
 				|| url == null
 				|| url.length() == 0) {
@@ -171,12 +171,27 @@ public class EntUser extends BaseEntity<EntUser> {
 			}
 		}	
 		
+		//find wild card permission (the start of the url is ignored)
+		for (EntPermission p : permissions) {
+			int index = p.getCode().indexOf("*/"); 
+			if (index == -1) continue;
+			
+			String px = p.getCode().substring(index+1);
+			if (url.length() < px.length()) continue;
+			
+			String urlx = url.substring(url.length() - px.length());
+			if (px.equals(urlx)) {
+				return p;
+			}
+		}
+		
 		//reduce specificity and search
 		int index1 = url.lastIndexOf("/");	
 		if (index1 != -1) {
 			url = url.substring(0, index1);
-			return findPermission(url);
+			return findPermissionForUrl(url);
 		}
+				
 		return null;
 	}
 	

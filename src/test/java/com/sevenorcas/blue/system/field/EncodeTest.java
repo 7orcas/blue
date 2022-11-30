@@ -74,8 +74,14 @@ public class EncodeTest extends BaseTest {
 	public void testNull() {
 		try {
 			Encode e = new Encode(ent);
+			e.set("a", "a");
+			String f = e.get("a", (String)null);
+			assertTrue(f.equals("a"));
+			
 			e.set("a", null);
-			fail("Error on null");
+			boolean x = e.is("a");
+			assertTrue(!x);
+			
 		} catch (Exception x) {
 			//Do nothing
 		}

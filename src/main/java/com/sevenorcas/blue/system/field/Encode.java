@@ -156,10 +156,13 @@ public class Encode implements IntHardCodeLangKey{
 	/**
 	 * Return the value of a field passed into this object
 	 * @param key
+	 * @param default value
 	 * @return
 	 */
-	public Integer getInteger(String key) {
-		return (Integer)get(key);
+	public Integer get(String key, Integer defaultValue) {
+		Integer v = (Integer)get(key);
+		v = v != null ? v : defaultValue;
+		return v;
 	}
 	
 	/**
@@ -176,10 +179,13 @@ public class Encode implements IntHardCodeLangKey{
 	/**
 	 * Return the value of a field passed into this object
 	 * @param key
+	 * @param default value
 	 * @return
 	 */
-	public String getString(String key) {
-		return (String)get(key);
+	public String get(String key, String defaultValue) {
+		String v = (String)get(key);
+		v = v != null ? v : defaultValue;
+		return v;
 	}
 	
 	/**

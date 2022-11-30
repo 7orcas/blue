@@ -68,7 +68,7 @@ public class RestAroundInvoke {
 				EntUser user = cs.getUser();
 				EntPermission perm = null;
 				if (skipAuth == null && clientCall.getClientUrl() != null) {
-					perm = user.findPermission(clientCall.getClientUrl());
+					perm = user.findPermissionForUrl(clientCall.getClientUrl());
 					if (perm == null && !user.isDevAdmin()) {
 						log.error("User:" + user.getCode() + ", Url:" + clientCall.getClientUrl() + ", NO PERM");
 						return new JsonRes().setReturnCode(JsonResponseI.JS_NO_PERMISSION);		

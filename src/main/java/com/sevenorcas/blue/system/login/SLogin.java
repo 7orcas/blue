@@ -95,11 +95,8 @@ public class SLogin extends BaseService implements SLoginI {
 			if (lang != null && !lang.isEmpty()) {
 				//use it
 			}
-			else if (encode.isString("lang")) {
-				lang = encode.getString("lang");
-			}
 			else {
-				lang = appProperties.get("LanguageDefault");
+				lang = encode.get("lang", appProperties.get("LanguageDefault"));
 			}
 			user.setLangLogin(lang);
 			
@@ -122,9 +119,9 @@ public class SLogin extends BaseService implements SLoginI {
 					&& !user.isPassword(pw)) {
 				
 				//Test for temporary password
-				String tPw = encode.getString("tempPW");
+				String tPw = encode.get("tempPW", (String)null);
 				if (tPw != null && tPw.equals(pw)) {
-					String valid = encode.getString("tempPWValid");
+					String valid = encode.get("tempPWValid", (String)null);
 					LocalDateTime d = LocalDateTime.parse(valid);
 					if (d.isAfter(LocalDateTime.now())) {
 						user.setChangePassword();

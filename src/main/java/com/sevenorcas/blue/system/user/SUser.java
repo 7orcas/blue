@@ -81,8 +81,10 @@ public class SUser extends BaseService implements SUserI {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		List<EntUser> list = dao.userList(callObj, parms);
-		for (EntUser d : list) {
-			d.setLoggedIn(cache.containsEntUser(d.getId()));
+		if (cache != null) {
+			for (EntUser d : list) {
+				d.setLoggedIn(cache.containsEntUser(d.getId()));
+			}
 		}
 		
 		return list;

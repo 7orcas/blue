@@ -68,7 +68,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
 	public void decode() throws Exception {
 		//Encoded fields
 		Encode encode = encoder();
-		maxLoginAttempts = encode.getInteger("attempts");
+		maxLoginAttempts = encode.get("attempts", DEFAULT_LOGIN_ATTEMPTS);
 	}
 	
 	public JsonOrg toJSon(EntOrg org) throws Exception {

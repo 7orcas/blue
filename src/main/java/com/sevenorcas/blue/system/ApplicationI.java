@@ -1,5 +1,13 @@
 package com.sevenorcas.blue.system;
 
+/**
+ * Application constants
+ * Some are duplicated in the web client
+ *  
+ * Created July '22
+ * [Licence]
+ * @author John Stewart
+ */
 public interface ApplicationI {
 
 	//PATHs used in web.xml
@@ -19,4 +27,9 @@ public interface ApplicationI {
 	static public Integer BASE_ORG_NR            = 0;
 	
 	final static public String CLASS_PATH_PREFIX = "com.sevenorcas.blue.";
+	
+	//Theme's are duplicated in web client (Session.ts)
+	static public Integer THEME_LIGHT            = 0;
+	static public Integer THEME_DARK             = 1;
+	
 }

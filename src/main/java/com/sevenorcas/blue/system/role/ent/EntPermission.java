@@ -15,6 +15,7 @@ import com.sevenorcas.blue.system.conf.ent.ValidationCallbackI;
 import com.sevenorcas.blue.system.conf.ent.ValidationError;
 import com.sevenorcas.blue.system.login.ent.JsonUrlPermission;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.role.PermissionI;
 
 /**
 * Permission Entity
@@ -28,7 +29,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 @Entity
 @Table(name="permission", schema="cntrl")
-public class EntPermission extends BaseEntity<EntPermission> {
+public class EntPermission extends BaseEntity<EntPermission> implements PermissionI{
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +55,12 @@ public class EntPermission extends BaseEntity<EntPermission> {
 							EntPermission p = (EntPermission)ent;
 							for (int i = 0; p.crud != null && i < p.crud.length(); i++) {
 								char ch = p.crud.toUpperCase().charAt(i);
-								if (ch != '*' && ch != 'C' && ch != 'R' && ch != 'U' && ch != 'D' && ch != '-') {
+								if (ch != PERM_WILDCARD 
+										&& ch != PERM_CREATE 
+										&& ch != PERM_READ 
+										&& ch != PERM_UPDATE 
+										&& ch != PERM_DELETE 
+										&& ch != PERM_NONE) {
 									return new ValidationError(VAL_ERROR_INVALID_VALUE)
 							    			.setEntityId(ent.getId())
 							    			.setCode(ent.getCode())	
@@ -83,24 +89,39 @@ public class EntPermission extends BaseEntity<EntPermission> {
      * Format the CRUD string
      */
     public void formatCrud() {
-    	crud = crud == null? "" : crud;
-    	if (crud.trim().equals("*")) {
-    		crud = "*";
+    	crud = crud == null? "" : crud.toUpperCase();
+    	if (crud.trim().equals(Character.toString(PERM_WILDCARD))) {
+    		crud = Character.toString(PERM_WILDCARD);
     		return;
     	}
     	
-    	boolean C = crud.toUpperCase().contains("C");
-    	boolean R = crud.toUpperCase().contains("R");
-    	boolean U = crud.toUpperCase().contains("U");
-    	boolean D = crud.toUpperCase().contains("D");
+    	boolean C = contains(crud, PERM_CREATE);
+    	boolean R = contains(crud, PERM_READ);
+    	boolean U = contains(crud, PERM_UPDATE);
+    	boolean D = contains(crud, PERM_DELETE);
     	if (C && R && U && D) {
-    		crud = "*";
+    		crud = Character.toString(PERM_WILDCARD);
     		return;
     	}
-    	crud = (C?"C":"-")
-    			+(R?"R":"-")
-    			+(U?"U":"-")
-    			+(D?"D":"-");
+    	
+    	crud = add(C, PERM_CREATE);
+    	crud += add(R, PERM_READ);
+    	crud += add(U, PERM_UPDATE);
+    	crud += add(D, PERM_DELETE);
+    }
+    
+    /**
+     * Does the crud value contain the permission?
+     * @param crud
+     * @param perm
+     * @return
+     */
+    private boolean contains (String crud, Character perm) {
+    	return crud.contains(Character.toString(perm));
+    }
+    
+    private String add (boolean value, Character perm) {
+    	return value? Character.toString(perm) : Character.toString(PERM_NONE); 
     }
     
     /**
@@ -108,16 +129,25 @@ public class EntPermission extends BaseEntity<EntPermission> {
      * @param crud
      */
     public void combine(String crud) {
-    	if (this.crud.equals("*")) return;
-    	if (crud.equals("*")) {
+    	crud = crud == null? "" : crud.toUpperCase();
+    	if (this.crud.equals(Character.toString(PERM_WILDCARD))) return;
+    	if (crud.equals(Character.toString(PERM_WILDCARD))) {
     		this.crud = crud;
     		return;
     	}
-    	if (crud.toUpperCase().contains("C")) this.crud += "C"; 
-    	if (crud.toUpperCase().contains("R")) this.crud += "R";
-    	if (crud.toUpperCase().contains("U")) this.crud += "U";
-    	if (crud.toUpperCase().contains("D")) this.crud += "D";
+    	
+    	combine(crud, PERM_CREATE);
+    	combine(crud, PERM_READ);
+    	combine(crud, PERM_UPDATE);
+    	combine(crud, PERM_DELETE);
+    	
     	formatCrud();
+    }
+    
+    private void combine(String crud, Character perm) {
+    	if (contains(crud, perm) && !contains(this.crud, perm)) {
+    		this.crud += add(true, perm);
+    	}
     }
     
 	public JsonPermission toJSon() {

@@ -20,6 +20,7 @@ import com.sevenorcas.blue.system.exception.RedException;
 import com.sevenorcas.blue.system.lang.SLang;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
+import com.sevenorcas.blue.system.login.CacheSession;
 import com.sevenorcas.blue.system.login.ent.ClientSession;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.role.ent.EntRole;
@@ -33,6 +34,7 @@ import com.sevenorcas.blue.system.user.ent.EntUser;
  * [Licence]
  * @author John Stewart
  */
+@SuppressWarnings("deprecation")
 public class BaseTest extends BaseUtil implements ConfigurationI {
 
 	static final public String DB_NAME      = "blue";
@@ -100,7 +102,6 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 		return entity;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void setupEJBsX(Object entity, Class<?>clazz) throws Exception {
 		
 		if (clazz.getSuperclass() != null) {
@@ -111,18 +112,29 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 			field.setAccessible(true);
 
 			if (field.isAnnotationPresent(EJB.class)) {
-				if (ejbs.containsKey(field.getType().getCanonicalName())) {
-					field.set(entity, ejbs.get(field.getType().getCanonicalName()));	
+				String name = field.getType().getCanonicalName();				
+				
+				if (ejbs.containsKey(name)) {
+					field.set(entity, ejbs.get(name));	
 				}
 				else {	
-					String f = field.getType().getCanonicalName();
-					if (f.endsWith("I")) f = f.substring(0, f.length()-1);
-					Class<?> clazzX = Class.forName(f);
-					Object x = clazzX.newInstance();
-					ejbs.put(field.getType().getCanonicalName(), x);
-					field.set(entity, x);
-					setupEJBs(x); //recursive
+					String namex = name;
+					if (name.endsWith("I")) {
+						namex = name.substring(0, name.length()-1);
+					}
+					
+					Class<?> clazzX = Class.forName(namex);
+					Object instance = clazzX.newInstance();
+					ejbs.put(name, instance);
+					field.set(entity, instance);
+					setupEJBs(instance); //recursive
+
+					if (namex.equals(CacheSession.class.getCanonicalName())) {
+						CacheSession c = (CacheSession)instance;
+						c.initalise();
+					}
 				}
+				
 			}
 			
 			if (field.getType().getName().equals("javax.persistence.EntityManager")) {
@@ -186,7 +198,6 @@ public class BaseTest extends BaseUtil implements ConfigurationI {
 	 * Setup data source 
 	 * @return datasource name
 	 */
-	@SuppressWarnings("deprecation")
 	public void setupDataSource(){
 		if (dataSource != null) return; 
 		

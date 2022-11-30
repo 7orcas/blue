@@ -82,11 +82,13 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 	    	   .setOrgNr(0);
 	    	
 			List<EntRolePermission> list = new ArrayList<>();
+			
 			EntRolePermission perm = configEntNew(new EntRolePermission());
 			perm.setRoleId(ent.getId())
 				.setOrgNr(ent.getOrgNr())
-			    .setPermissionId(1L);
+			    .setPermissionId(10L);
 			list.add(perm);
+			
 
 			ValidationErrors errors = new ValidationErrors();			
 			valSrv.validate (list, ent.getCode(), ent.getId(), permConfig, errors);
@@ -101,7 +103,6 @@ public class SValidateTest extends BaseTest implements ConfigurationI {
 	}
 
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void validatePermission () {
 		try {

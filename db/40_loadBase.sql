@@ -2,6 +2,7 @@ INSERT INTO cntrl.org (id, code, descr, org_nr, updated, updated_userid) VALUES 
 INSERT INTO cntrl.org (id, code, org_nr, updated, updated_userid, active) VALUES (2, 'Org 2', 2, current_timestamp, 1, false);
 INSERT INTO cntrl.org (id, code, org_nr, updated, updated_userid, dvalue) VALUES (3, 'Org 3', 3, current_timestamp, 1, true);
 
+--Unit tests rely on existance of permission id = 10
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (10,  'lang',           'Language Labels',      '*', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (20,  '*/listcache',    'Login cache (server)', '*', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (30,  'org',            'Organisations',        '*', 0, current_timestamp);
