@@ -11,6 +11,7 @@ lastLogin,,0,Last Login,
 maxatt,login,0,Max. Login Attempts Exceeded,(D) Max. Login Attempts Exceeded
 loggedIn,,0,Logged In,
 invorg,login,0,No Permission for Organisation,(D) No Permission for Organisation
+invorg1,,0,Inactive or Invalid Organisation,
 invpw,login,0,Invalid Password (%1 of %2 attempts),(D) Invalid Password (%1 of %2 attempts)
 invuid,login,0,Unknown UserID / Password,Unbekannt Benutzer/Passwort
 yes,login,0,Yes,Ja
@@ -154,3 +155,4 @@ lastact,,0,Last Activity,
 notauth,,0,Not Authorised,
 notauth1,,0,You are not authorised,
 seeadmin,,0,Please contact your system admin,
+loginconf,,0,Login Configuration,

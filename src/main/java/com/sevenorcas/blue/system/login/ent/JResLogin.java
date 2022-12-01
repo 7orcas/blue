@@ -15,4 +15,5 @@ public class JResLogin {
 	public Integer clientNr;
 	public String initialisationUrl;
 	public String locationHref;
+	public Boolean adminLoggedIn;
 }

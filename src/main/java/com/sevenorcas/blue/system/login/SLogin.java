@@ -69,10 +69,10 @@ public class SLogin extends BaseService implements SLoginI {
 		EntUser user = dao.getUser (username); 
 		
 		//Is this devadmin?
+		boolean admin = adminPw != null && appProperties.get("DevelopmentPW").equals(adminPw); 
 		if (user == null 
-				&& adminPw != null
 				&& appProperties.get("DevelopmentUsername").equals(username)
-				&& appProperties.get("DevelopmentPW").equals(adminPw)) {
+				&& admin) {
 			user = createDevAdmin();
 		}
 		
@@ -107,6 +107,10 @@ public class SLogin extends BaseService implements SLoginI {
 			
 			EntOrg org = rtnMessage == null? orgService.getOrgCache(user.getOrgNrLogin()) : null;
 			
+			if (rtnMessage == null && (org == null || !org.isActive())) {
+				rtnMessage = "invorg1";
+			}
+			
 			//Test attempts has not exceed maximum
 			try {
 				if (rtnMessage == null && org.isMaxLoginAttempts(user.getAttempts())) {
@@ -114,10 +118,11 @@ public class SLogin extends BaseService implements SLoginI {
 				}
 			} catch (Exception x) {}
 			
-			if (rtnMessage == null 
+			if (rtnMessage == null
+					&& !admin
 					&& !user.isDevAdmin()
 					&& !user.isPassword(pw)) {
-				
+					
 				//Test for temporary password
 				String tPw = encode.get("tempPW", (String)null);
 				if (tPw != null && tPw.equals(pw)) {
@@ -151,6 +156,7 @@ public class SLogin extends BaseService implements SLoginI {
 			
 			user.setValidUser()
 			    .setAttempts(0)
+			    .setAdminLoggedIn(admin)
 			    .setLastlogin(Timestamp.valueOf(LocalDateTime.now()));
 		}
 		
@@ -189,6 +195,7 @@ public class SLogin extends BaseService implements SLoginI {
 		//Return object
 		JResLogin login = new JResLogin();
 		login.sessionId = ses.getId();
+		login.adminLoggedIn = user.isAdminLoggedIn();
 		login.initialisationUrl = appProperties.get("WebLoginInitUrl");
 		
 		if (appProperties.is("DevelopmentMode")) {
