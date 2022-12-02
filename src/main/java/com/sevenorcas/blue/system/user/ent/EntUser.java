@@ -112,9 +112,7 @@ public class EntUser extends BaseEntity<EntUser> {
 	
 
 	
-	public EntUser () {
-		
-	}
+	public EntUser () {}
 	
 	public JsonUser toJson(EntOrg org, boolean fullEntity) throws Exception {
 		JsonUser j = super.toJson(new JsonUser());

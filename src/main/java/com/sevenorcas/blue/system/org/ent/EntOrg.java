@@ -87,7 +87,7 @@ public class EntOrg extends BaseEntity<EntOrg> {
 		this.dvalue = dvalue;
 		return this;
 	}
-	public final Boolean getDvalue() {
+	public Boolean getDvalue() {
 		return dvalue;
 	}
 

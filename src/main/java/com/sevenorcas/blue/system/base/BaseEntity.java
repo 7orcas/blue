@@ -43,9 +43,9 @@ abstract public class BaseEntity <T> implements Serializable, ApplicationI, Conf
 	@Column(name = "updated_userid")
 	protected Long updatedUserId;
     
-	private String encoded;
+	protected String encoded;
     @Column(name = "encoded_flag")
-    private Integer encodedFlag;
+    protected Integer encodedFlag;
     protected Boolean active;
     
     @Transient private Boolean delete;
