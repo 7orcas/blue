@@ -1,3 +1,3 @@
 
-drop table if exists reference;
-drop table if exists reftype;
+drop table if exists country;
+drop table if exists currency;

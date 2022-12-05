@@ -9,8 +9,10 @@ import javax.ejb.Stateless;
 
 import org.jboss.logging.Logger;
 
-import com.sevenorcas.blue.app.ref.ent.EntType1;
-import com.sevenorcas.blue.app.ref.ent.JsonType1;
+import com.sevenorcas.blue.app.ref.ent.Country;
+import com.sevenorcas.blue.app.ref.ent.Currency;
+import com.sevenorcas.blue.app.ref.ent.JsonCountry;
+import com.sevenorcas.blue.app.ref.ent.JsonCurrency;
 import com.sevenorcas.blue.system.base.BaseEntityRef;
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
@@ -33,7 +35,7 @@ public class SRef extends BaseService implements SRefI {
 	@EJB private TRefI dao;
 	
 	/**
-	 * List of user objects
+	 * List of countries
 	 * These are not the full entity
 	 *  
 	 * @param callObj
@@ -41,18 +43,45 @@ public class SRef extends BaseService implements SRefI {
 	 * @return
 	 * @throws Exception
 	 */
-	public JsonRes listType1Json(
+	public JsonRes listCountryJson(
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<BaseEntityRef<?>> x = list(callObj, parms, "type1");
-		List<EntType1> list = new ArrayList<>();
+		List<BaseEntityRef<?>> x = list(callObj, parms, "country");
+		List<Country> list = new ArrayList<>();
 		for (BaseEntityRef<?> r : x) {
-			list.add(new EntType1(r));
+			list.add(new Country(r));
 		}
 		
-		List<JsonType1> y = new ArrayList<>();
-		for (EntType1 d : list) {
+		List<JsonCountry> y = new ArrayList<>();
+		for (Country d : list) {
+			y.add(d.toJson(callObj.getOrg(), false));
+		}
+		
+		return new JsonRes().setData(y);
+    }
+	
+	/**
+	 * List of currencies
+	 * These are not the full entity
+	 *  
+	 * @param callObj
+	 * @param parms
+	 * @return
+	 * @throws Exception
+	 */
+	public JsonRes listCurrencyJson(
+			CallObject callObj,
+    		SqlParm parms) throws Exception{
+		
+		List<BaseEntityRef<?>> x = list(callObj, parms, "currency");
+		List<Currency> list = new ArrayList<>();
+		for (BaseEntityRef<?> r : x) {
+			list.add(new Currency(r));
+		}
+		
+		List<JsonCurrency> y = new ArrayList<>();
+		for (Currency d : list) {
 			y.add(d.toJson(callObj.getOrg(), false));
 		}
 		

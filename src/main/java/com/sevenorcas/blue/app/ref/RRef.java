@@ -31,33 +31,34 @@ public class RRef extends BaseRest {
 	@EJB private SRefI service;
 			
 	/**
-	 * Return type1 list
+	 * Return country list
 	 * 
 	 * @param callObj
 	 * @return
 	 * @throws Exception
 	 */
 	@GET
-	@Path("type1")
-    public JsonRes type1(
+	@Path("country")
+    public JsonRes country(
     		@QueryParam ("co") CallObject callObj) throws Exception {
-		return service.listType1Json(callObj, new SqlParm());
+		return service.listCountryJson(callObj, new SqlParm());
     }
 	
 
 	/**
-	 * Return type2 list
+	 * Return currency list
 	 * 
 	 * @param callObj
 	 * @return
 	 * @throws Exception
 	 */
-//	@GET
-//	@Path("type2")
-//    public JsonRes type2(
-//    		@QueryParam ("co") CallObject callObj) throws Exception {
-//		return service.userListJson(callObj, new SqlParm());
-//    }
+	@GET
+	@Path("currency")
+    public JsonRes currency(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		return service.listCurrencyJson(callObj, new SqlParm());
+    }
+		
 
 	
 }

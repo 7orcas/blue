@@ -97,3 +97,20 @@ create table cntrl.lang_label
 alter table cntrl.lang_label OWNER to postgres;
 alter sequence cntrl.lang_label_id_seq restart with 11000;
 
+create table reftype
+(
+	id bigserial primary key
+) INHERITS (sys.base);
+alter table reftype OWNER to postgres;
+alter sequence reftype_id_seq restart with 10000;
+
+create table sys.baseref
+(
+	sort integer default 0,
+	dvalue boolean default false,
+	reftype_id bigint references reftype (id)
+) INHERITS (sys.base);
+alter table sys.baseref OWNER to postgres;
+
+
+
