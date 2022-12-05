@@ -47,12 +47,7 @@ public class SRef extends BaseService implements SRefI {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<BaseEntityRef<?>> x = list(callObj, parms, "country");
-		List<Country> list = new ArrayList<>();
-		for (BaseEntityRef<?> r : x) {
-			list.add(new Country(r));
-		}
-		
+		List<Country> list = list(callObj, parms, Country.class);
 		List<JsonCountry> y = new ArrayList<>();
 		for (Country d : list) {
 			y.add(d.toJson(callObj.getOrg(), false));
@@ -74,12 +69,12 @@ public class SRef extends BaseService implements SRefI {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<BaseEntityRef<?>> x = list(callObj, parms, "currency");
-		List<Currency> list = new ArrayList<>();
-		for (BaseEntityRef<?> r : x) {
-			list.add(new Currency(r));
-		}
+//		ReferenceType<Currency> refType = new ReferenceType<Currency>(){};
+//		
+//		Reference ref = new Reference();
+//		ref.setReference(refType, new Currency());
 		
+		List<Currency> list = list(callObj, parms, Currency.class);
 		List<JsonCurrency> y = new ArrayList<>();
 		for (Currency d : list) {
 			y.add(d.toJson(callObj.getOrg(), false));
@@ -89,20 +84,19 @@ public class SRef extends BaseService implements SRefI {
     }
 	
 	/**
-	 * List of reference objects
-	 * These are not the full entity
+	 * List of simple reference objects
 	 *  
 	 * @param callObj
 	 * @param parms
-	 * @param reference type
+	 * @param reference class
 	 * @return
 	 * @throws Exception
 	 */
-	private List<BaseEntityRef<?>> list(
+	private <T>List<T> list(
 			CallObject callObj,
     		SqlParm parms,
-    		String reftype) throws Exception{
-		return dao.list(callObj, parms, reftype);
+    		Class<T> clazz) throws Exception{
+		return dao.list(callObj, parms, clazz);
     }
 	
 		

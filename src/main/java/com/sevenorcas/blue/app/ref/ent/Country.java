@@ -19,7 +19,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  */
 
 @Entity
-@Table(name="country")
+@Table(name="country", schema="public")
 public class Country extends BaseEntityRef<Country> {
 	static final private long serialVersionUID = 1L;
 	
