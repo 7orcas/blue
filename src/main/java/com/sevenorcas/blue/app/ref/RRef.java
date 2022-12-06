@@ -44,6 +44,20 @@ public class RRef extends BaseRest {
 		return service.listCountryJson(callObj, new SqlParm());
     }
 	
+	/**
+	 * Return new country entity
+	 * 
+	 * @param callObj
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Path("country/new")
+    public JsonRes countryNew(
+    		@QueryParam ("co") CallObject callObj) throws Exception {
+		return service.newCountryJson(callObj);
+    }
+	
 
 	/**
 	 * Return currency list

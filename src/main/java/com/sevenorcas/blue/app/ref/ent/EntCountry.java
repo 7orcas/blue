@@ -20,7 +20,7 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 @Entity
 @Table(name="country", schema="public")
-public class Country extends BaseEntityRef<Country> {
+public class EntCountry extends BaseEntityRef<EntCountry> {
 	static final private long serialVersionUID = 1L;
 	
 	@Id  
@@ -28,9 +28,9 @@ public class Country extends BaseEntityRef<Country> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="country_id_seq")
 	private Long id;	
 	
-	public Country() {}
+	public EntCountry() {}
 	
-	public Country(BaseEntityRef<?> ent) {
+	public EntCountry(BaseEntityRef<?> ent) {
 		init(ent);
 	}
 	
@@ -42,7 +42,7 @@ public class Country extends BaseEntityRef<Country> {
 	public Long getId() {
 		return id;
 	}
-	public Country setId(Long id) {
+	public EntCountry setId(Long id) {
 		this.id = id;
 		return this;
 	}

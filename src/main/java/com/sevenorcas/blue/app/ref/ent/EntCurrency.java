@@ -19,8 +19,8 @@ import com.sevenorcas.blue.system.org.ent.EntOrg;
  */
 
 @Entity
-@Table(name="currency")
-public class Currency extends BaseEntityRef<Currency> {
+@Table(name="currency", schema="public")
+public class EntCurrency extends BaseEntityRef<EntCurrency> {
 	static final private long serialVersionUID = 1L;
 	
 	@Id  
@@ -28,9 +28,9 @@ public class Currency extends BaseEntityRef<Currency> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="currency_id_seq")
 	private Long id;
 	
-	public Currency() {}
+	public EntCurrency() {}
 	
-	public Currency(BaseEntityRef<?> ent) {
+	public EntCurrency(BaseEntityRef<?> ent) {
 		init(ent);
 	}
 	
@@ -42,7 +42,7 @@ public class Currency extends BaseEntityRef<Currency> {
 	public Long getId() {
 		return id;
 	}
-	public Currency setId(Long id) {
+	public EntCurrency setId(Long id) {
 		this.id = id;
 		return this;
 	}

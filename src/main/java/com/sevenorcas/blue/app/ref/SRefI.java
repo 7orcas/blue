@@ -17,5 +17,6 @@ import com.sevenorcas.blue.system.sql.SqlParm;
 @Local
 public interface SRefI extends BaseServiceI {
 	public JsonRes listCountryJson(CallObject callObj, SqlParm parms) throws Exception;
+	public JsonRes newCountryJson(CallObject callObj) throws Exception;
 	public JsonRes listCurrencyJson(CallObject callObj, SqlParm parms) throws Exception;
 }
