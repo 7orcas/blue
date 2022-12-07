@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseEntityRef;
@@ -31,10 +32,10 @@ public class TRef extends BaseTransfer implements TRefI {
 	/**
 	 * Simple Reference list
 	 */
-	public <T>List<T> list(
+	public List<? extends BaseEntityRef<?>> list(
     		CallObject callObj,
     		SqlParm parms,
-    		Class<T> T) throws Exception {
+    		Class<? extends BaseEntityRef<?>> T) throws Exception {
 		
 		parms = validateParms(parms);
 		
@@ -49,17 +50,17 @@ public class TRef extends BaseTransfer implements TRefI {
 		sql += "ORDER BY t1.sort, t1.code ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
-		List<T> list = new ArrayList<>();
+		List<BaseEntityRef<?>> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			T ent = T.getDeclaredConstructor().newInstance();
+			BaseEntityRef<?> ent = T.getDeclaredConstructor().newInstance();
 			list.add(ent);
 			
-			BaseEntityRef ref = (BaseEntityRef)ent;
-			addBaseListFields(ref, i, r, "t1");
-			ref.setSort(r.getInteger(i, "sort"))
-			   .setDvalue(r.getBoolean(i, "dvalue"));
+//			BaseEntityRef ref = (BaseEntityRef)ent;
+			addBaseListFields(ent, i, r, "t1");
+			ent.setSort(r.getInteger(i, "sort")); 
+			ent.setDvalue(r.getBoolean(i, "dvalue"));
 			
 		}
 		

@@ -10,15 +10,12 @@ import javax.ejb.Stateless;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.app.ref.ent.EntCountry;
-import com.sevenorcas.blue.app.ref.ent.EntCurrency;
 import com.sevenorcas.blue.app.ref.ent.JsonCountry;
-import com.sevenorcas.blue.app.ref.ent.JsonCurrency;
 import com.sevenorcas.blue.system.base.BaseEntityRef;
+import com.sevenorcas.blue.system.base.BaseJsonRef;
 import com.sevenorcas.blue.system.base.BaseService;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
-import com.sevenorcas.blue.system.org.ent.JsonOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -35,6 +32,50 @@ public class SRef extends BaseService implements SRefI {
 	private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@EJB private TRefI dao;
+
+	/**
+	 * Reference List 
+	 *  
+	 * @param callObj
+	 * @param parms
+	 * @return
+	 * @throws Exception
+	 */
+	public JsonRes listJson(
+			CallObject callObj,
+    		SqlParm parms,
+    		Class<? extends BaseEntityRef<?>> clazz
+    				) throws Exception{
+		
+		List<? extends BaseEntityRef<?>> list = list(callObj, parms, clazz);
+		List<BaseJsonRef> y = new ArrayList<>();
+		for (BaseEntityRef<?> d : list) {
+			y.add(d.toJson(callObj.getOrg(), false));
+		}
+		
+		return new JsonRes().setData(y);
+    }
+
+	/**
+	 * List of simple reference objects
+	 *  
+	 * @param callObj
+	 * @param parms
+	 * @param reference class
+	 * @return
+	 * @throws Exception
+	 */
+	private List<? extends BaseEntityRef<?>> list(
+			CallObject callObj,
+    		SqlParm parms,
+    		Class<? extends BaseEntityRef<?>> clazz) throws Exception{
+		return dao.list(callObj, parms, clazz);
+    }
+	
+		
+	
+	
+	
 	
 	/**
 	 * List of countries
@@ -49,13 +90,14 @@ public class SRef extends BaseService implements SRefI {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<EntCountry> list = list(callObj, parms, EntCountry.class);
-		List<JsonCountry> y = new ArrayList<>();
-		for (EntCountry d : list) {
-			y.add(d.toJson(callObj.getOrg(), false));
-		}
-		
-		return new JsonRes().setData(y);
+//		List<EntCountry> list = list(callObj, parms, EntCountry.class);
+//		List<JsonCountry> y = new ArrayList<>();
+//		for (EntCountry d : list) {
+//			y.add(d.toJson(callObj.getOrg(), false));
+//		}
+//		
+//		return new JsonRes().setData(y);
+		return null;
     }
 	
 	/**
@@ -101,31 +143,15 @@ public class SRef extends BaseService implements SRefI {
 			CallObject callObj,
     		SqlParm parms) throws Exception{
 		
-		List<EntCurrency> list = list(callObj, parms, EntCurrency.class);
-		List<JsonCurrency> y = new ArrayList<>();
-		for (EntCurrency d : list) {
-			y.add(d.toJson(callObj.getOrg(), false));
-		}
-		
-		return new JsonRes().setData(y);
+//		List<EntCurrency> list = list(callObj, parms, EntCurrency.class);
+//		List<JsonCurrency> y = new ArrayList<>();
+//		for (EntCurrency d : list) {
+//			y.add(d.toJson(callObj.getOrg(), false));
+//		}
+//		
+//		return new JsonRes().setData(y);
+		return null;
     }
-	
-	/**
-	 * List of simple reference objects
-	 *  
-	 * @param callObj
-	 * @param parms
-	 * @param reference class
-	 * @return
-	 * @throws Exception
-	 */
-	private <T>List<T> list(
-			CallObject callObj,
-    		SqlParm parms,
-    		Class<T> clazz) throws Exception{
-		return dao.list(callObj, parms, clazz);
-    }
-	
 		
 }
 

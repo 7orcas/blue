@@ -10,5 +10,5 @@ import com.sevenorcas.blue.system.base.BaseJsonRef;
 * @author John Stewart
 */
 public class JsonCountry extends BaseJsonRef{
-
+	public String x;
 }

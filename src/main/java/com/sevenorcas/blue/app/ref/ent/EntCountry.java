@@ -30,12 +30,14 @@ public class EntCountry extends BaseEntityRef<EntCountry> {
 	
 	public EntCountry() {}
 	
-	public EntCountry(BaseEntityRef<?> ent) {
-		init(ent);
-	}
+//	public EntCountry(BaseEntityRef<?> ent) {
+//		init(ent);
+//	}
 	
+	@SuppressWarnings("unchecked")
 	public JsonCountry toJson(EntOrg org, boolean fullEntity) throws Exception {
 		JsonCountry j = super.toJson(new JsonCountry());
+		j.x = "xxx";
 		return j;
 	}
 	
@@ -46,5 +48,23 @@ public class EntCountry extends BaseEntityRef<EntCountry> {
 		this.id = id;
 		return this;
 	}
+	
+	/**
+	 * Return a new entity
+	 * 
+	 * @param org 
+	 * @return
+	 * @throws Exception
+	 */
+    public EntCountry newEntity(EntOrg org, Long id) throws Exception {
+    	EntCountry ent = new EntCountry();
+    	ent.setId(id)
+    	 .setOrgNr(org.getOrgNr())
+    	 .setActive()
+    	 .setSort(0)
+    	 .setDvalue(false);
+    	return ent;
+    }
+  
 	
 }

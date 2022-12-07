@@ -2,6 +2,9 @@ package com.sevenorcas.blue.system.base;
 
 import javax.persistence.MappedSuperclass;
 
+import com.sevenorcas.blue.app.ref.ent.JsonCountry;
+import com.sevenorcas.blue.system.org.ent.EntOrg;
+
 /**
  * Base Reference entity 
  * 
@@ -32,6 +35,8 @@ abstract public class BaseEntityRef <T> extends BaseEntity<BaseEntityRef<T>> {
 		ent.dvalue = dvalue;
 	}
 	
+	abstract public <J extends BaseJsonRef> J toJson(EntOrg org, boolean fullEntity) throws Exception;
+	
 	/**
      * Set standard fields in JSon object
      * @param j
@@ -45,19 +50,19 @@ abstract public class BaseEntityRef <T> extends BaseEntity<BaseEntityRef<T>> {
 	public Integer getSort() {
 		return sort;
 	}
-	@SuppressWarnings({ "rawtypes" })
-	public BaseEntityRef setSort(Integer sort) {
+	@SuppressWarnings("unchecked")
+	public T setSort(Integer sort) {
 		this.sort = sort;
-		return this;
+		return (T)this;
 	}
 	
 	public boolean isDvalue() {
 		return dvalue != null && dvalue;
 	}
-	@SuppressWarnings({ "rawtypes" })
-	public BaseEntityRef setDvalue(Boolean dvalue) {
+	@SuppressWarnings("unchecked")
+	public T setDvalue(Boolean dvalue) {
 		this.dvalue = dvalue;
-		return this;
+		return (T)this;
 	}
 	public Boolean getDvalue() {
 		return dvalue;

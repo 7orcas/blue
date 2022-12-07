@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import com.sevenorcas.blue.app.ref.ent.EntCountry;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
@@ -37,12 +38,12 @@ public class RRef extends BaseRest {
 	 * @return
 	 * @throws Exception
 	 */
-	@GET
-	@Path("country")
-    public JsonRes country(
-    		@QueryParam ("co") CallObject callObj) throws Exception {
-		return service.listCountryJson(callObj, new SqlParm());
-    }
+//	@GET
+//	@Path("country")
+//    public JsonRes country(
+//    		@QueryParam ("co") CallObject callObj) throws Exception {
+//		return service.listJson(callObj, new SqlParm(), EntCountry.class);
+//    }
 	
 	/**
 	 * Return new country entity
