@@ -37,7 +37,6 @@ public class EntCountry extends BaseEntityRef<EntCountry> {
 	@SuppressWarnings("unchecked")
 	public JsonCountry toJson(EntOrg org, boolean fullEntity) throws Exception {
 		JsonCountry j = super.toJson(new JsonCountry());
-		j.x = "xxx";
 		return j;
 	}
 	

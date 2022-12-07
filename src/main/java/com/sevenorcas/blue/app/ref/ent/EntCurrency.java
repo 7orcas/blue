@@ -34,6 +34,7 @@ public class EntCurrency extends BaseEntityRef<EntCurrency> {
 //		init(ent);
 //	}
 	
+	@SuppressWarnings("unchecked")
 	public JsonCurrency toJson(EntOrg org, boolean fullEntity) throws Exception {
 		JsonCurrency j = super.toJson(new JsonCurrency());
 		return j;
@@ -46,4 +47,22 @@ public class EntCurrency extends BaseEntityRef<EntCurrency> {
 		this.id = id;
 		return this;
 	}
+	
+	/**
+	 * Return a new entity
+	 * 
+	 * @param org 
+	 * @return
+	 * @throws Exception
+	 */
+    public EntCurrency newEntity(EntOrg org, Long id) throws Exception {
+    	EntCurrency ent = new EntCurrency();
+    	ent.setId(id)
+    	 .setOrgNr(org.getOrgNr())
+    	 .setActive()
+    	 .setSort(0)
+    	 .setDvalue(false);
+    	return ent;
+    }
+  
 }

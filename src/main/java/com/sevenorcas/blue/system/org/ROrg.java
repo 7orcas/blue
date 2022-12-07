@@ -75,7 +75,7 @@ public class ROrg extends BaseRest {
     }
 	
 	/**
-	 * Update and Persist the label list
+	 * Update and Persist the entity list
 	 * @param callObj
 	 * @param list
 	 * @return

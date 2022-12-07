@@ -1,8 +1,8 @@
-package com.sevenorcas.blue.app.ref;
+package com.sevenorcas.blue.system.ref;
+
+import java.util.List;
 
 import javax.ejb.Local;
-
-import org.apache.poi.ss.formula.functions.T;
 
 import com.sevenorcas.blue.system.base.BaseEntityRef;
 import com.sevenorcas.blue.system.base.BaseServiceI;
@@ -11,16 +11,15 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
-* User Module service interface
+* Reference Module service interface
 *  
-* Create 01.11.2022
+* Create 05.12.2022
 * [Licence]
 * @author John Stewart
 */
 @Local
 public interface SRefI extends BaseServiceI {
 	public JsonRes listJson(CallObject callObj, SqlParm parms, Class<? extends BaseEntityRef<?>> clazz) throws Exception;
-	public JsonRes listCountryJson(CallObject callObj, SqlParm parms) throws Exception;
-	public JsonRes newCountryJson(CallObject callObj) throws Exception;
-	public JsonRes listCurrencyJson(CallObject callObj, SqlParm parms) throws Exception;
+	public JsonRes newJson(CallObject callObj, Class<? extends BaseEntityRef<?>> clazz) throws Exception;
+	public <T extends BaseEntityRef<T>> JsonRes putReference(CallObject callObj, List<T> list, Class<? extends BaseEntityRef<?>> clazz) throws Exception;
 }

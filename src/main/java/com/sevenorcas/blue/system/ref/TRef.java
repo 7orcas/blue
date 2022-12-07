@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.app.ref;
+package com.sevenorcas.blue.system.ref;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.jboss.logging.Logger;
 
 import com.sevenorcas.blue.system.base.BaseEntityRef;
@@ -15,6 +14,7 @@ import com.sevenorcas.blue.system.lifecycle.CallObject;
 import com.sevenorcas.blue.system.sql.SqlExecute;
 import com.sevenorcas.blue.system.sql.SqlParm;
 import com.sevenorcas.blue.system.sql.SqlResultSet;
+import com.sevenorcas.blue.system.sql.SqlUpdate;
 
 /**
  * Data access methods for reference data
@@ -31,6 +31,9 @@ public class TRef extends BaseTransfer implements TRefI {
 	
 	/**
 	 * Simple Reference list
+	 * @param Call Object
+	 * @param Sql parameters
+	 * @param reference entity class
 	 */
 	public List<? extends BaseEntityRef<?>> list(
     		CallObject callObj,
@@ -42,10 +45,11 @@ public class TRef extends BaseTransfer implements TRefI {
 		String sql = "SELECT t1.sort, t1.dvalue, " 
 					+ prefixAs("t1", BASE_ENTITY_FIELDS_SQL) 
 				+ "FROM " + tableName(T, " AS t1 ")
+				+ "WHERE t1.org_nr = " + callObj.getOrgNr() + " "
 				;
 		
 		if (parms.isActiveOnly()) {
-			sql += "WHERE " + prefix("t1", "active") + " = true ";
+			sql += "AND" + prefix("t1", "active") + " = true ";
 		}
 		sql += "ORDER BY t1.sort, t1.code ";
 		
@@ -57,15 +61,28 @@ public class TRef extends BaseTransfer implements TRefI {
 			BaseEntityRef<?> ent = T.getDeclaredConstructor().newInstance();
 			list.add(ent);
 			
-//			BaseEntityRef ref = (BaseEntityRef)ent;
 			addBaseListFields(ent, i, r, "t1");
 			ent.setSort(r.getInteger(i, "sort")); 
 			ent.setDvalue(r.getBoolean(i, "dvalue"));
-			
 		}
 		
 		return list;
     }
 
+	
+	/**
+	 * Reset default values
+	 * @param Call Object
+	 * @param reference entity class
+	 * @throws Exception
+	 */
+	public void resetDvalues(CallObject callObj,
+			Class<? extends BaseEntityRef<?>> T) throws Exception {
+		String sql = "UPDATE " 
+				+ tableName(T, " ") 
+				+ "SET dvalue = false "
+				+ "WHERE org_nr = " + callObj.getOrgNr();
+		SqlUpdate.executeQuery(null, sql, log);	
+	}
 	
 }

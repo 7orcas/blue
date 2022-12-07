@@ -200,7 +200,7 @@ System.out.println("Org added to cache");
    
     /**
      * Set a unique default value
-     * Use first occurance
+     * Use first occurrence
      * @param list
      */
     private void setDvalue(List<EntOrg> list) throws Exception {

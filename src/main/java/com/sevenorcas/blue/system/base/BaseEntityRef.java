@@ -2,7 +2,6 @@ package com.sevenorcas.blue.system.base;
 
 import javax.persistence.MappedSuperclass;
 
-import com.sevenorcas.blue.app.ref.ent.JsonCountry;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
 
 /**
@@ -36,6 +35,7 @@ abstract public class BaseEntityRef <T> extends BaseEntity<BaseEntityRef<T>> {
 	}
 	
 	abstract public <J extends BaseJsonRef> J toJson(EntOrg org, boolean fullEntity) throws Exception;
+	abstract public T newEntity(EntOrg org, Long id) throws Exception;
 	
 	/**
      * Set standard fields in JSon object
