@@ -77,12 +77,7 @@ public class RRef extends BaseRest {
     public JsonRes countryPost(
     		@QueryParam ("co") CallObject callObj, 
     		List<EntCountry> list)  throws Exception {
-		
-		if (list == null) {
-			return new JsonRes().setError("Invalid post");
-		}
-		return new JsonRes().setData("ok");
-//		return service.putReference(callObj, list, EntCountry.class);
+		return service.putReference(callObj, list, EntCountry.class);
     }
 	
 
@@ -114,6 +109,20 @@ public class RRef extends BaseRest {
 		return service.newJson(callObj, EntCurrency.class);
     }
 	
+	/**
+	 * Update and Persist the entity list
+	 * @param callObj
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	@POST
+	@Path("currency")
+    public JsonRes currencyPost(
+    		@QueryParam ("co") CallObject callObj, 
+    		List<EntCurrency> list)  throws Exception {
+		return service.putReference(callObj, list, EntCurrency.class);
+    }
 
 	
 }

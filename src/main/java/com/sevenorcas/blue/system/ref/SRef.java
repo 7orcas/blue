@@ -106,11 +106,15 @@ public class SRef extends BaseService implements SRefI {
 	 */
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	public <T extends BaseEntity<T>>JsonRes putReference(
+	public JsonRes putReference(
     		CallObject callObj,
-    		List<T> list,
-    		Class<? extends BaseEntityRef<?>> clazz) throws Exception {
+    		List list,
+    		Class clazz) throws Exception {
 		
+    	if (list == null) {
+			return new JsonRes().setError("Invalid post");
+		}
+    	
 		EntityConfig config = configSrv.getConfig(callObj, clazz);
 		
 		//Check validation errors
@@ -126,7 +130,8 @@ public class SRef extends BaseService implements SRefI {
 		
 		List<Long []> ids = new ArrayList<>();
   		try {
-  			for (T ent : list) {
+  			for (Object o : list) {
+  				BaseEntityRef ent = (BaseEntityRef)o;
   				BaseEntityRef mergedEnt = (BaseEntityRef)dao.put(ent, config, callObj);
   				
   				if (ent.getTempId() != null) {
