@@ -30,10 +30,6 @@ public class EntCurrency extends BaseEntityRef<EntCurrency> {
 	
 	public EntCurrency() {}
 	
-//	public EntCurrency(BaseEntityRef<?> ent) {
-//		init(ent);
-//	}
-	
 	@SuppressWarnings("unchecked")
 	public JsonCurrency toJson(EntOrg org, boolean fullEntity) throws Exception {
 		JsonCurrency j = super.toJson(new JsonCurrency());

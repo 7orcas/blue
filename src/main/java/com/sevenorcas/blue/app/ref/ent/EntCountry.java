@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.sevenorcas.blue.system.base.BaseEntityRef;
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
  * Country Reference entity
@@ -28,11 +29,9 @@ public class EntCountry extends BaseEntityRef<EntCountry> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator="country_id_seq")
 	private Long id;	
 	
-	public EntCountry() {}
+	private String image;
 	
-//	public EntCountry(BaseEntityRef<?> ent) {
-//		init(ent);
-//	}
+	public EntCountry() {}
 	
 	@SuppressWarnings("unchecked")
 	public JsonCountry toJson(EntOrg org, boolean fullEntity) throws Exception {
@@ -64,6 +63,33 @@ public class EntCountry extends BaseEntityRef<EntCountry> {
     	 .setDvalue(false);
     	return ent;
     }
-  
+
+    /**
+     * Load non standard fields
+     * @param i
+     * @param r
+     */
+    @Override
+    public void load(int i, SqlResultSet r) throws Exception {
+    	image = r.getString(i, "image");
+    }
+    
+    /**
+     * Update non standard fields
+     * @param i
+     * @param r
+     */
+    @Override
+    public void update(EntCountry ent) throws Exception {
+    	image = ent.getImage();
+    }
+    
+	public String getImage() {
+		return image;
+	}
+	public EntCountry setImage(String image) {
+		this.image = image;
+		return this;
+	}
 	
 }

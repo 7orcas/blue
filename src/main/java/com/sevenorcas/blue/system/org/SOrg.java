@@ -92,7 +92,6 @@ public class SOrg extends BaseService implements SOrgI {
     	
     	EntOrg org = cache.get(nr);
     	if (org != null) {
-//System.out.println("Org returned from cache");    		
 			return org;
     	}
     	
@@ -101,7 +100,6 @@ public class SOrg extends BaseService implements SOrgI {
     	dao.detach(org);
     	org.decode();
     	cache.put(org.getOrgNr(), org);
-System.out.println("Org added to cache");
     	return org;
     }
 	

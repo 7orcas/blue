@@ -18,7 +18,6 @@ import com.sevenorcas.blue.system.conf.ent.EntityConfig;
 import com.sevenorcas.blue.system.conf.ent.ValidationErrors;
 import com.sevenorcas.blue.system.lang.ent.UtilLabel;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -98,14 +97,16 @@ public class SRef extends BaseService implements SRefI {
 	
     /**
 	 * Create / Update / Delete the reference list
-	 * 
+	 * <code>BaseEntity</code> is used to enable standard use of <code>validate</code> and <code>dao.put</code>.  
+	 *  
 	 * @param callObj
 	 * @param entities to do CrUD on
 	 * @param reference entity class
 	 * @throws Exception
 	 */
 
-    public <T extends BaseEntityRef<T>> JsonRes putReference(
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public <T extends BaseEntity<T>>JsonRes putReference(
     		CallObject callObj,
     		List<T> list,
     		Class<? extends BaseEntityRef<?>> clazz) throws Exception {
@@ -121,12 +122,12 @@ public class SRef extends BaseService implements SRefI {
 		}
 		
 		//Set default value
-		setDvalue(list);
+		setDvalue(callObj, list, clazz);
 		
 		List<Long []> ids = new ArrayList<>();
   		try {
   			for (T ent : list) {
-  				T mergedEnt = dao.put(ent, config, callObj);
+  				BaseEntityRef mergedEnt = (BaseEntityRef)dao.put(ent, config, callObj);
   				
   				if (ent.getTempId() != null) {
   					Long id[] = {ent.getTempId(), ent.getId()};
@@ -134,10 +135,12 @@ public class SRef extends BaseService implements SRefI {
   				}
   				//Merge non base fields
   				else if (!ent.isDelete()){
+  					BaseEntityRef ref = (BaseEntityRef)ent;
   					mergedEnt.encoder()
   							 .encode();
-  					mergedEnt.setSort(ent.getSort());
-  					mergedEnt.setDvalue(ent.isDvalue());
+  					mergedEnt.setSort(ref.getSort());
+  					mergedEnt.setDvalue(ref.isDvalue());
+  					mergedEnt.update(ref);
   				}
   			}
   			
@@ -156,19 +159,20 @@ public class SRef extends BaseService implements SRefI {
 	 * @param entities to do CrUD on
      * @param reference entity class
      */
-    private <T extends BaseEntityRef<T>> void setDvalue(
+    @SuppressWarnings("rawtypes")
+	private <T extends BaseEntity<T>> void setDvalue(
     		CallObject callObj,
     		List<T> list,
     		Class<? extends BaseEntityRef<?>> clazz) throws Exception {
     	boolean found = false;
 
     	for (int i=0;i<list.size();i++) {
-    		T ent = list.get(i); 		
+    		BaseEntityRef ent = (BaseEntityRef)list.get(i); 		
     		if (!ent.isDelete() && ent.isDvalue()) {
     			found = true;
 
     			for (int j=i+1;j<list.size();j++) {
-    				ent = list.get(j);
+    				ent = (BaseEntityRef)list.get(j);
     				ent.setDvalue(false);
     			}
     			break;

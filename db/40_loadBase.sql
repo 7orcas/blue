@@ -9,6 +9,7 @@ INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (30
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (40,  'permission',     'Permissions',          '*', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (50,  'role',           'User Roles',           '*', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (60,  'user',           'Users',                '*', 0, current_timestamp);
+INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (70,  'ref',            'References',           '*', 0, current_timestamp);
 
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (500,  'org',           'Organisations RO',     '-R--', 0, current_timestamp);
 INSERT INTO cntrl.permission (id, code, descr, crud, org_nr, updated) VALUES (501,  'lang',          'Labels RO',            '-R--', 0, current_timestamp);
@@ -24,6 +25,7 @@ INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, 
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (4, 1, 40, 0, current_timestamp, 1);
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (5, 1, 50, 0, current_timestamp, 1);
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (6, 1, 60, 0, current_timestamp, 1);
+INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (7, 1, 70, 0, current_timestamp, 1);
 --role others
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (100, 2, 500, 0, current_timestamp, 1);
 INSERT INTO cntrl.role_permission (id, role_id, permission_id, org_nr, updated, updated_userid) VALUES (101, 3, 501, 0, current_timestamp, 1);

@@ -1,4 +1,4 @@
-package com.sevenorcas.blue.system.ref;
+package com.sevenorcas.blue.app.ref;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import javax.ws.rs.QueryParam;
 
 import com.sevenorcas.blue.app.ref.ent.EntCountry;
 import com.sevenorcas.blue.app.ref.ent.EntCurrency;
-import com.sevenorcas.blue.system.base.BaseEntityRef;
+import com.sevenorcas.blue.system.base.BaseEntity;
 import com.sevenorcas.blue.system.base.BaseRest;
 import com.sevenorcas.blue.system.base.JsonRes;
 import com.sevenorcas.blue.system.lifecycle.CallObject;
-import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.ref.SRefI;
 import com.sevenorcas.blue.system.sql.SqlParm;
 
 /**
@@ -73,15 +73,16 @@ public class RRef extends BaseRest {
 	 * @throws Exception
 	 */
 	@POST
-	@Path("country/post")
-    public <T extends BaseEntityRef<T>> JsonRes countryPost(
+	@Path("country")
+    public JsonRes countryPost(
     		@QueryParam ("co") CallObject callObj, 
-    		List<T> list)  throws Exception {
+    		List<EntCountry> list)  throws Exception {
 		
 		if (list == null) {
 			return new JsonRes().setError("Invalid post");
 		}
-		return service.putReference(callObj, list, EntCountry.class);
+		return new JsonRes().setData("ok");
+//		return service.putReference(callObj, list, EntCountry.class);
     }
 	
 

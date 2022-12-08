@@ -3,6 +3,7 @@ package com.sevenorcas.blue.system.base;
 import javax.persistence.MappedSuperclass;
 
 import com.sevenorcas.blue.system.org.ent.EntOrg;
+import com.sevenorcas.blue.system.sql.SqlResultSet;
 
 /**
  * Base Reference entity 
@@ -21,7 +22,9 @@ abstract public class BaseEntityRef <T> extends BaseEntity<BaseEntityRef<T>> {
 	
 	public BaseEntityRef() {}
 	
-	protected void init(BaseEntityRef<?> ent) {
+	//DELETE
+	@SuppressWarnings("unused")
+	private void init(BaseEntityRef<?> ent) {
 		ent.orgNr = orgNr;
 		ent.code = code;
 		ent.descr = descr;
@@ -47,6 +50,21 @@ abstract public class BaseEntityRef <T> extends BaseEntity<BaseEntityRef<T>> {
 		return j;
 	}
 	
+    /**
+     * Implementing class overrides this method
+     * @param sql row counter
+     * @param sql result set
+     * @throws Exception
+     */
+    public void load(int i, SqlResultSet r) throws Exception {}
+    
+    /**
+     * Update non standard fields
+     * @param i
+     * @param r
+     */
+    public void update(T ent) throws Exception {}
+    
 	public Integer getSort() {
 		return sort;
 	}

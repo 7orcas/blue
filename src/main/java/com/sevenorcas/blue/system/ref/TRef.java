@@ -38,34 +38,34 @@ public class TRef extends BaseTransfer implements TRefI {
 	public List<? extends BaseEntityRef<?>> list(
     		CallObject callObj,
     		SqlParm parms,
-    		Class<? extends BaseEntityRef<?>> T) throws Exception {
+    		Class<? extends BaseEntityRef<?>> clazz) throws Exception {
 		
 		parms = validateParms(parms);
 		
-		String sql = "SELECT t1.sort, t1.dvalue, " 
-					+ prefixAs("t1", BASE_ENTITY_FIELDS_SQL) 
-				+ "FROM " + tableName(T, " AS t1 ")
-				+ "WHERE t1.org_nr = " + callObj.getOrgNr() + " "
+		String sql = "SELECT * " 
+				+ "FROM " + tableName(clazz, " ")
+				+ "WHERE org_nr = " + callObj.getOrgNr() + " "
 				;
 		
 		if (parms.isActiveOnly()) {
-			sql += "AND" + prefix("t1", "active") + " = true ";
+			sql += "AND active = true ";
 		}
-		sql += "ORDER BY t1.sort, t1.code ";
+		sql += "ORDER BY sort, code ";
 		
 		SqlResultSet r = SqlExecute.executeQuery(parms, sql, log);
 		List<BaseEntityRef<?>> list = new ArrayList<>();
 		
 		// Extract data from result set
 		for (int i=0;i<r.size();i++) {
-			BaseEntityRef<?> ent = T.getDeclaredConstructor().newInstance();
+			BaseEntityRef<?> ent = clazz.getDeclaredConstructor().newInstance();
 			list.add(ent);
 			
-			addBaseListFields(ent, i, r, "t1");
+			addBaseListFields(ent, i, r);
 			ent.setSort(r.getInteger(i, "sort")); 
 			ent.setDvalue(r.getBoolean(i, "dvalue"));
+			ent.load(i,r);
+			
 		}
-		
 		return list;
     }
 
